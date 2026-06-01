@@ -13,8 +13,8 @@ A GitHub App that triages AI "slop" — low-effort, machine-generated pull reque
 
 > SlopGuard never auto-closes anything. A human is always the last step. Quarantine and review comments are the only automatic actions — destructive ones require an explicit `/slop` command from a maintainer.
 
-![SlopGuard quarantining a low-effort PR](./assets/demo-quarantine.png)
-<sub>A machine-generated PR scored 100/100, labeled `slop-quarantine` + `slop-high-confidence`, with a review comment showing the reasons and provenance. Nothing is closed — the maintainer decides.</sub>
+![SlopGuard in action](./assets/demo.gif)
+<sub>A machine-generated PR scored 100/100 → quarantined with reasons + provenance → cleared by the maintainer with one `/slop approve`. Nothing is ever auto-closed.</sub>
 
 ## Why
 

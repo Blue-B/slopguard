@@ -3,6 +3,7 @@ import type { InstallationClient } from "./app.js";
 import { analyzeSlop } from "../agent/graph.js";
 import { loadPolicy } from "../policy/load.js";
 import { toAgentPolicy } from "../policy/schema.js";
+import { hasManagedLlm } from "../billing/entitlement.js";
 import { buildIssueInput, buildPullRequestInput } from "./build-input.js";
 import {
 	addLabels,
@@ -71,7 +72,11 @@ async function review(
 	const cacheKey = inputCacheKey(input);
 	let result = getCachedAnalysis(cacheKey);
 	if (!result) {
-		result = await analyzeSlop(input, toAgentPolicy(policy));
+		// Managed LLM detection is a paid feature — Free runs heuristics-only.
+		// (Self-hosters can flip this by adding their own keys + PRO_OWNERS.)
+		const agentPolicy = toAgentPolicy(policy);
+		if (!hasManagedLlm(owner)) agentPolicy.llmEnabled = false;
+		result = await analyzeSlop(input, agentPolicy);
 		setCachedAnalysis(cacheKey, result);
 	}
 	const qLabel = policy.labels.quarantine;

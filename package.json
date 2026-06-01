@@ -22,6 +22,7 @@
     "@langchain/openai": "^0.3.17",
     "@octokit/app": "^15.1.1",
     "@octokit/webhooks": "^13.4.1",
+    "gifenc": "^1.0.3",
     "js-yaml": "^4.1.0",
     "lru-cache": "^11.0.2",
     "next": "^15.1.6",

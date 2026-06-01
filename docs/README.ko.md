@@ -13,8 +13,8 @@ AI "slop" — 별 노력 없이 기계가 찍어낸 PR과 이슈를 골라내는
 
 > SlopGuard는 무엇도 자동으로 닫지 않습니다. 마지막 결정은 항상 사람이 합니다. 격리 라벨과 리뷰 댓글만 자동이고, 닫기 같은 행동은 메인테이너의 `/slop` 명령이 있어야만 일어납니다.
 
-![저품질 PR을 격리하는 SlopGuard](../assets/demo-quarantine.png)
-<sub>기계가 생성한 PR이 100/100으로 평가되어 `slop-quarantine` + `slop-high-confidence` 라벨이 붙고, 근거와 출처가 담긴 리뷰 댓글이 달렸습니다. 아무것도 닫지 않고 — 메인테이너가 결정합니다.</sub>
+![동작 중인 SlopGuard](../assets/demo.gif)
+<sub>기계가 생성한 PR이 100/100으로 평가 → 근거·출처와 함께 격리 → 메인테이너가 `/slop approve` 한 번으로 해제. 아무것도 자동으로 닫지 않습니다.</sub>
 
 ## 왜 필요한가
 
