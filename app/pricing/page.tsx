@@ -11,18 +11,25 @@ export default function Pricing() {
 	return (
 		<>
 			<nav className="nav">
-				<Link href="/" style={{ marginLeft: 0 }}>
-					<strong>🛡️ SlopGuard</strong>
+				<Link className="brand" href="/">
+					{/* eslint-disable-next-line @next/next/no-img-element */}
+					<img src="/bot-logo-512.png" alt="SlopGuard" />
+					SlopGuard
 				</Link>
-				<div>
+				<span className="nav-links">
 					<a href="https://github.com/Blue-B/slopguard">GitHub</a>
-					<Link href="/setup">Install</Link>
-				</div>
+					<Link className="btn btn-primary" href="/setup">
+						Install
+					</Link>
+				</span>
 			</nav>
 
-			<header className="hero" style={{ paddingBottom: 8 }}>
-				<h1 style={{ fontSize: 36 }}>Pricing</h1>
-				<p className="sub">
+			<header style={{ textAlign: "center", padding: "64px 24px 8px" }}>
+				<span className="eyebrow">● pricing</span>
+				<h1 style={{ fontSize: 38, letterSpacing: "-0.02em", margin: "12px 0" }}>
+					Free to self-host. Pay only for managed.
+				</h1>
+				<p className="section-sub">
 					SlopGuard is open source (MIT) — run it yourself for free, forever.
 					Paid tiers exist so you don&apos;t have to manage the LLM bill or
 					org-wide controls.
@@ -38,7 +45,8 @@ export default function Pricing() {
 								className={`card plan${id === "pro" ? " featured" : ""}`}
 								key={id}
 							>
-								<h3 style={{ margin: 0 }}>{p.name}</h3>
+								{id === "pro" && <span className="ribbon">most popular</span>}
+							<h3 style={{ margin: 0 }}>{p.name}</h3>
 								<div className="price">
 									<span className="amt">${p.priceMonthly}</span>
 									<span className="per">/ month</span>
