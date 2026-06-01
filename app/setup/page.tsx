@@ -5,11 +5,14 @@ import { useEffect, useState } from "react";
 export default function Setup() {
 	const [origin, setOrigin] = useState("");
 	const [org, setOrg] = useState("");
+	// GitHub App names are GLOBALLY unique. "SlopGuard"/"slopguard" is reserved,
+	// so default to an editable, likely-unique name.
+	const [appName, setAppName] = useState("SlopGuard Guard");
 
 	useEffect(() => setOrigin(window.location.origin), []);
 
 	const manifest = {
-		name: "SlopGuard",
+		name: appName,
 		description:
 			"AI slop PR/Issue 자동 탐지·provenance 태그·quarantine 라벨링 + maintainer 최종 승인",
 		url: "https://github.com/your-org/slopguard",
@@ -40,6 +43,25 @@ export default function Setup() {
 			</p>
 
 			<div className="card">
+				<label style={{ fontSize: 13, color: "var(--muted)" }}>
+					GitHub App name (must be globally unique — change if taken)
+				</label>
+				<input
+					value={appName}
+					onChange={(e) => setAppName(e.target.value)}
+					placeholder="SlopGuard Guard"
+					style={{
+						display: "block",
+						marginTop: 8,
+						marginBottom: 16,
+						padding: "10px 12px",
+						width: "100%",
+						background: "#0d1117",
+						color: "var(--fg)",
+						border: "1px solid var(--border)",
+						borderRadius: 8,
+					}}
+				/>
 				<label style={{ fontSize: 13, color: "var(--muted)" }}>
 					Install under an organization? (optional — leave blank for your
 					personal account)
