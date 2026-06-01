@@ -3,10 +3,7 @@ import { PLANS, PLAN_ORDER } from "@/lib/billing/plans";
 import { messages, type Lang } from "@/lib/i18n";
 import AuthNav from "./AuthNav";
 
-// "Install" everywhere means: add the hosted SlopGuard app to your repo.
-// Self-hosting (create your own app via /setup) is a separate advanced path.
-const INSTALL_URL =
-	"https://github.com/apps/slopguard-blue-b-2026/installations/new";
+import { INSTALL_URL } from "@/lib/config";
 
 function ScoreRing({ score }: { score: number }) {
 	const r = 56;
@@ -158,7 +155,11 @@ export default function Landing({ lang }: { lang: Lang }) {
 								className={`card plan${id === "pro" ? " featured" : ""}`}
 								key={id}
 							>
-								{id === "pro" && <span className="ribbon">most popular</span>}
+								{id === "pro" && (
+									<span className="ribbon">
+										{lang === "ko" ? "가장 인기" : "most popular"}
+									</span>
+								)}
 								<h3>{copy.name}</h3>
 								<div className="price">
 									<span className="amt">${PLANS[id].priceMonthly}</span>

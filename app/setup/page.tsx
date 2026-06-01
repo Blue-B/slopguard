@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const HOSTED_INSTALL =
-	"https://github.com/apps/slopguard-blue-b-2026/installations/new";
+import { INSTALL_URL as HOSTED_INSTALL } from "@/lib/config";
 
 const inputStyle: React.CSSProperties = {
 	display: "block",

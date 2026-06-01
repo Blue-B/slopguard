@@ -5,9 +5,7 @@ import { planForOwner } from "@/lib/billing/entitlement";
 import { PLANS, PLAN_ORDER, type PlanId } from "@/lib/billing/plans";
 import { messages, type Lang } from "@/lib/i18n";
 
-const INSTALL_URL =
-	"https://github.com/apps/slopguard-blue-b-2026/installations/new";
-const PORTAL_URL = "https://polar.sh/slopguard/portal";
+import { INSTALL_URL, PORTAL_URL } from "@/lib/config";
 
 const T = {
 	en: {
@@ -49,7 +47,8 @@ const T = {
 		notProvided: "미제공",
 		yourPlan: "내 플랜",
 		current: "현재 플랜",
-		planFreeNote: "현재 Free 플랜입니다. 아래에서 언제든 업그레이드할 수 있습니다.",
+		planFreeNote:
+			"현재 Free 플랜입니다. 아래에서 언제든 업그레이드할 수 있습니다.",
 		planPaidNote: "활성화됨. 결제 시 입력한 GitHub 계정과 연결되어 있습니다.",
 		manageBilling: "결제 / 영수증 관리",
 		plansTitle: "요금제",
@@ -105,7 +104,9 @@ export default async function Account({
 	const home = lang === "ko" ? "/ko" : "/";
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
-	const plan: PlanId | null = session ? await planForOwner(session.login) : null;
+	const plan: PlanId | null = session
+		? await planForOwner(session.login)
+		: null;
 
 	return (
 		<>
@@ -128,7 +129,11 @@ export default async function Account({
 							<span className="dot" /> account
 						</span>
 						<h1
-							style={{ fontSize: 32, letterSpacing: "-0.02em", margin: "14px 0 8px" }}
+							style={{
+								fontSize: 32,
+								letterSpacing: "-0.02em",
+								margin: "14px 0 8px",
+							}}
 						>
 							{t.signedOutTitle}
 						</h1>
@@ -136,7 +141,9 @@ export default async function Account({
 							{t.signedOutSub}
 						</p>
 						{error && (
-							<p style={{ color: "var(--danger)", fontSize: 14 }}>{t.errorNote}</p>
+							<p style={{ color: "var(--danger)", fontSize: 14 }}>
+								{t.errorNote}
+							</p>
 						)}
 						<a className="btn btn-primary btn-lg" href="/api/auth/login">
 							{t.signin}
@@ -145,7 +152,11 @@ export default async function Account({
 				) : (
 					<>
 						<h1
-							style={{ fontSize: 28, letterSpacing: "-0.02em", margin: "0 0 20px" }}
+							style={{
+								fontSize: 28,
+								letterSpacing: "-0.02em",
+								margin: "0 0 20px",
+							}}
 						>
 							{t.myAccount}
 						</h1>
@@ -160,7 +171,10 @@ export default async function Account({
 									width={52}
 									height={52}
 									referrerPolicy="no-referrer"
-									style={{ borderRadius: "50%", border: "1px solid var(--border)" }}
+									style={{
+										borderRadius: "50%",
+										border: "1px solid var(--border)",
+									}}
 								/>
 								<div style={{ minWidth: 0 }}>
 									<div style={{ fontWeight: 700, fontSize: 17 }}>
@@ -177,7 +191,9 @@ export default async function Account({
 						</div>
 
 						{/* current plan + billing */}
-						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>{t.yourPlan}</h2>
+						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>
+							{t.yourPlan}
+						</h2>
 						<div className="card" style={{ marginBottom: 8 }}>
 							<div style={{ display: "flex", alignItems: "center", gap: 10 }}>
 								<span style={{ fontSize: 22, fontWeight: 800 }}>
@@ -204,7 +220,9 @@ export default async function Account({
 						</div>
 
 						{/* plans / upgrade inline */}
-						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>{t.plansTitle}</h2>
+						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>
+							{t.plansTitle}
+						</h2>
 						<div className="grid">
 							{PLAN_ORDER.map((id) => {
 								const isCurrent = id === plan;
@@ -228,7 +246,11 @@ export default async function Account({
 										{isCurrent ? (
 											<span
 												className="btn btn-ghost"
-												style={{ justifyContent: "center", opacity: 0.6, cursor: "default" }}
+												style={{
+													justifyContent: "center",
+													opacity: 0.6,
+													cursor: "default",
+												}}
 											>
 												{t.current}
 											</span>
@@ -254,7 +276,9 @@ export default async function Account({
 						</p>
 
 						{/* repositories */}
-						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>{t.reposTitle}</h2>
+						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>
+							{t.reposTitle}
+						</h2>
 						<div className="card">
 							<p className="muted" style={{ fontSize: 14, marginTop: 0 }}>
 								{t.reposNote}

@@ -43,6 +43,12 @@ export function computeScore(
 		blended += Math.min(12, provenance.leakedAssistantPhrases.length * 6);
 	}
 
+	// Prompt-injection is abuse: floor the score so a tricked LLM cannot
+	// dilute the heuristic signal below the quarantine threshold.
+	if (heuristics.signals.some((s) => s.id === "prompt_injection")) {
+		blended = Math.max(blended, policy.highConfidenceThreshold);
+	}
+
 	const score = clamp(blended);
 	const verdict = verdictFromScore(score, policy);
 

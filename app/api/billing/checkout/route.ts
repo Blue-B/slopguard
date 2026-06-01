@@ -10,9 +10,8 @@ export const dynamic = "force-dynamic";
 // at runtime. If unset, we return guidance instead of failing — the free tier
 // works without any billing setup.
 function linkFor(plan: PlanId): string | undefined {
-	if (plan === "pro") return process.env.POLAR_LINK_PRO;
-	if (plan === "team") return process.env.POLAR_LINK_TEAM;
-	return undefined;
+	const key = PLANS[plan]?.polarEnvKey;
+	return key ? process.env[key] : undefined;
 }
 
 export function GET(req: Request) {

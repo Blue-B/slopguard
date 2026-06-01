@@ -589,3 +589,11 @@ footer.site {
 @media (max-width: 880px) {
 	.nav-account .nav-plan { display: none; }
 }
+
+/* mobile: prevent nav overflow + protect long words */
+body { overflow-wrap: break-word; }
+@media (max-width: 600px) {
+	.nav-links { gap: 12px; }
+	.nav-links a[href^="#"],
+	.nav-links a[href*="github.com"] { display: none; }
+}

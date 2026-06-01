@@ -241,7 +241,7 @@ export const messages: Record<Lang, Messages> = {
 						"Free의 모든 기능",
 						"비공개 레포",
 						"전용 LLM 쿼터 (공유 한도 없음)",
-						"크로스 레포 봇 캠페인 탐지",
+						"여러 레포에 걸친 봇 캠페인 탐지",
 						"이메일 지원",
 					],
 				},
@@ -291,12 +291,12 @@ export const messages: Record<Lang, Messages> = {
 				{
 					ico: "SLOP_POLICY.yml",
 					t: "정책 코드화",
-					d: "임계값, 라벨, allowlist, 코멘트 템플릿이 레포에 있고 다른 변경처럼 리뷰됩니다.",
+					d: "임계값, 라벨, 허용 목록(allowlist), 코멘트 템플릿이 레포에 있고 다른 변경처럼 리뷰됩니다.",
 				},
 				{
 					ico: "if no LLM key:",
 					t: "LLM 없이도 동작",
-					d: "휴리스틱 only 모드는 API 키 없이 돌고, 골든셋에서 정밀도 100%를 냅니다.",
+					d: "휴리스틱 전용 모드는 API 키 없이 돌고, 골든셋에서 정밀도 100%를 냅니다.",
 				},
 				{
 					ico: "db: null",

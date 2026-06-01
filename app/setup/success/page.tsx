@@ -5,9 +5,7 @@ export const metadata = {
 	description: "Thanks for subscribing. Install SlopGuard on your repo or org.",
 };
 
-// Public install URL for the hosted SlopGuard GitHub App.
-const INSTALL_URL =
-	"https://github.com/apps/slopguard-blue-b-2026/installations/new";
+import { INSTALL_URL } from "@/lib/config";
 
 export default function CheckoutSuccess() {
 	return (

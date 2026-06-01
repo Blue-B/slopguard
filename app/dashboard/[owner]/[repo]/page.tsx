@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { INSTALL_URL } from "@/lib/config";
 import { getRepoSlopStats, type RepoSlopStats } from "@/lib/github/storage";
 
 export const runtime = "nodejs";
@@ -46,10 +47,7 @@ export default async function RepoDashboard({
 					<p style={{ color: "var(--muted)" }}>{error}</p>
 					<p>
 						Make sure SlopGuard is installed on this repo:{" "}
-						<a href="https://github.com/apps/slopguard/installations/new">
-							install the App
-						</a>
-						.
+						<a href={INSTALL_URL}>install the App</a>.
 					</p>
 				</div>
 			)}

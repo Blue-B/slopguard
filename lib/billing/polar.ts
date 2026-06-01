@@ -65,34 +65,46 @@ async function fetchEntitlementMap(): Promise<Map<string, PlanId>> {
 	if (!token) return map;
 
 	const orgId = process.env.POLAR_ORG_ID;
-	const params = new URLSearchParams({ active: "true", limit: "100" });
-	if (orgId) params.set("organization_id", orgId);
 
-	// Trailing slash avoids Polar's 307 redirect to the canonical path.
-	const res = await fetch(`${apiBase()}/v1/subscriptions/?${params}`, {
-		headers: {
-			Authorization: `Bearer ${token}`,
-			Accept: "application/json",
-		},
-		// Never cache at the fetch layer; we manage our own TTL.
-		cache: "no-store",
-	});
-	if (!res.ok) {
-		throw new Error(`Polar subscriptions ${res.status}: ${await res.text()}`);
-	}
-	const data = (await res.json()) as PolarListResponse<PolarSubscription>;
+	// Page through every active subscription so customers beyond the first 100
+	// are not silently dropped to the free tier.
+	for (let page = 1; page <= 50; page++) {
+		const params = new URLSearchParams({
+			active: "true",
+			limit: "100",
+			page: String(page),
+		});
+		if (orgId) params.set("organization_id", orgId);
 
-	for (const sub of data.items ?? []) {
-		if (sub.status !== "active") continue;
-		const login = sub.custom_field_data?.[CUSTOM_FIELD_KEY];
-		if (typeof login !== "string" || !login.trim()) continue;
-		const owner = login.trim().toLowerCase().replace(/^@/, "");
-		const plan = planFromProduct(sub.product?.name);
-		// Keep the highest tier if a customer has multiple subscriptions.
-		const existing = map.get(owner);
-		if (!existing || PLAN_RANK[plan] > PLAN_RANK[existing]) {
-			map.set(owner, plan);
+		// Trailing slash avoids Polar's 307 redirect to the canonical path.
+		const res = await fetch(`${apiBase()}/v1/subscriptions/?${params}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+				Accept: "application/json",
+			},
+			cache: "no-store",
+		});
+		if (!res.ok) {
+			throw new Error(`Polar subscriptions ${res.status}: ${await res.text()}`);
 		}
+		const data = (await res.json()) as PolarListResponse<PolarSubscription>;
+		const items = data.items ?? [];
+
+		for (const sub of items) {
+			if (sub.status !== "active" && sub.status !== "trialing") continue;
+			const login = sub.custom_field_data?.[CUSTOM_FIELD_KEY];
+			if (typeof login !== "string" || !login.trim()) continue;
+			const owner = login.trim().toLowerCase().replace(/^@/, "");
+			const plan = planFromProduct(sub.product?.name);
+			// Keep the highest tier if a customer has multiple subscriptions.
+			const existing = map.get(owner);
+			if (!existing || PLAN_RANK[plan] > PLAN_RANK[existing]) {
+				map.set(owner, plan);
+			}
+		}
+
+		const maxPage = data.pagination?.max_page ?? page;
+		if (items.length === 0 || page >= maxPage) break;
 	}
 	return map;
 }

@@ -17,11 +17,12 @@ export interface SessionUser {
 }
 
 function secret(): string {
-	return (
-		process.env.SESSION_SECRET ||
-		process.env.GITHUB_WEBHOOK_SECRET ||
-		"dev-insecure-secret"
-	);
+	const s = process.env.SESSION_SECRET;
+	if (s) return s;
+	if (process.env.NODE_ENV === "production") {
+		throw new Error("SESSION_SECRET is required in production");
+	}
+	return "dev-insecure-secret";
 }
 
 function b64url(buf: Buffer | string): string {
