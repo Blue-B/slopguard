@@ -9,6 +9,8 @@ English | [한국어](./docs/README.ko.md)
 [![precision](https://img.shields.io/badge/precision-100%25-3fb950.svg)](#detection-quality)
 [![recall](https://img.shields.io/badge/recall-92%25-3fb950.svg)](#detection-quality)
 
+**[Try it live: slopguard.app](https://slopguard.app)** | [Install the App](https://slopguard.app/setup) | [Pricing](https://slopguard.app/pricing)
+
 A GitHub App that triages AI "slop" — low-effort, machine-generated pull requests and issues that waste maintainer time. SlopGuard scores each contribution, tags its provenance, and applies a `slop-quarantine` label, then hands the final decision to a maintainer.
 
 > SlopGuard never auto-closes anything. A human is always the last step. Quarantine and review comments are the only automatic actions — destructive ones require an explicit `/slop` command from a maintainer.
@@ -72,7 +74,7 @@ The whole thing is MIT-licensed, so you can self-host every feature for free. Th
 | SSO + audit log | No | No | Yes |
 | Support | Community | Email | Priority |
 
-Free is fully functional in heuristics-only mode with zero API keys. Checkout is handled by [Polar](https://polar.sh) as Merchant of Record (they collect VAT/sales tax for you). **[See live pricing and subscribe →](https://port-next-slopguard-mpuxdx7ydafc56d4.sel3.cloudtype.app/pricing)**
+Free is fully functional in heuristics-only mode with zero API keys. Checkout is handled by [Polar](https://polar.sh) as Merchant of Record (they collect VAT/sales tax for you). **[See live pricing and subscribe →](https://slopguard.app/pricing)**
 
 > Paid plans activate automatically: enter the GitHub org or username you'll install on in the checkout field, and Pro/Team unlocks within a minute. No invite, no manual step.
 
