@@ -29,7 +29,7 @@ export const PolicySchema = z
 			.default({}),
 		thresholds: z
 			.object({
-				quarantine: z.number().min(0).max(100).default(60),
+				quarantine: z.number().min(0).max(100).default(50),
 				high_confidence: z.number().min(0).max(100).default(85),
 			})
 			.default({}),

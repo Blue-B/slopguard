@@ -26,7 +26,9 @@ export default function Pricing() {
 
 			<header style={{ textAlign: "center", padding: "64px 24px 8px" }}>
 				<span className="eyebrow">● pricing</span>
-				<h1 style={{ fontSize: 38, letterSpacing: "-0.02em", margin: "12px 0" }}>
+				<h1
+					style={{ fontSize: 38, letterSpacing: "-0.02em", margin: "12px 0" }}
+				>
 					Free to self-host. Pay only for managed.
 				</h1>
 				<p className="section-sub">
@@ -46,7 +48,7 @@ export default function Pricing() {
 								key={id}
 							>
 								{id === "pro" && <span className="ribbon">most popular</span>}
-							<h3 style={{ margin: 0 }}>{p.name}</h3>
+								<h3 style={{ margin: 0 }}>{p.name}</h3>
 								<div className="price">
 									<span className="amt">${p.priceMonthly}</span>
 									<span className="per">/ month</span>

@@ -7,7 +7,7 @@
 [![human-in-the-loop](https://img.shields.io/badge/human--in--the--loop-required-58a6ff.svg)](#)
 [![never auto-close](https://img.shields.io/badge/auto--close-never-cf222e.svg)](#)
 [![precision](https://img.shields.io/badge/precision-100%25-3fb950.svg)](#탐지-품질)
-[![recall](https://img.shields.io/badge/recall-77%25-d29922.svg)](#탐지-품질)
+[![recall](https://img.shields.io/badge/recall-92%25-3fb950.svg)](#탐지-품질)
 
 AI "slop" — 별 노력 없이 기계가 찍어낸 PR과 이슈를 골라내는 GitHub App입니다. 들어온 기여를 점수로 평가하고, 출처(provenance)를 태깅하고, `slop-quarantine` 라벨을 붙인 뒤 최종 판단은 메인테이너에게 넘깁니다.
 
@@ -44,7 +44,7 @@ PR이나 이슈가 webhook을 트리거합니다. 탐지 에이전트가 정적 
 npm run eval
 ```
 
-기본 임계값 기준 휴리스틱-only: **정밀도 100% · 재현율 77% · F1 87%**. LLM 키를 넣으면 미묘한 케이스의 재현율이 올라갑니다. 하니스는 혼동 행렬과 임계값 스윕을 출력해 레포에 맞게 보정할 수 있습니다.
+기본 임계값(50) 기준 휴리스틱-only: **정밀도 100% · 재현율 92% · F1 96%**. LLM 키를 넣으면 가장 미묘한 케이스(예: 과도한 주석의 사소한 diff)의 재현율이 더 올라갑니다. 하니스는 혼동 행렬과 임계값 스윕을 출력해 레포에 맞게 보정할 수 있습니다.
 
 ![임계값 스윕 — 정밀도, 재현율, F1](../assets/detection-quality.ko.svg)
 

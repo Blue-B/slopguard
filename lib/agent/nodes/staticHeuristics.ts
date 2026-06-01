@@ -76,11 +76,17 @@ export function runHeuristics(input: SlopInput): HeuristicResult {
 	const marketingHeaders = MARKETING_HEADERS.filter((re) =>
 		re.test(text),
 	).length;
-	if (emojiHeaders >= 1 || marketingHeaders >= 2) {
+	// Issues with even a single listicle header (Overview/Benefits/Conclusion)
+	// are a classic AI-spam tell; PRs need >=2 to avoid flagging real templates.
+	const listicleFires =
+		emojiHeaders >= 1 ||
+		marketingHeaders >= 2 ||
+		(input.kind === "issue" && marketingHeaders >= 1);
+	if (listicleFires) {
 		signals.push({
 			id: "emoji_section_headers",
 			label: `Emoji/marketing headers (emoji:${emojiHeaders}, listicle:${marketingHeaders})`,
-			weight: Math.min(42, emojiHeaders * 18 + marketingHeaders * 9),
+			weight: Math.min(42, emojiHeaders * 18 + marketingHeaders * 14),
 		});
 	}
 
@@ -103,11 +109,11 @@ export function runHeuristics(input: SlopInput): HeuristicResult {
 	// 4) Giant unfocused diff
 	const churn = input.additions + input.deletions;
 	const files = input.changedFiles.length;
-	if (churn > 800 && files > 15 && bodyLen < 200) {
+	if (churn > 600 && files > 10 && bodyLen < 200) {
 		signals.push({
 			id: "giant_unfocused_diff",
 			label: `Large diff (${churn} lines / ${files} files) with thin description`,
-			weight: 22,
+			weight: 30,
 		});
 	}
 
@@ -148,11 +154,11 @@ export function runHeuristics(input: SlopInput): HeuristicResult {
 			/^\+\s*(\/\/|#|\*)/.test(l),
 		).length;
 		const ratio = added.length ? commentLines / added.length : 0;
-		if (added.length > 40 && ratio > 0.35) {
+		if (added.length > 30 && ratio > 0.35) {
 			signals.push({
 				id: "over_commenting",
 				label: `Unusually high comment ratio in added code (${Math.round(ratio * 100)}%)`,
-				weight: 12,
+				weight: 16,
 			});
 		}
 	}

@@ -13,11 +13,14 @@
 	--green-btn: #238636;
 	--green-btn-hover: #2ea043;
 	--green-dim: rgba(63, 185, 80, 0.15);
+	/* legacy alias kept so /setup + /dashboard stay on-brand */
+	--accent: #3fb950;
 	--danger: #f85149;
 	--danger-dim: rgba(248, 81, 73, 0.15);
 	--blue: #58a6ff;
-	--mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-		"Liberation Mono", monospace;
+	--mono:
+		ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+		monospace;
 }
 
 * {
@@ -31,7 +34,11 @@ html {
 body {
 	margin: 0;
 	background:
-		radial-gradient(900px 500px at 80% -10%, rgba(63, 185, 80, 0.08), transparent),
+		radial-gradient(
+			900px 500px at 80% -10%,
+			rgba(63, 185, 80, 0.08),
+			transparent
+		),
 		radial-gradient(700px 400px at 0% 0%, rgba(88, 166, 255, 0.06), transparent),
 		var(--bg);
 	color: var(--fg);

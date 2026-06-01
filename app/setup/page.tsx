@@ -35,7 +35,7 @@ export default function Setup() {
 
 	return (
 		<main className="container">
-			<h1>🛡️ Create the SlopGuard GitHub App</h1>
+			<h1>Create the SlopGuard GitHub App</h1>
 			<p style={{ color: "var(--muted)" }}>
 				One click creates the App with the exact permissions & webhook URL for{" "}
 				<code>{origin || "this deployment"}</code>. GitHub then returns your
@@ -90,16 +90,16 @@ export default function Setup() {
 					disabled={!origin}
 					style={{
 						padding: "12px 22px",
-						background: "var(--accent)",
-						color: "#1c1300",
-						fontWeight: 800,
-						border: 0,
+						background: "var(--green-btn)",
+						color: "#fff",
+						fontWeight: 700,
+						border: "1px solid rgba(240,246,252,0.1)",
 						borderRadius: 10,
 						cursor: "pointer",
 						fontSize: 16,
 					}}
 				>
-					🚀 Create SlopGuard App on GitHub
+					Create SlopGuard App on GitHub
 				</button>
 			</form>
 

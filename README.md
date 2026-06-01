@@ -7,7 +7,7 @@ English | [한국어](./docs/README.ko.md)
 [![human-in-the-loop](https://img.shields.io/badge/human--in--the--loop-required-58a6ff.svg)](#)
 [![never auto-close](https://img.shields.io/badge/auto--close-never-cf222e.svg)](#)
 [![precision](https://img.shields.io/badge/precision-100%25-3fb950.svg)](#detection-quality)
-[![recall](https://img.shields.io/badge/recall-77%25-d29922.svg)](#detection-quality)
+[![recall](https://img.shields.io/badge/recall-92%25-3fb950.svg)](#detection-quality)
 
 A GitHub App that triages AI "slop" — low-effort, machine-generated pull requests and issues that waste maintainer time. SlopGuard scores each contribution, tags its provenance, and applies a `slop-quarantine` label, then hands the final decision to a maintainer.
 
@@ -44,7 +44,7 @@ A labeled golden set (`test/fixtures/golden.ts`, 25 cases) is scored by the eval
 npm run eval
 ```
 
-Heuristics-only at the default threshold: **precision 100% · recall 77% · F1 87%**. Adding an LLM key lifts recall on subtle cases. The harness prints a confusion matrix and a threshold sweep so you can calibrate for your repo.
+Heuristics-only at the default threshold (50): **precision 100% · recall 92% · F1 96%**. Adding an LLM key lifts recall further on the subtlest cases (e.g. over-commented trivial diffs). The harness prints a confusion matrix and a threshold sweep so you can calibrate for your repo.
 
 ![Threshold sweep — precision, recall, F1](./assets/detection-quality.svg)
 
@@ -72,7 +72,9 @@ The whole thing is MIT-licensed, so you can self-host every feature for free. Th
 | SSO + audit log | No | No | Yes |
 | Support | Community | Email | Priority |
 
-Free is fully functional in heuristics-only mode with zero API keys. Checkout is handled by [Polar](https://polar.sh) as Merchant of Record (they collect VAT/sales tax for you). See the live pricing page at `https://<your-deployment>/pricing`.
+Free is fully functional in heuristics-only mode with zero API keys. Checkout is handled by [Polar](https://polar.sh) as Merchant of Record (they collect VAT/sales tax for you). **[See live pricing and subscribe →](https://port-next-slopguard-mpuxdx7ydafc56d4.sel3.cloudtype.app/pricing)**
+
+> Paid plans activate automatically: enter the GitHub org or username you'll install on in the checkout field, and Pro/Team unlocks within a minute. No invite, no manual step.
 
 ## Configuration
 

@@ -54,19 +54,30 @@ function verify(
 	return false;
 }
 
-const REFRESH_PREFIXES = ["subscription.", "order.", "benefit_grant.", "customer.state"];
+const REFRESH_PREFIXES = [
+	"subscription.",
+	"order.",
+	"benefit_grant.",
+	"customer.state",
+];
 
 export async function POST(req: Request) {
 	const { webhookSecret } = getPolarEnv();
 	if (!webhookSecret) {
-		return NextResponse.json({ error: "polar webhook not configured" }, { status: 501 });
+		return NextResponse.json(
+			{ error: "polar webhook not configured" },
+			{ status: 501 },
+		);
 	}
 
 	const id = req.headers.get("webhook-id");
 	const timestamp = req.headers.get("webhook-timestamp");
 	const signature = req.headers.get("webhook-signature");
 	if (!id || !timestamp || !signature) {
-		return NextResponse.json({ error: "missing webhook headers" }, { status: 400 });
+		return NextResponse.json(
+			{ error: "missing webhook headers" },
+			{ status: 400 },
+		);
 	}
 
 	const body = await req.text();

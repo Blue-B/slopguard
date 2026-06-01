@@ -71,7 +71,7 @@ export interface AgentPolicy {
 }
 
 export const DEFAULT_AGENT_POLICY: AgentPolicy = {
-	quarantineThreshold: Number(process.env.DEFAULT_SLOP_THRESHOLD ?? 60),
+	quarantineThreshold: Number(process.env.DEFAULT_SLOP_THRESHOLD ?? 50),
 	highConfidenceThreshold: 85,
 	heuristicWeight: 0.4,
 	llmEnabled: true,

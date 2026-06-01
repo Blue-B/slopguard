@@ -95,7 +95,9 @@ export default function Home() {
 							<span className="prompt">slopguard</span>{" "}
 							<span className="dim">analyze pr#482 “add helper utils”</span>
 						</div>
-						<div className="dim">→ heuristics: boilerplate, empty body, emoji headers</div>
+						<div className="dim">
+							→ heuristics: boilerplate, empty body, emoji headers
+						</div>
 						<div className="dim">
 							→ provenance: leaked phrase{" "}
 							<span className="bad">“Certainly! Here is…”</span>
@@ -137,7 +139,7 @@ export default function Home() {
 						<div className="l">precision (golden set)</div>
 					</div>
 					<div className="stat">
-						<div className="n">77%</div>
+						<div className="n">92%</div>
 						<div className="l">recall, heuristics-only</div>
 					</div>
 					<div className="stat">
@@ -173,8 +175,7 @@ export default function Home() {
 					<div className="step">
 						<span className="num" />
 						<p>
-							A PR or issue is opened. GitHub calls{" "}
-							<code>/api/webhook</code>.
+							A PR or issue is opened. GitHub calls <code>/api/webhook</code>.
 						</p>
 					</div>
 					<div className="step">
