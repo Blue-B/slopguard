@@ -2,7 +2,7 @@
 # SlopGuard policy-as-code
 # Copy this file to `.github/SLOP_POLICY.yml` in YOUR repo to customize behavior.
 # Everything here is OPTIONAL — SlopGuard ships with sane defaults.
-# Docs: https://github.com/your-org/slopguard#configuration
+# Docs: https://github.com/Blue-B/slopguard#configuration
 # ───────────────────────────────────────────────────────────────────────────
 
 version: 1

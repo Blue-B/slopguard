@@ -15,7 +15,7 @@ export default function Setup() {
 		name: appName,
 		description:
 			"AI slop PR/Issue 자동 탐지·provenance 태그·quarantine 라벨링 + maintainer 최종 승인",
-		url: "https://github.com/your-org/slopguard",
+		url: "https://github.com/Blue-B/slopguard",
 		hook_attributes: { url: `${origin}/api/webhook`, active: true },
 		redirect_url: `${origin}/api/manifest/callback`,
 		setup_url: `${origin}/setup`,
