@@ -68,7 +68,13 @@ export default function Setup() {
 				<span className="eyebrow">
 					<span className="dot" /> self-host / advanced
 				</span>
-				<h1 style={{ fontSize: 30, letterSpacing: "-0.02em", margin: "14px 0 8px" }}>
+				<h1
+					style={{
+						fontSize: 30,
+						letterSpacing: "-0.02em",
+						margin: "14px 0 8px",
+					}}
+				>
 					Run your own SlopGuard
 				</h1>
 				<p className="muted" style={{ marginTop: 0 }}>
@@ -112,7 +118,12 @@ export default function Setup() {
 						style={inputStyle}
 					/>
 					<label
-						style={{ fontSize: 13, color: "var(--muted)", display: "block", marginTop: 16 }}
+						style={{
+							fontSize: 13,
+							color: "var(--muted)",
+							display: "block",
+							marginTop: 16,
+						}}
 					>
 						Install under an organization? (optional)
 					</label>
@@ -125,7 +136,11 @@ export default function Setup() {
 				</div>
 
 				<form action={action} method="post" style={{ marginTop: 18 }}>
-					<input type="hidden" name="manifest" value={JSON.stringify(manifest)} />
+					<input
+						type="hidden"
+						name="manifest"
+						value={JSON.stringify(manifest)}
+					/>
 					<button
 						type="submit"
 						className="btn btn-ghost btn-lg"

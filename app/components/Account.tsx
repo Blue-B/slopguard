@@ -2,8 +2,8 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
 import { planForOwner } from "@/lib/billing/entitlement";
-import { PLANS } from "@/lib/billing/plans";
-import type { Lang } from "@/lib/i18n";
+import { PLANS, PLAN_ORDER, type PlanId } from "@/lib/billing/plans";
+import { messages, type Lang } from "@/lib/i18n";
 
 const INSTALL_URL =
 	"https://github.com/apps/slopguard-blue-b-2026/installations/new";
@@ -11,72 +11,84 @@ const PORTAL_URL = "https://polar.sh/slopguard/portal";
 
 const T = {
 	en: {
-		brand: "SlopGuard",
 		home: "Home",
 		signedOutTitle: "Sign in to SlopGuard",
 		signedOutSub:
-			"Use your GitHub account to see your plan, manage billing, and install the app.",
+			"Use your GitHub account to see your plan, manage billing, and the repositories SlopGuard watches.",
 		signin: "Sign in with GitHub",
 		myAccount: "My account",
 		account: "GitHub account",
 		email: "Email",
-		plan: "Plan",
-		planFreeNote:
-			"You are on the Free plan. Upgrade to Pro for private repos and a dedicated LLM quota.",
+		notProvided: "not provided",
+		yourPlan: "Your plan",
+		current: "Current plan",
+		planFreeNote: "You are on the Free plan. Upgrade any time below.",
 		planPaidNote:
-			"Your paid plan is active. It is matched to the GitHub account you entered at checkout.",
-		upgrade: "See plans",
-		manageBilling: "Manage billing",
-		installApp: "Install / manage on GitHub",
+			"Active and matched to the GitHub account you entered at checkout.",
+		manageBilling: "Manage billing & invoices",
+		plansTitle: "Plans",
+		upgrade: "Upgrade",
+		downgradeNote: "To change or cancel a paid plan, use Manage billing.",
+		per: "/ mo",
+		reposTitle: "Repositories",
+		reposNote:
+			"Choose which repositories or organizations SlopGuard watches. You can add or remove them any time on GitHub.",
+		manageRepos: "Manage repositories on GitHub",
 		logout: "Sign out",
 		errorNote: "Sign-in did not complete. Please try again.",
-		notProvided: "not provided",
 	},
 	ko: {
-		brand: "SlopGuard",
 		home: "홈",
 		signedOutTitle: "SlopGuard 로그인",
 		signedOutSub:
-			"GitHub 계정으로 로그인하면 내 플랜 확인, 결제 관리, 앱 설치를 할 수 있습니다.",
+			"GitHub 계정으로 로그인하면 내 플랜 확인, 결제 관리, SlopGuard가 감시할 레포 관리를 할 수 있습니다.",
 		signin: "GitHub으로 로그인",
 		myAccount: "마이페이지",
 		account: "GitHub 계정",
 		email: "이메일",
-		plan: "플랜",
-		planFreeNote:
-			"현재 Free 플랜입니다. 비공개 레포와 전용 LLM 쿼터가 필요하면 Pro로 업그레이드하세요.",
-		planPaidNote:
-			"유료 플랜이 활성화되어 있습니다. 결제 시 입력한 GitHub 계정과 연결됩니다.",
-		upgrade: "플랜 보기",
-		manageBilling: "결제 관리",
-		installApp: "GitHub에서 설치 / 관리",
+		notProvided: "미제공",
+		yourPlan: "내 플랜",
+		current: "현재 플랜",
+		planFreeNote: "현재 Free 플랜입니다. 아래에서 언제든 업그레이드할 수 있습니다.",
+		planPaidNote: "활성화됨. 결제 시 입력한 GitHub 계정과 연결되어 있습니다.",
+		manageBilling: "결제 / 영수증 관리",
+		plansTitle: "요금제",
+		upgrade: "업그레이드",
+		downgradeNote: "유료 플랜 변경이나 해지는 결제 관리에서 할 수 있습니다.",
+		per: "/ 월",
+		reposTitle: "레포지토리",
+		reposNote:
+			"SlopGuard가 감시할 레포나 조직을 선택하세요. GitHub에서 언제든 추가하거나 뺄 수 있습니다.",
+		manageRepos: "GitHub에서 레포 관리",
 		logout: "로그아웃",
 		errorNote: "로그인이 완료되지 않았습니다. 다시 시도해 주세요.",
-		notProvided: "미제공",
 	},
 } as const;
 
-function PlanBadge({ plan }: { plan: "free" | "pro" | "team" }) {
-	const cls = plan === "free" ? "cleared" : "quarantine";
-	const color =
-		plan === "free"
-			? "var(--green)"
-			: plan === "team"
-				? "#a371f7"
-				: "var(--green)";
+function PlanBadge({ plan, label }: { plan: PlanId; label?: string }) {
+	const color = plan === "team" ? "#a371f7" : "var(--green)";
+	const bg =
+		plan === "team" ? "rgba(163,113,247,0.12)" : "rgba(63,185,80,0.12)";
+	const border =
+		plan === "team" ? "rgba(163,113,247,0.4)" : "rgba(63,185,80,0.4)";
 	return (
 		<span
-			className="label"
 			style={{
+				display: "inline-flex",
+				alignItems: "center",
+				gap: 6,
 				color,
-				background: "rgba(63,185,80,0.12)",
-				borderColor: "rgba(63,185,80,0.4)",
-				fontSize: 13,
+				background: bg,
+				border: `1px solid ${border}`,
+				borderRadius: 999,
+				padding: "3px 11px",
+				fontSize: 12,
+				fontWeight: 700,
+				fontFamily: "var(--mono)",
 				textTransform: "uppercase",
 			}}
-			data-cls={cls}
 		>
-			{PLANS[plan].name}
+			{label ?? PLANS[plan].name}
 		</span>
 	);
 }
@@ -89,10 +101,11 @@ export default async function Account({
 	error?: string;
 }) {
 	const t = T[lang];
+	const pm = messages[lang].pricing;
 	const home = lang === "ko" ? "/ko" : "/";
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
-	const plan = session ? await planForOwner(session.login) : null;
+	const plan: PlanId | null = session ? await planForOwner(session.login) : null;
 
 	return (
 		<>
@@ -100,25 +113,22 @@ export default async function Account({
 				<Link className="brand" href={home}>
 					{/* eslint-disable-next-line @next/next/no-img-element */}
 					<img src="/shield.svg" alt="SlopGuard" />
-					{t.brand}
+					SlopGuard
 				</Link>
 				<span className="nav-links">
 					<Link href={home}>{t.home}</Link>
+					{session && <a href="/api/auth/logout">{t.logout}</a>}
 				</span>
 			</nav>
 
-			<main className="wide" style={{ maxWidth: 620, paddingTop: 56 }}>
-				{!session ? (
-					<>
+			<main className="wide" style={{ maxWidth: 720, paddingTop: 52 }}>
+				{!session || !plan ? (
+					<div style={{ maxWidth: 480 }}>
 						<span className="eyebrow">
 							<span className="dot" /> account
 						</span>
 						<h1
-							style={{
-								fontSize: 32,
-								letterSpacing: "-0.02em",
-								margin: "14px 0 8px",
-							}}
+							style={{ fontSize: 32, letterSpacing: "-0.02em", margin: "14px 0 8px" }}
 						>
 							{t.signedOutTitle}
 						</h1>
@@ -126,107 +136,135 @@ export default async function Account({
 							{t.signedOutSub}
 						</p>
 						{error && (
-							<p style={{ color: "var(--danger)", fontSize: 14 }}>
-								{t.errorNote}
-							</p>
+							<p style={{ color: "var(--danger)", fontSize: 14 }}>{t.errorNote}</p>
 						)}
 						<a className="btn btn-primary btn-lg" href="/api/auth/login">
 							{t.signin}
 						</a>
-					</>
+					</div>
 				) : (
 					<>
 						<h1
-							style={{
-								fontSize: 28,
-								letterSpacing: "-0.02em",
-								margin: "0 0 20px",
-							}}
+							style={{ fontSize: 28, letterSpacing: "-0.02em", margin: "0 0 20px" }}
 						>
 							{t.myAccount}
 						</h1>
-						<div className="card" style={{ marginBottom: 16 }}>
+
+						{/* profile */}
+						<div className="card" style={{ marginBottom: 18 }}>
 							<div style={{ display: "flex", alignItems: "center", gap: 14 }}>
 								{/* eslint-disable-next-line @next/next/no-img-element */}
 								<img
 									src={session.avatar}
 									alt=""
-									width={56}
-									height={56}
-									style={{
-										borderRadius: "50%",
-										border: "1px solid var(--border)",
-									}}
+									width={52}
+									height={52}
+									referrerPolicy="no-referrer"
+									style={{ borderRadius: "50%", border: "1px solid var(--border)" }}
 								/>
-								<div>
+								<div style={{ minWidth: 0 }}>
 									<div style={{ fontWeight: 700, fontSize: 17 }}>
 										{session.name || session.login}
 									</div>
-									<a
-										href={session.profileUrl}
-										className="mono"
-										style={{ fontSize: 13 }}
-									>
-										@{session.login}
-									</a>
+									<div className="muted mono" style={{ fontSize: 13 }}>
+										{session.email || `@${session.login}`}
+									</div>
 								</div>
 								<span style={{ marginLeft: "auto" }}>
-									{plan && <PlanBadge plan={plan} />}
+									<PlanBadge plan={plan} />
 								</span>
 							</div>
 						</div>
 
-						<div className="card" style={{ marginBottom: 16 }}>
-							<dl style={{ margin: 0, display: "grid", gap: 12 }}>
-								<div>
-									<dt className="muted" style={{ fontSize: 12 }}>
-										{t.account}
-									</dt>
-									<dd
-										className="mono"
-										style={{ margin: "2px 0 0", fontSize: 14 }}
-									>
-										{session.login}
-									</dd>
-								</div>
-								<div>
-									<dt className="muted" style={{ fontSize: 12 }}>
-										{t.email}
-									</dt>
-									<dd
-										className="mono"
-										style={{ margin: "2px 0 0", fontSize: 14 }}
-									>
-										{session.email || t.notProvided}
-									</dd>
-								</div>
-								<div>
-									<dt className="muted" style={{ fontSize: 12 }}>
-										{t.plan}
-									</dt>
-									<dd style={{ margin: "4px 0 0" }}>
-										{plan && <PlanBadge plan={plan} />}
-									</dd>
-								</div>
-							</dl>
-							<p className="muted" style={{ fontSize: 13, marginBottom: 0 }}>
+						{/* current plan + billing */}
+						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>{t.yourPlan}</h2>
+						<div className="card" style={{ marginBottom: 8 }}>
+							<div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+								<span style={{ fontSize: 22, fontWeight: 800 }}>
+									{PLANS[plan].name}
+								</span>
+								{plan !== "free" && (
+									<span className="muted mono" style={{ fontSize: 14 }}>
+										${PLANS[plan].priceMonthly}
+										{t.per}
+									</span>
+								)}
+								<PlanBadge plan={plan} label={t.current} />
+							</div>
+							<p className="muted" style={{ fontSize: 13, margin: "10px 0 0" }}>
 								{plan === "free" ? t.planFreeNote : t.planPaidNote}
 							</p>
+							{plan !== "free" && (
+								<div style={{ marginTop: 14 }}>
+									<a className="btn btn-ghost" href={PORTAL_URL}>
+										{t.manageBilling}
+									</a>
+								</div>
+							)}
 						</div>
 
-						<div className="btn-row">
+						{/* plans / upgrade inline */}
+						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>{t.plansTitle}</h2>
+						<div className="grid">
+							{PLAN_ORDER.map((id) => {
+								const isCurrent = id === plan;
+								const copy = pm.plans[id];
+								return (
+									<div
+										className={`card plan${isCurrent ? " featured" : ""}`}
+										key={id}
+									>
+										{isCurrent && <span className="ribbon">{t.current}</span>}
+										<h3>{copy.name}</h3>
+										<div className="price">
+											<span className="amt">${PLANS[id].priceMonthly}</span>
+											<span className="per">{pm.per}</span>
+										</div>
+										<ul>
+											{copy.features.slice(0, 4).map((f) => (
+												<li key={f}>{f}</li>
+											))}
+										</ul>
+										{isCurrent ? (
+											<span
+												className="btn btn-ghost"
+												style={{ justifyContent: "center", opacity: 0.6, cursor: "default" }}
+											>
+												{t.current}
+											</span>
+										) : id === "free" ? (
+											<a className="btn btn-ghost" href={PORTAL_URL}>
+												{t.manageBilling}
+											</a>
+										) : (
+											<a
+												className="btn btn-primary"
+												href={`/api/billing/checkout?plan=${id}`}
+												style={{ justifyContent: "center" }}
+											>
+												{t.upgrade} {copy.name}
+											</a>
+										)}
+									</div>
+								);
+							})}
+						</div>
+						<p className="muted" style={{ fontSize: 12, marginTop: 10 }}>
+							{t.downgradeNote}
+						</p>
+
+						{/* repositories */}
+						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>{t.reposTitle}</h2>
+						<div className="card">
+							<p className="muted" style={{ fontSize: 14, marginTop: 0 }}>
+								{t.reposNote}
+							</p>
 							<a className="btn btn-primary" href={INSTALL_URL}>
-								{t.installApp}
+								{t.manageRepos}
 							</a>
-							{plan === "free" ? (
-								<Link className="btn btn-ghost" href={`${home}#pricing`}>
-									{t.upgrade}
-								</Link>
-							) : (
-								<a className="btn btn-ghost" href={PORTAL_URL}>
-									{t.manageBilling}
-								</a>
-							)}
+						</div>
+
+						<div style={{ marginTop: 28 }}>
 							<a className="btn btn-ghost" href="/api/auth/logout">
 								{t.logout}
 							</a>
