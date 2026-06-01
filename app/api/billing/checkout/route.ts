@@ -10,31 +10,31 @@ export const dynamic = "force-dynamic";
 // at runtime. If unset, we return guidance instead of failing — the free tier
 // works without any billing setup.
 function linkFor(plan: PlanId): string | undefined {
-  if (plan === "pro") return process.env.POLAR_LINK_PRO;
-  if (plan === "team") return process.env.POLAR_LINK_TEAM;
-  return undefined;
+	if (plan === "pro") return process.env.POLAR_LINK_PRO;
+	if (plan === "team") return process.env.POLAR_LINK_TEAM;
+	return undefined;
 }
 
 export function GET(req: Request) {
-  const url = new URL(req.url);
-  const plan = (url.searchParams.get("plan") ?? "pro") as PlanId;
+	const url = new URL(req.url);
+	const plan = (url.searchParams.get("plan") ?? "pro") as PlanId;
 
-  if (!PLANS[plan] || plan === "free") {
-    return NextResponse.json({ error: "invalid plan" }, { status: 400 });
-  }
+	if (!PLANS[plan] || plan === "free") {
+		return NextResponse.json({ error: "invalid plan" }, { status: 400 });
+	}
 
-  const link = linkFor(plan);
-  if (!link) {
-    return NextResponse.json(
-      {
-        error: "billing not configured",
-        hint: `Set POLAR_LINK_${plan.toUpperCase()} to a Polar Checkout Link URL to enable checkout. The free tier works without any billing setup.`,
-        plan: PLANS[plan],
-      },
-      { status: 501 },
-    );
-  }
+	const link = linkFor(plan);
+	if (!link) {
+		return NextResponse.json(
+			{
+				error: "billing not configured",
+				hint: `Set POLAR_LINK_${plan.toUpperCase()} to a Polar Checkout Link URL to enable checkout. The free tier works without any billing setup.`,
+				plan: PLANS[plan],
+			},
+			{ status: 501 },
+		);
+	}
 
-  // Redirect straight to the hosted Polar checkout.
-  return NextResponse.redirect(link, { status: 302 });
+	// Redirect straight to the hosted Polar checkout.
+	return NextResponse.redirect(link, { status: 302 });
 }

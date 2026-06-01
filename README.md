@@ -58,6 +58,22 @@ Comment any of these on a quarantined PR or issue (requires write access):
 | `/slop reject` | Close as slop (your explicit action) |
 | `/slop false-positive` | Open a tuning issue and clear the quarantine |
 
+## Plans
+
+The whole thing is MIT-licensed, so you can self-host every feature for free. The paid tiers exist for maintainers who want the managed convenience (we pay the LLM bill, run the dashboard, and provide support).
+
+| | Free | Pro ($19/mo) | Team ($99/mo) |
+| --- | --- | --- | --- |
+| Public repos | Yes | Yes | Yes |
+| Private repos | No | Yes | Yes |
+| LLM judging | Shared free quota | Dedicated quota | Dedicated quota |
+| Cross-repo campaign detection | No | Yes | Yes |
+| Org-wide dashboard | No | No | Yes |
+| SSO + audit log | No | No | Yes |
+| Support | Community | Email | Priority |
+
+Free is fully functional in heuristics-only mode with zero API keys. Checkout is handled by [Polar](https://polar.sh) as Merchant of Record (they collect VAT/sales tax for you). See the live pricing page at `https://<your-deployment>/pricing`.
+
 ## Configuration
 
 Drop a `.github/SLOP_POLICY.yml` in your repo. Every field is optional. Full example: [`.github/SLOP_POLICY.example.yml`](./.github/SLOP_POLICY.example.yml).
