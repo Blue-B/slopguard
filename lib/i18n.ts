@@ -16,6 +16,7 @@ export interface Messages {
 		eyebrow: string;
 		h1a: string;
 		h1b: string; // highlighted word
+		h1c: string; // suffix after the highlight (for KO word order)
 		sub: string;
 		ctaInstall: string;
 		ctaPricing: string;
@@ -41,7 +42,11 @@ export interface Messages {
 		plans: Record<PlanId, PlanCopy>;
 	};
 	how: { title: string; sub: string; steps: React.ReactNode[] };
-	features: { title: string; sub: string; items: { ico: string; t: string; d: string }[] };
+	features: {
+		title: string;
+		sub: string;
+		items: { ico: string; t: string; d: string }[];
+	};
 	footer: { tagline: string };
 }
 
@@ -53,11 +58,13 @@ export const messages: Record<Lang, Messages> = {
 			eyebrow: "maintainer burnout, contained",
 			h1a: "Stop AI slop from drowning your ",
 			h1b: "repo",
+			h1c: "",
 			sub: "SlopGuard scores every incoming PR and issue for low-effort, machine-generated slop, tags its provenance, and quarantines it, then leaves the final call to a human.",
 			ctaInstall: "Install the GitHub App",
 			ctaPricing: "See pricing",
 			fine: "# open source, MIT, never auto-closes, free for public repos",
-			emblemAlt: "SlopGuard shield: a code-bracket emblem scanning pull requests",
+			emblemAlt:
+				"SlopGuard shield: a code-bracket emblem scanning pull requests",
 		},
 		stats: [
 			{ n: "100%", l: "precision (golden set)" },
@@ -137,25 +144,52 @@ export const messages: Record<Lang, Messages> = {
 			title: "Built for maintainers",
 			sub: "Triage help that respects contributors and never goes nuclear.",
 			items: [
-				{ ico: "$ gh app install", t: "One-click GitHub App", d: "Install on a repo or org in one click. No Action YAML, no CI config, no secrets to wire." },
-				{ ico: "/slop approve", t: "Human-in-the-loop", d: "Quarantine label and a review comment only. Nothing is closed without an explicit maintainer command." },
-				{ ico: "provenance:", t: "Provenance tagging", d: "Flags generator hints, a prompt fingerprint, and leaked assistant phrases like “As an AI model”." },
-				{ ico: "SLOP_POLICY.yml", t: "Policy-as-code", d: "Thresholds, labels, allowlists, and comment templates live in your repo, reviewed like any other change." },
-				{ ico: "if no LLM key:", t: "Works without an LLM", d: "Heuristics-only mode runs with zero API keys, and still hits 100% precision on the golden set." },
-				{ ico: "db: null", t: "No database", d: "State lives in GitHub labels and issues. Self-host the entire thing, it is MIT licensed." },
+				{
+					ico: "$ gh app install",
+					t: "One-click GitHub App",
+					d: "Install on a repo or org in one click. No Action YAML, no CI config, no secrets to wire.",
+				},
+				{
+					ico: "/slop approve",
+					t: "Human-in-the-loop",
+					d: "Quarantine label and a review comment only. Nothing is closed without an explicit maintainer command.",
+				},
+				{
+					ico: "provenance:",
+					t: "Provenance tagging",
+					d: "Flags generator hints, a prompt fingerprint, and leaked assistant phrases like “As an AI model”.",
+				},
+				{
+					ico: "SLOP_POLICY.yml",
+					t: "Policy-as-code",
+					d: "Thresholds, labels, allowlists, and comment templates live in your repo, reviewed like any other change.",
+				},
+				{
+					ico: "if no LLM key:",
+					t: "Works without an LLM",
+					d: "Heuristics-only mode runs with zero API keys, and still hits 100% precision on the golden set.",
+				},
+				{
+					ico: "db: null",
+					t: "No database",
+					d: "State lives in GitHub labels and issues. Self-host the entire thing, it is MIT licensed.",
+				},
 			],
 		},
-		footer: { tagline: "built for maintainers drowning in machine-generated noise" },
+		footer: {
+			tagline: "built for maintainers drowning in machine-generated noise",
+		},
 	},
 
 	ko: {
 		htmlLang: "ko",
 		nav: { how: "동작 방식", pricing: "가격", install: "설치" },
 		hero: {
-			eyebrow: "메인테이너 번아웃, 차단",
-			h1a: "AI 슬롭이 당신의 ",
+			eyebrow: "메인테이너 번아웃, 이제 그만",
+			h1a: "AI 슬롭으로부터\n당신의 ",
 			h1b: "레포",
-			sub: "SlopGuard는 들어오는 모든 PR과 이슈를 저품질 기계생성 슬롭 기준으로 점수화하고, 출처를 태깅하고, 격리합니다. 최종 결정은 사람에게 맡깁니다.",
+			h1c: "를 지키세요",
+			sub: "SlopGuard는 들어오는 모든 PR과 이슈가 저품질 기계생성 슬롭인지 점수로 평가하고, 출처를 태깅한 뒤 격리합니다. 닫을지 말지 최종 결정은 사람이 합니다.",
 			ctaInstall: "GitHub App 설치하기",
 			ctaPricing: "가격 보기",
 			fine: "# 오픈소스, MIT, 자동으로 닫지 않음, 공개 레포 무료",
@@ -169,7 +203,7 @@ export const messages: Record<Lang, Messages> = {
 		],
 		verdict: {
 			title: "메인테이너가 보는 화면",
-			sub: "모든 기여물은 0에서 100 사이 슬롭 점수와 근거, 출처 정보를 받습니다. SlopGuard는 라벨과 코멘트만 답니다. 결정은 당신이 합니다.",
+			sub: "모든 기여는 0에서 100 사이의 슬롭 점수와 그 근거, 출처 추적 정보를 받습니다. SlopGuard는 라벨과 코멘트만 달고, 결정은 당신이 합니다.",
 			badge: "슬롭 가능성 높음",
 			reasons: [
 				"챗봇 보일러플레이트 문구 (3건)",
@@ -186,7 +220,7 @@ export const messages: Record<Lang, Messages> = {
 			per: "/ 월",
 			getStarted: "시작하기",
 			choose: (n) => `${n} 선택`,
-			note: "유료 플랜은 자동 활성화됩니다. 결제 시 설치할 GitHub 조직이나 사용자명을 입력하면 1분 내에 Pro 또는 Team이 켜집니다.",
+			note: "유료 플랜은 자동으로 켜집니다. 결제할 때 설치할 GitHub 조직이나 사용자명을 입력하면, 1분 안에 Pro나 Team 기능이 활성화됩니다.",
 			plans: {
 				free: {
 					name: "Free",
@@ -239,12 +273,36 @@ export const messages: Record<Lang, Messages> = {
 			title: "메인테이너를 위해",
 			sub: "기여자를 존중하고 절대 극단으로 가지 않는 분류 도구.",
 			items: [
-				{ ico: "$ gh app install", t: "원클릭 GitHub App", d: "레포나 조직에 클릭 한 번으로 설치. Action YAML도, CI 설정도, 연결할 시크릿도 없습니다." },
-				{ ico: "/slop approve", t: "휴먼인더루프", d: "격리 라벨과 리뷰 코멘트만 답니다. 메인테이너의 명시적 명령 없이는 아무것도 닫지 않습니다." },
-				{ ico: "provenance:", t: "출처 태깅", d: "생성기 힌트, 프롬프트 지문, “As an AI model” 같은 누출 문구를 표시합니다." },
-				{ ico: "SLOP_POLICY.yml", t: "정책 코드화", d: "임계값, 라벨, allowlist, 코멘트 템플릿이 레포에 있고 다른 변경처럼 리뷰됩니다." },
-				{ ico: "if no LLM key:", t: "LLM 없이도 동작", d: "휴리스틱 only 모드는 API 키 없이 돌고, 골든셋에서 정밀도 100%를 냅니다." },
-				{ ico: "db: null", t: "DB 없음", d: "상태는 GitHub 라벨과 이슈에 저장됩니다. 전체를 셀프호스팅할 수 있고 MIT 라이선스입니다." },
+				{
+					ico: "$ gh app install",
+					t: "원클릭 GitHub App",
+					d: "레포나 조직에 클릭 한 번으로 설치. Action YAML도, CI 설정도, 연결할 시크릿도 없습니다.",
+				},
+				{
+					ico: "/slop approve",
+					t: "휴먼인더루프",
+					d: "격리 라벨과 리뷰 코멘트만 답니다. 메인테이너의 명시적 명령 없이는 아무것도 닫지 않습니다.",
+				},
+				{
+					ico: "provenance:",
+					t: "출처 태깅",
+					d: "생성기 힌트, 프롬프트 지문, “As an AI model” 같은 누출 문구를 표시합니다.",
+				},
+				{
+					ico: "SLOP_POLICY.yml",
+					t: "정책 코드화",
+					d: "임계값, 라벨, allowlist, 코멘트 템플릿이 레포에 있고 다른 변경처럼 리뷰됩니다.",
+				},
+				{
+					ico: "if no LLM key:",
+					t: "LLM 없이도 동작",
+					d: "휴리스틱 only 모드는 API 키 없이 돌고, 골든셋에서 정밀도 100%를 냅니다.",
+				},
+				{
+					ico: "db: null",
+					t: "DB 없음",
+					d: "상태는 GitHub 라벨과 이슈에 저장됩니다. 전체를 셀프호스팅할 수 있고 MIT 라이선스입니다.",
+				},
 			],
 		},
 		footer: { tagline: "기계생성 노이즈에 파묻힌 메인테이너를 위해" },

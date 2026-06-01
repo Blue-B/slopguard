@@ -201,6 +201,7 @@ code {
 	margin: 0 0 18px;
 	letter-spacing: -0.03em;
 	font-weight: 800;
+	white-space: pre-line;
 }
 .hero h1 .hl {
 	color: var(--green);

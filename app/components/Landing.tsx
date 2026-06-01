@@ -13,7 +13,14 @@ function ScoreRing({ score }: { score: number }) {
 			role="img"
 			aria-label={`slop score ${score} / 100`}
 		>
-			<circle cx="66" cy="66" r={r} fill="none" stroke="var(--border)" strokeWidth="9" />
+			<circle
+				cx="66"
+				cy="66"
+				r={r}
+				fill="none"
+				stroke="var(--border)"
+				strokeWidth="9"
+			/>
 			<circle
 				cx="66"
 				cy="66"
@@ -72,6 +79,7 @@ export default function Landing({ lang }: { lang: Lang }) {
 					<h1>
 						{m.hero.h1a}
 						<span className="hl">{m.hero.h1b}</span>
+						{m.hero.h1c}
 					</h1>
 					<p className="sub">{m.hero.sub}</p>
 					<div className="btn-row">
