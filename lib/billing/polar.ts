@@ -68,7 +68,8 @@ async function fetchEntitlementMap(): Promise<Map<string, PlanId>> {
 	const params = new URLSearchParams({ active: "true", limit: "100" });
 	if (orgId) params.set("organization_id", orgId);
 
-	const res = await fetch(`${apiBase()}/v1/subscriptions?${params}`, {
+	// Trailing slash avoids Polar's 307 redirect to the canonical path.
+	const res = await fetch(`${apiBase()}/v1/subscriptions/?${params}`, {
 		headers: {
 			Authorization: `Bearer ${token}`,
 			Accept: "application/json",
