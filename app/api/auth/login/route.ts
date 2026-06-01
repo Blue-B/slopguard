@@ -5,7 +5,7 @@ import { authorizeUrl, oauthConfigured } from "@/lib/auth/github";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export function GET() {
+export function GET(req: Request) {
 	if (!oauthConfigured()) {
 		return NextResponse.json(
 			{
@@ -14,8 +14,16 @@ export function GET() {
 			{ status: 501 },
 		);
 	}
+	const lang =
+		new URL(req.url).searchParams.get("lang") === "ko" ? "ko" : "en";
 	const state = randomBytes(16).toString("hex");
 	const res = NextResponse.redirect(authorizeUrl(state));
+	res.cookies.set("sg_lang", lang, {
+		secure: process.env.NODE_ENV === "production",
+		sameSite: "lax",
+		path: "/",
+		maxAge: 600,
+	});
 	res.cookies.set("sg_oauth_state", state, {
 		httpOnly: true,
 		secure: process.env.NODE_ENV === "production",

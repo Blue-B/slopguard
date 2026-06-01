@@ -145,7 +145,10 @@ export default async function Account({
 								{t.errorNote}
 							</p>
 						)}
-						<a className="btn btn-primary btn-lg" href="/api/auth/login">
+						<a
+							className="btn btn-primary btn-lg"
+							href={lang === "ko" ? "/api/auth/login?lang=ko" : "/api/auth/login"}
+						>
 							{t.signin}
 						</a>
 					</div>
@@ -223,7 +226,7 @@ export default async function Account({
 						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>
 							{t.plansTitle}
 						</h2>
-						<div className="grid">
+						<div className="plans-3">
 							{PLAN_ORDER.map((id) => {
 								const isCurrent = id === plan;
 								const copy = pm.plans[id];

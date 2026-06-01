@@ -31,7 +31,10 @@ export default function AuthNav({ lang }: { lang: Lang }) {
 
 	if (!me.authenticated) {
 		return (
-			<a className="nav-signin" href="/api/auth/login">
+			<a
+				className="nav-signin"
+				href={lang === "ko" ? "/api/auth/login?lang=ko" : "/api/auth/login"}
+			>
 				{L[lang].signin}
 			</a>
 		);

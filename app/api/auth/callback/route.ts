@@ -18,9 +18,10 @@ export async function GET(req: Request) {
 		.get("cookie")
 		?.match(/sg_oauth_state=([^;]+)/)?.[1];
 
+	const lang = req.headers.get("cookie")?.match(/sg_lang=ko/) ? "/ko" : "";
 	const base = getAppBaseUrl();
 	const fail = (reason: string) =>
-		NextResponse.redirect(`${base}/account?error=${reason}`);
+		NextResponse.redirect(`${base}${lang}/account?error=${reason}`);
 
 	if (!code || !state || !cookieState || state !== cookieState) {
 		return fail("state");
@@ -32,7 +33,7 @@ export async function GET(req: Request) {
 	const user = await fetchUser(token);
 	if (!user) return fail("profile");
 
-	const res = NextResponse.redirect(`${base}/account`);
+	const res = NextResponse.redirect(`${base}${lang}/account`);
 	res.cookies.set(SESSION_COOKIE, encodeSession(user), cookieOptions);
 	res.cookies.set("sg_oauth_state", "", { path: "/", maxAge: 0 });
 	return res;
