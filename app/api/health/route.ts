@@ -18,6 +18,13 @@ export function GET() {
 		githubAppConfigured: Boolean(
 			process.env.GITHUB_APP_ID && process.env.GITHUB_WEBHOOK_SECRET,
 		),
+		billing: {
+			checkoutLinks: Boolean(
+				process.env.POLAR_LINK_PRO || process.env.POLAR_LINK_TEAM,
+			),
+			entitlements: Boolean(process.env.POLAR_API_TOKEN),
+			webhook: Boolean(process.env.POLAR_WEBHOOK_SECRET),
+		},
 		llmProviders: providers,
 		providerOrder: (
 			process.env.LLM_PROVIDER_ORDER ?? "gemini,anthropic,grok,openai"

@@ -1,12 +1,18 @@
 import { PLANS, type PlanId } from "./plans.js";
+import { getEntitlementMap, isPolarConfigured } from "./polar.js";
 
-// Entitlement = which plan an installation/owner is on.
+// Entitlement = which plan a repo owner (GitHub login) is on.
 //
-// MVP storage: an env allowlist (PRO_OWNERS / TEAM_OWNERS = comma-separated
-// GitHub logins). This is intentionally simple — it has no per-seat metering
-// and does not scale to thousands of paying customers. The production path is
-// to persist Stripe subscription → installation mappings in a DB (Upstash/
-// Postgres) and look them up here. See docs/SETUP.md "Scaling".
+// Resolution order:
+//   1. Env allowlist override — PRO_OWNERS / TEAM_OWNERS (comma-separated
+//      GitHub logins). Handy for comps, the maintainer's own org, or manual
+//      grants. Always wins.
+//   2. Polar (source of truth) — active subscriptions whose `github_login`
+//      custom field matches the owner. Resolved via lib/billing/polar.ts
+//      (cached, no database). Requires POLAR_API_TOKEN.
+//   3. Default: free.
+//
+// All lookups are async because the Polar path hits the network (cached).
 
 function parseList(envKey: string): Set<string> {
 	return new Set(
@@ -17,20 +23,28 @@ function parseList(envKey: string): Set<string> {
 	);
 }
 
-/** Resolve the plan for a repo owner (GitHub login). Defaults to free. */
-export function planForOwner(owner: string): PlanId {
-	const login = owner.toLowerCase();
+function planFromEnv(login: string): PlanId | undefined {
 	if (parseList("TEAM_OWNERS").has(login)) return "team";
 	if (parseList("PRO_OWNERS").has(login)) return "pro";
-	return "free";
+	return undefined;
+}
+
+/** Resolve the plan for a repo owner (GitHub login). Defaults to free. */
+export async function planForOwner(owner: string): Promise<PlanId> {
+	const login = owner.toLowerCase();
+	const fromEnv = planFromEnv(login);
+	if (fromEnv) return fromEnv;
+	if (!isPolarConfigured()) return "free";
+	const map = await getEntitlementMap();
+	return map.get(login) ?? "free";
 }
 
 /** Is managed LLM detection available for this owner? */
-export function hasManagedLlm(owner: string): boolean {
-	return PLANS[planForOwner(owner)].managedLlm;
+export async function hasManagedLlm(owner: string): Promise<boolean> {
+	return PLANS[await planForOwner(owner)].managedLlm;
 }
 
 /** Are private repos covered for this owner? */
-export function hasPrivateRepos(owner: string): boolean {
-	return PLANS[planForOwner(owner)].privateRepos;
+export async function hasPrivateRepos(owner: string): Promise<boolean> {
+	return PLANS[await planForOwner(owner)].privateRepos;
 }

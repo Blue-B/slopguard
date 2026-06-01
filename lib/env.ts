@@ -42,6 +42,21 @@ export function getGitHubAppEnv(): GitHubAppEnv {
 	};
 }
 
+export interface PolarEnv {
+	apiToken?: string;
+	webhookSecret?: string;
+	orgId?: string;
+}
+
+/** Polar (Merchant of Record) config. All optional — billing is opt-in. */
+export function getPolarEnv(): PolarEnv {
+	return {
+		apiToken: process.env.POLAR_API_TOKEN || undefined,
+		webhookSecret: process.env.POLAR_WEBHOOK_SECRET || undefined,
+		orgId: process.env.POLAR_ORG_ID || undefined,
+	};
+}
+
 export function getAppBaseUrl(): string {
 	if (process.env.APP_BASE_URL) return process.env.APP_BASE_URL;
 	if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;

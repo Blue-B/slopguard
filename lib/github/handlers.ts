@@ -64,7 +64,7 @@ async function review(
 
 	// Private repos are a paid feature (Pro/Team). Public repos are always free.
 	// LLM detection itself is open to everyone (subject to shared rate limits).
-	if (isPrivate && !hasPrivateRepos(owner)) {
+	if (isPrivate && !(await hasPrivateRepos(owner))) {
 		console.log(
 			`[slopguard] private repo on free plan, skipping: ${input.repo}#${input.number}`,
 		);
