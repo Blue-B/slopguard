@@ -9,5 +9,5 @@ export default async function Page({
 	params: Promise<{ owner: string; repo: string }>;
 }) {
 	const { owner, repo } = await params;
-	return <RepoDashboard lang="en" owner={owner} repo={repo} />;
+	return <RepoDashboard lang="ko" owner={owner} repo={repo} />;
 }

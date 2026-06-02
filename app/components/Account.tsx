@@ -8,6 +8,7 @@ import type { Lang } from "@/lib/i18n";
 import { INSTALL_URL, PORTAL_URL } from "@/lib/config";
 import { listOwnerRepos, type OwnerRepo } from "@/lib/github/storage";
 import PricingPlans from "./PricingPlans";
+import AppNav from "./AppNav";
 
 const T = {
 	en: {
@@ -108,7 +109,7 @@ export default async function Account({
 	error?: string;
 }) {
 	const t = T[lang];
-	const home = lang === "ko" ? "/ko" : "/";
+	const dashBase = lang === "ko" ? "/ko/dashboard" : "/dashboard";
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	const plan: PlanId | null = session
@@ -125,17 +126,7 @@ export default async function Account({
 
 	return (
 		<>
-			<nav className="nav">
-				<Link className="brand" href={home}>
-					{/* eslint-disable-next-line @next/next/no-img-element */}
-					<img src="/shield.svg" alt="SlopGuard" />
-					SlopGuard
-				</Link>
-				<span className="nav-links">
-					<Link href={home}>{t.home}</Link>
-					{session && <a href="/api/auth/logout">{t.logout}</a>}
-				</span>
-			</nav>
+			<AppNav lang={lang} enHref="/account" koHref="/ko/account" />
 
 			<main className="wide" style={{ maxWidth: 1040, paddingTop: 52 }}>
 				{!session || !plan ? (
@@ -182,71 +173,81 @@ export default async function Account({
 						</h1>
 
 						<div className="account-top">
-						{/* profile */}
-						<div className="card">
-							<div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img
-									src={session.avatar}
-									alt=""
-									width={52}
-									height={52}
-									referrerPolicy="no-referrer"
-									style={{
-										borderRadius: "50%",
-										border: "1px solid var(--border)",
-									}}
-								/>
-								<div style={{ minWidth: 0 }}>
-									<div style={{ fontWeight: 700, fontSize: 17 }}>
-										{session.name || session.login}
+							{/* profile */}
+							<div className="card">
+								<div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+									{/* eslint-disable-next-line @next/next/no-img-element */}
+									<img
+										src={session.avatar}
+										alt=""
+										width={52}
+										height={52}
+										referrerPolicy="no-referrer"
+										style={{
+											borderRadius: "50%",
+											border: "1px solid var(--border)",
+										}}
+									/>
+									<div style={{ minWidth: 0 }}>
+										<div style={{ fontWeight: 700, fontSize: 17 }}>
+											{session.name || session.login}
+										</div>
+										<div className="muted mono" style={{ fontSize: 13 }}>
+											{session.email || `@${session.login}`}
+										</div>
 									</div>
-									<div className="muted mono" style={{ fontSize: 13 }}>
-										{session.email || `@${session.login}`}
-									</div>
-								</div>
-								<span style={{ marginLeft: "auto" }}>
-									<PlanBadge plan={plan} />
-								</span>
-							</div>
-						</div>
-
-						{/* current plan + billing */}
-						<div className="card">
-							<div
-								className="muted mono"
-								style={{
-									fontSize: 11,
-									textTransform: "uppercase",
-									letterSpacing: "0.06em",
-									marginBottom: 10,
-								}}
-							>
-								{t.yourPlan}
-							</div>
-							<div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-								<span style={{ fontSize: 22, fontWeight: 800 }}>
-									{PLANS[plan].name}
-								</span>
-								{plan !== "free" && PLANS[plan].priceMonthly != null && (
-									<span className="muted mono" style={{ fontSize: 14 }}>
-										${PLANS[plan].priceMonthly}
-										{t.per}
+									<span style={{ marginLeft: "auto" }}>
+										<PlanBadge plan={plan} />
 									</span>
-								)}
-								<PlanBadge plan={plan} label={t.current} />
-							</div>
-							<p className="muted" style={{ fontSize: 13, margin: "10px 0 0" }}>
-								{plan === "free" ? t.planFreeNote : t.planPaidNote}
-							</p>
-							{plan !== "free" && (
-								<div style={{ marginTop: 14 }}>
-									<a className="btn btn-ghost" href={PORTAL_URL}>
-										{t.manageBilling}
-									</a>
 								</div>
-							)}
-						</div>
+							</div>
+
+							{/* current plan + billing */}
+							<div className="card">
+								<div
+									className="muted mono"
+									style={{
+										fontSize: 11,
+										textTransform: "uppercase",
+										letterSpacing: "0.06em",
+										marginBottom: 10,
+									}}
+								>
+									{t.yourPlan}
+								</div>
+								<div
+									style={{
+										display: "flex",
+										alignItems: "center",
+										gap: 10,
+										flexWrap: "wrap",
+									}}
+								>
+									<span style={{ fontSize: 22, fontWeight: 800 }}>
+										{PLANS[plan].name}
+									</span>
+									{plan !== "free" && PLANS[plan].priceMonthly != null && (
+										<span className="muted mono" style={{ fontSize: 14 }}>
+											${PLANS[plan].priceMonthly}
+											{t.per}
+										</span>
+									)}
+									<PlanBadge plan={plan} label={t.current} />
+								</div>
+								<p
+									className="muted"
+									style={{ fontSize: 13, margin: "10px 0 0" }}
+								>
+									{plan === "free" ? t.planFreeNote : t.planPaidNote}
+								</p>
+								{plan !== "free" && (
+									<div style={{ marginTop: 14 }}>
+										<a className="btn btn-ghost" href={PORTAL_URL}>
+											{t.manageBilling}
+										</a>
+									</div>
+								)}
+							</div>
 						</div>
 
 						{/* plans / upgrade inline */}
@@ -278,7 +279,7 @@ export default async function Account({
 											</span>
 											<Link
 												className="repo-link"
-												href={`/dashboard/${r.fullName}`}
+												href={`${dashBase}/${r.fullName}`}
 											>
 												{t.viewHistory} &rarr;
 											</Link>
