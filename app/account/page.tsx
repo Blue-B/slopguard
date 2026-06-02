@@ -1,7 +1,8 @@
+import type { Metadata } from "next";
 import Account from "../components/Account";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "SlopGuard — Account" };
+export const metadata: Metadata = { title: "SlopGuard Account" };
 
 export default async function AccountPage({
 	searchParams,

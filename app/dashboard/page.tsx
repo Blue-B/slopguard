@@ -21,7 +21,14 @@ function Stat({ label, value }: { label: string; value: number }) {
 function OrgOverview({ stats }: { stats: OwnerSlopStats }) {
 	return (
 		<>
-			<div style={{ display: "flex", gap: 12, margin: "8px 0 18px", flexWrap: "wrap" }}>
+			<div
+				style={{
+					display: "flex",
+					gap: 12,
+					margin: "8px 0 18px",
+					flexWrap: "wrap",
+				}}
+			>
 				<Stat label="quarantined" value={stats.quarantined} />
 				<Stat label="cleared" value={stats.cleared} />
 				<Stat label="open" value={stats.open} />
@@ -141,7 +148,9 @@ export default async function DashboardIndex() {
 			</nav>
 
 			<main className="wide" style={{ maxWidth: 880, paddingTop: 40 }}>
-				<h1 style={{ fontSize: 26, letterSpacing: "-0.02em", margin: "0 0 6px" }}>
+				<h1
+					style={{ fontSize: 26, letterSpacing: "-0.02em", margin: "0 0 6px" }}
+				>
 					🛡️ Dashboard
 				</h1>
 
@@ -185,7 +194,10 @@ export default async function DashboardIndex() {
 								}}
 							>
 								<b>Want the org-wide dashboard?</b>
-								<p className="muted" style={{ fontSize: 14, margin: "6px 0 12px" }}>
+								<p
+									className="muted"
+									style={{ fontSize: 14, margin: "6px 0 12px" }}
+								>
 									Team aggregates every repo, adds an activity/audit log, and
 									sends Slack/Discord alerts on quarantine.
 								</p>

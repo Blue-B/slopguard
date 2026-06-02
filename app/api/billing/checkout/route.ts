@@ -10,7 +10,10 @@ export const dynamic = "force-dynamic";
 // (https://polar.sh → Products → Checkout Links). No SDK or secret key needed
 // at runtime. If unset, we return guidance instead of failing — the free tier
 // works without any billing setup.
-function linkFor(plan: PlanId, yearly: boolean): {
+function linkFor(
+	plan: PlanId,
+	yearly: boolean,
+): {
 	link?: string;
 	envKey?: string;
 } {

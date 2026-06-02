@@ -62,27 +62,27 @@ export default function PricingPlans({
 	return (
 		<>
 			{annualEnabled && (
-			<div className="cycle-toggle" role="tablist" aria-label="billing cycle">
-				<button
-					type="button"
-					role="tab"
-					aria-selected={!yearly}
-					className={!yearly ? "on" : ""}
-					onClick={() => setYearly(false)}
-				>
-					{t.monthly}
-				</button>
-				<button
-					type="button"
-					role="tab"
-					aria-selected={yearly}
-					className={yearly ? "on" : ""}
-					onClick={() => setYearly(true)}
-				>
-					{t.yearly}
-					<span className="save-pill">{t.save}</span>
-				</button>
-			</div>
+				<div className="cycle-toggle" role="tablist" aria-label="billing cycle">
+					<button
+						type="button"
+						role="tab"
+						aria-selected={!yearly}
+						className={!yearly ? "on" : ""}
+						onClick={() => setYearly(false)}
+					>
+						{t.monthly}
+					</button>
+					<button
+						type="button"
+						role="tab"
+						aria-selected={yearly}
+						className={yearly ? "on" : ""}
+						onClick={() => setYearly(true)}
+					>
+						{t.yearly}
+						<span className="save-pill">{t.save}</span>
+					</button>
+				</div>
 			)}
 
 			<div className="plans-4">

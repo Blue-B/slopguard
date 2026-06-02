@@ -54,17 +54,16 @@ export default function Pricing() {
 					<h3 style={{ marginTop: 0 }}>Why pay if it&apos;s open source?</h3>
 					<p className="muted" style={{ fontSize: 14 }}>
 						Self-hosting means running the server, paying the LLM API bill, and
-						maintaining it yourself. Paid tiers remove all of that and add things
-						a single self-hosted instance can&apos;t do on its own: a dedicated
-						LLM quota, cross-repo bot-campaign detection, an org-wide dashboard
-						with an activity log, and Slack/Discord/webhook alerts. Same model as
-						Sentry, PostHog, and Plausible. The code is free; the hosting,
-						intelligence, and convenience are the product.
+						maintaining it yourself. Paid tiers remove all of that and add
+						things a single self-hosted instance can&apos;t do on its own: a
+						dedicated LLM quota, cross-repo bot-campaign detection, an org-wide
+						dashboard with an activity log, and Slack/Discord/webhook alerts.
+						Same model as Sentry, PostHog, and Plausible. The code is free; the
+						hosting, intelligence, and convenience are the product.
 					</p>
 				</div>
 				<p className="section-sub" style={{ fontSize: 13 }}>
-					Questions? Open an issue on{" "}
-					<a href={`${REPO_URL}/issues`}>GitHub</a>.
+					Questions? Open an issue on <a href={`${REPO_URL}/issues`}>GitHub</a>.
 				</p>
 			</section>
 
