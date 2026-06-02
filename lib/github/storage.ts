@@ -238,3 +238,40 @@ export async function getOwnerSlopStats(
 	ownerStatsCache.set(key, stats);
 	return stats;
 }
+
+// ── Light repo list for the account "your repositories" view ──────────────
+export interface OwnerRepo {
+	fullName: string; // owner/repo
+	name: string;
+	private: boolean;
+	htmlUrl: string;
+}
+
+/**
+ * List every repo SlopGuard can see for an owner (names only, one paginated
+ * call, no per-repo label tallies). Used by the account page so a signed-in
+ * user can see their watched repos without going to GitHub. Throws if the app
+ * is not installed for that owner.
+ */
+export async function listOwnerRepos(owner: string): Promise<OwnerRepo[]> {
+	const octokit = await getOwnerInstallationClient(owner);
+	const repos = (await octokit.paginate(
+		octokit.rest.apps.listReposAccessibleToInstallation,
+		{ per_page: 100 },
+	)) as Array<{
+		name: string;
+		full_name?: string;
+		private?: boolean;
+		html_url?: string;
+		owner: { login?: string } | null;
+	}>;
+	return repos.slice(0, 200).map((r) => {
+		const full = r.full_name ?? `${r.owner?.login ?? owner}/${r.name}`;
+		return {
+			fullName: full,
+			name: r.name,
+			private: Boolean(r.private),
+			htmlUrl: r.html_url ?? `https://github.com/${full}`,
+		};
+	});
+}

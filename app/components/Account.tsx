@@ -6,6 +6,7 @@ import { PLANS, type PlanId } from "@/lib/billing/plans";
 import type { Lang } from "@/lib/i18n";
 
 import { INSTALL_URL, PORTAL_URL } from "@/lib/config";
+import { listOwnerRepos, type OwnerRepo } from "@/lib/github/storage";
 import PricingPlans from "./PricingPlans";
 
 const T = {
@@ -31,8 +32,11 @@ const T = {
 		per: "/ mo",
 		reposTitle: "Repositories",
 		reposNote:
-			"Choose which repositories or organizations SlopGuard watches. You can add or remove them any time on GitHub.",
-		manageRepos: "Manage repositories on GitHub",
+			"The repositories SlopGuard is watching for you. Adding or removing repos runs through GitHub's app-permission screen, so that one step stays on GitHub.",
+		manageRepos: "Add or remove repos on GitHub",
+		viewHistory: "Slop history",
+		privateTag: "private",
+		noRepos: "SlopGuard isn't installed on any of your repositories yet.",
 		logout: "Sign out",
 		errorNote: "Sign-in did not complete. Please try again.",
 	},
@@ -58,8 +62,11 @@ const T = {
 		per: "/ 월",
 		reposTitle: "레포지토리",
 		reposNote:
-			"SlopGuard가 감시할 레포나 조직을 선택하세요. GitHub에서 언제든 추가하거나 뺄 수 있습니다.",
-		manageRepos: "GitHub에서 레포 관리",
+			"SlopGuard가 감시 중인 레포 목록입니다. 레포 추가나 제거는 GitHub 앱 권한 화면을 거쳐야 해서 그 단계만 GitHub에서 진행됩니다.",
+		manageRepos: "GitHub에서 레포 추가/제거",
+		viewHistory: "슬롭 기록",
+		privateTag: "비공개",
+		noRepos: "아직 어느 레포에도 SlopGuard가 설치되어 있지 않습니다.",
 		logout: "로그아웃",
 		errorNote: "로그인이 완료되지 않았습니다. 다시 시도해 주세요.",
 	},
@@ -107,6 +114,14 @@ export default async function Account({
 	const plan: PlanId | null = session
 		? await planForOwner(session.login)
 		: null;
+	let repos: OwnerRepo[] = [];
+	if (session) {
+		try {
+			repos = await listOwnerRepos(session.login);
+		} catch {
+			repos = [];
+		}
+	}
 
 	return (
 		<>
@@ -238,10 +253,34 @@ export default async function Account({
 							{t.reposTitle}
 						</h2>
 						<div className="card account-narrow">
-							<p className="muted" style={{ fontSize: 14, marginTop: 0 }}>
+							<p className="muted" style={{ fontSize: 14, margin: "0 0 14px" }}>
 								{t.reposNote}
 							</p>
-							<a className="btn btn-primary" href={INSTALL_URL}>
+							{repos.length > 0 ? (
+								<ul className="repo-list">
+									{repos.map((r) => (
+										<li className="repo-row" key={r.fullName}>
+											<span className="repo-name">
+												<a href={r.htmlUrl}>{r.fullName}</a>
+												{r.private && (
+													<span className="repo-tag">{t.privateTag}</span>
+												)}
+											</span>
+											<Link
+												className="repo-link"
+												href={`/dashboard/${r.fullName}`}
+											>
+												{t.viewHistory} &rarr;
+											</Link>
+										</li>
+									))}
+								</ul>
+							) : (
+								<p className="muted" style={{ fontSize: 13.5, margin: "0 0 14px" }}>
+									{t.noRepos}
+								</p>
+							)}
+							<a className="btn btn-ghost" href={INSTALL_URL}>
 								{t.manageRepos}
 							</a>
 						</div>

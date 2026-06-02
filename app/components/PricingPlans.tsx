@@ -14,7 +14,7 @@ const T = {
 		perMo: "/mo",
 		perYr: "/yr",
 		free: "$0",
-		contactPrice: "Let's talk",
+		contactNote: "from, invoiced annually",
 		contact: "Contact sales",
 		getStarted: "Get started",
 		current: "Current",
@@ -29,7 +29,7 @@ const T = {
 		perMo: "/월",
 		perYr: "/년",
 		free: "$0",
-		contactPrice: "협의",
+		contactNote: "부터, 세금계산서 연간 청구",
 		contact: "문의하기",
 		getStarted: "시작하기",
 		current: "현재",
@@ -106,7 +106,10 @@ export default function PricingPlans({
 
 							<div className="price">
 								{isContact ? (
-									<span className="amt amt-contact">{t.contactPrice}</span>
+									<>
+										<span className="amt">${plan.priceFrom ?? ""}</span>
+										<span className="per">{t.perMo}</span>
+									</>
 								) : isFree ? (
 									<span className="amt">{t.free}</span>
 								) : (
@@ -116,6 +119,7 @@ export default function PricingPlans({
 									</>
 								)}
 							</div>
+							{isContact && <p className="price-note">{t.contactNote}</p>}
 							{!isContact && !isFree && yearly && (
 								<p className="price-note">
 									{t.billedYr(plan.priceYearly ?? 0)}, {t.saveAmt(savings)}

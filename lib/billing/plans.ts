@@ -21,6 +21,8 @@ export interface Plan {
 	priceMonthly: number | null;
 	/** USD per year (≈ 2 months free); null when not applicable */
 	priceYearly: number | null;
+	/** "from" anchor price for contact-sales tiers (USD/mo); null when n/a */
+	priceFrom?: number;
 	tagline: string;
 	features: string[];
 
@@ -83,7 +85,7 @@ export const PLANS: Record<PlanId, Plan> = {
 			"Private repositories",
 			"Dedicated LLM quota (no shared throttle)",
 			"Cross-repo bot-campaign detection",
-			"Email support",
+			"Higher rate limits",
 		],
 		privateRepos: true,
 		managedLlm: true,
@@ -124,6 +126,7 @@ export const PLANS: Record<PlanId, Plan> = {
 		name: "Enterprise",
 		priceMonthly: null,
 		priceYearly: null,
+		priceFrom: 299,
 		tagline: "For companies that need SSO, SLA, and self-host support.",
 		features: [
 			"Everything in Team",

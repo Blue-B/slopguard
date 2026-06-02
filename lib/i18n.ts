@@ -113,7 +113,7 @@ export const messages: Record<Lang, Messages> = {
 						"Private repositories",
 						"Dedicated LLM quota (no shared rate limit)",
 						"Cross-repo bot-campaign detection",
-						"Email support",
+						"Higher rate limits",
 					],
 				},
 				team: {
@@ -255,7 +255,7 @@ export const messages: Record<Lang, Messages> = {
 						"비공개 레포",
 						"전용 LLM 쿼터 (공유 한도 없음)",
 						"여러 레포에 걸친 봇 캠페인 탐지",
-						"이메일 지원",
+						"높은 처리 한도",
 					],
 				},
 				team: {

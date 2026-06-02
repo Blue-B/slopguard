@@ -1001,3 +1001,12 @@ footer.site {
 	.pipe-arrow { flex: 0 0 26px; width: 100%; }
 	.pipe-arrow::before { content: "\2193"; }
 }
+
+/* ── Account: watched-repo list ──────────────────────────────────── */
+.repo-list { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 1px; background: var(--border-muted); border: 1px solid var(--border-muted); border-radius: 10px; overflow: hidden; }
+.repo-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--surface); padding: 11px 14px; }
+.repo-name { display: inline-flex; align-items: center; gap: 8px; min-width: 0; font-size: 14px; }
+.repo-name a { color: var(--fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.repo-tag { font-family: var(--mono); font-size: 10.5px; color: var(--muted); background: var(--surface-2); border: 1px solid var(--border-muted); border-radius: 999px; padding: 1px 8px; flex: 0 0 auto; }
+.repo-link { font-size: 13px; color: var(--green); white-space: nowrap; flex: 0 0 auto; }
+.repo-link:hover { text-decoration: underline; }
