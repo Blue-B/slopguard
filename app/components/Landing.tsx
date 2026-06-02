@@ -7,7 +7,8 @@ import AuthNav from "./AuthNav";
 // Section copy that lives outside the core i18n catalogue (added later).
 const EX = {
 	en: {
-		ctaNote: "Adds SlopGuard to a repo or org on GitHub. One click, no config, free for public repos.",
+		ctaNote:
+			"Adds SlopGuard to a repo or org on GitHub. One click, no config, free for public repos.",
 		navInstallTitle: "Add the app to your repositories",
 		howDetail: [
 			"SlopGuard receives the pull_request / issues / issue_comment event. Untrusted text is isolated with per-request nonce markers.",
@@ -25,7 +26,8 @@ const EX = {
 				{ label: "F1", val: "96%", pct: 96 },
 			],
 			big: "0",
-			bigCap: "false positives on the golden set at the default threshold (50).",
+			bigCap:
+				"false positives on the golden set at the default threshold (50).",
 			rows: [
 				["threshold", "50 / 100"],
 				["false negatives", "1 / 13"],
@@ -51,7 +53,8 @@ const EX = {
 		},
 	},
 	ko: {
-		ctaNote: "GitHub에서 레포나 조직에 SlopGuard를 추가합니다. 클릭 한 번, 설정 불필요, 공개 레포는 무료.",
+		ctaNote:
+			"GitHub에서 레포나 조직에 SlopGuard를 추가합니다. 클릭 한 번, 설정 불필요, 공개 레포는 무료.",
 		navInstallTitle: "내 레포에 앱 추가",
 		howDetail: [
 			"SlopGuard가 pull_request / issues / issue_comment 이벤트를 받습니다. 신뢰할 수 없는 텍스트는 요청별 nonce 마커로 격리됩니다.",
@@ -107,7 +110,14 @@ function ScoreRing({ score }: { score: number }) {
 			role="img"
 			aria-label={`slop score ${score} / 100`}
 		>
-			<circle cx="66" cy="66" r={r} fill="none" stroke="var(--border)" strokeWidth="9" />
+			<circle
+				cx="66"
+				cy="66"
+				r={r}
+				fill="none"
+				stroke="var(--border)"
+				strokeWidth="9"
+			/>
 			<circle
 				cx="66"
 				cy="66"
@@ -156,7 +166,11 @@ export default function Landing({ lang }: { lang: Lang }) {
 						</Link>
 					</span>
 					<AuthNav lang={lang} />
-					<a className="btn btn-primary" href={INSTALL_URL} title={x.navInstallTitle}>
+					<a
+						className="btn btn-primary"
+						href={INSTALL_URL}
+						title={x.navInstallTitle}
+					>
 						{m.nav.install}
 					</a>
 				</span>
@@ -300,7 +314,7 @@ export default function Landing({ lang }: { lang: Lang }) {
 								) : (
 									<a
 										className="btn btn-primary"
-										href={`/api/billing/checkout?plan=${id}`}
+										href={`/api/billing/checkout?plan=${id}${lang === "ko" ? "&lang=ko" : ""}`}
 									>
 										{m.pricing.choose(copy.name)}
 									</a>
@@ -353,7 +367,10 @@ export default function Landing({ lang }: { lang: Lang }) {
 							<img src="/shield.svg" alt="" />
 							SlopGuard
 						</span>
-						<p className="muted" style={{ fontSize: 13, maxWidth: 260, marginTop: 12 }}>
+						<p
+							className="muted"
+							style={{ fontSize: 13, maxWidth: 260, marginTop: 12 }}
+						>
 							{x.footer.tag}
 						</p>
 					</div>
@@ -374,12 +391,16 @@ export default function Landing({ lang }: { lang: Lang }) {
 					</div>
 					<div className="footer-col">
 						<h4>{x.footer.company}</h4>
-						<a href={`${REPO_URL}/blob/main/LICENSE`}>{x.footer.links.license}</a>
+						<a href={`${REPO_URL}/blob/main/LICENSE`}>
+							{x.footer.links.license}
+						</a>
 						<a href={`${REPO_URL}/issues`}>Issues</a>
 					</div>
 				</div>
 				<div className="footer-bottom">
-					<span>© {new Date().getFullYear()} SlopGuard. {x.footer.rights}</span>
+					<span>
+						© {new Date().getFullYear()} SlopGuard. {x.footer.rights}
+					</span>
 					<span className="mono">{m.footer.tagline}</span>
 				</div>
 			</footer>

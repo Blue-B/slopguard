@@ -34,6 +34,11 @@ export function GET(req: Request) {
 		);
 	}
 
-	// Redirect straight to the hosted Polar checkout.
-	return NextResponse.redirect(link, { status: 302 });
+	// Redirect to the hosted Polar checkout. Remember the language so the
+	// post-payment success page (Polar redirects back) renders in it.
+	const res = NextResponse.redirect(link, { status: 302 });
+	if (url.searchParams.get("lang") === "ko") {
+		res.cookies.set("sg_lang", "ko", { sameSite: "lax", path: "/", maxAge: 3600 });
+	}
+	return res;
 }

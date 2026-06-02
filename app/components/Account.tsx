@@ -147,7 +147,9 @@ export default async function Account({
 						)}
 						<a
 							className="btn btn-primary btn-lg"
-							href={lang === "ko" ? "/api/auth/login?lang=ko" : "/api/auth/login"}
+							href={
+								lang === "ko" ? "/api/auth/login?lang=ko" : "/api/auth/login"
+							}
 						>
 							{t.signin}
 						</a>
@@ -264,7 +266,7 @@ export default async function Account({
 										) : (
 											<a
 												className="btn btn-primary"
-												href={`/api/billing/checkout?plan=${id}`}
+												href={`/api/billing/checkout?plan=${id}${lang === "ko" ? "&lang=ko" : ""}`}
 												style={{ justifyContent: "center" }}
 											>
 												{t.upgrade} {copy.name}
