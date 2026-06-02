@@ -181,8 +181,9 @@ export default async function Account({
 							{t.myAccount}
 						</h1>
 
+						<div className="account-top">
 						{/* profile */}
-						<div className="card account-narrow" style={{ marginBottom: 18 }}>
+						<div className="card">
 							<div style={{ display: "flex", alignItems: "center", gap: 14 }}>
 								{/* eslint-disable-next-line @next/next/no-img-element */}
 								<img
@@ -211,11 +212,19 @@ export default async function Account({
 						</div>
 
 						{/* current plan + billing */}
-						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>
-							{t.yourPlan}
-						</h2>
-						<div className="card account-narrow" style={{ marginBottom: 8 }}>
-							<div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+						<div className="card">
+							<div
+								className="muted mono"
+								style={{
+									fontSize: 11,
+									textTransform: "uppercase",
+									letterSpacing: "0.06em",
+									marginBottom: 10,
+								}}
+							>
+								{t.yourPlan}
+							</div>
+							<div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
 								<span style={{ fontSize: 22, fontWeight: 800 }}>
 									{PLANS[plan].name}
 								</span>
@@ -238,6 +247,7 @@ export default async function Account({
 								</div>
 							)}
 						</div>
+						</div>
 
 						{/* plans / upgrade inline */}
 						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>
@@ -252,7 +262,7 @@ export default async function Account({
 						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>
 							{t.reposTitle}
 						</h2>
-						<div className="card account-narrow">
+						<div className="card">
 							<p className="muted" style={{ fontSize: 14, margin: "0 0 14px" }}>
 								{t.reposNote}
 							</p>
@@ -276,7 +286,10 @@ export default async function Account({
 									))}
 								</ul>
 							) : (
-								<p className="muted" style={{ fontSize: 13.5, margin: "0 0 14px" }}>
+								<p
+									className="muted"
+									style={{ fontSize: 13.5, margin: "0 0 14px" }}
+								>
 									{t.noRepos}
 								</p>
 							)}

@@ -1010,3 +1010,16 @@ footer.site {
 .repo-tag { font-family: var(--mono); font-size: 10.5px; color: var(--muted); background: var(--surface-2); border: 1px solid var(--border-muted); border-radius: 999px; padding: 1px 8px; flex: 0 0 auto; }
 .repo-link { font-size: 13px; color: var(--green); white-space: nowrap; flex: 0 0 auto; }
 .repo-link:hover { text-decoration: underline; }
+
+/* ── Account: 2-up top (profile | current plan) ──────────────────── */
+.account-top {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
+	align-items: stretch;
+	margin-bottom: 8px;
+}
+.account-top .card { margin: 0; }
+@media (max-width: 760px) {
+	.account-top { grid-template-columns: 1fr; }
+}
