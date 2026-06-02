@@ -870,3 +870,134 @@ footer.site {
 }
 .dash-table tbody td { padding: 11px 16px; border-top: 1px solid var(--border-muted); }
 .dash-table tbody tr:first-child td { border-top: 0; }
+
+/* ── Account: keep detail cards readable while plans use full width ── */
+.account-narrow { max-width: 720px; }
+
+/* ── Detection-quality: metric notes + confusion matrix ───────────── */
+.bar-note { font-size: 12.5px; color: var(--muted); margin: 7px 0 0; line-height: 1.5; }
+.cmatrix-wrap {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: 14px;
+	padding: 20px;
+	margin: 0;
+}
+.cmatrix-title {
+	font-family: var(--mono);
+	font-size: 12.5px;
+	color: var(--muted);
+	margin: 0 0 14px;
+}
+.cmatrix {
+	display: grid;
+	grid-template-columns: auto 1fr 1fr;
+	gap: 8px;
+	align-items: stretch;
+}
+.cm-axis { font-size: 11px; color: var(--muted); display: flex; align-items: center; }
+.cm-top { justify-content: center; text-align: center; }
+.cm-left { justify-content: flex-end; text-align: right; padding-right: 6px; line-height: 1.2; }
+.cm-cell {
+	border: 1px solid var(--border-muted);
+	border-radius: 10px;
+	padding: 14px 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 3px;
+	text-align: center;
+}
+.cm-cell b { font-family: var(--mono); font-size: 26px; font-weight: 800; line-height: 1; }
+.cm-cell span { font-size: 11px; color: var(--muted); }
+.cm-cell.good { background: var(--green-dim); border-color: rgba(63, 185, 80, 0.3); }
+.cm-cell.good b { color: var(--green); }
+.cm-cell.warn { background: rgba(210, 153, 34, 0.12); border-color: rgba(210, 153, 34, 0.38); }
+.cm-cell.warn b { color: #d29922; }
+.cmatrix-legend {
+	font-size: 12.5px;
+	color: var(--muted);
+	margin: 14px 0 0;
+	line-height: 1.65;
+}
+
+/* ── How it works: pipeline / architecture flow ───────────────────── */
+.pipe {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	max-width: 1080px;
+	margin: 0 auto;
+}
+.pipe-step { display: flex; align-items: stretch; flex: 1 1 230px; min-width: 220px; }
+.pipe-node {
+	flex: 1;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	padding: 16px 16px 18px;
+	display: flex;
+	flex-direction: column;
+}
+.pipe-engine {
+	border-color: rgba(63, 185, 80, 0.4);
+	background: linear-gradient(180deg, rgba(63, 185, 80, 0.06), var(--surface));
+}
+.pipe-k {
+	font-family: var(--mono);
+	font-size: 10.5px;
+	text-transform: uppercase;
+	letter-spacing: 0.09em;
+	color: var(--green);
+}
+.pipe-t { font-size: 15px; margin: 7px 0 0; color: var(--fg); letter-spacing: -0.01em; }
+.pipe-d { font-size: 13px; color: var(--muted); margin: 8px 0 0; line-height: 1.55; }
+.pipe-sigs { margin-top: 12px; display: grid; gap: 9px; }
+.pipe-sig {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 9px;
+	font-size: 12.5px;
+	color: #c9d1d9;
+	line-height: 1.5;
+}
+.pipe-dot {
+	width: 6px; height: 6px; border-radius: 50%;
+	background: var(--green); margin-top: 6px;
+}
+.pipe-score {
+	margin-top: 12px;
+	padding-top: 11px;
+	border-top: 1px solid var(--border-muted);
+	font-family: var(--mono);
+	font-size: 12.5px;
+	color: var(--green);
+}
+.pipe-branch { margin-top: 12px; display: grid; gap: 6px; }
+.pipe-branch span {
+	font-family: var(--mono);
+	font-size: 12px;
+	padding: 5px 9px;
+	border-radius: 7px;
+}
+.b-clean { background: var(--surface-2); color: var(--muted); border: 1px solid var(--border-muted); }
+.b-flag { background: var(--green-dim); color: var(--green); border: 1px solid rgba(63, 185, 80, 0.3); }
+.pipe-tags { margin-top: auto; padding-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+.pipe-tags code {
+	font-family: var(--mono);
+	font-size: 11px;
+	color: #c9d1d9;
+	background: var(--surface-2);
+	border: 1px solid var(--border-muted);
+	border-radius: 6px;
+	padding: 3px 7px;
+}
+.pipe-arrow { flex: 0 0 30px; display: flex; align-items: center; justify-content: center; }
+.pipe-arrow::before { content: "\2192"; font-size: 17px; color: #6e7681; }
+@media (max-width: 900px) {
+	.pipe { flex-direction: column; }
+	.pipe-step { flex-direction: column; flex-basis: auto; }
+	.pipe-arrow { flex: 0 0 26px; width: 100%; }
+	.pipe-arrow::before { content: "\2193"; }
+}

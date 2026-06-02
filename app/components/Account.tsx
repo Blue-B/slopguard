@@ -122,7 +122,7 @@ export default async function Account({
 				</span>
 			</nav>
 
-			<main className="wide" style={{ maxWidth: 720, paddingTop: 52 }}>
+			<main className="wide" style={{ maxWidth: 1040, paddingTop: 52 }}>
 				{!session || !plan ? (
 					<div style={{ maxWidth: 480 }}>
 						<span className="eyebrow">
@@ -167,7 +167,7 @@ export default async function Account({
 						</h1>
 
 						{/* profile */}
-						<div className="card" style={{ marginBottom: 18 }}>
+						<div className="card account-narrow" style={{ marginBottom: 18 }}>
 							<div style={{ display: "flex", alignItems: "center", gap: 14 }}>
 								{/* eslint-disable-next-line @next/next/no-img-element */}
 								<img
@@ -199,7 +199,7 @@ export default async function Account({
 						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>
 							{t.yourPlan}
 						</h2>
-						<div className="card" style={{ marginBottom: 8 }}>
+						<div className="card account-narrow" style={{ marginBottom: 8 }}>
 							<div style={{ display: "flex", alignItems: "center", gap: 10 }}>
 								<span style={{ fontSize: 22, fontWeight: 800 }}>
 									{PLANS[plan].name}
@@ -237,7 +237,7 @@ export default async function Account({
 						<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>
 							{t.reposTitle}
 						</h2>
-						<div className="card">
+						<div className="card account-narrow">
 							<p className="muted" style={{ fontSize: 14, marginTop: 0 }}>
 								{t.reposNote}
 							</p>

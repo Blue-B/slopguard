@@ -19,19 +19,56 @@ const EX = {
 		],
 		quality: {
 			title: "Measured, not hand-waved",
-			sub: "Scored against a labelled 25-case golden set on every commit. Heuristics-only, no LLM key.",
+			sub: "Every commit re-scores SlopGuard against a hand-labelled golden set of 25 cases, 13 real slop and 12 legit contributions, at the default threshold of 50. Heuristics only, no LLM key. Here is exactly how it did.",
 			bars: [
-				{ label: "Precision", val: "100%", pct: 100 },
-				{ label: "Recall", val: "92%", pct: 92 },
-				{ label: "F1", val: "96%", pct: 96 },
+				{ label: "Precision", val: "100%", pct: 100, note: "Of everything it flagged, all of it was real slop. Zero false alarms." },
+				{ label: "Recall", val: "92%", pct: 92, note: "It caught 12 of the 13 real slop cases." },
+				{ label: "F1", val: "96%", pct: 96, note: "Precision and recall combined into one score." },
 			],
-			big: "0",
-			bigCap:
-				"false positives on the golden set at the default threshold (50).",
-			rows: [
-				["threshold", "50 / 100"],
-				["false negatives", "1 / 13"],
-				["mode", "heuristics-only"],
+			matrixTitle: "What happened to all 25 cases",
+			axisTop: ["Actually slop", "Actually legit"],
+			rowLabels: ["Flagged as slop", "Passed as clean"],
+			cells: [
+				{ n: "12", k: "caught", tone: "good" },
+				{ n: "0", k: "false alarms", tone: "good" },
+				{ n: "1", k: "missed", tone: "warn" },
+				{ n: "12", k: "left alone", tone: "good" },
+			],
+			legend:
+				"24 of 25 correct. The single miss was real slop that slipped through, not a real contributor wrongly flagged. It never once punished a genuine PR.",
+		},
+		pipeline: {
+			intro:
+				"A pull request or issue flows through one short pipeline. No CI job to wire up, no config to write, no server for you to run.",
+			nodes: [
+				{
+					k: "event",
+					t: "GitHub sends the event",
+					d: "A PR or issue is opened, updated, or commented on.",
+					tags: ["pull_request", "issues", "issue_comment"],
+				},
+				{
+					k: "detection agent",
+					t: "Three signals, one score",
+					sigs: [
+						"Rule heuristics, boilerplate, emoji-marketing headers, empty body, prompt-injection",
+						"Provenance, generator hints, a prompt fingerprint, leaked assistant phrases",
+						"LLM judge (optional), degrades to heuristics on rate limits",
+					],
+					score: "blended, clamped 0 to 100",
+				},
+				{
+					k: "policy gate",
+					t: "Your threshold decides",
+					d: "The score is checked against your .github/SLOP_POLICY.yml.",
+					branch: ["below: nothing happens", "at or above: act"],
+				},
+				{
+					k: "you decide",
+					t: "Labelled, never auto-closed",
+					d: "A slop-quarantine label and a review comment with the reasons. You always have the final word.",
+					tags: ["/slop approve", "reject", "false-positive"],
+				},
 			],
 		},
 		footer: {
@@ -65,18 +102,56 @@ const EX = {
 		],
 		quality: {
 			title: "감으로가 아니라, 측정합니다",
-			sub: "라벨링된 25개 골든셋으로 매 커밋마다 채점합니다. 휴리스틱 전용, LLM 키 없이.",
+			sub: "매 커밋마다, 사람이 직접 라벨을 단 25개 골든셋(진짜 슬롭 13건 + 정상 기여 12건)으로 임계값 50에서 다시 채점합니다. LLM 키 없이 휴리스틱만으로요. 결과는 이렇습니다.",
 			bars: [
-				{ label: "정밀도", val: "100%", pct: 100 },
-				{ label: "재현율", val: "92%", pct: 92 },
-				{ label: "F1", val: "96%", pct: 96 },
+				{ label: "정밀도", val: "100%", pct: 100, note: "슬롭이라고 표시한 건 전부 진짜 슬롭이었습니다. 오탐 0건." },
+				{ label: "재현율", val: "92%", pct: 92, note: "실제 슬롭 13건 중 12건을 잡아냈습니다." },
+				{ label: "F1", val: "96%", pct: 96, note: "정밀도와 재현율을 하나로 합친 점수." },
 			],
-			big: "0",
-			bigCap: "기본 임계값(50)에서 골든셋 오탐(false positive) 건수.",
-			rows: [
-				["임계값", "50 / 100"],
-				["미탐(false negative)", "1 / 13"],
-				["모드", "휴리스틱 전용"],
+			matrixTitle: "25개 케이스 전부, 어떻게 됐나",
+			axisTop: ["실제 슬롭", "실제 정상"],
+			rowLabels: ["슬롭으로 표시", "통과시킴"],
+			cells: [
+				{ n: "12", k: "정확히 잡음", tone: "good" },
+				{ n: "0", k: "오탐", tone: "good" },
+				{ n: "1", k: "놓침", tone: "warn" },
+				{ n: "12", k: "그대로 통과", tone: "good" },
+			],
+			legend:
+				"25건 중 24건 정확. 유일하게 놓친 1건도 빠져나간 슬롭이지, 진짜 기여자를 잘못 막은 게 아닙니다. 정상 PR을 막은 적은 한 번도 없습니다.",
+		},
+		pipeline: {
+			intro:
+				"PR이나 이슈가 들어오면 짧은 파이프라인 하나를 거칩니다. 붙일 CI 잡도, 작성할 설정도, 직접 돌릴 서버도 없습니다.",
+			nodes: [
+				{
+					k: "이벤트",
+					t: "GitHub이 이벤트를 보냄",
+					d: "PR이나 이슈가 열리거나, 수정되거나, 코멘트가 달립니다.",
+					tags: ["pull_request", "issues", "issue_comment"],
+				},
+				{
+					k: "탐지 에이전트",
+					t: "세 가지 신호, 하나의 점수",
+					sigs: [
+						"규칙 휴리스틱 — 보일러플레이트, 이모지 마케팅 헤더, 빈 본문, 프롬프트 인젝션",
+						"출처 추적 — 생성기 힌트, 프롬프트 지문, 누출된 어시스턴트 문구",
+						"LLM 판정(선택) — 레이트리밋 시 휴리스틱으로 폴백",
+					],
+					score: "블렌딩 후 0~100으로 보정",
+				},
+				{
+					k: "정책 게이트",
+					t: "임계값이 판단",
+					d: "점수를 레포의 .github/SLOP_POLICY.yml과 대조합니다.",
+					branch: ["미만: 아무 일 없음", "이상: 조치"],
+				},
+				{
+					k: "사람이 결정",
+					t: "라벨만, 절대 자동 닫지 않음",
+					d: "slop-quarantine 라벨과 근거가 담긴 리뷰 코멘트. 최종 결정은 언제나 당신 몫입니다.",
+					tags: ["/slop approve", "reject", "false-positive"],
+				},
 			],
 		},
 		footer: {
@@ -98,6 +173,16 @@ const EX = {
 		},
 	},
 } as const;
+
+type PipeNode = {
+	k: string;
+	t: string;
+	d?: string;
+	sigs?: readonly string[];
+	score?: string;
+	branch?: readonly string[];
+	tags?: readonly string[];
+};
 
 function ScoreRing({ score }: { score: number }) {
 	const r = 56;
@@ -254,21 +339,41 @@ export default function Landing({ lang }: { lang: Lang }) {
 								<div className="bar-track">
 									<div className="bar-fill" style={{ width: `${b.pct}%` }} />
 								</div>
+								<p className="bar-note">{b.note}</p>
 							</div>
 						))}
 					</div>
-					<div className="quality-aside">
-						<div className="big">{x.quality.big}</div>
-						<div className="cap">{x.quality.bigCap}</div>
-						<div style={{ marginTop: 16 }}>
-							{x.quality.rows.map(([k, v]) => (
-								<div className="row" key={k}>
-									<span>{k}</span>
-									<span className="mono">{v}</span>
-								</div>
-							))}
+					<figure className="cmatrix-wrap">
+						<figcaption className="cmatrix-title">
+							{x.quality.matrixTitle}
+						</figcaption>
+						<div className="cmatrix">
+							<span className="cm-corner" aria-hidden="true" />
+							<span className="cm-axis cm-top">{x.quality.axisTop[0]}</span>
+							<span className="cm-axis cm-top">{x.quality.axisTop[1]}</span>
+
+							<span className="cm-axis cm-left">{x.quality.rowLabels[0]}</span>
+							<div className={`cm-cell ${x.quality.cells[0].tone}`}>
+								<b>{x.quality.cells[0].n}</b>
+								<span>{x.quality.cells[0].k}</span>
+							</div>
+							<div className={`cm-cell ${x.quality.cells[1].tone}`}>
+								<b>{x.quality.cells[1].n}</b>
+								<span>{x.quality.cells[1].k}</span>
+							</div>
+
+							<span className="cm-axis cm-left">{x.quality.rowLabels[1]}</span>
+							<div className={`cm-cell ${x.quality.cells[2].tone}`}>
+								<b>{x.quality.cells[2].n}</b>
+								<span>{x.quality.cells[2].k}</span>
+							</div>
+							<div className={`cm-cell ${x.quality.cells[3].tone}`}>
+								<b>{x.quality.cells[3].n}</b>
+								<span>{x.quality.cells[3].k}</span>
+							</div>
 						</div>
-					</div>
+						<p className="cmatrix-legend">{x.quality.legend}</p>
+					</figure>
 				</div>
 			</section>
 
@@ -283,18 +388,46 @@ export default function Landing({ lang }: { lang: Lang }) {
 
 			<section id="how" className="wide section">
 				<h2 className="section-title">{m.how.title}</h2>
-				<p className="section-sub">{m.how.sub}</p>
-				<div className="steps">
-					{m.how.steps.map((s, i) => (
-						// eslint-disable-next-line react/no-array-index-key
-						<div className="step" key={i}>
-							<span className="num" />
-							<p>
-								{s}
-								<span className="step-d">{x.howDetail[i]}</span>
-							</p>
-						</div>
-					))}
+				<p className="section-sub">{x.pipeline.intro}</p>
+				<div className="pipe">
+					{x.pipeline.nodes.map((node, i) => {
+						const n = node as PipeNode;
+						const last = i === x.pipeline.nodes.length - 1;
+						return (
+							<div className="pipe-step" key={n.k}>
+								<div className={`pipe-node${n.sigs ? " pipe-engine" : ""}`}>
+									<span className="pipe-k">{n.k}</span>
+									<b className="pipe-t">{n.t}</b>
+									{n.d && <p className="pipe-d">{n.d}</p>}
+									{n.sigs && (
+										<div className="pipe-sigs">
+											{n.sigs.map((s) => (
+												<div className="pipe-sig" key={s}>
+													<span className="pipe-dot" />
+													<span>{s}</span>
+												</div>
+											))}
+											<div className="pipe-score">{n.score}</div>
+										</div>
+									)}
+									{n.branch && (
+										<div className="pipe-branch">
+											<span className="b-clean">{n.branch[0]}</span>
+											<span className="b-flag">{n.branch[1]}</span>
+										</div>
+									)}
+									{n.tags && (
+										<div className="pipe-tags">
+											{n.tags.map((tg) => (
+												<code key={tg}>{tg}</code>
+											))}
+										</div>
+									)}
+								</div>
+								{!last && <span className="pipe-arrow" aria-hidden="true" />}
+							</div>
+						);
+					})}
 				</div>
 			</section>
 
