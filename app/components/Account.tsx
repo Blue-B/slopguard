@@ -6,9 +6,15 @@ import { PLANS, type PlanId } from "@/lib/billing/plans";
 import type { Lang } from "@/lib/i18n";
 
 import { INSTALL_URL, PORTAL_URL } from "@/lib/config";
-import { listOwnerRepos, type OwnerRepo } from "@/lib/github/storage";
+import {
+	getOwnerSlopStats,
+	listOwnerRepos,
+	type OwnerRepo,
+	type OwnerSlopStats,
+} from "@/lib/github/storage";
 import PricingPlans from "./PricingPlans";
 import AppNav from "./AppNav";
+import RepoLookup from "../dashboard/RepoLookup";
 
 const T = {
 	en: {
@@ -40,6 +46,22 @@ const T = {
 		noRepos: "SlopGuard isn't installed on any of your repositories yet.",
 		logout: "Sign out",
 		errorNote: "Sign-in did not complete. Please try again.",
+		activityTitle: "Activity",
+		activitySub: "who cleared what, when (live from GitHub)",
+		statQ: "quarantined",
+		statC: "cleared",
+		statO: "open",
+		statR: "repos",
+		colItem: "Item",
+		colAuthor: "Author",
+		colStatus: "Status",
+		colWhen: "When",
+		statusQ: "quarantined",
+		statusC: "cleared",
+		noActivity: "No activity yet.",
+		lookupTitle: "Look up a public repo",
+		lookupSub:
+			"View the slop history of any public repo where SlopGuard is installed.",
 	},
 	ko: {
 		home: "홈",
@@ -70,6 +92,22 @@ const T = {
 		noRepos: "아직 어느 레포에도 SlopGuard가 설치되어 있지 않습니다.",
 		logout: "로그아웃",
 		errorNote: "로그인이 완료되지 않았습니다. 다시 시도해 주세요.",
+		activityTitle: "활동",
+		activitySub: "누가 언제 무엇을 처리했는지 (GitHub에서 실시간)",
+		statQ: "격리",
+		statC: "해제",
+		statO: "열림",
+		statR: "레포",
+		colItem: "항목",
+		colAuthor: "작성자",
+		colStatus: "처리",
+		colWhen: "시점",
+		statusQ: "격리됨",
+		statusC: "해제됨",
+		noActivity: "아직 활동이 없습니다.",
+		lookupTitle: "공개 레포 조회",
+		lookupSub:
+			"SlopGuard가 설치된 공개 레포라면 어떤 레포든 슬롭 기록을 볼 수 있습니다.",
 	},
 } as const;
 
@@ -101,6 +139,15 @@ function PlanBadge({ plan, label }: { plan: PlanId; label?: string }) {
 	);
 }
 
+function Stat({ label, value }: { label: string; value: number }) {
+	return (
+		<div className="card" style={{ textAlign: "center", flex: 1, margin: 0 }}>
+			<div style={{ fontSize: 30, fontWeight: 800 }}>{value}</div>
+			<div style={{ color: "var(--muted)", fontSize: 13 }}>{label}</div>
+		</div>
+	);
+}
+
 export default async function Account({
 	lang,
 	error,
@@ -116,11 +163,20 @@ export default async function Account({
 		? await planForOwner(session.login)
 		: null;
 	let repos: OwnerRepo[] = [];
+	const canOrg = plan ? PLANS[plan].orgDashboard : false;
+	let orgStats: OwnerSlopStats | null = null;
 	if (session) {
 		try {
 			repos = await listOwnerRepos(session.login);
 		} catch {
 			repos = [];
+		}
+		if (canOrg && plan) {
+			try {
+				orgStats = await getOwnerSlopStats(session.login, PLANS[plan].maxRepos);
+			} catch {
+				orgStats = null;
+			}
 		}
 	}
 
@@ -297,6 +353,85 @@ export default async function Account({
 							<a className="btn btn-ghost" href={INSTALL_URL}>
 								{t.manageRepos}
 							</a>
+						</div>
+
+						{canOrg && orgStats && (
+							<>
+								<h2 style={{ fontSize: 16, margin: "26px 0 10px" }}>
+									{t.activityTitle}{" "}
+									<span
+										className="muted"
+										style={{ fontSize: 12, fontWeight: 400 }}
+									>
+										({t.activitySub})
+									</span>
+								</h2>
+								<div
+									style={{
+										display: "flex",
+										gap: 12,
+										margin: "0 0 14px",
+										flexWrap: "wrap",
+									}}
+								>
+									<Stat label={t.statQ} value={orgStats.quarantined} />
+									<Stat label={t.statC} value={orgStats.cleared} />
+									<Stat label={t.statO} value={orgStats.open} />
+									<Stat label={t.statR} value={orgStats.repoCount} />
+								</div>
+								<div className="card" style={{ padding: 0, overflow: "hidden" }}>
+									{orgStats.recent.length === 0 ? (
+										<p className="muted" style={{ padding: 16, margin: 0 }}>
+											{t.noActivity}
+										</p>
+									) : (
+										<table className="dash-table">
+											<thead>
+												<tr>
+													<th>{t.colItem}</th>
+													<th>{t.colAuthor}</th>
+													<th>{t.colStatus}</th>
+													<th>{t.colWhen}</th>
+												</tr>
+											</thead>
+											<tbody>
+												{orgStats.recent.map((it) => (
+													<tr key={it.url}>
+														<td style={{ maxWidth: 320 }}>
+															<a href={it.url}>
+																{it.kind === "pull_request" ? "PR" : "#"}
+																{it.number}
+															</a>{" "}
+															<span className="muted">{it.title}</span>
+														</td>
+														<td>@{it.author}</td>
+														<td>
+															<span className="mono" style={{ fontSize: 12 }}>
+																{it.labels.includes("slop-cleared")
+																	? t.statusC
+																	: t.statusQ}
+															</span>
+														</td>
+														<td className="muted" style={{ fontSize: 12 }}>
+															{new Date(it.updatedAt).toISOString().slice(0, 10)}
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+									)}
+								</div>
+							</>
+						)}
+
+						<h2 style={{ fontSize: 16, margin: "26px 0 8px" }}>
+							{t.lookupTitle}
+						</h2>
+						<p className="muted" style={{ fontSize: 13.5, margin: "0 0 10px" }}>
+							{t.lookupSub}
+						</p>
+						<div className="account-narrow">
+							<RepoLookup lang={lang} />
 						</div>
 
 						<div style={{ marginTop: 28 }}>

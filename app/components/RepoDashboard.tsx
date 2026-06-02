@@ -19,7 +19,7 @@ const T = {
 		colStatus: "Status",
 		quarantined: "quarantined",
 		cleared: "cleared",
-		allRepos: "All repositories",
+		allRepos: "My Account",
 		stats: { q: "quarantined", c: "cleared", o: "open", x: "closed" },
 		install: "install the App",
 	},
@@ -38,7 +38,7 @@ const T = {
 		colStatus: "처리",
 		quarantined: "격리됨",
 		cleared: "해제됨",
-		allRepos: "전체 레포지토리",
+		allRepos: "마이페이지",
 		stats: { q: "격리", c: "해제", o: "열림", x: "닫힘" },
 		install: "앱 설치하기",
 	},
@@ -64,7 +64,7 @@ export default async function RepoDashboard({
 }) {
 	const t = T[lang];
 	const installHref = lang === "ko" ? "/ko/install" : "/install";
-	const dashHref = lang === "ko" ? "/ko/dashboard" : "/dashboard";
+	const backHref = lang === "ko" ? "/ko/account" : "/account";
 	const full = `${owner}/${repo}`;
 
 	let stats: RepoSlopStats | null = null;
@@ -176,7 +176,7 @@ export default async function RepoDashboard({
 						</div>
 
 						<p style={{ marginTop: 18 }}>
-							<Link className="muted" href={dashHref} style={{ fontSize: 14 }}>
+							<Link className="muted" href={backHref} style={{ fontSize: 14 }}>
 								&larr; {t.allRepos}
 							</Link>
 						</p>

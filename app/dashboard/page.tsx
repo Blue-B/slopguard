@@ -1,10 +1,7 @@
-import type { Metadata } from "next";
-import DashboardHome from "@/app/components/DashboardHome";
+import { redirect } from "next/navigation";
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "Dashboard" };
-
-export default function DashboardPage() {
-	return <DashboardHome lang="en" />;
+// The dashboard was merged into My Account (single hub). Keep the URL working
+// for old links by redirecting.
+export default function DashboardIndex() {
+	redirect("/account");
 }

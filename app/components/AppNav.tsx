@@ -17,7 +17,6 @@ export default function AppNav({
 }) {
 	const ko = lang === "ko";
 	const home = ko ? "/ko" : "/";
-	const dash = ko ? "/ko/dashboard" : "/dashboard";
 	const acct = ko ? "/ko/account" : "/account";
 	return (
 		<nav className="nav">
@@ -27,7 +26,7 @@ export default function AppNav({
 				SlopGuard
 			</Link>
 			<span className="nav-links">
-				<Link href={dash}>{ko ? "대시보드" : "Dashboard"}</Link>
+				<Link href={home}>{ko ? "홈" : "Home"}</Link>
 				<Link href={acct}>{ko ? "마이페이지" : "Account"}</Link>
 				<span className="lang-switch">
 					<Link className={lang === "en" ? "on" : ""} href={enHref}>
