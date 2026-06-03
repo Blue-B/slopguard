@@ -61,7 +61,7 @@ const T = {
 		stateOpen: "열림",
 		stateClosed: "닫힘",
 		keyQ: "봇이 슬롭으로 의심해 표시한 항목",
-		keyC: "메인테이너가 정상 기여로 확인한 항목",
+		keyC: "관리자가 정상 기여로 확인한 항목",
 		keyState: "그 PR이나 이슈의 GitHub 열림/닫힘 상태",
 	},
 } as const;

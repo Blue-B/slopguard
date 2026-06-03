@@ -145,7 +145,7 @@ export const EX = {
 				{
 					ico: "~ 검토 시간",
 					t: "검토 시간만 소모",
-					d: "메인테이너는 결국 읽고, 되묻고, 쓸모없다는 걸 확인해야 합니다.",
+					d: "관리자는 결국 읽고, 되묻고, 쓸모없다는 걸 확인해야 합니다.",
 				},
 				{
 					ico: "x10 레포",
@@ -375,7 +375,7 @@ export default function Landing({ lang }: { lang: Lang }) {
 			<section className="wide section">
 				<SectionHead
 					no="02"
-					kicker={lang === "ko" ? "메인테이너 화면" : "what a maintainer sees"}
+					kicker={lang === "ko" ? "관리자 화면" : "what a maintainer sees"}
 					title={m.verdict.title}
 					sub={m.verdict.sub}
 				/>
@@ -483,36 +483,36 @@ export default function Landing({ lang }: { lang: Lang }) {
 							</div>
 						))}
 					</div>
-					<figure className="cmatrix-wrap">
-						<figcaption className="cmatrix-title">
+					<figure className="cases">
+						<figcaption className="cases-title">
 							{x.quality.matrixTitle}
 						</figcaption>
-						<div className="cmatrix">
-							<span className="cm-corner" aria-hidden="true" />
-							<span className="cm-axis cm-top">{x.quality.axisTop[0]}</span>
-							<span className="cm-axis cm-top">{x.quality.axisTop[1]}</span>
-
-							<span className="cm-axis cm-left">{x.quality.rowLabels[0]}</span>
-							<div className={`cm-cell ${x.quality.cells[0].tone}`}>
-								<b>{x.quality.cells[0].n}</b>
-								<span>{x.quality.cells[0].k}</span>
-							</div>
-							<div className={`cm-cell ${x.quality.cells[1].tone}`}>
-								<b>{x.quality.cells[1].n}</b>
-								<span>{x.quality.cells[1].k}</span>
-							</div>
-
-							<span className="cm-axis cm-left">{x.quality.rowLabels[1]}</span>
-							<div className={`cm-cell ${x.quality.cells[2].tone}`}>
-								<b>{x.quality.cells[2].n}</b>
-								<span>{x.quality.cells[2].k}</span>
-							</div>
-							<div className={`cm-cell ${x.quality.cells[3].tone}`}>
-								<b>{x.quality.cells[3].n}</b>
-								<span>{x.quality.cells[3].k}</span>
-							</div>
+						<div className="case-grid" aria-hidden="true">
+							{Array.from({ length: 25 }).map((_, i) => {
+								const cls =
+									i < 12 ? "caught" : i === 12 ? "miss" : "passed";
+								return <span key={i} className={`case ${cls}`} />;
+							})}
 						</div>
-						<p className="cmatrix-legend">{x.quality.legend}</p>
+						<ul className="cases-legend">
+							<li className="caught">
+								<span className="sw" />
+								{lang === "ko" ? "슬롭 정확히 잡음" : "slop caught"} <b>12</b>
+							</li>
+							<li className="passed">
+								<span className="sw" />
+								{lang === "ko" ? "정상 통과" : "legit passed"} <b>12</b>
+							</li>
+							<li className="miss">
+								<span className="sw" />
+								{lang === "ko" ? "놓침" : "missed"} <b>1</b>
+							</li>
+							<li className="fp">
+								<span className="sw" />
+								{lang === "ko" ? "잘못 막음" : "false alarm"} <b>0</b>
+							</li>
+						</ul>
+						<p className="cases-note">{x.quality.legend}</p>
 					</figure>
 				</div>
 			</section>
@@ -537,11 +537,16 @@ export default function Landing({ lang }: { lang: Lang }) {
 
 			<section className="outro">
 				{/* eslint-disable-next-line @next/next/no-img-element */}
-				<img className="outro-wave" src="/wave-circuit.png" alt="" aria-hidden="true" />
+				<img
+					className="outro-wave"
+					src="/wave-circuit.png"
+					alt=""
+					aria-hidden="true"
+				/>
 				<div className="wide outro-inner">
 					<h2 className="outro-title">
 						{lang === "ko"
-							? "메인테이너 시간을 슬롭에 빼앗기지 마세요"
+							? "관리자 시간을 슬롭에 빼앗기지 마세요"
 							: "Stop losing maintainer time to slop."}
 					</h2>
 					<p className="outro-sub">
@@ -563,7 +568,9 @@ export default function Landing({ lang }: { lang: Lang }) {
 					<div className="outro-sig">
 						<span>slopguard</span>
 						<span>MIT licensed</span>
-						<span>{lang === "ko" ? "자동으로 닫은 PR 0건" : "0 auto-closed PRs"}</span>
+						<span>
+							{lang === "ko" ? "자동으로 닫은 PR 0건" : "0 auto-closed PRs"}
+						</span>
 					</div>
 				</div>
 			</section>

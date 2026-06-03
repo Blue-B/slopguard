@@ -198,7 +198,7 @@ export const messages: Record<Lang, Messages> = {
 		htmlLang: "ko",
 		nav: { how: "동작 방식", pricing: "가격", install: "설치" },
 		hero: {
-			eyebrow: "메인테이너 번아웃, 이제 그만",
+			eyebrow: "관리자 번아웃, 이제 그만",
 			h1a: "AI 슬롭으로부터\n",
 			h1b: "레포",
 			h1c: "를 지키세요",
@@ -215,7 +215,7 @@ export const messages: Record<Lang, Messages> = {
 			{ n: "MIT", l: "무료 셀프호스팅" },
 		],
 		verdict: {
-			title: "메인테이너가 보는 화면",
+			title: "관리자가 보는 화면",
 			sub: "모든 기여는 0에서 100 사이의 슬롭 점수와 그 근거, 출처 추적 정보를 받습니다. SlopGuard는 라벨과 코멘트만 달고, 결정은 당신이 합니다.",
 			badge: "슬롭 가능성 높음",
 			reasons: [
@@ -224,7 +224,7 @@ export const messages: Record<Lang, Messages> = {
 				"뻔한 자동생성 제목과 빈 설명",
 				"출처: 프롬프트 지문 b01706d4, 기계생성",
 			],
-			cmdPre: "메인테이너가 댓글로",
+			cmdPre: "관리자가 댓글로",
 			cmdOr: "또는",
 		},
 		pricing: {
@@ -249,7 +249,7 @@ export const messages: Record<Lang, Messages> = {
 				},
 				pro: {
 					name: "Pro",
-					tagline: "비공개 레포와 더 높은 한도가 필요한 메인테이너용.",
+					tagline: "비공개 레포와 더 높은 한도가 필요한 관리자용.",
 					features: [
 						"Free의 모든 기능",
 						"비공개 레포",
@@ -292,11 +292,11 @@ export const messages: Record<Lang, Messages> = {
 				"에이전트가 정적 휴리스틱(보일러플레이트, 이모지 헤더, 빈 본문, 프롬프트 인젝션)과 선택적 LLM 판정을 실행합니다.",
 				"0에서 100점으로 채점하고 출처를 추출한 뒤 레포의 .github/SLOP_POLICY.yml을 적용합니다.",
 				"임계값 이상이면 slop-quarantine 라벨과 이유를 설명하는 리뷰 코멘트를 답니다.",
-				"메인테이너가 /slop approve, /slop reject, /slop false-positive로 답합니다. SlopGuard가 대신 결정하지 않습니다.",
+				"관리자가 /slop approve, /slop reject, /slop false-positive로 답합니다. SlopGuard가 대신 결정하지 않습니다.",
 			],
 		},
 		features: {
-			title: "메인테이너를 위해",
+			title: "오픈소스 관리자를 위해",
 			sub: "기여자를 존중하고, 절대 무리하게 닫지 않는 분류 도구.",
 			items: [
 				{
@@ -307,7 +307,7 @@ export const messages: Record<Lang, Messages> = {
 				{
 					ico: "/slop approve",
 					t: "사람이 최종 결정",
-					d: "격리 라벨과 리뷰 코멘트만 답니다. 메인테이너의 명시적 명령 없이는 아무것도 닫지 않습니다.",
+					d: "격리 라벨과 리뷰 코멘트만 답니다. 관리자의 명시적 명령 없이는 아무것도 닫지 않습니다.",
 				},
 				{
 					ico: "provenance:",
@@ -331,6 +331,6 @@ export const messages: Record<Lang, Messages> = {
 				},
 			],
 		},
-		footer: { tagline: "기계생성 노이즈에 파묻힌 메인테이너를 위해" },
+		footer: { tagline: "기계가 찍어낸 노이즈에 파묻히지 않게" },
 	},
 };

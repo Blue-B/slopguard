@@ -1,7 +1,6 @@
 import { REPO_URL } from "@/lib/config";
 import type { Lang } from "@/lib/i18n";
 import MarketingNav from "./MarketingNav";
-import PageHero from "./PageHero";
 import RevealOnScroll from "./RevealOnScroll";
 import PricingPlans from "./PricingPlans";
 import SiteFooter from "./SiteFooter";
@@ -39,25 +38,34 @@ export default function PricingBody({ lang }: { lang: Lang }) {
 				active="pricing"
 			/>
 			<RevealOnScroll />
-			<PageHero
-				path={ko ? "// slopguard.app/ko/pricing" : "// slopguard.app/pricing"}
-				eyebrow={t.eyebrow}
-				title={t.h1}
-				sub={t.sub}
-			/>
+			<header className="wide pricing-hero">
+				<div className="pricing-hero-copy">
+					<span className="eyebrow">{t.eyebrow}</span>
+					<h1 className="page-h1">{t.h1}</h1>
+					<p className="page-sub">{t.sub}</p>
+				</div>
+				<figure className="plate pricing-plate">
+					<figcaption className="plate-bar">
+						<span>{ko ? "공정한 가치 교환" : "fair value exchange"}</span>
+						<span className="plate-coord">fig.03</span>
+					</figcaption>
+					<div className="plate-art">
+						<span className="plate-tag">FREE / PRO / TEAM / ENTERPRISE</span>
+						{/* eslint-disable-next-line @next/next/no-img-element */}
+						<img src="/scale-circuit.png" alt="" />
+						<span className="plate-scan" aria-hidden="true" />
+					</div>
+				</figure>
+			</header>
 
-			<section className="wide" style={{ marginTop: 8 }}>
+			<section className="wide" style={{ marginTop: 56 }}>
 				<PricingPlans lang={lang} />
 			</section>
 
-			<section className="wide" style={{ marginTop: 32 }}>
-				<div className="card">
-					<h3 style={{ marginTop: 0 }}>{t.whyTitle}</h3>
-					<p className="muted" style={{ fontSize: 14 }}>
-						{t.why}
-					</p>
-				</div>
-				<p className="section-sub" style={{ fontSize: 13 }}>
+			<section className="wide why-pay">
+				<h3>{t.whyTitle}</h3>
+				<p>{t.why}</p>
+				<p className="why-q">
 					{t.qPre}
 					<a href={`${REPO_URL}/issues`}>{t.qLink}</a>
 					{t.qPost}

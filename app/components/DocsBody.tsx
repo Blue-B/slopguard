@@ -48,7 +48,7 @@ export default function DocsBody({ lang }: { lang: Lang }) {
 					"GitHub 앱을 레포나 조직에 설치하면 끝입니다. 공개 레포는 무료이고, 설정 파일 없이 기본값으로 바로 동작합니다. 새 PR이나 이슈가 들어오면 점수를 매기고, 임계값 이상이면 slop-quarantine 라벨과 근거 코멘트를 답니다. 절대 자동으로 닫지 않습니다.",
 				cmdTitle: "슬래시 명령",
 				cmdLead:
-					"메인테이너는 코멘트로 답합니다. 모든 동작은 사람이 결정합니다.",
+					"관리자는 코멘트로 답합니다. 모든 동작은 사람이 결정합니다.",
 				cmds: [
 					[
 						"/slop approve",
@@ -219,10 +219,10 @@ export default function DocsBody({ lang }: { lang: Lang }) {
 									</div>
 								))}
 							</dl>
-							<p className="docs-links">
+							<div className="docs-links">
 								<a href={exampleUrl}>{t.fullEx}</a>
 								<a href={REPO_URL}>{t.selfhost}</a>
-							</p>
+							</div>
 						</section>
 					</div>
 				</div>

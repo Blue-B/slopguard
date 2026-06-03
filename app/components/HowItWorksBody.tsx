@@ -56,7 +56,7 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 					<SectionHead
 						no="01"
 						kicker={ko ? "파이프라인" : "the pipeline"}
-						title={ko ? "이벤트에서 조치까지" : "From event to action"}
+						title={ko ? "PR 한 건이 처리되는 과정" : "From event to action"}
 					/>
 					<HowPipeline lang={lang} />
 				</section>
@@ -65,11 +65,9 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 					<SectionHead
 						no="02"
 						kicker={ko ? "해 볼 수 있어요" : "try it"}
-						title={
-							ko ? "임계값은 당신이 정합니다" : "You set the threshold"
-						}
+						title={ko ? "임계값은 당신이 정합니다" : "You set the threshold"}
 					/>
-					<figure className="plate" style={{ maxWidth: 760 }}>
+					<figure className="plate">
 						<figcaption className="plate-bar">
 							<span>
 								{ko

@@ -50,12 +50,12 @@ a {
 a:hover {
 	color: var(--green);
 }
-/* inline prose links stay recognizable */
-.sec-sub a,
-.docs-section a,
-.review a,
-.meter-note a,
-.page-sub a {
+/* inline prose links stay recognizable (but never restyle buttons/plates) */
+.sec-sub a:not(.btn),
+.docs-section p a:not(.btn),
+.review a:not(.btn),
+.meter-note a:not(.btn),
+.page-sub a:not(.btn) {
 	color: var(--green);
 	text-decoration: underline;
 	text-underline-offset: 3px;
@@ -337,7 +337,7 @@ code {
 
 /* maintainer view: a real GitHub-style review, framed in a plate (not a card) */
 .review {
-	max-width: 860px;
+	width: 100%;
 }
 .review-body {
 	display: grid;
@@ -1164,21 +1164,20 @@ code {
 	left: 0;
 	font-weight: 700;
 }
-.plan.featured {
-	border-color: var(--green);
-	box-shadow: 0 0 0 1px var(--green-dim);
-}
 .plan .ribbon {
 	position: absolute;
-	top: -11px;
-	right: 18px;
+	top: 14px;
+	right: 16px;
 	font-family: var(--mono);
-	font-size: 11px;
+	font-size: 10px;
 	font-weight: 700;
-	color: #fff;
-	background: var(--green-btn);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--green);
+	background: var(--green-dim);
+	border: 1px solid rgba(63, 185, 80, 0.4);
 	border-radius: 999px;
-	padding: 3px 12px;
+	padding: 2px 9px;
 }
 .plan .btn {
 	justify-content: center;
@@ -1541,8 +1540,10 @@ footer.site {
 .docs-links {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 18px;
-	margin-top: 18px;
+	gap: 14px;
+	margin-top: 36px;
+	padding-top: 28px;
+	border-top: 1px solid var(--border-muted);
 }
 .docs-links a {
 	display: inline-flex;
@@ -1618,11 +1619,9 @@ body {
 /* ── detection quality chart ── */
 .quality {
 	display: grid;
-	grid-template-columns: 1.1fr 1fr;
-	gap: 28px;
+	grid-template-columns: 1.05fr 0.95fr;
+	gap: 48px;
 	align-items: center;
-	max-width: 920px;
-	margin: 0 auto;
 }
 @media (max-width: 760px) {
 	.quality {
@@ -1933,8 +1932,32 @@ footer.site.footer-app {
 .plans-4 {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	gap: 14px;
+	gap: 1px;
 	align-items: stretch;
+	background: var(--border-muted);
+	border: 1px solid var(--border-muted);
+	border-radius: var(--radius);
+	overflow: hidden;
+}
+.plans-4 > .plan.card {
+	background: var(--bg);
+	border: 0;
+	border-radius: 0;
+	padding: 30px 24px;
+}
+.plans-4 > .plan.featured {
+	background: rgba(63, 185, 80, 0.05);
+	box-shadow: none;
+	border: 0;
+}
+.plans-4 > .plan.featured::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: var(--green);
 }
 @media (max-width: 1000px) {
 	.plans-4 {
@@ -1945,6 +1968,47 @@ footer.site.footer-app {
 	.plans-4 {
 		grid-template-columns: 1fr;
 	}
+}
+
+/* pricing hero: asymmetric, asset-driven */
+.pricing-hero {
+	display: grid;
+	grid-template-columns: 1.05fr 0.95fr;
+	gap: 44px;
+	align-items: center;
+	padding-top: 40px;
+}
+.pricing-hero .page-h1,
+.pricing-hero .page-sub {
+	max-width: none;
+}
+@media (max-width: 880px) {
+	.pricing-hero {
+		grid-template-columns: 1fr;
+		gap: 28px;
+	}
+}
+
+/* why-pay: framed callout, not a card box */
+.why-pay {
+	margin-top: 64px;
+	padding-left: 22px;
+	border-left: 2px solid var(--green);
+	max-width: 760px;
+}
+.why-pay h3 {
+	margin: 0 0 12px;
+	font-size: 19px;
+}
+.why-pay p {
+	color: var(--muted);
+	font-size: 15px;
+	line-height: 1.7;
+	margin: 0;
+}
+.why-pay .why-q {
+	margin-top: 16px;
+	font-size: 13.5px;
 }
 .cycle-toggle {
 	display: flex;
@@ -2140,6 +2204,92 @@ footer.site.footer-app {
 	line-height: 1.65;
 }
 
+/* 25-case outcome grid (replaces the confusion-matrix table) */
+.cases {
+	margin: 0;
+}
+.cases-title {
+	font-family: var(--mono);
+	font-size: 11px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--muted);
+	margin: 0 0 16px;
+}
+.case-grid {
+	display: grid;
+	grid-template-columns: repeat(13, 1fr);
+	gap: 6px;
+	max-width: 420px;
+}
+.case {
+	aspect-ratio: 1;
+	border-radius: 3px;
+}
+.case.caught {
+	background: var(--green);
+}
+.case.passed {
+	background: transparent;
+	border: 1.5px solid rgba(63, 185, 80, 0.55);
+}
+.case.miss {
+	background: #d29922;
+}
+.cases-legend {
+	list-style: none;
+	margin: 22px 0 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px 18px;
+}
+.cases-legend li {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	font-size: 13px;
+	color: var(--muted);
+}
+.cases-legend b {
+	margin-left: auto;
+	color: var(--fg);
+	font-family: var(--mono);
+}
+.cases-legend .sw {
+	width: 12px;
+	height: 12px;
+	border-radius: 3px;
+	flex: 0 0 auto;
+}
+.cases-legend .caught .sw {
+	background: var(--green);
+}
+.cases-legend .passed .sw {
+	background: transparent;
+	border: 1.5px solid rgba(63, 185, 80, 0.55);
+}
+.cases-legend .miss .sw {
+	background: #d29922;
+}
+.cases-legend .fp .sw {
+	background: transparent;
+	border: 1.5px solid var(--border);
+}
+.cases-note {
+	font-size: 12.5px;
+	color: var(--muted);
+	margin: 20px 0 0;
+	line-height: 1.65;
+	max-width: 460px;
+}
+@media (max-width: 760px) {
+	.quality {
+		grid-template-columns: 1fr;
+		gap: 32px;
+	}
+}
+
 /* ── How it works: pipeline / architecture flow ───────────────────── */
 .pipe {
 	display: flex;
@@ -2156,16 +2306,17 @@ footer.site.footer-app {
 }
 .pipe-node {
 	flex: 1;
-	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: 12px;
-	padding: 16px 16px 18px;
+	background: transparent;
+	border: 0;
+	border-top: 1px solid var(--border);
+	border-radius: 0;
+	padding: 18px 18px 6px 0;
 	display: flex;
 	flex-direction: column;
 }
 .pipe-engine {
-	border-color: rgba(63, 185, 80, 0.45);
-	background: var(--surface);
+	border-top: 1px solid var(--green);
+	background: transparent;
 }
 .pipe-head {
 	display: flex;
