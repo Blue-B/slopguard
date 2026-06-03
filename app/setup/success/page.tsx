@@ -111,11 +111,9 @@ export default async function CheckoutSuccess() {
 			</main>
 
 			<footer className="site">
-				<div className="footer-bottom" style={{ borderTop: 0, marginTop: 0 }}>
-					<span>
-						SlopGuard | MIT | <a href={REPO_URL}>github.com/Blue-B/slopguard</a>
-					</span>
-				</div>
+				<p>
+					SlopGuard | MIT | <a href={REPO_URL}>github.com/Blue-B/slopguard</a>
+				</p>
 			</footer>
 		</>
 	);
