@@ -186,12 +186,16 @@ export default async function Account({
 		<>
 			<AppNav lang={lang} enHref="/account" koHref="/ko/account" />
 
-			<main className="wide" style={{ maxWidth: 1040, paddingTop: 52 }}>
+			<main className="wide" style={{ maxWidth: 1040, paddingTop: 32 }}>
+				<div className="mono-rule">
+					<span>
+						// {lang === "ko" ? "slopguard.app/ko/account" : "slopguard.app/account"}
+					</span>
+					<span className="mono-rule-end">[ slopguard ]</span>
+				</div>
 				{!session || !plan ? (
 					<div style={{ maxWidth: 480 }}>
-						<span className="eyebrow">
-							<span className="dot" /> account
-						</span>
+						<span className="eyebrow">account</span>
 						<h1
 							style={{
 								fontSize: 32,
