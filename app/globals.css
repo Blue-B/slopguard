@@ -173,17 +173,68 @@ code {
 
 /* ── Hero ────────────────────────────────────────────── */
 .hero {
-	padding: 76px 24px 40px;
-	max-width: 720px;
+	position: relative;
+	width: 100%;
+	min-height: 600px;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	background-color: var(--bg);
+	background-image: url("/hero-owl.png");
+	background-repeat: no-repeat;
+	background-position: right center;
+	background-size: cover;
+	border-bottom: 1px solid var(--border-muted);
+}
+.hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		90deg,
+		var(--bg) 30%,
+		rgba(13, 17, 23, 0.86) 52%,
+		rgba(13, 17, 23, 0.4) 74%,
+		transparent 100%
+	);
+}
+.hero h1,
+.hero .sub,
+.hero .eyebrow {
+	text-shadow: 0 1px 3px rgba(1, 4, 9, 0.6);
+}
+.hero-bleed-inner {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	max-width: 1080px;
 	margin: 0 auto;
-	text-align: center;
+	padding: 84px 24px;
+}
+.hero-bleed-inner h1 {
+	max-width: 620px;
+}
+.hero-bleed-inner .sub {
+	max-width: 500px;
+	margin: 0 0 28px;
 }
 .hero .btn-row {
-	justify-content: center;
+	justify-content: flex-start;
 }
-@media (max-width: 880px) {
+@media (max-width: 760px) {
 	.hero {
-		padding: 48px 24px 32px;
+		min-height: 0;
+		background-position: 72% center;
+	}
+	.hero::before {
+		background: linear-gradient(
+			180deg,
+			rgba(13, 17, 23, 0.82) 0%,
+			rgba(13, 17, 23, 0.95) 55%
+		);
+	}
+	.hero-bleed-inner {
+		padding: 52px 20px;
 	}
 }
 .eyebrow {
@@ -1229,7 +1280,6 @@ footer.site.footer-app {
 	height: 6px;
 	border-radius: 50%;
 	background: var(--green);
-	box-shadow: 0 0 6px var(--green);
 }
 
 /* ── Pricing: 4 tiers + billing-cycle toggle ─────────── */

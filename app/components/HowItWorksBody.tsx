@@ -38,7 +38,7 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 			<main className="wide section" style={{ paddingTop: 36 }}>
 				<header style={{ textAlign: "center", marginBottom: 10 }}>
 					<span className="eyebrow">
-						<span className="dot" /> {t.eyebrow}
+						{t.eyebrow}
 					</span>
 					<h1
 						style={{

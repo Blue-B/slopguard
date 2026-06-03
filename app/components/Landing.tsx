@@ -305,30 +305,34 @@ export default function Landing({ lang }: { lang: Lang }) {
 		<>
 			<MarketingNav lang={lang} enHref="/" koHref="/ko" />
 
-			<header className="hero">
-				<span className="eyebrow">{m.hero.eyebrow}</span>
-				<h1>
-					{m.hero.h1a}
-					<span className="hl">{m.hero.h1b}</span>
-					{m.hero.h1c}
-				</h1>
-				<p className="sub">{m.hero.sub}</p>
-				<div className="btn-row">
-					<Link className="btn btn-primary btn-lg" href={installHref}>
-						{m.hero.ctaInstall}
-					</Link>
-					<Link
-						className="btn btn-ghost btn-lg"
-						href={lang === "ko" ? "/ko/how-it-works" : "/how-it-works"}
-					>
-						{lang === "ko" ? "동작 방식 보기" : "See how it works"}
-					</Link>
+			<header className="hero hero-bleed">
+				<div className="hero-bleed-inner">
+					<span className="eyebrow">{m.hero.eyebrow}</span>
+					<h1>
+						{m.hero.h1a}
+						<span className="hl">{m.hero.h1b}</span>
+						{m.hero.h1c}
+					</h1>
+					<p className="sub">{m.hero.sub}</p>
+					<div className="btn-row">
+						<Link className="btn btn-primary btn-lg" href={installHref}>
+							{m.hero.ctaInstall}
+						</Link>
+						<Link
+							className="btn btn-ghost btn-lg"
+							href={lang === "ko" ? "/ko/how-it-works" : "/how-it-works"}
+						>
+							{lang === "ko" ? "동작 방식 보기" : "See how it works"}
+						</Link>
+					</div>
+					<p className="cta-note">{x.ctaNote}</p>
+					<p className="fineprint">{m.hero.fine}</p>
 				</div>
-				<p className="cta-note">{x.ctaNote}</p>
-				<p className="fineprint">{m.hero.fine}</p>
 			</header>
 
-			<section className="wide hero-demo">
+			<section className="wide section">
+				<h2 className="section-title">{m.verdict.title}</h2>
+				<p className="section-sub">{m.verdict.sub}</p>
 				<div className="card verdict">
 					<ScoreRing score={96} />
 					<div>
@@ -355,7 +359,6 @@ export default function Landing({ lang }: { lang: Lang }) {
 						</p>
 					</div>
 				</div>
-				<p className="hero-demo-cap">{m.verdict.sub}</p>
 			</section>
 
 			<section className="wide">

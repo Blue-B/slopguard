@@ -150,7 +150,7 @@ export default function DocsBody({ lang }: { lang: Lang }) {
 			<main className="docs-main">
 				<header style={{ marginBottom: 8 }}>
 					<span className="eyebrow">
-						<span className="dot" /> {t.eyebrow}
+						{t.eyebrow}
 					</span>
 					<h1
 						style={{

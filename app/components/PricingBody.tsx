@@ -38,7 +38,7 @@ export default function PricingBody({ lang }: { lang: Lang }) {
 			/>
 			<header style={{ textAlign: "center", padding: "64px 24px 8px" }}>
 				<span className="eyebrow">
-					<span className="dot" /> {t.eyebrow}
+					{t.eyebrow}
 				</span>
 				<h1
 					style={{ fontSize: 38, letterSpacing: "-0.02em", margin: "12px 0" }}
