@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { INSTALL_URL, REPO_URL } from "@/lib/config";
 import type { Lang } from "@/lib/i18n";
-import AuthNav from "./AuthNav";
+import MarketingNav from "./MarketingNav";
 import SiteFooter from "@/app/components/SiteFooter";
 
 // Self-contained copy for the pre-install explainer. Kept local (like the
@@ -122,32 +122,14 @@ export default function InstallGuide({ lang }: { lang: Lang }) {
 
 	return (
 		<>
-			<nav className="nav">
-				<Link className="brand" href={c.home}>
-					{/* eslint-disable-next-line @next/next/no-img-element */}
-					<img src="/shield.svg" alt="SlopGuard" />
-					SlopGuard
-				</Link>
-				<span className="nav-links">
-					<a href={`${c.home}#how`}>{c.nav.how}</a>
-					<a href={`${c.home}#pricing`}>{c.nav.pricing}</a>
-					<a href={REPO_URL}>GitHub</a>
-					<span className="lang-switch">
-						<Link className={lang === "en" ? "on" : ""} href="/install">
-							EN
-						</Link>
-						<Link className={lang === "ko" ? "on" : ""} href="/ko/install">
-							KO
-						</Link>
-					</span>
-					<AuthNav lang={lang} />
-				</span>
-			</nav>
+			<MarketingNav lang={lang} enHref="/install" koHref="/ko/install" />
 
 			<main className="install-main">
-				<span className="eyebrow">
-					<span className="dot" /> {c.eyebrow}
-				</span>
+				<div className="mono-rule">
+					<span>// {lang === "ko" ? "slopguard.app/ko/install" : "slopguard.app/install"}</span>
+					<span className="mono-rule-end">[ slopguard ]</span>
+				</div>
+				<span className="eyebrow">{c.eyebrow}</span>
 				<h1>{c.h1}</h1>
 				<p className="install-lead">{c.lead}</p>
 
