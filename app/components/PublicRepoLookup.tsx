@@ -162,11 +162,11 @@ export default function PublicRepoLookup({ lang }: { lang: Lang }) {
 										{it.number}
 									</a>{" "}
 									<span className="muted lookup-title">{it.title}</span>
-									<span className="mono lookup-state">
+									<span className="lookup-state">
 										{it.state === "open" ? t.stateOpen : t.stateClosed}
 									</span>
 									<span
-										className={`mono lookup-tag ${it.labels.includes("slop-cleared") ? "tag-c" : "tag-q"}`}
+										className={`lookup-tag ${it.labels.includes("slop-cleared") ? "tag-c" : "tag-q"}`}
 									>
 										{it.labels.includes("slop-cleared")
 											? t.cleared
