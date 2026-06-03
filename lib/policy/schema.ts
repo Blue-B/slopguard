@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { AgentPolicy } from "../agent/types.js";
 
-export const DEFAULT_COMMENT_TEMPLATE = `### 🛡️ SlopGuard review — score **{{score}}/100** ({{verdict}})
+export const DEFAULT_COMMENT_TEMPLATE = `### 🛡️ SlopGuard review: score **{{score}}/100** ({{verdict}})
 
 {{reasons}}
 

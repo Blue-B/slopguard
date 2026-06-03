@@ -40,7 +40,9 @@ export default function PricingBody({ lang }: { lang: Lang }) {
 				<span className="eyebrow">
 					<span className="dot" /> {t.eyebrow}
 				</span>
-				<h1 style={{ fontSize: 38, letterSpacing: "-0.02em", margin: "12px 0" }}>
+				<h1
+					style={{ fontSize: 38, letterSpacing: "-0.02em", margin: "12px 0" }}
+				>
 					{t.h1}
 				</h1>
 				<p className="section-sub">{t.sub}</p>

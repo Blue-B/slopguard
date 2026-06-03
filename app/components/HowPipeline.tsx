@@ -1,4 +1,4 @@
-import { messages, type Lang } from "@/lib/i18n";
+import type { Lang } from "@/lib/i18n";
 import { EX, type PipeNode } from "./Landing";
 
 /**
@@ -16,9 +16,12 @@ export default function HowPipeline({ lang }: { lang: Lang }) {
 					const last = i === x.pipeline.nodes.length - 1;
 					return (
 						<div className="pipe-step" key={n.k}>
-							<div className={`pipe-node${n.sigs ? " pipe-engine" : ""}`}>
+						<div className={`pipe-node${n.sigs ? " pipe-engine" : ""}`}>
+							<div className="pipe-head">
+								<span className="pipe-num">{i + 1}</span>
 								<span className="pipe-k">{n.k}</span>
-								<b className="pipe-t">{n.t}</b>
+							</div>
+							<b className="pipe-t">{n.t}</b>
 								{n.d && <p className="pipe-d">{n.d}</p>}
 								{n.sigs && (
 									<div className="pipe-sigs">

@@ -1343,8 +1343,27 @@ footer.site.footer-app {
 	flex-direction: column;
 }
 .pipe-engine {
-	border-color: rgba(63, 185, 80, 0.4);
-	background: linear-gradient(180deg, rgba(63, 185, 80, 0.06), var(--surface));
+	border-color: rgba(63, 185, 80, 0.45);
+	background: var(--surface);
+}
+.pipe-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.pipe-num {
+	flex: 0 0 auto;
+	width: 20px;
+	height: 20px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: var(--green-dim);
+	color: var(--green);
+	font-family: var(--mono);
+	font-size: 11px;
+	font-weight: 700;
 }
 .pipe-k {
 	font-family: var(--mono);

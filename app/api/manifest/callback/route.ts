@@ -35,7 +35,7 @@ export async function GET(req: Request) {
 		].join("\n");
 
 		const html = `<!doctype html><html><head><meta charset="utf-8">
-<title>SlopGuard — App created</title>
+<title>SlopGuard, App created</title>
 <style>body{font-family:ui-sans-serif,system-ui;background:#0d1117;color:#e6edf3;max-width:820px;margin:40px auto;padding:0 20px}
 code,pre{background:#161b22;border:1px solid #30363d;border-radius:8px}
 pre{padding:16px;white-space:pre-wrap;word-break:break-all}

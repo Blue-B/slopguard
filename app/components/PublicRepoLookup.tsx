@@ -23,7 +23,7 @@ interface Stats {
 
 const T = {
 	en: {
-		placeholder: "owner/repo  ·  e.g. facebook/react",
+		placeholder: "owner/repo (e.g. facebook/react)",
 		button: "Look up",
 		looking: "Looking up…",
 		notFound:
@@ -44,7 +44,7 @@ const T = {
 		keyState: "the PR/issue's open or closed state on GitHub",
 	},
 	ko: {
-		placeholder: "owner/repo  ·  예: facebook/react",
+		placeholder: "owner/repo (예: facebook/react)",
 		button: "조회",
 		looking: "조회 중…",
 		notFound:
@@ -60,9 +60,9 @@ const T = {
 		quarantined: "격리됨",
 		stateOpen: "열림",
 		stateClosed: "닫힘",
-		keyQ: "봇이 슬롭으로 의슬해 표시한 항목",
+		keyQ: "봇이 슬롭으로 의심해 표시한 항목",
 		keyC: "메인테이너가 정상 기여로 확인한 항목",
-		keyState: "그 PR·이슈의 GitHub 열림/닫힘 상태",
+		keyState: "그 PR이나 이슈의 GitHub 열림/닫힘 상태",
 	},
 } as const;
 

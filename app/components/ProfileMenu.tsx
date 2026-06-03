@@ -119,7 +119,7 @@ export default function ProfileMenu({ lang }: { lang: Lang }) {
 						<div className="profile-dd-id">
 							<div className="profile-dd-name">{me.name || me.login}</div>
 							<div className="profile-dd-plan">
-								@{me.login} · {me.planName}
+								@{me.login} ({me.planName})
 							</div>
 						</div>
 					</div>

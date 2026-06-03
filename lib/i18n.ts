@@ -148,7 +148,7 @@ export const messages: Record<Lang, Messages> = {
 			steps: [
 				"A PR or issue is opened. GitHub calls /api/webhook.",
 				"The agent runs static heuristics (boilerplate, emoji headers, empty body, prompt-injection) plus an optional LLM judge.",
-				"It scores 0–100, extracts provenance, and applies your .github/SLOP_POLICY.yml.",
+				"It scores 0-100, extracts provenance, and applies your .github/SLOP_POLICY.yml.",
 				"At or above your threshold, it adds the slop-quarantine label and a review comment explaining why.",
 				"A maintainer replies /slop approve, /slop reject, or /slop false-positive. SlopGuard never decides for you.",
 			],
