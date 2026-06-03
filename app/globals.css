@@ -324,6 +324,92 @@ code {
 	padding: 22px;
 }
 
+/* maintainer view: a real GitHub-style review, framed in a plate (not a card) */
+.review {
+	max-width: 860px;
+}
+.review-body {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 28px;
+	padding: 28px 32px;
+	align-items: start;
+}
+.review-rail {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-right: 28px;
+	border-right: 1px solid var(--border);
+	align-self: stretch;
+}
+.review .ring {
+	width: 108px;
+	height: 108px;
+}
+.review-main {
+	min-width: 0;
+}
+.review-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+.review-head img {
+	width: 22px;
+	height: 22px;
+	border-radius: 5px;
+}
+.review-head b {
+	font-size: 14px;
+}
+.bot-tag {
+	font-family: var(--mono);
+	font-size: 10px;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--muted);
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	padding: 1px 7px;
+}
+.review-head .badge {
+	margin-left: auto;
+	font-family: var(--mono);
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--danger);
+	background: var(--danger-dim);
+	border: 1px solid rgba(248, 81, 73, 0.4);
+	border-radius: 999px;
+	padding: 2px 9px;
+}
+.review .reasons {
+	margin: 0 0 16px;
+}
+.review .reasons li {
+	padding: 5px 0 5px 18px;
+	font-size: 14px;
+}
+.review .cmd-row {
+	margin: 16px 0 0;
+	padding-top: 14px;
+	border-top: 1px solid var(--border);
+}
+@media (max-width: 620px) {
+	.review-body {
+		grid-template-columns: 1fr;
+		gap: 18px;
+		padding: 22px;
+	}
+	.review-rail {
+		border-right: 0;
+		border-bottom: 1px solid var(--border);
+		padding: 0 0 18px;
+	}
+}
+
 /* ── Section header (field-manual document) ──────────── */
 .section {
 	padding-top: 84px;
@@ -750,18 +836,29 @@ code {
 /* Oversized brand wordmark band (monolithic outline) */
 .wordmark-band {
 	overflow: hidden;
-	padding: 56px 0 12px;
+	padding: 24px 0 8px;
 	text-align: center;
-	line-height: 0.86;
+	line-height: 0.8;
 }
 .wordmark-band span {
 	display: block;
 	white-space: nowrap;
 	font-weight: 800;
-	letter-spacing: -0.045em;
-	font-size: clamp(64px, 16vw, 230px);
+	letter-spacing: -0.05em;
+	font-size: clamp(72px, 18.5vw, 300px);
+	background: linear-gradient(
+		180deg,
+		#7ee787 0%,
+		#3fb950 42%,
+		#1a7f37 78%,
+		#0f5323 100%
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
 	color: transparent;
-	-webkit-text-stroke: 1px #2a3140;
+	-webkit-text-fill-color: transparent;
+	-webkit-mask-image: linear-gradient(180deg, #000 64%, transparent 100%);
+	mask-image: linear-gradient(180deg, #000 64%, transparent 100%);
 	user-select: none;
 }
 .section-sub {
@@ -1888,10 +1985,10 @@ footer.site.footer-app {
 	line-height: 1.5;
 }
 .cmatrix-wrap {
-	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: 14px;
-	padding: 20px;
+	background: none;
+	border: 0;
+	border-radius: 0;
+	padding: 0;
 	margin: 0;
 }
 .cmatrix-title {
@@ -1899,12 +1996,21 @@ footer.site.footer-app {
 	font-size: 12.5px;
 	color: var(--muted);
 	margin: 0 0 14px;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
 }
 .cmatrix {
 	display: grid;
 	grid-template-columns: auto 1fr 1fr;
-	gap: 8px;
+	gap: 1px;
+	background: var(--border-muted);
+	border: 1px solid var(--border-muted);
 	align-items: stretch;
+}
+.cm-corner,
+.cmatrix .cm-axis,
+.cmatrix .cm-cell {
+	background: var(--bg);
 }
 .cm-axis {
 	font-size: 11px;
@@ -1923,9 +2029,9 @@ footer.site.footer-app {
 	line-height: 1.2;
 }
 .cm-cell {
-	border: 1px solid var(--border-muted);
-	border-radius: 10px;
-	padding: 14px 8px;
+	border: 0;
+	border-radius: 0;
+	padding: 18px 8px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -1943,16 +2049,14 @@ footer.site.footer-app {
 	font-size: 11px;
 	color: var(--muted);
 }
-.cm-cell.good {
-	background: var(--green-dim);
-	border-color: rgba(63, 185, 80, 0.3);
+.cmatrix .cm-cell.good {
+	background: rgba(63, 185, 80, 0.07);
 }
 .cm-cell.good b {
 	color: var(--green);
 }
-.cm-cell.warn {
-	background: rgba(210, 153, 34, 0.12);
-	border-color: rgba(210, 153, 34, 0.38);
+.cmatrix .cm-cell.warn {
+	background: rgba(210, 153, 34, 0.08);
 }
 .cm-cell.warn b {
 	color: #d29922;

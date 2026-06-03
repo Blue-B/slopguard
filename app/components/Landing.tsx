@@ -379,32 +379,45 @@ export default function Landing({ lang }: { lang: Lang }) {
 					title={m.verdict.title}
 					sub={m.verdict.sub}
 				/>
-				<div className="card verdict">
-					<ScoreRing score={96} />
-					<div>
-						<div className="v-head">
-							{/* eslint-disable-next-line @next/next/no-img-element */}
-							<img src="/shield.svg" alt="" />
-							<b>SlopGuard</b>
-							<span className="badge">{m.verdict.badge}</span>
+				<Reveal>
+					<figure className="plate review">
+						<figcaption className="plate-bar">
+							<span>pull_request #239</span>
+							<span className="plate-coord">
+								{lang === "ko" ? "점수 96 / 100" : "score 96 / 100"}
+							</span>
+						</figcaption>
+						<div className="review-body">
+							<div className="review-rail">
+								<ScoreRing score={96} />
+							</div>
+							<div className="review-main">
+								<div className="review-head">
+									{/* eslint-disable-next-line @next/next/no-img-element */}
+									<img src="/shield.svg" alt="" />
+									<b>slopguard</b>
+									<span className="bot-tag">bot</span>
+									<span className="badge">{m.verdict.badge}</span>
+								</div>
+								<ul className="reasons">
+									{m.verdict.reasons.map((r) => (
+										<li key={r}>{r}</li>
+									))}
+								</ul>
+								<div className="chips">
+									<span className="label quarantine">slop-quarantine</span>
+									<span className="label cleared">slop-cleared</span>
+									<span className="label fp">slopguard-feedback</span>
+								</div>
+								<p className="cmd-row">
+									{m.verdict.cmdPre} <code>/slop approve</code>,{" "}
+									<code>/slop reject</code>, {m.verdict.cmdOr}{" "}
+									<code>/slop false-positive</code>
+								</p>
+							</div>
 						</div>
-						<ul className="reasons">
-							{m.verdict.reasons.map((r) => (
-								<li key={r}>{r}</li>
-							))}
-						</ul>
-						<div className="chips">
-							<span className="label quarantine">slop-quarantine</span>
-							<span className="label cleared">slop-cleared</span>
-							<span className="label fp">slopguard-feedback</span>
-						</div>
-						<p className="cmd-row">
-							{m.verdict.cmdPre} <code>/slop approve</code>,{" "}
-							<code>/slop reject</code>, {m.verdict.cmdOr}{" "}
-							<code>/slop false-positive</code>
-						</p>
-					</div>
-				</div>
+					</figure>
+				</Reveal>
 			</section>
 
 			<section className="wide">
