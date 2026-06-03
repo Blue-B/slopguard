@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { REPO_URL } from "@/lib/config";
 import type { Lang } from "@/lib/i18n";
 import ProfileMenu from "./ProfileMenu";
 
@@ -18,12 +17,13 @@ export default function MarketingNav({
 	lang: Lang;
 	enHref: string;
 	koHref: string;
-	active?: "how" | "pricing";
+	active?: "how" | "pricing" | "docs";
 }) {
 	const ko = lang === "ko";
 	const home = ko ? "/ko" : "/";
 	const how = ko ? "/ko/how-it-works" : "/how-it-works";
 	const pricing = ko ? "/ko/pricing" : "/pricing";
+	const docs = ko ? "/ko/docs" : "/docs";
 	const install = ko ? "/ko/install" : "/install";
 	const t = ko
 		? { how: "동작 방식", pricing: "가격", docs: "문서", install: "설치" }
@@ -47,9 +47,9 @@ export default function MarketingNav({
 				<Link className={active === "pricing" ? "on" : ""} href={pricing}>
 					{t.pricing}
 				</Link>
-				<a href={`${REPO_URL}/blob/main/.github/SLOP_POLICY.example.yml`}>
+				<Link className={active === "docs" ? "on" : ""} href={docs}>
 					{t.docs}
-				</a>
+				</Link>
 				<span className="lang-switch">
 					<Link className={lang === "en" ? "on" : ""} href={enHref}>
 						EN
