@@ -311,16 +311,6 @@ export default function Landing({ lang }: { lang: Lang }) {
 
 			<header className="hero">
 				<div className="hero-inner">
-					<div className="mono-rule">
-						<span>
-							//{" "}
-							{lang === "ko"
-								? "깃허브 메인테이너를 위한 슬롭 트리아지"
-								: "AI-slop triage for GitHub maintainers"}
-						</span>
-						<span className="mono-rule-end">[ slopguard ]</span>
-					</div>
-					<span className="eyebrow">{m.hero.eyebrow}</span>
 					<h1>
 						{m.hero.h1a}
 						<span className="hl">{m.hero.h1b}</span>
@@ -501,10 +491,7 @@ export default function Landing({ lang }: { lang: Lang }) {
 						? "메인테이너 시간을 슬롭에 빼앗기지 마세요"
 						: "Stop losing maintainer time to slop"}
 				</h2>
-				<div
-					className="btn-row"
-					style={{ justifyContent: "center", marginTop: 8 }}
-				>
+				<div className="btn-row" style={{ marginTop: 12 }}>
 					<Link className="btn btn-primary btn-lg" href={installHref}>
 						{m.hero.ctaInstall}
 					</Link>

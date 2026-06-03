@@ -562,7 +562,7 @@ code {
 	padding: 72px 0 0;
 }
 .section-title {
-	text-align: center;
+	text-align: left;
 	font-size: 30px;
 	letter-spacing: -0.02em;
 	margin: 0 0 8px;
@@ -647,10 +647,10 @@ code {
 	user-select: none;
 }
 .section-sub {
-	text-align: center;
+	text-align: left;
 	color: var(--muted);
-	margin: 0 auto 32px;
-	max-width: 600px;
+	margin: 0 0 32px;
+	max-width: 640px;
 }
 .card {
 	background: var(--surface);
@@ -1088,7 +1088,7 @@ footer.site {
 
 /* landing closing call-to-action band */
 .cta-band {
-	text-align: center;
+	text-align: left;
 }
 
 /* how-it-works: numbered step-by-step list */

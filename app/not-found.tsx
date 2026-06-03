@@ -9,10 +9,6 @@ export default function NotFound() {
 		<>
 			<MarketingNav lang="en" enHref="/" koHref="/ko" />
 			<main className="wide" style={{ padding: "72px 24px 96px" }}>
-				<div className="mono-rule">
-					<span>// 404 / route not found</span>
-					<span className="mono-rule-end">[ slopguard ]</span>
-				</div>
 				<span className="eyebrow">404</span>
 				<h1 className="page-h1">This page slipped through.</h1>
 				<p className="page-sub">

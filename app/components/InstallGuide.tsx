@@ -125,15 +125,6 @@ export default function InstallGuide({ lang }: { lang: Lang }) {
 			<MarketingNav lang={lang} enHref="/install" koHref="/ko/install" />
 
 			<main className="install-main">
-				<div className="mono-rule">
-					<span>
-						//{" "}
-						{lang === "ko"
-							? "slopguard.app/ko/install"
-							: "slopguard.app/install"}
-					</span>
-					<span className="mono-rule-end">[ slopguard ]</span>
-				</div>
 				<span className="eyebrow">{c.eyebrow}</span>
 				<h1>{c.h1}</h1>
 				<p className="install-lead">{c.lead}</p>

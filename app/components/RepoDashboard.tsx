@@ -87,13 +87,7 @@ export default async function RepoDashboard({
 				koHref={`/ko/dashboard/${full}`}
 			/>
 
-			<main className="wide" style={{ maxWidth: 880, paddingTop: 32 }}>
-				<div className="mono-rule">
-					<span>
-						// slopguard.app{lang === "ko" ? "/ko" : ""}/dashboard/{full}
-					</span>
-					<span className="mono-rule-end">[ slopguard ]</span>
-				</div>
+			<main className="wide" style={{ maxWidth: 880, paddingTop: 44 }}>
 				<span className="eyebrow">{t.eyebrow}</span>
 				<h1
 					style={{
