@@ -39,8 +39,9 @@ const T = {
 		quarantined: "quarantined",
 		stateOpen: "open",
 		stateClosed: "closed",
-		legend:
-			"Quarantined = SlopGuard flagged it for review. Cleared = a maintainer marked it OK. Open / closed is the PR or issue state on GitHub.",
+		keyQ: "SlopGuard flagged it as possible slop",
+		keyC: "a maintainer marked it a real contribution",
+		keyState: "the PR/issue's open or closed state on GitHub",
 	},
 	ko: {
 		placeholder: "owner/repo  ·  예: facebook/react",
@@ -59,8 +60,9 @@ const T = {
 		quarantined: "격리됨",
 		stateOpen: "열림",
 		stateClosed: "닫힘",
-		legend:
-			"격리 = SlopGuard가 슬롭으로 의슬해 검토용으로 표시한 항목, 정상 확인 = 메인테이너가 검토 후 정상 기여로 풀어준 항목입니다. 열림·닫힘은 그 PR/이슈의 GitHub 상태로, 격리·정상 확인과는 별개입니다.",
+		keyQ: "봇이 슬롭으로 의슬해 표시한 항목",
+		keyC: "메인테이너가 정상 기여로 확인한 항목",
+		keyState: "그 PR·이슈의 GitHub 열림/닫힘 상태",
 	},
 } as const;
 
@@ -148,7 +150,28 @@ export default function PublicRepoLookup({ lang }: { lang: Lang }) {
 						<MiniStat label={t.o} value={stats.open} />
 						<MiniStat label={t.x} value={stats.closed} />
 					</div>
-					<p className="lookup-legend">{t.legend}</p>
+					<dl className="lookup-key">
+						<div>
+							<dt>
+								<span className="lookup-tag tag-q">{t.quarantined}</span>
+							</dt>
+							<dd>{t.keyQ}</dd>
+						</div>
+						<div>
+							<dt>
+								<span className="lookup-tag tag-c">{t.cleared}</span>
+							</dt>
+							<dd>{t.keyC}</dd>
+						</div>
+						<div>
+							<dt>
+								<span className="lookup-state">
+									{t.stateOpen} / {t.stateClosed}
+								</span>
+							</dt>
+							<dd>{t.keyState}</dd>
+						</div>
+					</dl>
 					{stats.items.length === 0 ? (
 						<p className="muted" style={{ fontSize: 13, margin: "12px 0 0" }}>
 							{t.none}

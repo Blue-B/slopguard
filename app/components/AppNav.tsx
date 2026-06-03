@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Lang } from "@/lib/i18n";
+import ProfileMenu from "./ProfileMenu";
 
 /**
  * Shared header for the signed-in "app" pages (account, dashboard, repo
@@ -17,7 +18,6 @@ export default function AppNav({
 }) {
 	const ko = lang === "ko";
 	const home = ko ? "/ko" : "/";
-	const acct = ko ? "/ko/account" : "/account";
 	return (
 		<nav className="nav">
 			<Link className="brand" href={home}>
@@ -27,7 +27,6 @@ export default function AppNav({
 			</Link>
 			<span className="nav-links">
 				<Link href={home}>{ko ? "홈" : "Home"}</Link>
-				<Link href={acct}>{ko ? "마이페이지" : "Account"}</Link>
 				<span className="lang-switch">
 					<Link className={lang === "en" ? "on" : ""} href={enHref}>
 						EN
@@ -36,6 +35,7 @@ export default function AppNav({
 						KO
 					</Link>
 				</span>
+				<ProfileMenu lang={lang} />
 			</span>
 		</nav>
 	);

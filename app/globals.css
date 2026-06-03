@@ -620,6 +620,100 @@ footer.site {
 	}
 }
 
+/* ── Profile dropdown (avatar -> account / billing / sign out) ──────── */
+.profile-menu {
+	position: relative;
+	display: inline-flex;
+}
+.profile-trigger {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	padding: 3px 8px 3px 3px;
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	background: var(--surface);
+	color: var(--fg);
+	cursor: pointer;
+	font: inherit;
+	transition: border-color 0.12s ease, background 0.12s ease;
+}
+.profile-trigger:hover {
+	border-color: #6e7681;
+	background: var(--surface-2);
+}
+.profile-trigger img {
+	border-radius: 50%;
+	display: block;
+}
+.profile-name {
+	font-size: 13px;
+	font-weight: 600;
+}
+.profile-chev {
+	color: var(--muted);
+	flex: 0 0 auto;
+}
+.profile-dropdown {
+	position: absolute;
+	top: calc(100% + 8px);
+	right: 0;
+	min-width: 224px;
+	background: var(--surface-2);
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	padding: 6px;
+	box-shadow: 0 14px 38px rgba(1, 4, 9, 0.55);
+	z-index: 60;
+}
+.profile-dd-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 8px 10px 10px;
+	margin-bottom: 6px;
+	border-bottom: 1px solid var(--border-muted);
+}
+.profile-dd-head img {
+	border-radius: 50%;
+	display: block;
+}
+.profile-dd-name {
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--fg);
+	line-height: 1.2;
+}
+.profile-dd-plan {
+	font-size: 12px;
+	color: var(--muted);
+	margin-top: 2px;
+}
+.profile-dropdown a {
+	display: block;
+	padding: 8px 10px;
+	border-radius: 8px;
+	color: var(--fg);
+	font-size: 14px;
+	text-decoration: none;
+}
+.profile-dropdown a:hover {
+	background: var(--surface);
+	text-decoration: none;
+}
+.profile-dd-out {
+	color: var(--danger);
+	margin-top: 2px;
+}
+.profile-dd-out:hover {
+	background: var(--danger-dim) !important;
+}
+@media (max-width: 600px) {
+	.profile-name {
+		display: none;
+	}
+}
+
 /* mobile: prevent nav overflow + protect long words */
 body {
 	overflow-wrap: break-word;
@@ -1570,6 +1664,39 @@ footer.site.footer-app {
 	color: var(--muted);
 	margin: 10px 0 0;
 	line-height: 1.6;
+}
+/* Compact key: each status pill next to a short, plain explanation. Replaces
+ * the old run-on legend sentence that was hard to parse. */
+.lookup-key {
+	margin: 14px 0 2px;
+	display: grid;
+	gap: 7px 12px;
+}
+.lookup-key > div {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+.lookup-key dt {
+	margin: 0;
+	flex: 0 0 auto;
+	min-width: 96px;
+	display: flex;
+}
+.lookup-key dd {
+	margin: 0;
+	font-size: 12.5px;
+	color: var(--muted);
+	line-height: 1.4;
+}
+@media (max-width: 520px) {
+	.lookup-key dt {
+		min-width: 0;
+	}
+	.lookup-key > div {
+		flex-wrap: wrap;
+		gap: 4px 10px;
+	}
 }
 @media (max-width: 480px) {
 	.ministats {

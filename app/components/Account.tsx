@@ -414,12 +414,6 @@ export default async function Account({
 							<p className="muted lookup-section-sub">{t.lookupSub}</p>
 							<PublicRepoLookup lang={lang} />
 						</section>
-
-						<div style={{ marginTop: 28 }}>
-							<a className="btn btn-danger" href="/api/auth/logout">
-								{t.logout}
-							</a>
-						</div>
 					</>
 				)}
 			</main>
