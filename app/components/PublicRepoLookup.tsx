@@ -23,7 +23,7 @@ interface Stats {
 
 const T = {
 	en: {
-		placeholder: "owner/repo",
+		placeholder: "owner/repo  ·  e.g. facebook/react",
 		button: "Look up",
 		looking: "Looking up…",
 		notFound:
@@ -43,31 +43,39 @@ const T = {
 			"Quarantined = SlopGuard flagged it for review. Cleared = a maintainer marked it OK. Open / closed is the PR or issue state on GitHub.",
 	},
 	ko: {
-		placeholder: "owner/repo",
+		placeholder: "owner/repo  ·  예: facebook/react",
 		button: "조회",
 		looking: "조회 중…",
 		notFound:
 			"해당 레포를 불러오지 못했습니다. owner/repo 형식인지, SlopGuard가 설치되어 있는지 확인하세요.",
 		q: "격리",
-		c: "해제",
+		c: "정상 확인",
 		o: "열림",
 		x: "닫힘",
 		recent: "최근",
-		none: "격리되거나 해제된 항목이 없습니다.",
+		none: "격리되거나 정상 확인된 항목이 없습니다.",
 		full: "전체 기록",
-		cleared: "해제됨",
+		cleared: "정상 확인",
 		quarantined: "격리됨",
 		stateOpen: "열림",
 		stateClosed: "닫힘",
 		legend:
-			"격리 = SlopGuard가 슬롭으로 보고 검토용 표시, 해제 = 메인테이너가 정상으로 확인, 열림/닫힘 = 그 PR이나 이슈의 GitHub 상태입니다.",
+			"격리 = SlopGuard가 슬롭으로 의슬해 검토용으로 표시한 항목, 정상 확인 = 메인테이너가 검토 후 정상 기여로 풀어준 항목입니다. 열림·닫힘은 그 PR/이슈의 GitHub 상태로, 격리·정상 확인과는 별개입니다.",
 	},
 } as const;
 
-function MiniStat({ label, value }: { label: string; value: number }) {
+function MiniStat({
+	label,
+	value,
+	tone,
+}: {
+	label: string;
+	value: number;
+	tone?: "warn" | "ok";
+}) {
 	return (
 		<div className="ministat">
-			<div className="ministat-n">{value}</div>
+			<div className={`ministat-n${tone ? ` ${tone}` : ""}`}>{value}</div>
 			<div className="ministat-l">{label}</div>
 		</div>
 	);
@@ -135,8 +143,8 @@ export default function PublicRepoLookup({ lang }: { lang: Lang }) {
 						</a>
 					</div>
 					<div className="ministats">
-						<MiniStat label={t.q} value={stats.quarantined} />
-						<MiniStat label={t.c} value={stats.cleared} />
+						<MiniStat label={t.q} value={stats.quarantined} tone="warn" />
+						<MiniStat label={t.c} value={stats.cleared} tone="ok" />
 						<MiniStat label={t.o} value={stats.open} />
 						<MiniStat label={t.x} value={stats.closed} />
 					</div>

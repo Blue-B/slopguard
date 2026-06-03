@@ -95,7 +95,7 @@ const T = {
 		activityTitle: "활동",
 		activitySub: "누가 언제 무엇을 처리했는지 (GitHub에서 실시간)",
 		statQ: "격리",
-		statC: "해제",
+		statC: "정상 확인",
 		statO: "열림",
 		statR: "레포",
 		colItem: "항목",
@@ -103,7 +103,7 @@ const T = {
 		colStatus: "처리",
 		colWhen: "시점",
 		statusQ: "격리됨",
-		statusC: "해제됨",
+		statusC: "정상 확인",
 		noActivity: "아직 활동이 없습니다.",
 		lookupTitle: "공개 레포 조회",
 		lookupSub:
@@ -404,20 +404,16 @@ export default async function Account({
 										</Link>
 									</div>
 								</div>
-								<div className="card">
-									<div className="card-head">
-										<h3>{t.lookupTitle}</h3>
-									</div>
-									<p
-										className="muted"
-										style={{ fontSize: 13, margin: "0 0 10px" }}
-									>
-										{t.lookupSub}
-									</p>
-									<PublicRepoLookup lang={lang} />
-								</div>
 							</aside>
 						</div>
+
+						<section className="card lookup-section">
+							<div className="card-head">
+								<h3>{t.lookupTitle}</h3>
+							</div>
+							<p className="muted lookup-section-sub">{t.lookupSub}</p>
+							<PublicRepoLookup lang={lang} />
+						</section>
 
 						<div style={{ marginTop: 28 }}>
 							<a className="btn btn-danger" href="/api/auth/logout">
