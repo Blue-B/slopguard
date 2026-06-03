@@ -189,7 +189,10 @@ export default async function Account({
 			<main className="wide" style={{ maxWidth: 1040, paddingTop: 32 }}>
 				<div className="mono-rule">
 					<span>
-						// {lang === "ko" ? "slopguard.app/ko/account" : "slopguard.app/account"}
+						//{" "}
+						{lang === "ko"
+							? "slopguard.app/ko/account"
+							: "slopguard.app/account"}
 					</span>
 					<span className="mono-rule-end">[ slopguard ]</span>
 				</div>
