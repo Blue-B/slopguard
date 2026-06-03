@@ -396,10 +396,10 @@ export default function Landing({ lang }: { lang: Lang }) {
 				<div className="stats">
 					{m.stats.map((s) => (
 						<div className="stat" key={s.l}>
-						<div className="n">
-							<CountUp value={s.n} />
-						</div>
-						<div className="l">{s.l}</div>
+							<div className="n">
+								<CountUp value={s.n} />
+							</div>
+							<div className="l">{s.l}</div>
 						</div>
 					))}
 				</div>

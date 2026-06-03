@@ -1290,12 +1290,18 @@ footer.site {
 body {
 	overflow-wrap: break-word;
 }
-@media (max-width: 600px) {
+@media (max-width: 720px) {
 	.nav-links {
-		gap: 12px;
+		gap: 14px;
 	}
-	.nav-links a[href^="#"],
-	.nav-links a[href*="github.com"] {
+	/* keep brand + language + install CTA + profile; hide the page links
+	 (still reachable from the footer) so the bar never wraps on phones */
+	.nav-links > a:not(.nav-cta) {
+		display: none;
+	}
+}
+@media (max-width: 420px) {
+	.nav-links .lang-switch {
 		display: none;
 	}
 }
