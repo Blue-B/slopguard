@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Lang } from "@/lib/i18n";
 import { EX } from "./Landing";
 import MarketingNav from "./MarketingNav";
+import PageHero from "./PageHero";
 import HowPipeline from "./HowPipeline";
 import SiteFooter from "./SiteFooter";
 
@@ -35,24 +36,21 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 				koHref="/ko/how-it-works"
 				active="how"
 			/>
-			<main className="wide section" style={{ paddingTop: 36 }}>
-				<header style={{ textAlign: "center", marginBottom: 10 }}>
-					<span className="eyebrow">{t.eyebrow}</span>
-					<h1
-						style={{
-							fontSize: 38,
-							letterSpacing: "-0.02em",
-							margin: "12px 0 0",
-						}}
-					>
-						{t.h1}
-					</h1>
-				</header>
-				<p className="section-sub" style={{ marginBottom: 28 }}>
-					{t.sub}
-				</p>
+			<main className="wide section" style={{ paddingTop: 8 }}>
+				<PageHero
+					path={
+						ko
+							? "// slopguard.app/ko/how-it-works"
+							: "// slopguard.app/how-it-works"
+					}
+					eyebrow={t.eyebrow}
+					title={t.h1}
+					sub={t.sub}
+				/>
 
-				<HowPipeline lang={lang} />
+				<div style={{ marginTop: 40 }}>
+					<HowPipeline lang={lang} />
+				</div>
 
 				<h2 className="section-title" style={{ marginTop: 56 }}>
 					{t.steps}

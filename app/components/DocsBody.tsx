@@ -2,6 +2,7 @@ import Link from "next/link";
 import { REPO_URL } from "@/lib/config";
 import type { Lang } from "@/lib/i18n";
 import MarketingNav from "./MarketingNav";
+import PageHero from "./PageHero";
 import SiteFooter from "./SiteFooter";
 
 const EXAMPLE_YML = `# .github/SLOP_POLICY.yml  (all fields optional)
@@ -148,24 +149,12 @@ export default function DocsBody({ lang }: { lang: Lang }) {
 				active="docs"
 			/>
 			<main className="docs-main">
-				<header style={{ marginBottom: 8 }}>
-					<span className="eyebrow">{t.eyebrow}</span>
-					<h1
-						style={{
-							fontSize: 34,
-							letterSpacing: "-0.02em",
-							margin: "12px 0 0",
-						}}
-					>
-						{t.h1}
-					</h1>
-					<p
-						className="section-sub"
-						style={{ textAlign: "left", margin: "10px 0 0" }}
-					>
-						{t.sub}
-					</p>
-				</header>
+				<PageHero
+					path={ko ? "// slopguard.app/ko/docs" : "// slopguard.app/docs"}
+					eyebrow={t.eyebrow}
+					title={t.h1}
+					sub={t.sub}
+				/>
 
 				<section className="docs-section">
 					<h2>{t.quickTitle}</h2>

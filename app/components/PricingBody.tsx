@@ -1,6 +1,7 @@
 import { REPO_URL } from "@/lib/config";
 import type { Lang } from "@/lib/i18n";
 import MarketingNav from "./MarketingNav";
+import PageHero from "./PageHero";
 import PricingPlans from "./PricingPlans";
 import SiteFooter from "./SiteFooter";
 
@@ -36,15 +37,12 @@ export default function PricingBody({ lang }: { lang: Lang }) {
 				koHref="/ko/pricing"
 				active="pricing"
 			/>
-			<header style={{ textAlign: "center", padding: "64px 24px 8px" }}>
-				<span className="eyebrow">{t.eyebrow}</span>
-				<h1
-					style={{ fontSize: 38, letterSpacing: "-0.02em", margin: "12px 0" }}
-				>
-					{t.h1}
-				</h1>
-				<p className="section-sub">{t.sub}</p>
-			</header>
+			<PageHero
+				path={ko ? "// slopguard.app/ko/pricing" : "// slopguard.app/pricing"}
+				eyebrow={t.eyebrow}
+				title={t.h1}
+				sub={t.sub}
+			/>
 
 			<section className="wide" style={{ marginTop: 8 }}>
 				<PricingPlans lang={lang} />

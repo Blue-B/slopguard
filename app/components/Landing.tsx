@@ -305,8 +305,12 @@ export default function Landing({ lang }: { lang: Lang }) {
 		<>
 			<MarketingNav lang={lang} enHref="/" koHref="/ko" />
 
-			<header className="hero hero-bleed">
-				<div className="hero-bleed-inner">
+			<header className="hero">
+				<div className="hero-inner">
+					<div className="mono-rule">
+						<span>// {lang === "ko" ? "깃허브 메인테이너를 위한 슬롭 트리아지" : "AI-slop triage for GitHub maintainers"}</span>
+						<span className="mono-rule-end">[ slopguard ]</span>
+					</div>
 					<span className="eyebrow">{m.hero.eyebrow}</span>
 					<h1>
 						{m.hero.h1a}
@@ -326,8 +330,17 @@ export default function Landing({ lang }: { lang: Lang }) {
 						</Link>
 					</div>
 					<p className="cta-note">{x.ctaNote}</p>
-					<p className="fineprint">{m.hero.fine}</p>
 				</div>
+				<figure className="plate hero-plate">
+					<figcaption className="plate-bar">
+						<span>
+							// {lang === "ko" ? "밀려오는 AI 슬롭의 파도" : "the rising tide of AI slop"}
+						</span>
+						<span>fig.01</span>
+					</figcaption>
+					{/* eslint-disable-next-line @next/next/no-img-element */}
+					<img src="/wave-circuit.png" alt={m.hero.emblemAlt} />
+				</figure>
 			</header>
 
 			<section className="wide section">
@@ -381,9 +394,7 @@ export default function Landing({ lang }: { lang: Lang }) {
 							<div className="slop-art">
 								{/* eslint-disable-next-line @next/next/no-img-element */}
 								<img
-									src={
-										["/art-legit.png", "/art-time.png", "/art-bulk.png"][i]
-									}
+									src={["/art-legit.png", "/art-time.png", "/art-bulk.png"][i]}
 									alt=""
 									loading="lazy"
 								/>
