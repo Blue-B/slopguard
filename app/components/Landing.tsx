@@ -10,6 +10,27 @@ const EX = {
 		ctaNote:
 			"Adds SlopGuard to a repo or org on GitHub. One click, no config, free for public repos.",
 		navInstallTitle: "Add the app to your repositories",
+		slop: {
+			title: "What is AI slop?",
+			body: "AI slop is low-effort, machine-generated content pushed to a repo with little or no human review: PRs and issues spun up by an LLM that look plausible but miss the context, add nothing, and mostly exist to farm activity or contribution stats.",
+			points: [
+				{
+					ico: "# looks legit",
+					t: "Looks legit",
+					d: "Polished phrasing, a tidy title, a confident summary, and no real grasp of the codebase.",
+				},
+				{
+					ico: "~ review time",
+					t: "Burns review time",
+					d: "A maintainer still has to read it, ask questions, and work out that it goes nowhere.",
+				},
+				{
+					ico: "x10 repos",
+					t: "Arrives in bulk",
+					d: "One prompt becomes ten near-identical PRs across ten projects.",
+				},
+			],
+		},
 		howDetail: [
 			"SlopGuard receives the pull_request / issues / issue_comment event. Untrusted text is isolated with per-request nonce markers.",
 			"Rule signals (boilerplate, emoji-marketing headers, empty body, giant unfocused diffs, prompt-injection) run first; the LLM judge is optional and falls back gracefully on rate limits.",
@@ -108,6 +129,27 @@ const EX = {
 		ctaNote:
 			"GitHub에서 레포나 조직에 SlopGuard를 추가합니다. 클릭 한 번, 설정 불필요, 공개 레포는 무료.",
 		navInstallTitle: "내 레포에 앱 추가",
+		slop: {
+			title: "AI 슬롭이 뭔가요?",
+			body: "AI 슬롭은 사람 검토가 거의 없이 LLM으로 찍어낸 저품질 기여입니다. 그럴듯해 보이지만 코드 맥락을 모르고, 보탬도 안 되며, 활동량이나 기여 횟수를 부풀리려고 올라오는 PR·이슈를 말합니다.",
+			points: [
+				{
+					ico: "# 그럴듯함",
+					t: "그럴듯해 보임",
+					d: "말끔한 문장, 깔끔한 제목, 자신감 있는 요약. 정작 코드베이스는 이해하지 못합니다.",
+				},
+				{
+					ico: "~ 검토 시간",
+					t: "검토 시간만 소모",
+					d: "메인테이너는 결국 읽고, 되묻고, 쓸모없다는 걸 확인해야 합니다.",
+				},
+				{
+					ico: "x10 레포",
+					t: "대량으로 들어옴",
+					d: "프롬프트 하나가 레포 열 곳에 거의 똑같은 PR 열 개로 쏟아집니다.",
+				},
+			],
+		},
 		howDetail: [
 			"SlopGuard가 pull_request / issues / issue_comment 이벤트를 받습니다. 신뢰할 수 없는 텍스트는 요청별 nonce 마커로 격리됩니다.",
 			"규칙 신호(보일러플레이트, 이모지 마케팅 헤더, 빈 본문, 거대한 diff, 프롬프트 인젝션)가 먼저 돌고, LLM 판정은 선택이며 레이트리밋 시 안전하게 폴백합니다.",
@@ -270,6 +312,7 @@ export default function Landing({ lang }: { lang: Lang }) {
 					SlopGuard
 				</Link>
 				<span className="nav-links">
+					<a href="#what">{lang === "ko" ? "슬롭이란?" : "What is slop"}</a>
 					<a href="#how">{m.nav.how}</a>
 					<a href="#pricing">{m.nav.pricing}</a>
 					<a href={REPO_URL}>GitHub</a>
@@ -319,6 +362,20 @@ export default function Landing({ lang }: { lang: Lang }) {
 						<div className="stat" key={s.l}>
 							<div className="n">{s.n}</div>
 							<div className="l">{s.l}</div>
+						</div>
+					))}
+				</div>
+			</section>
+
+			<section id="what" className="wide section">
+				<h2 className="section-title">{x.slop.title}</h2>
+				<p className="section-sub">{x.slop.body}</p>
+				<div className="grid">
+					{x.slop.points.map((p) => (
+						<div className="card feature" key={p.t}>
+							<div className="ico mono">{p.ico}</div>
+							<h3>{p.t}</h3>
+							<p>{p.d}</p>
 						</div>
 					))}
 				</div>
