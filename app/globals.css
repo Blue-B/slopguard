@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap");
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
 :root {
@@ -20,9 +19,6 @@
 	--mono:
 		ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
 		monospace;
-	--serif:
-		"Fraunces", "Pretendard Variable", Pretendard, Georgia, "Times New Roman",
-		serif;
 }
 
 * {
@@ -36,14 +32,14 @@ body {
 	background: var(--bg);
 	color: var(--fg);
 	font-family:
-		"Pretendard Variable", Pretendard, ui-sans-serif, system-ui,
-		-apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+		"Pretendard Variable", Pretendard, ui-sans-serif, system-ui, -apple-system,
+		"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	line-height: 1.55;
 	-webkit-font-smoothing: antialiased;
 }
 h1 {
-	font-family: var(--serif);
-	font-weight: 600;
+	font-weight: 800;
+	letter-spacing: -0.02em;
 }
 a {
 	color: var(--blue);
@@ -177,21 +173,17 @@ code {
 
 /* ── Hero ────────────────────────────────────────────── */
 .hero {
-	display: grid;
-	grid-template-columns: 1.05fr 0.95fr;
-	gap: 40px;
-	align-items: center;
-	padding: 80px 24px 64px;
-	max-width: 1080px;
+	padding: 76px 24px 40px;
+	max-width: 720px;
 	margin: 0 auto;
+	text-align: center;
+}
+.hero .btn-row {
+	justify-content: center;
 }
 @media (max-width: 880px) {
 	.hero {
-		grid-template-columns: 1fr;
-		padding: 48px 24px 40px;
-	}
-	.hero-emblem {
-		order: -1;
+		padding: 48px 24px 32px;
 	}
 }
 .eyebrow {
@@ -208,12 +200,11 @@ code {
 	display: none;
 }
 .hero h1 {
-	font-family: var(--serif);
-	font-size: 54px;
-	line-height: 1.02;
+	font-size: 50px;
+	line-height: 1.05;
 	margin: 0 0 18px;
-	letter-spacing: -0.02em;
-	font-weight: 600;
+	letter-spacing: -0.03em;
+	font-weight: 800;
 	white-space: pre-line;
 }
 .hero h1 .hl {
@@ -222,14 +213,26 @@ code {
 .hero .sub {
 	color: var(--muted);
 	font-size: 18px;
-	max-width: 520px;
-	margin: 0 0 28px;
+	max-width: 560px;
+	margin: 0 auto 28px;
 }
 .hero .fineprint {
 	margin-top: 18px;
 	font-family: var(--mono);
 	font-size: 12.5px;
 	color: var(--muted);
+}
+.hero-demo {
+	max-width: 880px;
+	margin: 0 auto;
+	padding: 4px 24px 0;
+}
+.hero-demo-cap {
+	text-align: center;
+	color: var(--muted);
+	font-size: 14px;
+	margin: 18px auto 0;
+	max-width: 580px;
 }
 .hero-emblem {
 	position: relative;
@@ -282,11 +285,10 @@ code {
 }
 .section-title {
 	text-align: center;
-	font-family: var(--serif);
-	font-size: 33px;
-	letter-spacing: -0.01em;
+	font-size: 30px;
+	letter-spacing: -0.02em;
 	margin: 0 0 8px;
-	font-weight: 600;
+	font-weight: 800;
 }
 .section-sub {
 	text-align: center;

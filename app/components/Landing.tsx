@@ -306,64 +306,29 @@ export default function Landing({ lang }: { lang: Lang }) {
 			<MarketingNav lang={lang} enHref="/" koHref="/ko" />
 
 			<header className="hero">
-				<div>
-					<span className="eyebrow">
-						<span className="dot" /> {m.hero.eyebrow}
-					</span>
-					<h1>
-						{m.hero.h1a}
-						<span className="hl">{m.hero.h1b}</span>
-						{m.hero.h1c}
-					</h1>
-					<p className="sub">{m.hero.sub}</p>
-					<div className="btn-row">
-						<Link className="btn btn-primary btn-lg" href={installHref}>
-							{m.hero.ctaInstall}
-						</Link>
-						<Link
-							className="btn btn-ghost btn-lg"
-							href={lang === "ko" ? "/ko/how-it-works" : "/how-it-works"}
-						>
-							{lang === "ko" ? "동작 방식 보기" : "See how it works"}
-						</Link>
-					</div>
-					<p className="cta-note">{x.ctaNote}</p>
-					<p className="fineprint">{m.hero.fine}</p>
+				<span className="eyebrow">{m.hero.eyebrow}</span>
+				<h1>
+					{m.hero.h1a}
+					<span className="hl">{m.hero.h1b}</span>
+					{m.hero.h1c}
+				</h1>
+				<p className="sub">{m.hero.sub}</p>
+				<div className="btn-row">
+					<Link className="btn btn-primary btn-lg" href={installHref}>
+						{m.hero.ctaInstall}
+					</Link>
+					<Link
+						className="btn btn-ghost btn-lg"
+						href={lang === "ko" ? "/ko/how-it-works" : "/how-it-works"}
+					>
+						{lang === "ko" ? "동작 방식 보기" : "See how it works"}
+					</Link>
 				</div>
-				<div className="hero-emblem">
-					{/* eslint-disable-next-line @next/next/no-img-element */}
-					<img src="/hero-art.png" alt={m.hero.emblemAlt} />
-				</div>
+				<p className="cta-note">{x.ctaNote}</p>
+				<p className="fineprint">{m.hero.fine}</p>
 			</header>
 
-			<section className="wide">
-				<div className="stats">
-					{m.stats.map((s) => (
-						<div className="stat" key={s.l}>
-							<div className="n">{s.n}</div>
-							<div className="l">{s.l}</div>
-						</div>
-					))}
-				</div>
-			</section>
-
-			<section id="what" className="wide section">
-				<h2 className="section-title">{x.slop.title}</h2>
-				<p className="section-sub">{x.slop.body}</p>
-				<div className="grid">
-					{x.slop.points.map((p) => (
-						<div className="card feature" key={p.t}>
-							<div className="ico mono">{p.ico}</div>
-							<h3>{p.t}</h3>
-							<p>{p.d}</p>
-						</div>
-					))}
-				</div>
-			</section>
-
-			<section id="demo" className="wide section">
-				<h2 className="section-title">{m.verdict.title}</h2>
-				<p className="section-sub">{m.verdict.sub}</p>
+			<section className="wide hero-demo">
 				<div className="card verdict">
 					<ScoreRing score={96} />
 					<div>
@@ -389,6 +354,32 @@ export default function Landing({ lang }: { lang: Lang }) {
 							<code>/slop false-positive</code>
 						</p>
 					</div>
+				</div>
+				<p className="hero-demo-cap">{m.verdict.sub}</p>
+			</section>
+
+			<section className="wide">
+				<div className="stats">
+					{m.stats.map((s) => (
+						<div className="stat" key={s.l}>
+							<div className="n">{s.n}</div>
+							<div className="l">{s.l}</div>
+						</div>
+					))}
+				</div>
+			</section>
+
+			<section id="what" className="wide section">
+				<h2 className="section-title">{x.slop.title}</h2>
+				<p className="section-sub">{x.slop.body}</p>
+				<div className="grid">
+					{x.slop.points.map((p) => (
+						<div className="card feature" key={p.t}>
+							<div className="ico mono">{p.ico}</div>
+							<h3>{p.t}</h3>
+							<p>{p.d}</p>
+						</div>
+					))}
 				</div>
 			</section>
 
