@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { REPO_URL } from "@/lib/config";
 import { messages, type Lang } from "@/lib/i18n";
 import MarketingNav from "./MarketingNav";
 import Reveal from "./Reveal";
 import RevealOnScroll from "./RevealOnScroll";
+import SiteFooter from "./SiteFooter";
 import SlopMeter from "./SlopMeter";
 
 // Section copy that lives outside the core i18n catalogue (added later).
@@ -301,7 +301,6 @@ function ScoreRing({ score }: { score: number }) {
 export default function Landing({ lang }: { lang: Lang }) {
 	const m = messages[lang];
 	const x = EX[lang];
-	const accountHref = lang === "ko" ? "/ko/account" : "/account";
 	const installHref = lang === "ko" ? "/ko/install" : "/install";
 
 	return (
@@ -519,55 +518,7 @@ export default function Landing({ lang }: { lang: Lang }) {
 				<span>SlopGuard</span>
 			</section>
 
-			<footer className="site footer-rich">
-				<div className="footer-grid">
-					<div>
-						<span className="footer-brand">
-							{/* eslint-disable-next-line @next/next/no-img-element */}
-							<img src="/shield.svg" alt="" />
-							SlopGuard
-						</span>
-						<p
-							className="muted"
-							style={{ fontSize: 13, maxWidth: 260, marginTop: 12 }}
-						>
-							{x.footer.tag}
-						</p>
-					</div>
-					<div className="footer-col">
-						<h4>{x.footer.product}</h4>
-						<Link href={lang === "ko" ? "/ko/how-it-works" : "/how-it-works"}>
-							{x.footer.links.how}
-						</Link>
-						<Link href={lang === "ko" ? "/ko/pricing" : "/pricing"}>
-							{x.footer.links.pricing}
-						</Link>
-						<a href="#demo">{x.footer.links.demo}</a>
-						<Link href={accountHref}>{x.footer.links.account}</Link>
-					</div>
-					<div className="footer-col">
-						<h4>{x.footer.resources}</h4>
-						<a href={REPO_URL}>{x.footer.links.github}</a>
-						<Link href="/setup">{x.footer.links.selfhost}</Link>
-						<a href={`${REPO_URL}/blob/main/.github/SLOP_POLICY.example.yml`}>
-							{x.footer.links.policy}
-						</a>
-					</div>
-					<div className="footer-col">
-						<h4>{x.footer.company}</h4>
-						<a href={`${REPO_URL}/blob/main/LICENSE`}>
-							{x.footer.links.license}
-						</a>
-						<a href={`${REPO_URL}/issues`}>Issues</a>
-					</div>
-				</div>
-				<div className="footer-bottom">
-					<span>
-						© {new Date().getFullYear()} SlopGuard. {x.footer.rights}
-					</span>
-					<span className="mono">{m.footer.tagline}</span>
-				</div>
-			</footer>
+			<SiteFooter lang={lang} />
 		</>
 	);
 }
