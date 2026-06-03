@@ -4,6 +4,7 @@ import { EX } from "./Landing";
 import MarketingNav from "./MarketingNav";
 import PageHero from "./PageHero";
 import RevealOnScroll from "./RevealOnScroll";
+import SectionHead from "./SectionHead";
 import HowPipeline from "./HowPipeline";
 import SlopMeter from "./SlopMeter";
 import SiteFooter from "./SiteFooter";
@@ -51,15 +52,24 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 					sub={t.sub}
 				/>
 
-				<div style={{ marginTop: 40 }}>
+				<section className="section">
+					<SectionHead
+						no="01"
+						kicker={ko ? "파이프라인" : "the pipeline"}
+						title={ko ? "이벤트에서 조치까지" : "From event to action"}
+					/>
 					<HowPipeline lang={lang} />
-				</div>
+				</section>
 
-				<h2 className="section-title" style={{ marginTop: 56 }}>
-					{ko ? "임계값은 당신이 정합니다" : "You set the threshold"}
-				</h2>
-				<div style={{ maxWidth: 760, margin: "16px auto 0" }}>
-					<figure className="plate">
+				<section className="section">
+					<SectionHead
+						no="02"
+						kicker={ko ? "해 볼 수 있어요" : "try it"}
+						title={
+							ko ? "임계값은 당신이 정합니다" : "You set the threshold"
+						}
+					/>
+					<figure className="plate" style={{ maxWidth: 760 }}>
 						<figcaption className="plate-bar">
 							<span>
 								{ko
@@ -72,31 +82,30 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 							<SlopMeter lang={lang} />
 						</div>
 					</figure>
-				</div>
+				</section>
 
-				<h2 className="section-title" style={{ marginTop: 56 }}>
-					{t.steps}
-				</h2>
-				<ol className="how-steps">
-					{x.howDetail.map((s, i) => (
-						<li key={s}>
-							<span className="how-step-n mono">{i + 1}</span>
-							<span>{s}</span>
-						</li>
-					))}
-				</ol>
+				<section className="section">
+					<SectionHead
+						no="03"
+						kicker={ko ? "단계별로" : "step by step"}
+						title={ko ? "전체 흐름" : "The full flow"}
+					/>
+					<ol className="how-steps">
+						{x.howDetail.map((s, i) => (
+							<li key={s}>
+								<span className="how-step-n mono">{i + 1}</span>
+								<span>{s}</span>
+							</li>
+						))}
+					</ol>
+				</section>
 
-				<div
-					className="btn-row"
-					style={{ justifyContent: "center", marginTop: 40 }}
-				>
+				<div className="btn-row" style={{ marginTop: 48 }}>
 					<Link className="btn btn-primary btn-lg" href={installHref}>
 						{t.cta}
 					</Link>
 				</div>
-				<p className="cta-note" style={{ textAlign: "center" }}>
-					{t.ctaSub}
-				</p>
+				<p className="cta-note">{t.ctaSub}</p>
 			</main>
 			<SiteFooter lang={lang} />
 		</>

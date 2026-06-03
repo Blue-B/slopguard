@@ -524,9 +524,9 @@ export default function Landing({ lang }: { lang: Lang }) {
 					title={m.features.title}
 					sub={m.features.sub}
 				/>
-				<div className="grid">
+				<div className="feature-grid">
 					{m.features.items.map((f) => (
-						<div className="card feature" key={f.t}>
+						<div className="feature" key={f.t}>
 							<div className="ico mono">{f.ico}</div>
 							<h3>{f.t}</h3>
 							<p>{f.d}</p>
@@ -535,27 +535,37 @@ export default function Landing({ lang }: { lang: Lang }) {
 				</div>
 			</section>
 
-			<section className="wide section cta-band">
-				<h2 className="section-title">
-					{lang === "ko"
-						? "메인테이너 시간을 슬롭에 빼앗기지 마세요"
-						: "Stop losing maintainer time to slop"}
-				</h2>
-				<div className="btn-row" style={{ marginTop: 12 }}>
-					<Link className="btn btn-primary btn-lg" href={installHref}>
-						{m.hero.ctaInstall}
-					</Link>
-					<Link
-						className="btn btn-ghost btn-lg"
-						href={lang === "ko" ? "/ko/how-it-works" : "/how-it-works"}
-					>
-						{lang === "ko" ? "동작 방식" : "How it works"}
-					</Link>
+			<section className="outro">
+				{/* eslint-disable-next-line @next/next/no-img-element */}
+				<img className="outro-wave" src="/wave-circuit.png" alt="" aria-hidden="true" />
+				<div className="wide outro-inner">
+					<h2 className="outro-title">
+						{lang === "ko"
+							? "메인테이너 시간을 슬롭에 빼앗기지 마세요"
+							: "Stop losing maintainer time to slop."}
+					</h2>
+					<p className="outro-sub">
+						{lang === "ko"
+							? "클릭 한 번으로 레포에 추가하세요. 공개 레포는 무료이고, 절대 자동으로 닫지 않습니다."
+							: "Add it to a repo in one click. Free for public repos, and it never auto-closes."}
+					</p>
+					<div className="btn-row">
+						<Link className="btn btn-primary btn-lg" href={installHref}>
+							{m.hero.ctaInstall}
+						</Link>
+						<Link
+							className="btn btn-ghost btn-lg"
+							href={lang === "ko" ? "/ko/how-it-works" : "/how-it-works"}
+						>
+							{lang === "ko" ? "동작 방식" : "How it works"}
+						</Link>
+					</div>
+					<div className="outro-sig">
+						<span>slopguard</span>
+						<span>MIT licensed</span>
+						<span>{lang === "ko" ? "자동으로 닫은 PR 0건" : "0 auto-closed PRs"}</span>
+					</div>
 				</div>
-			</section>
-
-			<section className="wordmark-band" aria-hidden="true">
-				<span>SlopGuard</span>
 			</section>
 
 			<SiteFooter lang={lang} />
