@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Lang } from "@/lib/i18n";
+import CountUp from "./CountUp";
 
 interface Item {
 	number: number;
@@ -77,7 +78,9 @@ function MiniStat({
 }) {
 	return (
 		<div className="ministat">
-			<div className={`ministat-n${tone ? ` ${tone}` : ""}`}>{value}</div>
+			<div className={`ministat-n${tone ? ` ${tone}` : ""}`}>
+				<CountUp value={String(value)} />
+			</div>
 			<div className="ministat-l">{label}</div>
 		</div>
 	);

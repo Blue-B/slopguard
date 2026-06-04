@@ -11,8 +11,8 @@ export default function PricingBody({ lang }: { lang: Lang }) {
 	const t = ko
 		? {
 				eyebrow: "가격",
-				h1: "직접 돌리면 공짜,\n맡기면 월 정액",
-				sub: "SlopGuard는 오픈소스(MIT)예요. 직접 서버에 올리면 언제까지나 무료입니다.",
+				h1: "운영까지 맡기면,\n팀이 더 편해집니다",
+				sub: "비공개 레포, 조직 기능, 서버와 LLM 운영까지 유료 플랜이 맡습니다. 물론 오픈소스(MIT)라 직접 올려 써도 됩니다.",
 				addsTitle: "유료 플랜이 대신해주는 것",
 				adds: [
 					"매니지드 LLM, 서버와 API 비용 제로",
@@ -28,8 +28,8 @@ export default function PricingBody({ lang }: { lang: Lang }) {
 			}
 		: {
 				eyebrow: "pricing",
-				h1: "Free to self-host.\nPaid only for managed.",
-				sub: "SlopGuard is open source (MIT). Run it on your own server and it stays free, forever.",
+				h1: "Stronger when\nwe run it for you.",
+				sub: "Paid plans cover private repos, org features, and the server and LLM bill. It is open source (MIT), so self-hosting is always an option too.",
 				addsTitle: "What a paid plan handles for you",
 				adds: [
 					"Managed LLM (no server or API bill)",

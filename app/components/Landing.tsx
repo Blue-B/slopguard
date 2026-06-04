@@ -575,18 +575,14 @@ export default function Landing({ lang }: { lang: Lang }) {
 					<div className="outro-copy">
 						<h2 className="outro-title">
 							{lang === "ko"
-								? "이제 파수꾼에게 맡기세요"
-								: "Let the guardian take the watch."}
+								? "노이즈는 거르고, 진짜 기여는 지키고"
+								: "Filter the noise, keep the real work."}
 						</h2>
 						<p className="outro-sub">
 							{lang === "ko"
-								? "레포에 한 번 들여놓으면 슬롭은 파수꾼이 걸러냅니다. 공개 레포는 무료이고, 닫을지 말지는 항상 당신이 정해요."
-								: "Drop it into a repo and the guardian stands watch. Free for public repos, and the call is always yours."}
+								? "SlopGuard는 라벨과 코멘트만 달 뿐, 닫을지 말지는 언제나 당신이 정합니다."
+								: "SlopGuard only labels and comments. Whether to close is always your call."}
 						</p>
-						<Link className="btn btn-primary btn-lg" href={installHref}>
-							<GhMark />
-							{m.hero.ctaInstall}
-						</Link>
 						<div className="outro-sig">
 							<span>slopguard</span>
 							<span>MIT licensed</span>
@@ -597,7 +593,14 @@ export default function Landing({ lang }: { lang: Lang }) {
 					</div>
 					<figure className="outro-mascot">
 						{/* eslint-disable-next-line @next/next/no-img-element */}
-						<img src="/mascot-bot.png" alt={lang === "ko" ? "SlopGuard 가디어 마스코트" : "SlopGuard guardian mascot"} />
+						<img
+							src="/mascot-bot.png"
+							alt={
+								lang === "ko"
+									? "SlopGuard 가디어 마스코트"
+									: "SlopGuard guardian mascot"
+							}
+						/>
 					</figure>
 				</div>
 			</section>
