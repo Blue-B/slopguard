@@ -47,9 +47,7 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 						<h1 className="page-h1">{t.h1}</h1>
 						<p className="page-sub">{t.sub}</p>
 						<nav className="docs-hero-links">
-							<a href="#pipeline">
-								{ko ? "파이프라인" : "the pipeline"}
-							</a>
+							<a href="#pipeline">{ko ? "파이프라인" : "the pipeline"}</a>
 							<a href="#demo">{ko ? "라이브 데모" : "live demo"}</a>
 							<a href="#steps">{ko ? "단계별로" : "step by step"}</a>
 						</nav>

@@ -158,7 +158,7 @@ export default async function Account({
 }) {
 	const t = T[lang];
 	const dashBase = lang === "ko" ? "/ko/dashboard" : "/dashboard";
-	const pricingHref = lang === "ko" ? "/ko#pricing" : "/#pricing";
+	const pricingHref = lang === "ko" ? "/ko/pricing" : "/pricing";
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	const plan: PlanId | null = session
