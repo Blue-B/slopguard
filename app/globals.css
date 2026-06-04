@@ -31,7 +31,12 @@ html {
 }
 body {
 	margin: 0;
-	background: var(--bg);
+	background-color: var(--bg);
+	background-image:
+		linear-gradient(rgba(48, 54, 61, 0.13) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(48, 54, 61, 0.13) 1px, transparent 1px);
+	background-size: 46px 46px;
+	background-attachment: fixed;
 	color: var(--fg);
 	font-family:
 		"Pretendard Variable", Pretendard, ui-sans-serif, system-ui, -apple-system,
@@ -269,10 +274,24 @@ code {
 }
 .hero-grid {
 	position: relative;
+	z-index: 1;
 	display: grid;
 	grid-template-columns: 1.05fr 0.95fr;
 	gap: 44px;
 	align-items: center;
+}
+/* interactive cursor spotlight in the hero */
+.hero::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	background: radial-gradient(
+		320px circle at var(--mx, 72%) var(--my, 26%),
+		rgba(63, 185, 80, 0.1),
+		transparent 72%
+	);
 }
 .hero-copy h1 {
 	font-size: clamp(40px, 5.4vw, 66px);
@@ -2447,6 +2466,73 @@ footer.site.footer-app {
 	color: var(--muted);
 	margin: 14px 0 0;
 	line-height: 1.65;
+}
+
+/* public-repo lookup: a 'scanner' search bar + scanning sweep */
+.scanbar {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	background: #0b0f14;
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	padding: 6px 6px 6px 14px;
+	position: relative;
+	overflow: hidden;
+	transition:
+		border-color 0.12s ease,
+		box-shadow 0.12s ease;
+}
+.scanbar:focus-within {
+	border-color: var(--green);
+	box-shadow: 0 0 0 3px var(--green-dim);
+}
+.scan-glyph {
+	color: var(--muted);
+	flex: 0 0 auto;
+}
+.scanbar:focus-within .scan-glyph {
+	color: var(--green);
+}
+.scan-input {
+	flex: 1;
+	min-width: 0;
+	background: transparent;
+	border: 0;
+	outline: none;
+	color: var(--fg);
+	font-size: 15px;
+	padding: 9px 0;
+}
+.scan-input::placeholder {
+	color: var(--muted);
+}
+.scan-btn {
+	flex: 0 0 auto;
+}
+.scanbar.scanning::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 2px;
+	width: 40%;
+	background: linear-gradient(90deg, transparent, var(--green), transparent);
+	animation: scansweep 1s linear infinite;
+}
+@keyframes scansweep {
+	0% {
+		transform: translateX(-120%);
+	}
+	100% {
+		transform: translateX(320%);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.scanbar.scanning::after {
+		animation: none;
+	}
 }
 
 /* 25-case outcome grid (replaces the confusion-matrix table) */

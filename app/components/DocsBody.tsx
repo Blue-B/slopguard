@@ -219,9 +219,7 @@ export default function DocsBody({ lang }: { lang: Lang }) {
 							<figure className="plate docs-code-plate">
 								<figcaption className="plate-bar">
 									<span>.github/SLOP_POLICY.yml</span>
-									<span className="plate-coord">
-										{ko ? "예시" : "example"}
-									</span>
+									<span className="plate-coord">{ko ? "예시" : "example"}</span>
 								</figcaption>
 								<pre className="docs-code">
 									<code>{EXAMPLE_YML}</code>

@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Lang } from "@/lib/i18n";
 import { EX } from "./Landing";
 import MarketingNav from "./MarketingNav";
-import PageHero from "./PageHero";
 import RevealOnScroll from "./RevealOnScroll";
 import SectionHead from "./SectionHead";
 import HowPipeline from "./HowPipeline";
@@ -41,16 +40,25 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 			/>
 			<RevealOnScroll />
 			<main className="wide section" style={{ paddingTop: 8 }}>
-				<PageHero
-					path={
-						ko
-							? "// slopguard.app/ko/how-it-works"
-							: "// slopguard.app/how-it-works"
-					}
-					eyebrow={t.eyebrow}
-					title={t.h1}
-					sub={t.sub}
-				/>
+				<header className="docs-hero">
+					<div className="docs-hero-copy">
+						<span className="eyebrow">{t.eyebrow}</span>
+						<h1 className="page-h1">{t.h1}</h1>
+						<p className="page-sub">{t.sub}</p>
+					</div>
+					<figure className="plate docs-hero-plate">
+						<figcaption className="plate-bar">
+							<span>{ko ? "슬롭을 걸러내는 파이프라인" : "the triage pipeline"}</span>
+							<span className="plate-coord">fig.00</span>
+						</figcaption>
+						<div className="plate-art">
+							<span className="plate-tag">PR / ISSUE → SCORE</span>
+							{/* eslint-disable-next-line @next/next/no-img-element */}
+							<img src="/funnel-circuit.png" alt="" />
+							<span className="plate-scan" aria-hidden="true" />
+						</div>
+					</figure>
+				</header>
 
 				<section className="section">
 					<SectionHead

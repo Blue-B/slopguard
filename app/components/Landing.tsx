@@ -4,6 +4,7 @@ import MarketingNav from "./MarketingNav";
 import Reveal from "./Reveal";
 import CountUp from "./CountUp";
 import RevealOnScroll from "./RevealOnScroll";
+import HeroSpotlight from "./HeroSpotlight";
 import SectionHead from "./SectionHead";
 import SiteFooter from "./SiteFooter";
 import SlopMeter from "./SlopMeter";
@@ -323,6 +324,7 @@ export default function Landing({ lang }: { lang: Lang }) {
 		<>
 			<MarketingNav lang={lang} enHref="/" koHref="/ko" />
 			<RevealOnScroll />
+			<HeroSpotlight />
 
 			<header className="hero">
 				<div className="grid-bg" aria-hidden="true" />

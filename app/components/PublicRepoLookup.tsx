@@ -120,15 +120,28 @@ export default function PublicRepoLookup({ lang }: { lang: Lang }) {
 
 	return (
 		<div>
-			<form onSubmit={go} className="lookup-form">
+			<form onSubmit={go} className={`scanbar${state === "loading" ? " scanning" : ""}`}>
+				<svg
+					className="scan-glyph"
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					aria-hidden="true"
+				>
+					<circle cx="11" cy="11" r="7" />
+					<line x1="21" y1="21" x2="16.65" y2="16.65" />
+				</svg>
 				<input
 					value={value}
 					onChange={(e) => setValue(e.target.value)}
 					placeholder={t.placeholder}
 					aria-label={t.placeholder}
-					className="lookup-input"
+					className="scan-input"
 				/>
-				<button type="submit" className="btn btn-primary">
+				<button type="submit" className="btn btn-primary scan-btn">
 					{state === "loading" ? t.looking : t.button}
 				</button>
 			</form>
