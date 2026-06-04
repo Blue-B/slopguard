@@ -4,6 +4,20 @@ import type { Lang } from "@/lib/i18n";
 import MarketingNav from "./MarketingNav";
 import SiteFooter from "@/app/components/SiteFooter";
 
+function GhMark() {
+	return (
+		<svg
+			viewBox="0 0 16 16"
+			width="17"
+			height="17"
+			fill="currentColor"
+			aria-hidden="true"
+		>
+			<path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+		</svg>
+	);
+}
+
 // Self-contained copy for the pre-install explainer. Kept local (like the
 // /setup and checkout-success pages) so it stays close to the markup it serves.
 const C = {
@@ -125,9 +139,31 @@ export default function InstallGuide({ lang }: { lang: Lang }) {
 			<MarketingNav lang={lang} enHref="/install" koHref="/ko/install" />
 
 			<main className="install-main">
-				<span className="eyebrow">{c.eyebrow}</span>
-				<h1>{c.h1}</h1>
-				<p className="install-lead">{c.lead}</p>
+				<header className="docs-hero">
+					<div className="grid-bg" aria-hidden="true" />
+					<div className="docs-hero-copy">
+						<span className="eyebrow">{c.eyebrow}</span>
+						<h1 className="page-h1">{c.h1}</h1>
+						<p className="page-sub">{c.lead}</p>
+						<div className="hero-actions">
+							<a className="btn btn-primary btn-lg" href={INSTALL_URL}>
+								<GhMark />
+								{c.cta}
+							</a>
+							<Link className="text-link" href="/setup">
+								{c.selfhost}
+								<span aria-hidden="true">→</span>
+							</Link>
+						</div>
+					</div>
+					<figure className="install-mascot">
+						{/* eslint-disable-next-line @next/next/no-img-element */}
+						<img
+							src="/mascot-bot.png"
+							alt={lang === "ko" ? "SlopGuard 가디어 마스코트" : "SlopGuard guardian mascot"}
+						/>
+					</figure>
+				</header>
 
 				<p className="callout">
 					<b>{c.callout.a}</b>
@@ -147,20 +183,22 @@ export default function InstallGuide({ lang }: { lang: Lang }) {
 					))}
 				</div>
 
-				<div className="card" style={{ marginTop: 24 }}>
-					<h3 style={{ margin: "0 0 4px", fontSize: 16 }}>{c.permsTitle}</h3>
+				<section className="install-perms">
+					<h3 className="install-h3">{c.permsTitle}</h3>
 					<p className="muted" style={{ fontSize: 13.5, margin: "0 0 16px" }}>
 						{c.permsSub}
 					</p>
-					<ul className="perm-list">
+					<dl className="docs-opts">
 						{c.perms.map(([scope, why]) => (
-							<li key={scope}>
-								<code>{scope}</code>
-								<span>{why}</span>
-							</li>
+							<div key={scope}>
+								<dt>
+									<code>{scope}</code>
+								</dt>
+								<dd>{why}</dd>
+							</div>
 						))}
-					</ul>
-				</div>
+					</dl>
+				</section>
 
 				<div className="reassure">
 					{c.reassure.map((r) => (
@@ -170,17 +208,13 @@ export default function InstallGuide({ lang }: { lang: Lang }) {
 
 				<div className="btn-row" style={{ marginTop: 28 }}>
 					<a className="btn btn-primary btn-lg" href={INSTALL_URL}>
-						{c.cta} &rarr;
+						<GhMark />
+						{c.cta}
 					</a>
-					<Link className="btn btn-ghost btn-lg" href="/setup">
-						{c.selfhost}
+					<Link className="text-link" href={c.home}>
+						{c.back}
 					</Link>
 				</div>
-				<p style={{ marginTop: 18 }}>
-					<Link className="muted" href={c.home} style={{ fontSize: 14 }}>
-						&larr; {c.back}
-					</Link>
-				</p>
 			</main>
 
 			<SiteFooter lang={lang} />

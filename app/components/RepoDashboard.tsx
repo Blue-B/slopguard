@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getRepoSlopStats, type RepoSlopStats } from "@/lib/github/storage";
 import type { Lang } from "@/lib/i18n";
 import MarketingNav from "./MarketingNav";
+import SiteFooter from "./SiteFooter";
 
 const T = {
 	en: {
@@ -48,11 +49,19 @@ const T = {
 	},
 } as const;
 
-function Stat({ label, value }: { label: string; value: number }) {
+function Stat({
+	label,
+	value,
+	tone,
+}: {
+	label: string;
+	value: number;
+	tone?: "warn" | "ok";
+}) {
 	return (
-		<div className="card" style={{ textAlign: "center", flex: 1, margin: 0 }}>
-			<div style={{ fontSize: 30, fontWeight: 800 }}>{value}</div>
-			<div style={{ color: "var(--muted)", fontSize: 13 }}>{label}</div>
+		<div className="ministat">
+			<div className={`ministat-n${tone ? ` ${tone}` : ""}`}>{value}</div>
+			<div className="ministat-l">{label}</div>
 		</div>
 	);
 }
@@ -87,31 +96,34 @@ export default async function RepoDashboard({
 				koHref={`/ko/dashboard/${full}`}
 			/>
 
-			<main className="wide" style={{ maxWidth: 880, paddingTop: 44 }}>
-				<span className="eyebrow">{t.eyebrow}</span>
-				<h1
-					style={{
-						fontSize: 26,
-						letterSpacing: "-0.02em",
-						margin: "14px 0 4px",
-					}}
-				>
-					{full}
-				</h1>
-				<p className="muted" style={{ marginTop: 0, fontSize: 14 }}>
-					{t.sub}{" "}
-					<a href={`https://github.com/${full}`}>{t.viewGithub} &rarr;</a>
-				</p>
+			<main className="wide" style={{ maxWidth: 920, paddingTop: 32 }}>
+				<header className="docs-hero">
+					<div className="grid-bg" aria-hidden="true" />
+					<div className="docs-hero-copy">
+						<span className="eyebrow">{t.eyebrow}</span>
+						<h1 className="page-h1" style={{ wordBreak: "break-all" }}>
+							{full}
+						</h1>
+						<p className="page-sub">
+							{t.sub}{" "}
+							<a href={`https://github.com/${full}`}>{t.viewGithub} &rarr;</a>
+						</p>
+					</div>
+					<figure className="plate docs-hero-plate">
+						<figcaption className="plate-bar">
+							<span>{lang === "ko" ? "슬롭 기록" : "slop history"}</span>
+							<span className="plate-coord">live</span>
+						</figcaption>
+						<div className="plate-art">
+							{/* eslint-disable-next-line @next/next/no-img-element */}
+							<img src="/radar-circuit.png" alt="" />
+							<span className="plate-scan" aria-hidden="true" />
+						</div>
+					</figure>
+				</header>
 
 				{error && (
-					<div
-						className="card"
-						style={{
-							borderColor: "rgba(210,153,34,0.4)",
-							background: "rgba(210,153,34,0.06)",
-							marginTop: 18,
-						}}
-					>
+					<div className="dash-error">
 						<strong>{t.cantLoad}</strong>
 						<p className="muted" style={{ fontSize: 14, margin: "6px 0 8px" }}>
 							{error}
@@ -124,63 +136,58 @@ export default async function RepoDashboard({
 
 				{stats && (
 					<>
-						<div
-							style={{
-								display: "flex",
-								gap: 12,
-								margin: "20px 0 0",
-								flexWrap: "wrap",
-							}}
-						>
-							<Stat label={t.stats.q} value={stats.quarantined} />
-							<Stat label={t.stats.c} value={stats.cleared} />
+						<div className="ministats" style={{ marginTop: 20 }}>
+							<Stat label={t.stats.q} value={stats.quarantined} tone="warn" />
+							<Stat label={t.stats.c} value={stats.cleared} tone="ok" />
 							<Stat label={t.stats.o} value={stats.open} />
 							<Stat label={t.stats.x} value={stats.closed} />
 						</div>
-						<p className="lookup-legend" style={{ marginTop: 10 }}>
+						{stats.quarantined + stats.cleared > 0 && (
+							<div className="slop-ratio" aria-hidden="true">
+								<div className="ratio-bar">
+									<span className="seg q" style={{ flexGrow: stats.quarantined || 0 }} />
+									<span className="seg c" style={{ flexGrow: stats.cleared || 0 }} />
+								</div>
+								<div className="ratio-legend">
+									<span className="q">
+										{t.quarantined} {stats.quarantined}
+									</span>
+									<span className="c">
+										{t.cleared} {stats.cleared}
+									</span>
+								</div>
+							</div>
+						)}
+						<p className="lookup-legend" style={{ marginTop: 14 }}>
 							{t.legend}
 						</p>
 
-						<h2 style={{ fontSize: 16, margin: "26px 0 8px" }}>{t.recent}</h2>
-						<div className="card" style={{ padding: 0, overflow: "hidden" }}>
-							{stats.items.length === 0 ? (
-								<p className="muted" style={{ padding: 16, margin: 0 }}>
-									{t.noItems}
-								</p>
-							) : (
-								<table className="dash-table">
-									<thead>
-										<tr>
-											<th>{t.colItem}</th>
-											<th>{t.colKind}</th>
-											<th>{t.colState}</th>
-											<th>{t.colStatus}</th>
-										</tr>
-									</thead>
-									<tbody>
-										{stats.items.map((it) => (
-											<tr key={it.number}>
-												<td style={{ maxWidth: 380 }}>
-													<a href={it.url}>#{it.number}</a>{" "}
-													<span className="muted">{it.title}</span>
-												</td>
-												<td>{it.kind === "pull_request" ? "PR" : "issue"}</td>
-												<td>{it.state}</td>
-												<td>
-													<span className="mono" style={{ fontSize: 12 }}>
-														{it.labels.includes("slop-cleared")
-															? t.cleared
-															: t.quarantined}
-													</span>
-												</td>
-											</tr>
-										))}
-									</tbody>
-								</table>
-							)}
-						</div>
+						<h2 className="dash-recent">{t.recent}</h2>
+						{stats.items.length === 0 ? (
+							<p className="muted">{t.noItems}</p>
+						) : (
+							<ul className="lookup-items">
+								{stats.items.map((it) => (
+									<li key={it.number}>
+										<a href={it.url}>
+											{it.kind === "pull_request" ? "PR" : "#"}
+											{it.number}
+										</a>{" "}
+										<span className="muted lookup-title">{it.title}</span>
+										<span className="lookup-state">{it.state}</span>
+										<span
+											className={`lookup-tag ${it.labels.includes("slop-cleared") ? "tag-c" : "tag-q"}`}
+										>
+											{it.labels.includes("slop-cleared")
+												? t.cleared
+												: t.quarantined}
+										</span>
+									</li>
+								))}
+							</ul>
+						)}
 
-						<p style={{ marginTop: 18 }}>
+						<p style={{ marginTop: 24 }}>
 							<Link className="muted" href={backHref} style={{ fontSize: 14 }}>
 								&larr; {t.allRepos}
 							</Link>
@@ -188,6 +195,7 @@ export default async function RepoDashboard({
 					</>
 				)}
 			</main>
+			<SiteFooter lang={lang} />
 		</>
 	);
 }

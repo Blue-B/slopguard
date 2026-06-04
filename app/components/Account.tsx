@@ -62,7 +62,7 @@ const T = {
 		lookupTitle: "Look up a public repo",
 		lookupSub:
 			"View the slop history of any public repo where SlopGuard is installed.",
-		comparePlans: "Compare plans",
+		comparePlans: "Upgrade",
 	},
 	ko: {
 		home: "홈",
@@ -108,7 +108,7 @@ const T = {
 		lookupTitle: "공개 레포 조회",
 		lookupSub:
 			"SlopGuard가 설치된 공개 레포라면 어떤 레포든 슬롭 기록을 볼 수 있습니다.",
-		comparePlans: "요금제 비교",
+		comparePlans: "업그레이드 하러 가기",
 	},
 } as const;
 
@@ -402,7 +402,7 @@ export default async function Account({
 												{t.manageBilling}
 											</a>
 										)}
-										<Link className="btn btn-ghost btn-sm" href={pricingHref}>
+										<Link className="btn btn-primary btn-sm" href={pricingHref}>
 											{t.comparePlans}
 										</Link>
 									</div>

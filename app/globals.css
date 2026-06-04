@@ -2113,9 +2113,40 @@ footer.site.footer-app {
 
 /* ── Install guide page ──────────────────────────────── */
 .install-main {
-	max-width: 720px;
+	max-width: 1000px;
 	margin: 0 auto;
-	padding: 56px 24px 40px;
+	padding: 40px 24px 40px;
+}
+/* hero spans full; reading content stays a comfortable column */
+.install-main > :not(.docs-hero) {
+	max-width: 760px;
+}
+.install-main .steps {
+	margin: 0;
+}
+.install-mascot {
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.install-mascot img {
+	width: 100%;
+	max-width: 280px;
+	height: auto;
+	filter: drop-shadow(0 14px 34px rgba(1, 4, 9, 0.55));
+}
+.install-h3 {
+	font-size: 16px;
+	margin: 0 0 4px;
+}
+.install-perms {
+	margin-top: 30px;
+}
+@media (max-width: 760px) {
+	.install-mascot img {
+		max-width: 180px;
+	}
 }
 .install-main h1 {
 	font-size: 34px;
@@ -2521,6 +2552,19 @@ footer.site.footer-app {
 	color: var(--muted);
 	margin: 14px 0 0;
 	line-height: 1.65;
+}
+
+/* slop-history (repo dashboard) */
+.dash-error {
+	margin-top: 18px;
+	border-left: 2px solid #d29922;
+	background: rgba(210, 153, 34, 0.06);
+	padding: 14px 16px;
+	border-radius: 0 6px 6px 0;
+}
+.dash-recent {
+	font-size: 16px;
+	margin: 32px 0 14px;
 }
 
 /* public-repo lookup: a 'scanner' search bar + scanning sweep */
