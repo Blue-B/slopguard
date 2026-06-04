@@ -151,6 +151,7 @@ export default function DocsBody({ lang }: { lang: Lang }) {
 			<RevealOnScroll />
 			<main className="docs-main">
 				<header className="docs-hero">
+					<div className="grid-bg" aria-hidden="true" />
 					<div className="docs-hero-copy">
 						<span className="eyebrow">{t.eyebrow}</span>
 						<h1 className="page-h1">{t.h1}</h1>

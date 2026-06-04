@@ -53,6 +53,7 @@ export default function PricingBody({ lang }: { lang: Lang }) {
 			/>
 			<RevealOnScroll />
 			<header className="wide pricing-hero">
+				<div className="grid-bg" aria-hidden="true" />
 				<div className="pricing-hero-copy">
 					<span className="eyebrow">{t.eyebrow}</span>
 					<h1 className="page-h1" style={{ whiteSpace: "pre-line" }}>

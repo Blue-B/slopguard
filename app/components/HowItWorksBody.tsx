@@ -41,10 +41,18 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 			<RevealOnScroll />
 			<main className="wide section" style={{ paddingTop: 8 }}>
 				<header className="docs-hero">
+					<div className="grid-bg" aria-hidden="true" />
 					<div className="docs-hero-copy">
 						<span className="eyebrow">{t.eyebrow}</span>
 						<h1 className="page-h1">{t.h1}</h1>
 						<p className="page-sub">{t.sub}</p>
+						<nav className="docs-hero-links">
+							<a href="#pipeline">
+								{ko ? "파이프라인" : "the pipeline"}
+							</a>
+							<a href="#demo">{ko ? "라이브 데모" : "live demo"}</a>
+							<a href="#steps">{ko ? "단계별로" : "step by step"}</a>
+						</nav>
 					</div>
 					<figure className="plate docs-hero-plate">
 						<figcaption className="plate-bar">
@@ -62,7 +70,7 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 					</figure>
 				</header>
 
-				<section className="section">
+				<section className="section" id="pipeline">
 					<SectionHead
 						no="01"
 						kicker={ko ? "파이프라인" : "the pipeline"}
@@ -71,7 +79,7 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 					<HowPipeline lang={lang} />
 				</section>
 
-				<section className="section">
+				<section className="section" id="demo">
 					<SectionHead
 						no="02"
 						kicker={ko ? "해 볼 수 있어요" : "try it"}
@@ -92,7 +100,7 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 					</figure>
 				</section>
 
-				<section className="section">
+				<section className="section" id="steps">
 					<SectionHead
 						no="03"
 						kicker={ko ? "단계별로" : "step by step"}

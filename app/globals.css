@@ -1619,11 +1619,33 @@ footer.site {
 }
 /* docs asymmetric hero with gears asset */
 .docs-hero {
+	position: relative;
+	overflow: hidden;
 	display: grid;
 	grid-template-columns: 1.15fr 0.85fr;
 	gap: 48px;
 	align-items: center;
 	margin-bottom: 16px;
+	padding: 28px 0;
+}
+/* subpage heroes share the main hero's blueprint-grid backdrop */
+.docs-hero > .grid-bg,
+.pricing-hero > .grid-bg {
+	-webkit-mask-image: radial-gradient(
+		110% 120% at 78% 30%,
+		#000 25%,
+		transparent 72%
+	);
+	mask-image: radial-gradient(110% 120% at 78% 30%, #000 25%, transparent 72%);
+}
+.docs-hero > *:not(.grid-bg),
+.pricing-hero > *:not(.grid-bg) {
+	position: relative;
+	z-index: 1;
+}
+.pricing-hero {
+	position: relative;
+	overflow: hidden;
 }
 .docs-hero-plate,
 .pricing-plate {
