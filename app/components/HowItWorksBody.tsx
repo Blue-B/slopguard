@@ -48,7 +48,9 @@ export default function HowItWorksBody({ lang }: { lang: Lang }) {
 					</div>
 					<figure className="plate docs-hero-plate">
 						<figcaption className="plate-bar">
-							<span>{ko ? "슬롭을 걸러내는 파이프라인" : "the triage pipeline"}</span>
+							<span>
+								{ko ? "슬롭을 걸러내는 파이프라인" : "the triage pipeline"}
+							</span>
 							<span className="plate-coord">fig.00</span>
 						</figcaption>
 						<div className="plate-art">

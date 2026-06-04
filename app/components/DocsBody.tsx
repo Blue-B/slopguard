@@ -155,6 +155,12 @@ export default function DocsBody({ lang }: { lang: Lang }) {
 						<span className="eyebrow">{t.eyebrow}</span>
 						<h1 className="page-h1">{t.h1}</h1>
 						<p className="page-sub">{t.sub}</p>
+						<nav className="docs-hero-links">
+							<a href="#quickstart">{t.quickTitle}</a>
+							<a href="#commands">{t.cmdTitle}</a>
+							<a href="#scoring">{t.scoreTitle}</a>
+							<a href="#config">{t.cfgTitle}</a>
+						</nav>
 					</div>
 					<figure className="plate docs-hero-plate">
 						<figcaption className="plate-bar">

@@ -120,7 +120,10 @@ export default function PublicRepoLookup({ lang }: { lang: Lang }) {
 
 	return (
 		<div>
-			<form onSubmit={go} className={`scanbar${state === "loading" ? " scanning" : ""}`}>
+			<form
+				onSubmit={go}
+				className={`scanbar${state === "loading" ? " scanning" : ""}`}
+			>
 				<svg
 					className="scan-glyph"
 					width="16"
@@ -155,7 +158,10 @@ export default function PublicRepoLookup({ lang }: { lang: Lang }) {
 			{state === "ok" && stats && (
 				<div className="lookup-result">
 					<div className="lookup-head">
-						<a href={`https://github.com/${stats.repo}`}>{stats.repo}</a>
+						<span className="lookup-repo">
+							<span className="lookup-scanned">{lang === "ko" ? "스캔 완료" : "scanned"}</span>
+							<a href={`https://github.com/${stats.repo}`}>{stats.repo}</a>
+						</span>
 						<a className="lookup-full" href={`${dashBase}/${stats.repo}`}>
 							{t.full} &rarr;
 						</a>
@@ -166,6 +172,28 @@ export default function PublicRepoLookup({ lang }: { lang: Lang }) {
 						<MiniStat label={t.o} value={stats.open} />
 						<MiniStat label={t.x} value={stats.closed} />
 					</div>
+					{stats.quarantined + stats.cleared > 0 && (
+						<div className="slop-ratio" aria-hidden="true">
+							<div className="ratio-bar">
+								<span
+									className="seg q"
+									style={{ flexGrow: stats.quarantined || 0 }}
+								/>
+								<span
+									className="seg c"
+									style={{ flexGrow: stats.cleared || 0 }}
+								/>
+							</div>
+							<div className="ratio-legend">
+								<span className="q">
+									{t.quarantined} {stats.quarantined}
+								</span>
+								<span className="c">
+									{t.cleared} {stats.cleared}
+								</span>
+							</div>
+						</div>
+					)}
 					<dl className="lookup-key">
 						<div>
 							<dt>
