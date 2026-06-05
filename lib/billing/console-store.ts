@@ -242,8 +242,20 @@ function seedAudit(owner: string): AuditEntry[] {
 
 function seedIntegrations(): Integration[] {
 	return [
-		{ name: "Jira", status: "connected", scope: "Create tickets for quarantined PRs" },
-		{ name: "PagerDuty", status: "pending", scope: "Page on-call on High-risk campaign" },
-		{ name: "Datadog", status: "available", scope: "Forward audit events as logs" },
+		{
+			name: "Jira",
+			status: "connected",
+			scope: "Create tickets for quarantined PRs",
+		},
+		{
+			name: "PagerDuty",
+			status: "pending",
+			scope: "Page on-call on High-risk campaign",
+		},
+		{
+			name: "Datadog",
+			status: "available",
+			scope: "Forward audit events as logs",
+		},
 	];
 }

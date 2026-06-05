@@ -44,10 +44,7 @@ export async function POST(req: Request) {
 			{ status: 400 },
 		);
 	}
-	if (
-		b.kind === "slack" &&
-		!/^https:\/\/hooks\.slack\.com\//.test(b.target)
-	) {
+	if (b.kind === "slack" && !/^https:\/\/hooks\.slack\.com\//.test(b.target)) {
 		return NextResponse.json(
 			{ error: "slack target must be hooks.slack.com URL" },
 			{ status: 400 },
@@ -55,7 +52,9 @@ export async function POST(req: Request) {
 	}
 	if (
 		b.kind === "discord" &&
-		!/^https:\/\/(?:[a-z0-9-]+\.)?discord(?:app)?\.com\/api\/webhooks\//.test(b.target)
+		!/^https:\/\/(?:[a-z0-9-]+\.)?discord(?:app)?\.com\/api\/webhooks\//.test(
+			b.target,
+		)
 	) {
 		return NextResponse.json(
 			{ error: "discord target must be discord.com/api/webhooks/ URL" },
@@ -82,5 +81,9 @@ export async function POST(req: Request) {
 			source: "Admin",
 		});
 	});
-	return NextResponse.json({ ok: true, channel: created, total: state.channels.length });
+	return NextResponse.json({
+		ok: true,
+		channel: created,
+		total: state.channels.length,
+	});
 }

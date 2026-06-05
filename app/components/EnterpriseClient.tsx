@@ -105,7 +105,9 @@ export default function EnterpriseClient(props: Props) {
 						</button>
 					</div>
 				</div>
-				<table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+				<table
+					style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}
+				>
 					<thead>
 						<tr style={{ color: "#8b949e", borderBottom: "1px solid #26313d" }}>
 							<th style={{ textAlign: "left", padding: "9px 8px" }}>When</th>
@@ -160,7 +162,9 @@ export default function EnterpriseClient(props: Props) {
 					marginTop: 16,
 				}}
 			>
-				<h2 style={{ margin: 0, fontSize: 18, marginBottom: 8 }}>Custom integrations (live)</h2>
+				<h2 style={{ margin: 0, fontSize: 18, marginBottom: 8 }}>
+					Custom integrations (live)
+				</h2>
 				{integrations.map((integration) => (
 					<div
 						key={integration.name}

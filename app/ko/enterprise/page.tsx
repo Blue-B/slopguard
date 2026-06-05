@@ -22,7 +22,16 @@ const copy: EnterpriseConsoleCopy = {
 	user: "Blue-B",
 	entitlement: "Enterprise 권한 활성화",
 	connected: "● SSO 연결됨",
-	nav: ["개요", "큐", "레포", "캠페인", "알림", "SSO", "감사", "지원"],
+	nav: [
+		{ label: "개요", href: "/ko/org" },
+		{ label: "큐", href: "/ko/org#queue" },
+		{ label: "레포", href: "/ko/org#repos" },
+		{ label: "캠페인", href: "/ko/campaigns", external: true },
+		{ label: "알림", href: "/ko/alerts", external: true },
+		{ label: "SSO", href: "#sso" },
+		{ label: "감사", href: "#audit" },
+		{ label: "지원", href: "#support" },
+	],
 	activeNav: "개요",
 	eyebrow: "ENTERPRISE 기능",
 	title: "조직 전체에 SlopGuard를 통제된 형태로 운영합니다.",
@@ -34,11 +43,17 @@ const copy: EnterpriseConsoleCopy = {
 	orgHref: "/ko/org",
 	alertsHref: "/ko/alerts",
 	campaignsHref: "/ko/campaigns",
+	heroEyebrow: "ENTERPRISE · COMPLIANCE",
+	heroTitle: "조달이 요구하는 통제와 함께 SlopGuard를 운영하세요.",
+	heroBody:
+		"SAML/SSO, 내보내기 가능한 감사 로그, 전담 지원 담당, 1h P1 SLA. 별도 계약 없이 조달 검토에 그대로 대응하도록 설계됐습니다.",
+	heroCta: "감사 로그 열기",
+	heroCtaHref: "#audit",
 	metrics: [
-		{ label: "SSO", value: "활성", detail: "Okta · SAML 2.0" },
-		{ label: "감사 보존", value: "365일", detail: "플랜별 조정 가능" },
-		{ label: "자체 호스팅", value: "켜짐", detail: "귀사 팀이 직접 운영" },
-		{ label: "지원 SLA", value: "1시간 P1", detail: "24×7, 전담 담당" },
+		{ label: "SSO", value: "활성", detail: "Okta · SAML 2.0", tone: "ok" },
+		{ label: "감사 보존", value: "365일", detail: "플랜별 조정 가능", tone: "neutral" },
+		{ label: "자체 호스팅", value: "켜짐", detail: "귀사 팀이 직접 운영", tone: "neutral" },
+		{ label: "지원 SLA", value: "1시간 P1", detail: "24×7, 전담 담당", tone: "ok" },
 	],
 	ssoTitle: "SSO / SAML",
 	ssoSubtitle: "IdP 및 세션 정책",
@@ -123,13 +138,15 @@ const copy: EnterpriseConsoleCopy = {
 	supportSla: "SLA",
 	supportHours: "운영 시간",
 	supportAccountMgr: "전담 매니저",
-	note: "감사 보존 기간과 자체 호스팅 지원 범위는 계약 단위로 지정됩니다. 조정은 전담 매니저에게 문의하세요.",
 };
 
 export default async function EnterprisePageKo() {
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
-	let live: { audit: ReturnType<typeof getState>["audit"]; integrations: ReturnType<typeof getState>["integrations"] } | null = null;
+	let live: {
+		audit: ReturnType<typeof getState>["audit"];
+		integrations: ReturnType<typeof getState>["integrations"];
+	} | null = null;
 	if (session && (await hasSso(session.login))) {
 		const state = getState(session.login);
 		live = { audit: state.audit, integrations: state.integrations };
@@ -140,7 +157,9 @@ export default async function EnterprisePageKo() {
 			<PlanGate lang="ko" required="enterprise">
 				<EnterpriseConsole copy={copy} />
 				{live ? (
-					<div style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}>
+					<div
+						style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}
+					>
 						<EnterpriseClient
 							audit={live.audit}
 							integrations={live.integrations}

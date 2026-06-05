@@ -27,9 +27,27 @@ const SAMPLE_CLUSTERS = [
 		hits: 23,
 		firstSeen: daysAgo(3),
 		commits: [
-			{ repo: "blue-b/slopguard", sha: "a1b2c3d", title: "feat: implement new feature with comprehensive tests", author: "@blue-b", when: daysAgo(1) },
-			{ repo: "blue-b/web", sha: "d4e5f6a", title: "feat: implement new feature with comprehensive tests", author: "@alex", when: daysAgo(2) },
-			{ repo: "blue-b/api", sha: "b7c8d9e", title: "feat: implement new feature with comprehensive tests", author: "@alex", when: daysAgo(3) },
+			{
+				repo: "blue-b/slopguard",
+				sha: "a1b2c3d",
+				title: "feat: implement new feature with comprehensive tests",
+				author: "@blue-b",
+				when: daysAgo(1),
+			},
+			{
+				repo: "blue-b/web",
+				sha: "d4e5f6a",
+				title: "feat: implement new feature with comprehensive tests",
+				author: "@alex",
+				when: daysAgo(2),
+			},
+			{
+				repo: "blue-b/api",
+				sha: "b7c8d9e",
+				title: "feat: implement new feature with comprehensive tests",
+				author: "@alex",
+				when: daysAgo(3),
+			},
 		],
 	},
 	{
@@ -40,8 +58,20 @@ const SAMPLE_CLUSTERS = [
 		hits: 11,
 		firstSeen: daysAgo(7),
 		commits: [
-			{ repo: "blue-b/api", sha: "f0e1d2c", title: "fix: resolve edge case in parser", author: "@alex", when: daysAgo(4) },
-			{ repo: "blue-b/parser", sha: "3b4a5c6", title: "fix: resolve edge case in parser", author: "@rin", when: daysAgo(7) },
+			{
+				repo: "blue-b/api",
+				sha: "f0e1d2c",
+				title: "fix: resolve edge case in parser",
+				author: "@alex",
+				when: daysAgo(4),
+			},
+			{
+				repo: "blue-b/parser",
+				sha: "3b4a5c6",
+				title: "fix: resolve edge case in parser",
+				author: "@rin",
+				when: daysAgo(7),
+			},
 		],
 	},
 	{
@@ -52,8 +82,20 @@ const SAMPLE_CLUSTERS = [
 		hits: 9,
 		firstSeen: daysAgo(14),
 		commits: [
-			{ repo: "blue-b/docs", sha: "7d8e9fa", title: "docs: update onboarding guide", author: "@blue-b", when: daysAgo(8) },
-			{ repo: "blue-b/help-center", sha: "1c2d3e4", title: "docs: update onboarding guide", author: "@alex", when: daysAgo(14) },
+			{
+				repo: "blue-b/docs",
+				sha: "7d8e9fa",
+				title: "docs: update onboarding guide",
+				author: "@blue-b",
+				when: daysAgo(8),
+			},
+			{
+				repo: "blue-b/help-center",
+				sha: "1c2d3e4",
+				title: "docs: update onboarding guide",
+				author: "@alex",
+				when: daysAgo(14),
+			},
 		],
 	},
 ];
@@ -79,7 +121,12 @@ export async function GET(
 		SAMPLE_CLUSTERS.find((c) => c.id === id) ??
 		// Touch the live detector so the call has a real effect.
 		(() => {
-			const live = recordAndDetect(session.login, id, "blue-b/slopguard", session.login);
+			const live = recordAndDetect(
+				session.login,
+				id,
+				"blue-b/slopguard",
+				session.login,
+			);
 			if (!live) return null;
 			return {
 				id,
@@ -87,7 +134,9 @@ export async function GET(
 				repos: live.repos,
 				authors: [],
 				hits: live.totalCount,
-				firstSeen: new Date(Date.now() - 60 * 60 * 1000).toISOString().slice(0, 10),
+				firstSeen: new Date(Date.now() - 60 * 60 * 1000)
+					.toISOString()
+					.slice(0, 10),
 				commits: [],
 			};
 		})();
@@ -97,15 +146,27 @@ export async function GET(
 	}
 
 	// Pull per-repo slop stats so the drill-down can show live impact.
-	let repoImpact: Array<{ repo: string; quarantined: number; cleared: number }> = [];
+	let repoImpact: Array<{
+		repo: string;
+		quarantined: number;
+		cleared: number;
+	}> = [];
 	try {
 		const plan = await planObjectForOwner(session.login);
 		const stats = await getOwnerSlopStats(session.login, plan.maxRepos);
 		repoImpact = stats.repos
 			.filter((r) => cluster.repos.includes(r.repo))
-			.map((r) => ({ repo: r.repo, quarantined: r.quarantined, cleared: r.cleared }));
+			.map((r) => ({
+				repo: r.repo,
+				quarantined: r.quarantined,
+				cleared: r.cleared,
+			}));
 	} catch {
-		repoImpact = cluster.repos.map((repo) => ({ repo, quarantined: 0, cleared: 0 }));
+		repoImpact = cluster.repos.map((repo) => ({
+			repo,
+			quarantined: 0,
+			cleared: 0,
+		}));
 	}
 
 	return NextResponse.json({

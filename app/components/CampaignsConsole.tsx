@@ -1,20 +1,22 @@
 import Link from "next/link";
+import Image from "next/image";
+import ConsoleSidebar, { type SidebarItem } from "./ConsoleSidebar";
+import { shell, frame, card, muted, riskColor, riskBg, toneColor } from "./console-styles";
 
-type Metric = { label: string; value: string; detail: string };
-type Campaign = {
-	fingerprint: string;
-	repos: number;
-	hits: number;
-	authors: number;
-	first: string;
-	risk: "High" | "Medium" | "Low";
-	boost: number;
-};
 type ClusterRepo = {
 	repo: string;
 	commits: number;
 	authors: string[];
 	score: number;
+};
+
+type Campaign = {
+	fingerprint: string;
+	repoCount: number;
+	hits: number;
+	firstSeen: string;
+	risk: "low" | "medium" | "high";
+	repos: ClusterRepo[];
 };
 
 export type CampaignsConsoleCopy = {
@@ -23,151 +25,153 @@ export type CampaignsConsoleCopy = {
 	user: string;
 	entitlement: string;
 	connected: string;
-	nav: string[];
+	nav: SidebarItem[];
 	activeNav: string;
 	eyebrow: string;
 	title: string;
 	subtitle: string;
+	investigate: string;
 	backToOrg: string;
-	primaryAction: string;
-	metrics: Metric[];
+	metrics: { label: string; value: string; detail: string; tone?: "neutral" | "warn" | "danger" | "ok" }[];
 	clustersTitle: string;
 	clustersSubtitle: string;
-	riskHigh: string;
-	riskMedium: string;
-	riskLow: string;
-	repoHeader: string;
-	commitsHeader: string;
-	authorsHeader: string;
-	scoreHeader: string;
-	clusters: { campaign: Campaign; repos: ClusterRepo[] }[];
-	investigate: string;
-	note: string;
+	clusters: Campaign[];
+	scoreBoostTitle: string;
+	scoreBoostBody: string;
 	orgHref: string;
-	alertsHref: string;
 	accountHref: string;
+	heroEyebrow: string;
+	heroTitle: string;
+	heroBody: string;
+	heroCta: string;
+	heroCtaHref: string;
 };
 
-const shell: React.CSSProperties = {
-	maxWidth: 1200,
-	margin: "28px auto 56px",
-	padding: "0 20px",
-};
-const frame: React.CSSProperties = {
-	border: "1px solid var(--border)",
-	borderRadius: 20,
-	overflow: "hidden",
-	background: "#0b1016",
-	boxShadow: "0 20px 70px rgba(0,0,0,.28)",
-};
-const card: React.CSSProperties = {
-	border: "1px solid #26313d",
-	borderRadius: 14,
-	background: "#0f1620",
-};
-const muted: React.CSSProperties = { color: "#8b949e" };
-
-function riskColor(r: Campaign["risk"]): string {
-	return r === "High" ? "#f85149" : r === "Medium" ? "#d29922" : "#3fb950";
-}
-
-export default function CampaignsConsole({
-	copy,
-}: {
-	copy: CampaignsConsoleCopy;
-}) {
+export default function CampaignsConsole({ copy }: { copy: CampaignsConsoleCopy }) {
 	return (
 		<main style={shell}>
 			<section style={frame}>
-				<div style={{ display: "grid", gridTemplateColumns: "228px 1fr" }}>
-					<aside
-						style={{
-							borderRight: "1px solid #26313d",
-							background: "#111923",
-							padding: 18,
-							minHeight: 720,
-						}}
-					>
-						<div style={{ marginBottom: 22 }}>
-							<div style={{ fontWeight: 800, letterSpacing: "-.02em" }}>
-								{copy.workspace}
-							</div>
-							<div style={{ ...muted, fontSize: 12, marginTop: 3 }}>
-								{copy.workspaceSub}
-							</div>
-						</div>
+				<div
+					style={{
+						display: "grid",
+						gridTemplateColumns: "240px 1fr",
+						minHeight: 760,
+					}}
+				>
+					<ConsoleSidebar
+						workspace={copy.workspace}
+						workspaceSub={copy.workspaceSub}
+						user={copy.user}
+						entitlement={copy.entitlement}
+						connected={copy.connected}
+						nav={copy.nav}
+						activeNav={copy.activeNav}
+					/>
 
-						<nav style={{ display: "grid", gap: 4 }}>
-							{copy.nav.map((item) => {
-								const active = item === copy.activeNav;
-								return (
-									<div
-										key={item}
-										style={{
-											borderRadius: 10,
-											padding: "9px 10px",
-											fontSize: 13,
-											color: active ? "#f0f6fc" : "#8b949e",
-											background: active ? "#17212d" : "transparent",
-											border: active
-												? "1px solid #2b3846"
-												: "1px solid transparent",
-										}}
-									>
-										{item}
-									</div>
-								);
-							})}
-						</nav>
-
-						<div style={{ ...card, marginTop: 28, padding: 12, fontSize: 12 }}>
-							<div style={{ color: "#f0f6fc", fontWeight: 700 }}>{copy.user}</div>
-							<div style={{ ...muted, marginTop: 4 }}>{copy.entitlement}</div>
-							<div style={{ marginTop: 10, color: "#3fb950" }}>{copy.connected}</div>
-						</div>
-					</aside>
-
-					<div style={{ padding: 24 }}>
+					<div style={{ padding: "26px 28px 32px" }}>
 						<header
 							style={{
-								display: "flex",
-								justifyContent: "space-between",
-								alignItems: "flex-start",
+								display: "grid",
+								gridTemplateColumns: "1.2fr 1fr",
 								gap: 18,
-								marginBottom: 22,
+								marginBottom: 26,
 							}}
 						>
-							<div>
+							<div
+								style={{
+									background:
+										"radial-gradient(120% 80% at 0% 0%, rgba(63,185,80,.08), transparent 60%), linear-gradient(180deg, #0f1620 0%, #0b1016 100%)",
+									border: "1px solid #1c2530",
+									borderRadius: 16,
+									padding: "20px 22px",
+								}}
+							>
 								<div
 									style={{
 										color: "#3fb950",
-										fontSize: 12,
+										fontSize: 11,
 										fontWeight: 800,
-										letterSpacing: ".08em",
+										letterSpacing: ".14em",
+										fontFamily: "var(--mono)",
 									}}
 								>
-									{copy.eyebrow}
+									{copy.heroEyebrow}
 								</div>
 								<h1
 									style={{
-										margin: "8px 0 7px",
-										fontSize: 32,
-										letterSpacing: "-.04em",
+										margin: "10px 0 8px",
+										fontSize: 30,
+										letterSpacing: "-.035em",
+										fontWeight: 800,
+										lineHeight: 1.1,
 									}}
 								>
-									{copy.title}
+									{copy.heroTitle}
 								</h1>
-								<p style={{ ...muted, margin: 0, maxWidth: 680, lineHeight: 1.55 }}>
-									{copy.subtitle}
+								<p
+									style={{
+										...muted,
+										margin: 0,
+										maxWidth: 540,
+										lineHeight: 1.55,
+										fontSize: 14,
+									}}
+								>
+									{copy.heroBody}
 								</p>
+								<div style={{ marginTop: 16, display: "flex", gap: 10 }}>
+									<Link href={copy.heroCtaHref} className="btn btn-primary btn-sm">
+										{copy.heroCta}
+									</Link>
+									<Link href={copy.orgHref} className="btn btn-ghost btn-sm">
+										{copy.backToOrg}
+									</Link>
+								</div>
 							</div>
-							<div style={{ display: "flex", gap: 10 }}>
-								<Link href={copy.orgHref} className="btn btn-ghost btn-sm">
-									{copy.backToOrg}
-								</Link>
-								<Link href={copy.alertsHref} className="btn btn-primary btn-sm">
-									{copy.primaryAction}
-								</Link>
+							<div
+								style={{
+									border: "1px solid #1c2530",
+									borderRadius: 16,
+									overflow: "hidden",
+									position: "relative",
+									minHeight: 180,
+									background: "#0a0e15",
+								}}
+							>
+								<Image
+									src="/radar-circuit.png"
+									alt="Cross-repo campaign radar"
+									fill
+									style={{ objectFit: "cover", opacity: 0.7 }}
+									sizes="(max-width: 1280px) 100vw, 480px"
+								/>
+								<div
+									style={{
+										position: "absolute",
+										inset: 0,
+										background:
+											"linear-gradient(180deg, rgba(10,14,21,.4) 0%, rgba(10,14,21,.9) 100%)",
+									}}
+								/>
+								<div
+									style={{
+										position: "absolute",
+										bottom: 14,
+										left: 16,
+										right: 16,
+										fontFamily: "var(--mono)",
+										fontSize: 11,
+										color: "#8b949e",
+										letterSpacing: ".05em",
+									}}
+								>
+									<div style={{ color: "#f0f6fc", fontWeight: 700, fontSize: 12 }}>
+										Cross-repo fingerprint detector
+									</div>
+									<div style={{ marginTop: 4 }}>
+										Sliding 6h window · per-owner scope
+									</div>
+								</div>
 							</div>
 						</header>
 
@@ -175,163 +179,303 @@ export default function CampaignsConsole({
 							style={{
 								display: "grid",
 								gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-								gap: 12,
+								gap: 0,
+								borderTop: "1px solid #1c2530",
+								borderBottom: "1px solid #1c2530",
+								marginBottom: 24,
 							}}
 						>
-							{copy.metrics.map((metric) => (
-								<div key={metric.label} style={{ ...card, padding: 15 }}>
+							{copy.metrics.map((metric, i) => (
+								<div
+									key={metric.label}
+									style={{
+										padding: "16px 18px",
+										borderRight:
+											i < copy.metrics.length - 1
+												? "1px solid #1c2530"
+												: "none",
+									}}
+								>
 									<div
 										style={{
-											fontSize: 27,
+											...muted,
+											fontSize: 10,
+											letterSpacing: ".14em",
+											textTransform: "uppercase",
+											fontFamily: "var(--mono)",
+										}}
+									>
+										{metric.label}
+									</div>
+									<div
+										style={{
+											fontSize: 28,
 											fontWeight: 800,
 											letterSpacing: "-.03em",
+											marginTop: 6,
+											color: toneColor[metric.tone ?? "neutral"],
+											fontFamily: "var(--mono)",
 										}}
 									>
 										{metric.value}
 									</div>
-									<div style={{ color: "#f0f6fc", fontSize: 13, marginTop: 4 }}>
-										{metric.label}
-									</div>
-									<div style={{ ...muted, fontSize: 12, marginTop: 6 }}>
+									<div
+										style={{
+											...muted,
+											fontSize: 11,
+											marginTop: 4,
+										}}
+									>
 										{metric.detail}
 									</div>
 								</div>
 							))}
 						</div>
 
-						<section style={{ ...card, padding: 16, marginTop: 16 }}>
-							<div style={{ marginBottom: 12 }}>
-								<h2 style={{ margin: 0, fontSize: 18 }}>{copy.clustersTitle}</h2>
-								<div style={{ ...muted, fontSize: 12, marginTop: 4 }}>
-									{copy.clustersSubtitle}
+						<section style={{ marginBottom: 24 }}>
+							<header
+								style={{
+									display: "flex",
+									justifyContent: "space-between",
+									alignItems: "flex-end",
+									marginBottom: 12,
+								}}
+							>
+								<div>
+									<h2 style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}>
+										{copy.clustersTitle}
+									</h2>
+									<div style={{ ...muted, fontSize: 12, marginTop: 4 }}>
+										{copy.clustersSubtitle}
+									</div>
 								</div>
+							</header>
+							<div style={{ display: "grid", gap: 14 }}>
+								{copy.clusters.map((cluster) => {
+									const c0 = riskColor[cluster.risk];
+									return (
+										<div
+											key={cluster.fingerprint}
+											style={{ ...card, padding: "16px 18px" }}
+										>
+											<div
+												style={{
+													display: "flex",
+													justifyContent: "space-between",
+													alignItems: "flex-start",
+													gap: 16,
+													marginBottom: 14,
+												}}
+											>
+												<div style={{ minWidth: 0, flex: 1 }}>
+													<div
+														style={{
+															display: "flex",
+															alignItems: "center",
+															gap: 8,
+															marginBottom: 6,
+														}}
+													>
+														<span
+															style={{
+																display: "inline-block",
+																padding: "1px 8px",
+																borderRadius: 99,
+																fontSize: 10,
+																fontFamily: "var(--mono)",
+																textTransform: "uppercase",
+																letterSpacing: ".08em",
+																background: riskBg[cluster.risk],
+																color: c0,
+															}}
+														>
+															{cluster.risk} risk
+														</span>
+														<span
+															style={{
+																fontSize: 11,
+																color: "#8b949e",
+																fontFamily: "var(--mono)",
+															}}
+														>
+															{cluster.repoCount} repos · {cluster.hits} hits ·
+															first seen {cluster.firstSeen}
+														</span>
+													</div>
+													<div
+														style={{
+															fontFamily: "var(--mono)",
+															fontSize: 14,
+															color: "#f0f6fc",
+															overflow: "hidden",
+															textOverflow: "ellipsis",
+															whiteSpace: "nowrap",
+														}}
+													>
+														{cluster.fingerprint}
+													</div>
+												</div>
+												<Link
+													href={copy.heroCtaHref}
+													className="btn btn-ghost btn-sm"
+												>
+													{copy.investigate}
+												</Link>
+											</div>
+											<div
+												style={{
+													display: "grid",
+													gridTemplateColumns:
+														"repeat(auto-fit, minmax(220px, 1fr))",
+													gap: 10,
+												}}
+											>
+												{cluster.repos.map((repo) => (
+													<div
+														key={repo.repo}
+														style={{
+															border: "1px solid #1c2530",
+															borderRadius: 10,
+															padding: "10px 12px",
+															background: "#0a1018",
+														}}
+													>
+														<div
+															style={{
+																fontFamily: "var(--mono)",
+																fontSize: 12,
+																color: "#c9d1d9",
+															}}
+														>
+															{repo.repo}
+														</div>
+														<div
+															style={{
+																display: "flex",
+																justifyContent: "space-between",
+																marginTop: 4,
+																fontFamily: "var(--mono)",
+																fontSize: 11,
+																color: "#8b949e",
+															}}
+														>
+															<span>
+																{repo.commits} commits ·{" "}
+																{repo.authors.join(", ")}
+															</span>
+															<span
+																style={{
+																	color:
+																		repo.score >= 80
+																			? "#f85149"
+																			: repo.score >= 60
+																				? "#d29922"
+																				: "#3fb950",
+																}}
+															>
+																{repo.score}
+															</span>
+														</div>
+													</div>
+												))}
+											</div>
+										</div>
+									);
+								})}
 							</div>
+						</section>
 
-							<div style={{ display: "grid", gap: 16 }}>
-								{copy.clusters.map(({ campaign, repos }) => (
+						<section>
+							<header
+								style={{
+									display: "flex",
+									justifyContent: "space-between",
+									alignItems: "flex-end",
+									marginBottom: 12,
+								}}
+							>
+								<div>
+									<h2 style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}>
+										{copy.scoreBoostTitle}
+									</h2>
+									<div style={{ ...muted, fontSize: 12, marginTop: 4 }}>
+										{copy.scoreBoostBody}
+									</div>
+								</div>
+							</header>
+							<div
+								style={{
+									...card,
+									padding: "16px 18px",
+									display: "grid",
+									gridTemplateColumns: "1fr 1fr 1fr",
+									gap: 12,
+								}}
+							>
+								{(
+									[
+										{ tier: "Free", boost: "+0", tone: "neutral" as const },
+										{ tier: "Pro", boost: "+25", tone: "warn" as const },
+										{ tier: "Team", boost: "+25", tone: "danger" as const },
+									]
+								).map((row) => (
 									<div
-										key={campaign.fingerprint}
+										key={row.tier}
 										style={{
-											border: "1px solid #26313d",
-											borderRadius: 12,
-											background: "#0b1119",
-											padding: 16,
+											padding: "12px 14px",
+											border: "1px solid #1c2530",
+											borderRadius: 10,
+											background: "#0a1018",
 										}}
 									>
 										<div
 											style={{
-												display: "flex",
-												justifyContent: "space-between",
-												gap: 12,
-												marginBottom: 12,
+												...muted,
+												fontSize: 10,
+												letterSpacing: ".14em",
+												textTransform: "uppercase",
+												fontFamily: "var(--mono)",
 											}}
 										>
-											<div>
-												<div
-													style={{
-														...muted,
-														fontSize: 12,
-														fontFamily: "var(--mono)",
-														marginBottom: 4,
-													}}
-												>
-													prompt fingerprint
-												</div>
-												<div style={{ fontSize: 15, fontWeight: 600 }}>
-													{campaign.fingerprint}
-												</div>
-												<div
-													style={{
-														...muted,
-														fontSize: 12,
-														marginTop: 6,
-														display: "flex",
-														gap: 16,
-														flexWrap: "wrap",
-													}}
-												>
-													<span>
-														<strong style={{ color: "#f0f6fc" }}>
-															{campaign.repos}
-														</strong>{" "}
-														repos
-													</span>
-													<span>
-														<strong style={{ color: "#f0f6fc" }}>
-															{campaign.hits}
-														</strong>{" "}
-														hits
-													</span>
-													<span>
-														<strong style={{ color: "#f0f6fc" }}>
-															{campaign.authors}
-														</strong>{" "}
-														authors
-													</span>
-													<span>{campaign.first}</span>
-												</div>
-											</div>
-											<div style={{ textAlign: "right" }}>
-												<div style={{ color: riskColor(campaign.risk), fontSize: 12, fontWeight: 700 }}>
-													● {campaign.risk} risk
-												</div>
-												<div style={{ ...muted, fontSize: 12, marginTop: 4 }}>
-													+{campaign.boost} score boost
-												</div>
-												<button type="button" className="btn btn-ghost btn-sm" style={{ marginTop: 10 }}>
-													{copy.investigate}
-												</button>
-											</div>
+											{row.tier}
 										</div>
-
-										<table
+										<div
 											style={{
-												width: "100%",
-												borderCollapse: "collapse",
-												fontSize: 13,
+												fontSize: 22,
+												fontWeight: 800,
+												fontFamily: "var(--mono)",
+												color: toneColor[row.tone],
+												marginTop: 4,
 											}}
 										>
-											<thead>
-												<tr
-													style={{
-														color: "#8b949e",
-														borderBottom: "1px solid #26313d",
-													}}
-												>
-													<th style={{ textAlign: "left", padding: "9px 8px" }}>{copy.repoHeader}</th>
-													<th style={{ textAlign: "right", padding: "9px 8px" }}>{copy.commitsHeader}</th>
-													<th style={{ textAlign: "left", padding: "9px 8px" }}>{copy.authorsHeader}</th>
-													<th style={{ textAlign: "right", padding: "9px 8px" }}>{copy.scoreHeader}</th>
-												</tr>
-											</thead>
-											<tbody>
-												{repos.map((repo) => (
-													<tr
-														key={repo.repo}
-														style={{ borderBottom: "1px solid #18222e" }}
-													>
-														<td style={{ padding: "10px 8px", fontFamily: "var(--mono)" }}>{repo.repo}</td>
-														<td style={{ padding: "10px 8px", textAlign: "right" }}>{repo.commits}</td>
-														<td style={{ padding: "10px 8px", color: "#c9d1d9" }}>{repo.authors.join(", ")}</td>
-														<td
-															style={{
-																padding: "10px 8px",
-																textAlign: "right",
-																color: repo.score > 60 ? "#f85149" : "#3fb950",
-															}}
-														>
-															{repo.score}
-														</td>
-													</tr>
-												))}
-											</tbody>
-										</table>
+											{row.boost}
+										</div>
+										<div
+											style={{
+												...muted,
+												fontSize: 11,
+												fontFamily: "var(--mono)",
+											}}
+										>
+											applied to fingerprint matches
+										</div>
 									</div>
 								))}
 							</div>
-
-							<p style={{ ...muted, fontSize: 12, marginTop: 16 }}>{copy.note}</p>
 						</section>
+
+						<div
+							style={{
+								marginTop: 24,
+								display: "flex",
+								gap: 10,
+								justifyContent: "flex-end",
+							}}
+						>
+							<Link href={copy.accountHref} className="btn btn-ghost btn-sm">
+								{copy.investigate}
+							</Link>
+						</div>
 					</div>
 				</div>
 			</section>

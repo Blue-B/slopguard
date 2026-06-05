@@ -28,7 +28,8 @@ const T = {
 			"이 페이지는 유료 기능 콘솔입니다. GitHub으로 로그인하면 실제 데이터가 표시됩니다. 지금은 미리보기로 보고 계세요.",
 		signinCta: "GitHub으로 로그인",
 		previewBadge: "미리보기 · 샘플 데이터",
-		upgradeTitle: (required: string) => `이 콘솔은 ${required} 플랜에서 제공됩니다`,
+		upgradeTitle: (required: string) =>
+			`이 콘솔은 ${required} 플랜에서 제공됩니다`,
 		upgradeSub: (required: string, current: string) =>
 			`현재 ${current} 플랜입니다. ${required}으로 업그레이드하면 이 콘솔에서 실제 ${required} 데이터를 볼 수 있습니다.`,
 		upgradeCta: (required: string) => `${required} 업그레이드`,
@@ -104,7 +105,11 @@ export type PlanGateProps = {
 	children: React.ReactNode;
 };
 
-export default async function PlanGate({ lang, required, children }: PlanGateProps) {
+export default async function PlanGate({
+	lang,
+	required,
+	children,
+}: PlanGateProps) {
 	const gate = await resolveGate(lang, required);
 
 	if (gate.state === "ok") {
@@ -196,16 +201,10 @@ function PlanGateOverlay({
 					{banner.body}
 				</p>
 				<div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-					<Link
-						href={banner.primary.href}
-						className="btn btn-primary btn-sm"
-					>
+					<Link href={banner.primary.href} className="btn btn-primary btn-sm">
 						{banner.primary.label}
 					</Link>
-					<Link
-						href={banner.secondary.href}
-						className="btn btn-ghost btn-sm"
-					>
+					<Link href={banner.secondary.href} className="btn btn-ghost btn-sm">
 						{banner.secondary.label}
 					</Link>
 				</div>

@@ -58,7 +58,11 @@ export default function AlertsConsoleClient(props: Props) {
 			const res = await fetch("/api/alerts/channels", {
 				method: "POST",
 				headers: { "content-type": "application/json" },
-				body: JSON.stringify({ kind, label: label.trim(), target: target.trim() }),
+				body: JSON.stringify({
+					kind,
+					label: label.trim(),
+					target: target.trim(),
+				}),
 			});
 			if (!res.ok) {
 				const j = (await res.json().catch(() => ({}))) as { error?: string };
@@ -125,11 +129,15 @@ export default function AlertsConsoleClient(props: Props) {
 						alignItems: "end",
 					}}
 				>
-					<label style={{ display: "grid", gap: 4, fontSize: 12, color: "#8b949e" }}>
+					<label
+						style={{ display: "grid", gap: 4, fontSize: 12, color: "#8b949e" }}
+					>
 						<span>{props.channelKindLabel}</span>
 						<select
 							value={kind}
-							onChange={(e) => setKind(e.target.value as "slack" | "discord" | "webhook")}
+							onChange={(e) =>
+								setKind(e.target.value as "slack" | "discord" | "webhook")
+							}
 							style={{
 								background: "#0b1119",
 								color: "#f0f6fc",
@@ -144,7 +152,9 @@ export default function AlertsConsoleClient(props: Props) {
 							<option value="webhook">{props.kindWebhook}</option>
 						</select>
 					</label>
-					<label style={{ display: "grid", gap: 4, fontSize: 12, color: "#8b949e" }}>
+					<label
+						style={{ display: "grid", gap: 4, fontSize: 12, color: "#8b949e" }}
+					>
 						<span>Label</span>
 						<input
 							type="text"
@@ -161,7 +171,9 @@ export default function AlertsConsoleClient(props: Props) {
 							}}
 						/>
 					</label>
-					<label style={{ display: "grid", gap: 4, fontSize: 12, color: "#8b949e" }}>
+					<label
+						style={{ display: "grid", gap: 4, fontSize: 12, color: "#8b949e" }}
+					>
 						<span>{props.targetLabel}</span>
 						<input
 							type="url"
@@ -188,7 +200,9 @@ export default function AlertsConsoleClient(props: Props) {
 					</button>
 				</div>
 				{status && (
-					<div style={{ marginTop: 10, fontSize: 12, color: "#c9d1d9" }}>{status}</div>
+					<div style={{ marginTop: 10, fontSize: 12, color: "#c9d1d9" }}>
+						{status}
+					</div>
 				)}
 			</section>
 
@@ -209,7 +223,9 @@ export default function AlertsConsoleClient(props: Props) {
 						marginBottom: 12,
 					}}
 				>
-					<h2 style={{ margin: 0, fontSize: 18 }}>Channels ({channels.length})</h2>
+					<h2 style={{ margin: 0, fontSize: 18 }}>
+						Channels ({channels.length})
+					</h2>
 					{channels.length === 0 && (
 						<span style={{ color: "#8b949e", fontSize: 12 }}>
 							{props.emptyChannelsLabel}
@@ -252,7 +268,9 @@ export default function AlertsConsoleClient(props: Props) {
 							disabled={testingId === channel.id || pending}
 							onClick={() => sendTest(channel.id)}
 						>
-							{testingId === channel.id ? props.sendingLabel : props.testSendLabel}
+							{testingId === channel.id
+								? props.sendingLabel
+								: props.testSendLabel}
 						</button>
 					</div>
 				))}
@@ -267,21 +285,33 @@ export default function AlertsConsoleClient(props: Props) {
 					marginTop: 16,
 				}}
 			>
-				<h2 style={{ margin: 0, fontSize: 18, marginBottom: 8 }}>Sent alert log (live)</h2>
-				<table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+				<h2 style={{ margin: 0, fontSize: 18, marginBottom: 8 }}>
+					Sent alert log (live)
+				</h2>
+				<table
+					style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}
+				>
 					<thead>
 						<tr style={{ color: "#8b949e", borderBottom: "1px solid #26313d" }}>
 							<th style={{ textAlign: "left", padding: "9px 8px" }}>When</th>
 							<th style={{ textAlign: "left", padding: "9px 8px" }}>Item</th>
 							<th style={{ textAlign: "left", padding: "9px 8px" }}>Dest</th>
 							<th style={{ textAlign: "left", padding: "9px 8px" }}>Status</th>
-							<th style={{ textAlign: "right", padding: "9px 8px" }}>Latency</th>
+							<th style={{ textAlign: "right", padding: "9px 8px" }}>
+								Latency
+							</th>
 						</tr>
 					</thead>
 					<tbody>
 						{alerts.map((row) => (
 							<tr key={row.id} style={{ borderBottom: "1px solid #18222e" }}>
-								<td style={{ padding: "10px 8px", color: "#8b949e", fontFamily: "var(--mono)" }}>
+								<td
+									style={{
+										padding: "10px 8px",
+										color: "#8b949e",
+										fontFamily: "var(--mono)",
+									}}
+								>
 									{row.when}
 								</td>
 								<td style={{ padding: "10px 8px" }}>{row.item}</td>

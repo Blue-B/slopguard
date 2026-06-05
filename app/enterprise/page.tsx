@@ -23,14 +23,14 @@ const copy: EnterpriseConsoleCopy = {
 	entitlement: "Enterprise entitlement active",
 	connected: "● Connected via SSO",
 	nav: [
-		"Overview",
-		"Queue",
-		"Repos",
-		"Campaigns",
-		"Alerts",
-		"SSO",
-		"Audit",
-		"Support",
+		{ label: "Overview", href: "/org" },
+		{ label: "Queue", href: "/org#queue" },
+		{ label: "Repos", href: "/org#repos" },
+		{ label: "Campaigns", href: "/campaigns", external: true },
+		{ label: "Alerts", href: "/alerts", external: true },
+		{ label: "SSO", href: "#sso" },
+		{ label: "Audit", href: "#audit" },
+		{ label: "Support", href: "#support" },
 	],
 	activeNav: "Overview",
 	eyebrow: "ENTERPRISE FEATURE",
@@ -43,15 +43,17 @@ const copy: EnterpriseConsoleCopy = {
 	orgHref: "/org",
 	alertsHref: "/alerts",
 	campaignsHref: "/campaigns",
+	heroEyebrow: "ENTERPRISE · COMPLIANCE",
+	heroTitle: "Run SlopGuard with the controls procurement asks for.",
+	heroBody:
+		"SAML/SSO, an exportable audit log, a named support contact, and a 1h P1 SLA. Designed to drop into a procurement review without a custom contract.",
+	heroCta: "Open audit log",
+	heroCtaHref: "#audit",
 	metrics: [
-		{ label: "SSO", value: "Active", detail: "Okta · SAML 2.0" },
-		{
-			label: "Audit retention",
-			value: "365d",
-			detail: "configurable per plan",
-		},
-		{ label: "Self-host", value: "On", detail: "managed by your team" },
-		{ label: "Support SLA", value: "1h P1", detail: "24×7, named contact" },
+		{ label: "SSO", value: "Active", detail: "Okta · SAML 2.0", tone: "ok" },
+		{ label: "Audit retention", value: "365d", detail: "configurable per plan", tone: "neutral" },
+		{ label: "Self-host", value: "On", detail: "managed by your team", tone: "neutral" },
+		{ label: "Support SLA", value: "1h P1", detail: "24×7, named contact", tone: "ok" },
 	],
 	ssoTitle: "SSO / SAML",
 	ssoSubtitle: "Identity provider and session policy",
@@ -136,13 +138,15 @@ const copy: EnterpriseConsoleCopy = {
 	supportSla: "SLA",
 	supportHours: "Hours",
 	supportAccountMgr: "Account manager",
-	note: "Audit retention and self-host support are scoped per contract. Contact your account manager to adjust.",
 };
 
 export default async function EnterprisePage() {
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
-	let live: { audit: ReturnType<typeof getState>["audit"]; integrations: ReturnType<typeof getState>["integrations"] } | null = null;
+	let live: {
+		audit: ReturnType<typeof getState>["audit"];
+		integrations: ReturnType<typeof getState>["integrations"];
+	} | null = null;
 	if (session && (await hasSso(session.login))) {
 		const state = getState(session.login);
 		live = { audit: state.audit, integrations: state.integrations };
@@ -153,7 +157,9 @@ export default async function EnterprisePage() {
 			<PlanGate lang="en" required="enterprise">
 				<EnterpriseConsole copy={copy} />
 				{live ? (
-					<div style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}>
+					<div
+						style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}
+					>
 						<EnterpriseClient
 							audit={live.audit}
 							integrations={live.integrations}

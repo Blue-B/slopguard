@@ -5,7 +5,7 @@ import AlertsConsoleClient from "@/app/components/AlertsConsoleClient";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
-import { hasAlerts, planForOwner } from "@/lib/billing/entitlement";
+import { hasAlerts } from "@/lib/billing/entitlement";
 import { getState } from "@/lib/billing/console-store";
 
 export const metadata = {
@@ -17,28 +17,41 @@ export const metadata = {
 const copy: AlertsConsoleCopy = {
 	workspace: "SlopGuard",
 	workspaceSub: "Team workspace",
-	user: "Blue-B",
-	entitlement: "Team entitlement active",
-	connected: "● Connected to GitHub",
-	nav: ["Overview", "Queue", "Repos", "Campaigns", "Alerts", "Policy"],
+	user: "blue-b",
+	entitlement: "Team plan",
+	connected: "Connected to GitHub",
+	nav: [
+		{ label: "Overview", href: "/org" },
+		{ label: "Queue", href: "/org#queue" },
+		{ label: "Repos", href: "/org#repos" },
+		{ label: "Campaigns", href: "/campaigns", external: true },
+		{ label: "Alerts", href: "/alerts", external: true },
+		{ label: "Policy", href: "/org#policy" },
+	],
 	activeNav: "Alerts",
 	eyebrow: "TEAM FEATURE",
 	title: "Route quarantine alerts to the right people.",
 	subtitle:
 		"The Team plan includes this alerts console: manage Slack, Discord, and webhook channels, decide which repos and patterns fire on which score threshold, and review what was actually sent.",
 	backToOrg: "Org dashboard",
-	testSend: "Send test alert",
+	testSend: "Test alert log",
 	accountHref: "/account",
 	campaignsHref: "/campaigns",
 	orgHref: "/org",
+	heroEyebrow: "ALERTS · TEAM PLAN",
+	heroTitle: "One channel per audience, one source of truth per delivery.",
+	heroBody:
+		"Wire Slack for security, Discord for engineering, and a custom webhook for the SIEM. Each channel keeps its own delivery log so you can see what landed and what didn't.",
+	heroCta: "Test an alert",
+	heroCtaHref: "#channels",
 	metrics: [
-		{ label: "Active channels", value: "3", detail: "Slack, Discord, webhook" },
-		{ label: "Routing rules", value: "5", detail: "2 score-based, 3 pattern-based" },
-		{ label: "Alerts sent (30d)", value: "47", detail: "96% delivered" },
-		{ label: "Avg. latency", value: "1.4s", detail: "p95 3.1s" },
+		{ label: "Active channels", value: "3", detail: "Slack · Discord · webhook", tone: "ok" },
+		{ label: "Routing rules", value: "5", detail: "2 score, 3 pattern", tone: "neutral" },
+		{ label: "Alerts (30d)", value: "47", detail: "96% delivered", tone: "ok" },
+		{ label: "Avg. latency", value: "1.4s", detail: "p95 3.1s", tone: "neutral" },
 	],
 	channelsTitle: "Channels",
-	channelsSubtitle: "Where quarantine alerts go",
+	channelsSubtitle: "Where quarantine alerts get delivered",
 	addChannel: "Add channel",
 	channels: [
 		{
@@ -60,11 +73,11 @@ const copy: AlertsConsoleCopy = {
 			label: "Custom relay",
 			target: "ops.internal/slopguard/inbound",
 			status: "failed",
-			lastSent: "4h ago · 1 retry",
+			lastSent: "4h ago",
 		},
 	],
 	rulesTitle: "Routing rules",
-	rulesSubtitle: "Decide which patterns fire which channel",
+	rulesSubtitle: "Which patterns fire which channel at what threshold",
 	addRule: "Add rule",
 	columns: {
 		repo: "Repo",
@@ -98,7 +111,7 @@ const copy: AlertsConsoleCopy = {
 			threshold: 85,
 		},
 	],
-	logTitle: "Sent alert log (sample)",
+	logTitle: "Sent alert log",
 	logSubtitle: "What was delivered, what failed, and how fast",
 	logColumns: {
 		when: "When",
@@ -149,12 +162,10 @@ async function loadLiveData() {
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) return null;
-	const plan = await planForOwner(session.login);
 	if (!(await hasAlerts(session.login))) return null;
 	const state = getState(session.login);
 	return {
 		login: session.login,
-		plan,
 		channels: state.channels,
 		sentAlerts: state.sentAlerts.slice(0, 20),
 	};

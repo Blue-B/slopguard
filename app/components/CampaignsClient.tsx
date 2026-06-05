@@ -65,7 +65,11 @@ export default function CampaignsClient(props: Props) {
 						alignItems: "center",
 					}}
 				>
-					<div style={{ ...{ fontFamily: "var(--mono)", fontSize: 13, color: "#c9d1d9" } }}>
+					<div
+						style={{
+							...{ fontFamily: "var(--mono)", fontSize: 13, color: "#c9d1d9" },
+						}}
+					>
 						{c.fingerprint}
 					</div>
 					<button
@@ -157,7 +161,9 @@ export default function CampaignsClient(props: Props) {
 									<Stat label="Authors" value={detail.authorCount} />
 									<Stat label="First seen" value={detail.firstSeen} />
 								</div>
-								<div style={{ fontSize: 12, color: "#8b949e", marginBottom: 6 }}>
+								<div
+									style={{ fontSize: 12, color: "#8b949e", marginBottom: 6 }}
+								>
 									Repos
 								</div>
 								<ul style={{ margin: 0, paddingLeft: 18, marginBottom: 12 }}>
@@ -167,7 +173,9 @@ export default function CampaignsClient(props: Props) {
 										</li>
 									))}
 								</ul>
-								<div style={{ fontSize: 12, color: "#8b949e", marginBottom: 6 }}>
+								<div
+									style={{ fontSize: 12, color: "#8b949e", marginBottom: 6 }}
+								>
 									Commits
 								</div>
 								{detail.commits.length === 0 ? (

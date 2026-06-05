@@ -1,8 +1,6 @@
 import { cookies } from "next/headers";
 import MarketingNav from "@/app/components/MarketingNav";
-import AlertsConsole, {
-	type AlertsConsoleCopy,
-} from "@/app/components/AlertsConsole";
+import AlertsConsole, { type AlertsConsoleCopy } from "@/app/components/AlertsConsole";
 import AlertsConsoleClient from "@/app/components/AlertsConsoleClient";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -13,31 +11,44 @@ import { getState } from "@/lib/billing/console-store";
 export const metadata = {
 	title: "SlopGuard: 알림 & 웹훅 — Team",
 	description:
-		"Team 플랜 전용 콘솔: Slack, Discord, 웹훅 채널과 라우팅 규칙, 발송 로그를 한 곳에서 관리합니다.",
+		"Team 플랜용 콘솔: Slack, Discord, 웹훅 채널과 라우팅 규칙, 발송 로그를 한 곳에서.",
 };
 
 const copy: AlertsConsoleCopy = {
 	workspace: "SlopGuard",
 	workspaceSub: "Team 워크스페이스",
-	user: "Blue-B",
-	entitlement: "Team 권한 활성화",
-	connected: "● GitHub 연결됨",
-	nav: ["개요", "큐", "레포", "캠페인", "알림", "정책"],
+	user: "blue-b",
+	entitlement: "Team 플랜",
+	connected: "GitHub 연결됨",
+	nav: [
+		{ label: "개요", href: "/ko/org" },
+		{ label: "큐", href: "/ko/org#queue" },
+		{ label: "레포", href: "/ko/org#repos" },
+		{ label: "캠페인", href: "/ko/campaigns", external: true },
+		{ label: "알림", href: "/ko/alerts", external: true },
+		{ label: "정책", href: "/ko/org#policy" },
+	],
 	activeNav: "알림",
 	eyebrow: "TEAM 기능",
-	title: "격리 알림을 정확한 담당자에게 전달합니다.",
+	title: "격리 알림을 적절한 사람에게 라우팅합니다.",
 	subtitle:
-		"Team 플랜에는 이 알림 콘솔이 포함됩니다. Slack/Discord/웹훅 채널을 관리하고, 어떤 레포와 패턴이 어느 점수 임계값에서 어떤 채널로 갈지 정하고, 실제 발송 결과를 확인합니다.",
+		"Team 플랜은 이 알림 콘솔을 포함합니다: Slack, Discord, 웹훅 채널을 관리하고, 레포와 패턴 별로 어느 점수 임계값에서 어떤 채널로 보낼지 결정하고, 실제 발송 내역을 검토하세요.",
 	backToOrg: "조직 대시보드",
-	testSend: "테스트 알림 발송",
+	testSend: "테스트 발송 로그",
 	accountHref: "/ko/account",
 	campaignsHref: "/ko/campaigns",
 	orgHref: "/ko/org",
+	heroEyebrow: "ALERTS · TEAM 플랜",
+	heroTitle: "청중별 채널, 발송별 단일 진실.",
+	heroBody:
+		"보안은 Slack, 엔지니어링은 Discord, SIEM은 커스텀 웹훅. 각 채널은 자체 발송 로그를 유지해 무엇이 도착했고 무엇이 도착하지 않았는지 한눈에 보입니다.",
+	heroCta: "알림 테스트",
+	heroCtaHref: "#channels",
 	metrics: [
-		{ label: "활성 채널", value: "3", detail: "Slack · Discord · 웹훅" },
-		{ label: "라우팅 규칙", value: "5", detail: "점수 2개 · 패턴 3개" },
-		{ label: "발송 알림 (30일)", value: "47", detail: "전송 성공률 96%" },
-		{ label: "평균 지연", value: "1.4초", detail: "p95 3.1초" },
+		{ label: "활성 채널", value: "3", detail: "Slack · Discord · 웹훅", tone: "ok" },
+		{ label: "라우팅 규칙", value: "5", detail: "점수 2 · 패턴 3", tone: "neutral" },
+		{ label: "발송 (30일)", value: "47", detail: "96% 도착", tone: "ok" },
+		{ label: "평균 지연", value: "1.4s", detail: "p95 3.1s", tone: "neutral" },
 	],
 	channelsTitle: "채널",
 	channelsSubtitle: "격리 알림이 전달되는 곳",
@@ -62,11 +73,11 @@ const copy: AlertsConsoleCopy = {
 			label: "커스텀 릴레이",
 			target: "ops.internal/slopguard/inbound",
 			status: "failed",
-			lastSent: "4시간 전 · 재시도 1회",
+			lastSent: "4시간 전",
 		},
 	],
 	rulesTitle: "라우팅 규칙",
-	rulesSubtitle: "패턴이 어떤 채널로 갈지 결정",
+	rulesSubtitle: "어떤 패턴이 어떤 채널에 어느 임계값으로 발사되는지",
 	addRule: "규칙 추가",
 	columns: {
 		repo: "레포",
@@ -101,12 +112,12 @@ const copy: AlertsConsoleCopy = {
 		},
 	],
 	logTitle: "발송 로그",
-	logSubtitle: "성공/실패/지연을 한 곳에서",
+	logSubtitle: "전달된 것과 실패한 것, 그리고 얼마나 빨리",
 	logColumns: {
-		when: "시점",
+		when: "시간",
 		item: "항목",
 		score: "점수",
-		dest: "대상",
+		dest: "목적지",
 		status: "상태",
 		latency: "지연",
 	},
@@ -117,7 +128,7 @@ const copy: AlertsConsoleCopy = {
 			score: 87,
 			dest: "Slack #security",
 			status: "delivered",
-			latency: "1.1초",
+			latency: "1.1s",
 		},
 		{
 			when: "2026-06-03 09:11",
@@ -125,7 +136,7 @@ const copy: AlertsConsoleCopy = {
 			score: 71,
 			dest: "Discord",
 			status: "delivered",
-			latency: "0.9초",
+			latency: "0.9s",
 		},
 		{
 			when: "2026-06-02 18:05",
@@ -133,7 +144,7 @@ const copy: AlertsConsoleCopy = {
 			score: 94,
 			dest: "webhook_url",
 			status: "retrying",
-			latency: "2.4초",
+			latency: "2.4s",
 		},
 		{
 			when: "2026-06-02 11:48",
