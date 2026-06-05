@@ -30,9 +30,18 @@ function planFromEnv(login: string): PlanId | undefined {
 	return undefined;
 }
 
+// Code-level hardcoded grants (used for comps and own-org testing). Wins
+// over env allowlist so the maintainer's own login always renders the full
+// product surface during local/demo runs.
+const CODE_GRANTS: Record<string, PlanId> = {
+	"blue-b": "enterprise",
+};
+
 /** Resolve the plan for a repo owner (GitHub login). Defaults to free. */
 export async function planForOwner(owner: string): Promise<PlanId> {
 	const login = owner.toLowerCase().replace(/^@/, "");
+	const fromCode = CODE_GRANTS[login];
+	if (fromCode) return fromCode;
 	const fromEnv = planFromEnv(login);
 	if (fromEnv) return fromEnv;
 	if (!isPolarConfigured()) return "free";
