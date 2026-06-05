@@ -64,8 +64,11 @@ export async function GET() {
 			}
 		>();
 		for (const it of stats.recent) {
-			const url = it.url;
-			const m = url.match(/repos\/([^/]+)\/([^/]+)\/issues\/(\d+)/);
+			// URL can be either api.github.com (repos/.../issues/N|pulls/N) or
+			// github.com (.../pull/N|issues/N). Match both.
+			const m =
+				it.url.match(/repos\/([^/]+)\/([^/]+)\/(?:issues|pulls)\/(\d+)/) ??
+				it.url.match(/github\.com\/([^/]+)\/([^/]+)\/(?:issues|pull)\/(\d+)/);
 			const repo = m ? `${m[1]}/${m[2]}` : "unknown/repo";
 			const num = m ? m[3] : String(it.number);
 			const title = it.title || "(untitled)";

@@ -195,8 +195,11 @@ export default function OrgDashboardConsole({
 				it.url
 					.match(/github\.com\/([^/]+)\/([^/]+)\//i)?.[0]
 					?.replace(/\/$/, "") ?? "";
-			// url is https://api.github.com/repos/o/r/issues/N — extract o/r
-			const m = it.url.match(/repos\/([^/]+)\/([^/]+)\//);
+			// URL can be either api.github.com (repos/.../issues/N|pulls/N) or
+			// github.com (.../pull/N|issues/N). Match both.
+			const m =
+				it.url.match(/repos\/([^/]+)\/([^/]+)\/(?:issues|pulls)\/\d+/) ??
+				it.url.match(/github\.com\/([^/]+)\/([^/]+)\/(?:issues|pull)\/\d+/);
 			const repoLabel = m ? `${m[1]}/${m[2]}` : repo || "—";
 			return {
 				item: it.title,
