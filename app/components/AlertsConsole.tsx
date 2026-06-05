@@ -68,7 +68,7 @@ export type AlertsConsoleCopy = {
 	addChannelCta: string;
 	addChannelBusy: string;
 	removeChannel: string;
-	channelsRemovedFlash: (label: string) => string;
+	channelsRemovedFlash: string;
 	rulesTitle: string;
 	rulesSubtitle: string;
 	rulesEmpty: string;
@@ -187,7 +187,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 				setError(`Remove failed: HTTP ${res.status}`);
 				return;
 			}
-			setFlash(copy.channelsRemovedFlash(label));
+			setFlash(`${copy.channelsRemovedFlash}: ${label}`);
 			setTimeout(() => setFlash(""), 2400);
 			await load();
 		} finally {

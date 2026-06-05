@@ -49,7 +49,7 @@ const copy: AlertsConsoleCopy = {
 	addChannelCta: "채널 추가",
 	addChannelBusy: "추가 중…",
 	removeChannel: "해제",
-	channelsRemovedFlash: (label: string) => `"${label}" 채널이 해제됨`,
+	channelsRemovedFlash: "채널이 해제됨",
 	rulesTitle: "라우팅 규칙",
 	rulesSubtitle: "레포+패턴 매칭, 점수 ≥ 임계값일 때만 발송.",
 	rulesEmpty:

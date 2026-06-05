@@ -49,7 +49,7 @@ const copy: AlertsConsoleCopy = {
 	addChannelCta: "Add channel",
 	addChannelBusy: "Adding…",
 	removeChannel: "Remove",
-	channelsRemovedFlash: (label: string) => `Channel "${label}" removed`,
+	channelsRemovedFlash: "Channel removed",
 	rulesTitle: "Routing rules",
 	rulesSubtitle: "Match by repo + pattern; only fire when score ≥ threshold.",
 	rulesEmpty:
