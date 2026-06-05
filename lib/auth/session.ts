@@ -17,10 +17,15 @@ export interface SessionUser {
 }
 
 function secret(): string {
-	const s = process.env.SESSION_SECRET;
+	const s =
+		process.env.SESSION_SECRET ||
+		process.env.GITHUB_WEBHOOK_SECRET ||
+		process.env.GITHUB_APP_CLIENT_SECRET;
 	if (s) return s;
 	if (process.env.NODE_ENV === "production") {
-		throw new Error("SESSION_SECRET is required in production");
+		throw new Error(
+			"SESSION_SECRET or a GitHub secret is required in production",
+		);
 	}
 	return "dev-insecure-secret";
 }
