@@ -66,7 +66,9 @@ export function verifyOAuthState(value: string | undefined): boolean {
 	if (a.length !== b.length || !timingSafeEqual(a, b)) return false;
 	try {
 		const json = JSON.parse(fromB64url(payload)) as { ts?: number };
-		return typeof json.ts === "number" && Date.now() - json.ts <= 10 * 60 * 1000;
+		return (
+			typeof json.ts === "number" && Date.now() - json.ts <= 10 * 60 * 1000
+		);
 	} catch {
 		return false;
 	}

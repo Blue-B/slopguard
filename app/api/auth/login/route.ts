@@ -15,8 +15,7 @@ export function GET(req: Request) {
 			{ status: 501 },
 		);
 	}
-	const lang =
-		new URL(req.url).searchParams.get("lang") === "ko" ? "ko" : "en";
+	const lang = new URL(req.url).searchParams.get("lang") === "ko" ? "ko" : "en";
 	const state = encodeOAuthState(randomBytes(16).toString("hex"));
 	const res = NextResponse.redirect(authorizeUrl(state));
 	res.cookies.set("sg_lang", lang, {
