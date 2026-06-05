@@ -38,7 +38,12 @@ export type AlertsConsoleCopy = {
 	subtitle: string;
 	backToOrg: string;
 	testSend: string;
-	metrics: { label: string; value: string; detail: string; tone?: "neutral" | "warn" | "danger" | "ok" }[];
+	metrics: {
+		label: string;
+		value: string;
+		detail: string;
+		tone?: "neutral" | "warn" | "danger" | "ok";
+	}[];
 	channelsTitle: string;
 	channelsSubtitle: string;
 	channels: Channel[];
@@ -155,7 +160,10 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 									{copy.heroBody}
 								</p>
 								<div style={{ marginTop: 16, display: "flex", gap: 10 }}>
-									<Link href={copy.heroCtaHref} className="btn btn-primary btn-sm">
+									<Link
+										href={copy.heroCtaHref}
+										className="btn btn-primary btn-sm"
+									>
 										{copy.heroCta}
 									</Link>
 									<Link href={copy.orgHref} className="btn btn-ghost btn-sm">
@@ -200,7 +208,9 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 										letterSpacing: ".05em",
 									}}
 								>
-									<div style={{ color: "#f0f6fc", fontWeight: 700, fontSize: 12 }}>
+									<div
+										style={{ color: "#f0f6fc", fontWeight: 700, fontSize: 12 }}
+									>
 										Routing fan-out
 									</div>
 									<div style={{ marginTop: 4 }}>
@@ -278,7 +288,9 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 								}}
 							>
 								<div>
-									<h2 style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}>
+									<h2
+										style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}
+									>
 										{copy.channelsTitle}
 									</h2>
 									<div style={{ ...muted, fontSize: 12, marginTop: 4 }}>
@@ -376,7 +388,9 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 								}}
 							>
 								<div>
-									<h2 style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}>
+									<h2
+										style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}
+									>
 										{copy.rulesTitle}
 									</h2>
 									<div style={{ ...muted, fontSize: 12, marginTop: 4 }}>
@@ -399,25 +413,24 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 												borderBottom: "1px solid #1c2530",
 											}}
 										>
-											{(["repo", "pattern", "channel", "threshold"] as const).map(
-												(k) => (
-													<th
-														key={k}
-														style={{
-															textAlign:
-																k === "threshold" ? "right" : "left",
-															padding: "10px 14px",
-															fontSize: 10,
-															letterSpacing: ".14em",
-															textTransform: "uppercase",
-															fontWeight: 600,
-															fontFamily: "var(--mono)",
-														}}
-													>
-														{copy.columns[k]}
-													</th>
-												),
-											)}
+											{(
+												["repo", "pattern", "channel", "threshold"] as const
+											).map((k) => (
+												<th
+													key={k}
+													style={{
+														textAlign: k === "threshold" ? "right" : "left",
+														padding: "10px 14px",
+														fontSize: 10,
+														letterSpacing: ".14em",
+														textTransform: "uppercase",
+														fontWeight: 600,
+														fontFamily: "var(--mono)",
+													}}
+												>
+													{copy.columns[k]}
+												</th>
+											))}
 										</tr>
 									</thead>
 									<tbody>
@@ -484,7 +497,9 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 								}}
 							>
 								<div>
-									<h2 style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}>
+									<h2
+										style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}
+									>
 										{copy.logTitle}
 									</h2>
 									<div style={{ ...muted, fontSize: 12, marginTop: 4 }}>
@@ -507,35 +522,39 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 												borderBottom: "1px solid #1c2530",
 											}}
 										>
-											{(["when", "item", "score", "dest", "status", "latency"] as const).map(
-												(k) => (
-													<th
-														key={k}
-														style={{
-															textAlign:
-																k === "score" || k === "latency"
-																	? "right"
-																	: "left",
-															padding: "10px 14px",
-															fontSize: 10,
-															letterSpacing: ".14em",
-															textTransform: "uppercase",
-															fontWeight: 600,
-															fontFamily: "var(--mono)",
-														}}
-													>
-														{copy.logColumns[k]}
-													</th>
-												),
-											)}
+											{(
+												[
+													"when",
+													"item",
+													"score",
+													"dest",
+													"status",
+													"latency",
+												] as const
+											).map((k) => (
+												<th
+													key={k}
+													style={{
+														textAlign:
+															k === "score" || k === "latency"
+																? "right"
+																: "left",
+														padding: "10px 14px",
+														fontSize: 10,
+														letterSpacing: ".14em",
+														textTransform: "uppercase",
+														fontWeight: 600,
+														fontFamily: "var(--mono)",
+													}}
+												>
+													{copy.logColumns[k]}
+												</th>
+											))}
 										</tr>
 									</thead>
 									<tbody>
 										{copy.log.map((row, i) => (
-											<tr
-												key={i}
-												style={{ borderBottom: "1px solid #161e29" }}
-											>
+											<tr key={i} style={{ borderBottom: "1px solid #161e29" }}>
 												<td
 													style={{
 														padding: "11px 14px",

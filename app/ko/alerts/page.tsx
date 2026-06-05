@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
 import MarketingNav from "@/app/components/MarketingNav";
-import AlertsConsole, { type AlertsConsoleCopy } from "@/app/components/AlertsConsole";
+import AlertsConsole, {
+	type AlertsConsoleCopy,
+} from "@/app/components/AlertsConsole";
 import AlertsConsoleClient from "@/app/components/AlertsConsoleClient";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -45,8 +47,18 @@ const copy: AlertsConsoleCopy = {
 	heroCta: "알림 테스트",
 	heroCtaHref: "#channels",
 	metrics: [
-		{ label: "활성 채널", value: "3", detail: "Slack · Discord · 웹훅", tone: "ok" },
-		{ label: "라우팅 규칙", value: "5", detail: "점수 2 · 패턴 3", tone: "neutral" },
+		{
+			label: "활성 채널",
+			value: "3",
+			detail: "Slack · Discord · 웹훅",
+			tone: "ok",
+		},
+		{
+			label: "라우팅 규칙",
+			value: "5",
+			detail: "점수 2 · 패턴 3",
+			tone: "neutral",
+		},
 		{ label: "발송 (30일)", value: "47", detail: "96% 도착", tone: "ok" },
 		{ label: "평균 지연", value: "1.4s", detail: "p95 3.1s", tone: "neutral" },
 	],
@@ -161,10 +173,16 @@ const copy: AlertsConsoleCopy = {
 export default async function AlertsPageKo() {
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
-	let live: { channels: ReturnType<typeof getState>["channels"]; sentAlerts: ReturnType<typeof getState>["sentAlerts"] } | null = null;
+	let live: {
+		channels: ReturnType<typeof getState>["channels"];
+		sentAlerts: ReturnType<typeof getState>["sentAlerts"];
+	} | null = null;
 	if (session && (await hasAlerts(session.login))) {
 		const state = getState(session.login);
-		live = { channels: state.channels, sentAlerts: state.sentAlerts.slice(0, 20) };
+		live = {
+			channels: state.channels,
+			sentAlerts: state.sentAlerts.slice(0, 20),
+		};
 	}
 	return (
 		<>
@@ -172,7 +190,9 @@ export default async function AlertsPageKo() {
 			<PlanGate lang="ko" required="team">
 				<AlertsConsole copy={copy} />
 				{live ? (
-					<div style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}>
+					<div
+						style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}
+					>
 						<AlertsConsoleClient
 							channels={live.channels}
 							sentAlerts={live.sentAlerts}

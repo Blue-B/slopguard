@@ -116,7 +116,9 @@ export default function ConsoleSidebar({
 				>
 					{user}
 				</div>
-				<div style={{ ...muted, marginTop: 4, fontSize: 11 }}>{entitlement}</div>
+				<div style={{ ...muted, marginTop: 4, fontSize: 11 }}>
+					{entitlement}
+				</div>
 				<div
 					style={{
 						marginTop: 10,

@@ -3,7 +3,12 @@ import Image from "next/image";
 import ConsoleSidebar, { type SidebarItem } from "./ConsoleSidebar";
 import { shell, frame, card, muted, toneColor } from "./console-styles";
 
-type Metric = { label: string; value: string; detail: string; tone?: "neutral" | "warn" | "danger" | "ok" };
+type Metric = {
+	label: string;
+	value: string;
+	detail: string;
+	tone?: "neutral" | "warn" | "danger" | "ok";
+};
 type AuditEntry = {
 	when: string;
 	actor: string;
@@ -72,7 +77,11 @@ function sourceColor(s: AuditEntry["source"]): string {
 	return s === "SSO" ? "#a371f7" : s === "Admin" ? "#3fb950" : "#d29922";
 }
 
-export default function EnterpriseConsole({ copy }: { copy: EnterpriseConsoleCopy }) {
+export default function EnterpriseConsole({
+	copy,
+}: {
+	copy: EnterpriseConsoleCopy;
+}) {
 	return (
 		<main style={shell}>
 			<section style={frame}>
@@ -145,7 +154,10 @@ export default function EnterpriseConsole({ copy }: { copy: EnterpriseConsoleCop
 									{copy.heroBody}
 								</p>
 								<div style={{ marginTop: 16, display: "flex", gap: 10 }}>
-									<Link href={copy.heroCtaHref} className="btn btn-primary btn-sm">
+									<Link
+										href={copy.heroCtaHref}
+										className="btn btn-primary btn-sm"
+									>
 										{copy.heroCta}
 									</Link>
 									<Link href={copy.orgHref} className="btn btn-ghost btn-sm">
@@ -190,7 +202,9 @@ export default function EnterpriseConsole({ copy }: { copy: EnterpriseConsoleCop
 										letterSpacing: ".05em",
 									}}
 								>
-									<div style={{ color: "#f0f6fc", fontWeight: 700, fontSize: 12 }}>
+									<div
+										style={{ color: "#f0f6fc", fontWeight: 700, fontSize: 12 }}
+									>
 										Compliance · Audit · SSO
 									</div>
 									<div style={{ marginTop: 4 }}>
@@ -301,7 +315,9 @@ export default function EnterpriseConsole({ copy }: { copy: EnterpriseConsoleCop
 											fontSize: 12,
 										}}
 									>
-										<span style={{ color: "#8b949e", fontFamily: "var(--mono)" }}>
+										<span
+											style={{ color: "#8b949e", fontFamily: "var(--mono)" }}
+										>
 											Provider
 										</span>
 										<span
@@ -320,7 +336,9 @@ export default function EnterpriseConsole({ copy }: { copy: EnterpriseConsoleCop
 											fontSize: 12,
 										}}
 									>
-										<span style={{ color: "#8b949e", fontFamily: "var(--mono)" }}>
+										<span
+											style={{ color: "#8b949e", fontFamily: "var(--mono)" }}
+										>
 											Status
 										</span>
 										<span
@@ -340,7 +358,9 @@ export default function EnterpriseConsole({ copy }: { copy: EnterpriseConsoleCop
 											fontSize: 12,
 										}}
 									>
-										<span style={{ color: "#8b949e", fontFamily: "var(--mono)" }}>
+										<span
+											style={{ color: "#8b949e", fontFamily: "var(--mono)" }}
+										>
 											Last sync
 										</span>
 										<span
@@ -445,7 +465,9 @@ export default function EnterpriseConsole({ copy }: { copy: EnterpriseConsoleCop
 								}}
 							>
 								<div>
-									<h2 style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}>
+									<h2
+										style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}
+									>
 										{copy.auditTitle}
 									</h2>
 									<div style={{ ...muted, fontSize: 12, marginTop: 4 }}>
@@ -475,32 +497,29 @@ export default function EnterpriseConsole({ copy }: { copy: EnterpriseConsoleCop
 												borderBottom: "1px solid #1c2530",
 											}}
 										>
-											{(["when", "actor", "action", "target", "source"] as const).map(
-												(k) => (
-													<th
-														key={k}
-														style={{
-															textAlign: "left",
-															padding: "10px 14px",
-															fontSize: 10,
-															letterSpacing: ".14em",
-															textTransform: "uppercase",
-															fontWeight: 600,
-															fontFamily: "var(--mono)",
-														}}
-													>
-														{copy.auditColumns[k]}
-													</th>
-												),
-											)}
+											{(
+												["when", "actor", "action", "target", "source"] as const
+											).map((k) => (
+												<th
+													key={k}
+													style={{
+														textAlign: "left",
+														padding: "10px 14px",
+														fontSize: 10,
+														letterSpacing: ".14em",
+														textTransform: "uppercase",
+														fontWeight: 600,
+														fontFamily: "var(--mono)",
+													}}
+												>
+													{copy.auditColumns[k]}
+												</th>
+											))}
 										</tr>
 									</thead>
 									<tbody>
 										{copy.audit.map((row, i) => (
-											<tr
-												key={i}
-												style={{ borderBottom: "1px solid #161e29" }}
-											>
+											<tr key={i} style={{ borderBottom: "1px solid #161e29" }}>
 												<td
 													style={{
 														padding: "11px 14px",
@@ -560,7 +579,9 @@ export default function EnterpriseConsole({ copy }: { copy: EnterpriseConsoleCop
 								}}
 							>
 								<div>
-									<h2 style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}>
+									<h2
+										style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}
+									>
 										{copy.integrationsTitle}
 									</h2>
 									<div style={{ ...muted, fontSize: 12, marginTop: 4 }}>

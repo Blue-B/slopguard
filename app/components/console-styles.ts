@@ -13,8 +13,7 @@ export const frame: React.CSSProperties = {
 	border: "1px solid var(--border)",
 	borderRadius: 20,
 	overflow: "hidden",
-	background:
-		"linear-gradient(180deg, #0a0e15 0%, #0c1119 60%, #0a0e15 100%)",
+	background: "linear-gradient(180deg, #0a0e15 0%, #0c1119 60%, #0a0e15 100%)",
 	boxShadow:
 		"0 30px 80px -20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)",
 };

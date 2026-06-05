@@ -42,13 +42,34 @@ const copy: CampaignsConsoleCopy = {
 	heroCta: "Open cluster",
 	heroCtaHref: "#clusters",
 	metrics: [
-		{ label: "Active clusters", value: "3", detail: "1 high-confidence", tone: "danger" },
-		{ label: "Affected repos", value: "16", detail: "across 4 owners", tone: "warn" },
-		{ label: "Score boosts", value: "+72", detail: "applied in last 7d", tone: "ok" },
-		{ label: "Authors involved", value: "11", detail: "7 with ≥3 hits", tone: "neutral" },
+		{
+			label: "Active clusters",
+			value: "3",
+			detail: "1 high-confidence",
+			tone: "danger",
+		},
+		{
+			label: "Affected repos",
+			value: "16",
+			detail: "across 4 owners",
+			tone: "warn",
+		},
+		{
+			label: "Score boosts",
+			value: "+72",
+			detail: "applied in last 7d",
+			tone: "ok",
+		},
+		{
+			label: "Authors involved",
+			value: "11",
+			detail: "7 with ≥3 hits",
+			tone: "neutral",
+		},
 	],
 	clustersTitle: "Campaign clusters",
-	clustersSubtitle: "Grouped by prompt fingerprint, ranked by cross-repo impact",
+	clustersSubtitle:
+		"Grouped by prompt fingerprint, ranked by cross-repo impact",
 	clusters: [
 		{
 			fingerprint: "feat: implement new feature with comprehensive tests",
@@ -57,8 +78,18 @@ const copy: CampaignsConsoleCopy = {
 			firstSeen: "3 days ago",
 			risk: "high",
 			repos: [
-				{ repo: "blue-b/slopguard", commits: 6, authors: ["@blue-b"], score: 78 },
-				{ repo: "blue-b/web", commits: 4, authors: ["@alex", "@rin"], score: 71 },
+				{
+					repo: "blue-b/slopguard",
+					commits: 6,
+					authors: ["@blue-b"],
+					score: 78,
+				},
+				{
+					repo: "blue-b/web",
+					commits: 4,
+					authors: ["@alex", "@rin"],
+					score: 71,
+				},
 				{ repo: "blue-b/api", commits: 3, authors: ["@alex"], score: 64 },
 			],
 		},
@@ -80,8 +111,18 @@ const copy: CampaignsConsoleCopy = {
 			firstSeen: "2 weeks ago",
 			risk: "low",
 			repos: [
-				{ repo: "blue-b/docs", commits: 3, authors: ["@blue-b", "@rin"], score: 41 },
-				{ repo: "blue-b/help-center", commits: 2, authors: ["@alex"], score: 38 },
+				{
+					repo: "blue-b/docs",
+					commits: 3,
+					authors: ["@blue-b", "@rin"],
+					score: 41,
+				},
+				{
+					repo: "blue-b/help-center",
+					commits: 2,
+					authors: ["@alex"],
+					score: 38,
+				},
 			],
 		},
 	],

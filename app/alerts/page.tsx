@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
 import MarketingNav from "@/app/components/MarketingNav";
-import AlertsConsole, { type AlertsConsoleCopy } from "@/app/components/AlertsConsole";
+import AlertsConsole, {
+	type AlertsConsoleCopy,
+} from "@/app/components/AlertsConsole";
 import AlertsConsoleClient from "@/app/components/AlertsConsoleClient";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -45,10 +47,25 @@ const copy: AlertsConsoleCopy = {
 	heroCta: "Test an alert",
 	heroCtaHref: "#channels",
 	metrics: [
-		{ label: "Active channels", value: "3", detail: "Slack · Discord · webhook", tone: "ok" },
-		{ label: "Routing rules", value: "5", detail: "2 score, 3 pattern", tone: "neutral" },
+		{
+			label: "Active channels",
+			value: "3",
+			detail: "Slack · Discord · webhook",
+			tone: "ok",
+		},
+		{
+			label: "Routing rules",
+			value: "5",
+			detail: "2 score, 3 pattern",
+			tone: "neutral",
+		},
 		{ label: "Alerts (30d)", value: "47", detail: "96% delivered", tone: "ok" },
-		{ label: "Avg. latency", value: "1.4s", detail: "p95 3.1s", tone: "neutral" },
+		{
+			label: "Avg. latency",
+			value: "1.4s",
+			detail: "p95 3.1s",
+			tone: "neutral",
+		},
 	],
 	channelsTitle: "Channels",
 	channelsSubtitle: "Where quarantine alerts get delivered",
@@ -179,7 +196,9 @@ export default async function AlertsPage() {
 			<PlanGate lang="en" required="team">
 				<AlertsConsole copy={copy} />
 				{live ? (
-					<div style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}>
+					<div
+						style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}
+					>
 						<AlertsConsoleClient
 							channels={live.channels}
 							sentAlerts={live.sentAlerts}

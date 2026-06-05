@@ -51,9 +51,24 @@ const copy: EnterpriseConsoleCopy = {
 	heroCtaHref: "#audit",
 	metrics: [
 		{ label: "SSO", value: "활성", detail: "Okta · SAML 2.0", tone: "ok" },
-		{ label: "감사 보존", value: "365일", detail: "플랜별 조정 가능", tone: "neutral" },
-		{ label: "자체 호스팅", value: "켜짐", detail: "귀사 팀이 직접 운영", tone: "neutral" },
-		{ label: "지원 SLA", value: "1시간 P1", detail: "24×7, 전담 담당", tone: "ok" },
+		{
+			label: "감사 보존",
+			value: "365일",
+			detail: "플랜별 조정 가능",
+			tone: "neutral",
+		},
+		{
+			label: "자체 호스팅",
+			value: "켜짐",
+			detail: "귀사 팀이 직접 운영",
+			tone: "neutral",
+		},
+		{
+			label: "지원 SLA",
+			value: "1시간 P1",
+			detail: "24×7, 전담 담당",
+			tone: "ok",
+		},
 	],
 	ssoTitle: "SSO / SAML",
 	ssoSubtitle: "IdP 및 세션 정책",

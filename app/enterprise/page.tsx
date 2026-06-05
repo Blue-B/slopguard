@@ -51,9 +51,24 @@ const copy: EnterpriseConsoleCopy = {
 	heroCtaHref: "#audit",
 	metrics: [
 		{ label: "SSO", value: "Active", detail: "Okta · SAML 2.0", tone: "ok" },
-		{ label: "Audit retention", value: "365d", detail: "configurable per plan", tone: "neutral" },
-		{ label: "Self-host", value: "On", detail: "managed by your team", tone: "neutral" },
-		{ label: "Support SLA", value: "1h P1", detail: "24×7, named contact", tone: "ok" },
+		{
+			label: "Audit retention",
+			value: "365d",
+			detail: "configurable per plan",
+			tone: "neutral",
+		},
+		{
+			label: "Self-host",
+			value: "On",
+			detail: "managed by your team",
+			tone: "neutral",
+		},
+		{
+			label: "Support SLA",
+			value: "1h P1",
+			detail: "24×7, named contact",
+			tone: "ok",
+		},
 	],
 	ssoTitle: "SSO / SAML",
 	ssoSubtitle: "Identity provider and session policy",

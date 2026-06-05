@@ -1,7 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import ConsoleSidebar, { type SidebarItem } from "./ConsoleSidebar";
-import { shell, frame, card, muted, riskColor, riskBg, toneColor } from "./console-styles";
+import {
+	shell,
+	frame,
+	card,
+	muted,
+	riskColor,
+	riskBg,
+	toneColor,
+} from "./console-styles";
 
 type ClusterRepo = {
 	repo: string;
@@ -32,7 +40,12 @@ export type CampaignsConsoleCopy = {
 	subtitle: string;
 	investigate: string;
 	backToOrg: string;
-	metrics: { label: string; value: string; detail: string; tone?: "neutral" | "warn" | "danger" | "ok" }[];
+	metrics: {
+		label: string;
+		value: string;
+		detail: string;
+		tone?: "neutral" | "warn" | "danger" | "ok";
+	}[];
 	clustersTitle: string;
 	clustersSubtitle: string;
 	clusters: Campaign[];
@@ -47,7 +60,11 @@ export type CampaignsConsoleCopy = {
 	heroCtaHref: string;
 };
 
-export default function CampaignsConsole({ copy }: { copy: CampaignsConsoleCopy }) {
+export default function CampaignsConsole({
+	copy,
+}: {
+	copy: CampaignsConsoleCopy;
+}) {
 	return (
 		<main style={shell}>
 			<section style={frame}>
@@ -120,7 +137,10 @@ export default function CampaignsConsole({ copy }: { copy: CampaignsConsoleCopy 
 									{copy.heroBody}
 								</p>
 								<div style={{ marginTop: 16, display: "flex", gap: 10 }}>
-									<Link href={copy.heroCtaHref} className="btn btn-primary btn-sm">
+									<Link
+										href={copy.heroCtaHref}
+										className="btn btn-primary btn-sm"
+									>
 										{copy.heroCta}
 									</Link>
 									<Link href={copy.orgHref} className="btn btn-ghost btn-sm">
@@ -165,7 +185,9 @@ export default function CampaignsConsole({ copy }: { copy: CampaignsConsoleCopy 
 										letterSpacing: ".05em",
 									}}
 								>
-									<div style={{ color: "#f0f6fc", fontWeight: 700, fontSize: 12 }}>
+									<div
+										style={{ color: "#f0f6fc", fontWeight: 700, fontSize: 12 }}
+									>
 										Cross-repo fingerprint detector
 									</div>
 									<div style={{ marginTop: 4 }}>
@@ -242,7 +264,9 @@ export default function CampaignsConsole({ copy }: { copy: CampaignsConsoleCopy 
 								}}
 							>
 								<div>
-									<h2 style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}>
+									<h2
+										style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}
+									>
 										{copy.clustersTitle}
 									</h2>
 									<div style={{ ...muted, fontSize: 12, marginTop: 4 }}>
@@ -395,7 +419,9 @@ export default function CampaignsConsole({ copy }: { copy: CampaignsConsoleCopy 
 								}}
 							>
 								<div>
-									<h2 style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}>
+									<h2
+										style={{ margin: 0, fontSize: 18, letterSpacing: "-.02em" }}
+									>
 										{copy.scoreBoostTitle}
 									</h2>
 									<div style={{ ...muted, fontSize: 12, marginTop: 4 }}>
@@ -412,13 +438,11 @@ export default function CampaignsConsole({ copy }: { copy: CampaignsConsoleCopy 
 									gap: 12,
 								}}
 							>
-								{(
-									[
-										{ tier: "Free", boost: "+0", tone: "neutral" as const },
-										{ tier: "Pro", boost: "+25", tone: "warn" as const },
-										{ tier: "Team", boost: "+25", tone: "danger" as const },
-									]
-								).map((row) => (
+								{[
+									{ tier: "Free", boost: "+0", tone: "neutral" as const },
+									{ tier: "Pro", boost: "+25", tone: "warn" as const },
+									{ tier: "Team", boost: "+25", tone: "danger" as const },
+								].map((row) => (
 									<div
 										key={row.tier}
 										style={{
