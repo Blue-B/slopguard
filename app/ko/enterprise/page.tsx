@@ -1,102 +1,130 @@
-import Link from "next/link";
 import MarketingNav from "@/app/components/MarketingNav";
+import EnterpriseConsole, {
+	type EnterpriseConsoleCopy,
+} from "@/app/components/EnterpriseConsole";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
-	title: "SlopGuard: Enterprise — SSO, 감사, 셀프호스트",
+	title: "SlopGuard: 엔터프라이즈 포털 — SSO, 감사, 자체 호스팅",
 	description:
-		"Enterprise 기능: SAML SSO, 감사 로그 내보내기, 셀프호스트 지원 계약, 맞춤 연동.",
+		"엔터프라이즈 콘솔: SAML/SSO 설정, 감사 로그, 지원 계약, 커스텀 통합을 한 곳에서.",
+};
+
+const copy: EnterpriseConsoleCopy = {
+	workspace: "SlopGuard",
+	workspaceSub: "Enterprise 워크스페이스",
+	user: "Blue-B",
+	entitlement: "Enterprise 권한 활성화",
+	connected: "● SSO 연결됨",
+	nav: ["개요", "큐", "레포", "캠페인", "알림", "SSO", "감사", "지원"],
+	activeNav: "개요",
+	eyebrow: "ENTERPRISE 기능",
+	title: "조직 전체에 SlopGuard를 통제된 형태로 운영합니다.",
+	subtitle:
+		"Enterprise 플랜에는 이 포털이 포함됩니다. SAML/SSO 설정, 감사 로그와 내보내기, 커스텀 통합, 그리고 1시간 P1 SLA를 가진 전담 지원 담당자까지 한 곳에서 관리합니다.",
+	backToOrg: "조직 대시보드",
+	contactSales: "문의하기",
+	accountHref: "/ko/account",
+	orgHref: "/ko/org",
+	alertsHref: "/ko/alerts",
+	campaignsHref: "/ko/campaigns",
+	metrics: [
+		{ label: "SSO", value: "활성", detail: "Okta · SAML 2.0" },
+		{ label: "감사 보존", value: "365일", detail: "플랜별 조정 가능" },
+		{ label: "자체 호스팅", value: "켜짐", detail: "귀사 팀이 직접 운영" },
+		{ label: "지원 SLA", value: "1시간 P1", detail: "24×7, 전담 담당" },
+	],
+	ssoTitle: "SSO / SAML",
+	ssoSubtitle: "IdP 및 세션 정책",
+	ssoStatus: "상태",
+	ssoProvider: "공급자",
+	ssoLastSync: "최근 SCIM 동기화",
+	ssoConfigure: "설정",
+	auditTitle: "감사 로그",
+	auditSubtitle: "SlopGuard의 모든 권한 작업 기록, 내보내기 가능",
+	auditColumns: {
+		when: "시점",
+		actor: "주체",
+		action: "작업",
+		target: "대상",
+		source: "출처",
+	},
+	audit: [
+		{
+			when: "2026-06-04 14:22",
+			actor: "alice@acme.com",
+			action: "격리 해제",
+			target: "acme/web#128",
+			source: "SSO",
+		},
+		{
+			when: "2026-06-04 11:08",
+			actor: "ops-bot",
+			action: "웹훅 시크릿 교체",
+			target: "조직 설정",
+			source: "API",
+		},
+		{
+			when: "2026-06-03 18:44",
+			actor: "bob@acme.com",
+			action: "레포 추가",
+			target: "acme/api",
+			source: "Admin",
+		},
+		{
+			when: "2026-06-03 09:11",
+			actor: "ci-bot",
+			action: "알림 채널 설정",
+			target: "Slack #security",
+			source: "API",
+		},
+		{
+			when: "2026-06-02 16:02",
+			actor: "carol@acme.com",
+			action: "감사 로그 내보내기",
+			target: "2026년 2분기",
+			source: "SSO",
+		},
+	],
+	exportAudit: "JSON 내보내기",
+	integrationsTitle: "커스텀 통합",
+	integrationsSubtitle: "SlopGuard를 내부 시스템과 연결",
+	connect: "연결",
+	integrations: [
+		{
+			name: "Jira",
+			status: "connected",
+			scope: "격리된 PR을 ENG 프로젝트의 티켓으로 생성",
+		},
+		{
+			name: "PagerDuty",
+			status: "pending",
+			scope: "높은 위험 캠페인 탐지 시 온콜 호출",
+		},
+		{
+			name: "Datadog",
+			status: "available",
+			scope: "감사 이벤트를 Datadog 로그로 전송",
+		},
+		{
+			name: "내부 티켓 시스템",
+			status: "available",
+			scope: "커스텀 페이로드 템플릿이 있는 일반 웹훅",
+		},
+	],
+	supportTitle: "지원 계약",
+	supportSubtitle: "전담 담당자, SLA, 에스컬레이션 경로",
+	supportSla: "SLA",
+	supportHours: "운영 시간",
+	supportAccountMgr: "전담 매니저",
+	note: "감사 보존 기간과 자체 호스팅 지원 범위는 계약 단위로 지정됩니다. 조정은 전담 매니저에게 문의하세요.",
 };
 
 export default function EnterprisePageKo() {
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/enterprise" koHref="/ko/enterprise" />
-
-			<main className="wide" style={{ paddingTop: 32 }}>
-				<div className="docs-hero" style={{ marginBottom: 32 }}>
-					<div className="grid-bg" aria-hidden="true" />
-					<div className="docs-hero-copy">
-						<span className="eyebrow">ENTERPRISE</span>
-						<h1 className="page-h1">Enterprise 포털</h1>
-						<p className="page-sub">
-							SAML SSO, 감사 로그 내보내기, 셀프호스트 지원 계약, 맞춤 연동.
-							sales에 문의하여 시작하세요.
-						</p>
-						<div style={{ marginTop: 16, display: "flex", gap: 12 }}>
-							<a
-								href="https://github.com/Blue-B/slopguard/issues/new?labels=enterprise&title=Enterprise%20inquiry"
-								className="btn btn-primary btn-sm"
-							>
-								문의하기
-							</a>
-							<Link href="/ko/pricing" className="btn btn-ghost btn-sm">
-								요금제 보기
-							</Link>
-						</div>
-					</div>
-					<figure className="plate docs-hero-plate" style={{ maxWidth: 520 }}>
-						<div className="plate-art" style={{ padding: 0 }}>
-							<img
-								src="/images/slopguard-enterprise.png"
-								alt="SlopGuard Enterprise 포털"
-								style={{
-									width: "100%",
-									height: "auto",
-									borderRadius: 8,
-									display: "block",
-								}}
-							/>
-						</div>
-					</figure>
-				</div>
-
-				<div
-					style={{
-						display: "grid",
-						gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-						gap: 16,
-					}}
-				>
-					<div className="card">
-						<h3 style={{ marginBottom: 8 }}>SAML / SSO</h3>
-						<p className="muted">
-							기업용 싱글 사인온. ID 제공자와 연동하며 로그인 감사 로그 포함.
-						</p>
-						<div style={{ marginTop: 12, fontSize: 12, color: "var(--green)" }}>
-							sales 온보딩 후 제공
-						</div>
-					</div>
-					<div className="card">
-						<h3 style={{ marginBottom: 8 }}>감사 로그 내보내기</h3>
-						<p className="muted">
-							전체 활동 로그(JSON/CSV) 내보내기. 보관 정책 설정 가능.
-						</p>
-					</div>
-					<div className="card">
-						<h3 style={{ marginBottom: 8 }}>셀프호스트 지원</h3>
-						<p className="muted">
-							온프레미스 배포, 커스텀 빌드, SLA 응답, 유지보수 전용 계약.
-						</p>
-					</div>
-					<div className="card">
-						<h3 style={{ marginBottom: 8 }}>맞춤 연동</h3>
-						<p className="muted">
-							웹훅, 티켓 시스템, 내부 툴 등 워크플로에 맞춘 커스텀 연동.
-						</p>
-					</div>
-				</div>
-
-				<div style={{ marginTop: 32, textAlign: "center" }}>
-					<a
-						href="https://github.com/Blue-B/slopguard/issues/new?labels=enterprise&title=Enterprise%20inquiry"
-						className="btn btn-primary"
-					>
-						Enterprise 문의 시작
-					</a>
-				</div>
-			</main>
-
+			<EnterpriseConsole copy={copy} />
 			<SiteFooter lang="ko" />
 		</>
 	);
