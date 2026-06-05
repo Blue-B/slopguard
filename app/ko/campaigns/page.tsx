@@ -1,4 +1,5 @@
 import MarketingNav from "@/app/components/MarketingNav";
+import CampaignsClient from "@/app/components/CampaignsClient";
 import CampaignsConsole, {
 	type CampaignsConsoleCopy,
 } from "@/app/components/CampaignsConsole";
@@ -121,6 +122,22 @@ export default function CampaignsPageKo() {
 			<MarketingNav lang="ko" enHref="/campaigns" koHref="/ko/campaigns" />
 			<PlanGate lang="ko" required="pro">
 				<CampaignsConsole copy={copy} />
+				<div style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}>
+					<CampaignsClient
+						clusters={copy.clusters.map((c) => ({
+							id: c.campaign.fingerprint
+								.toLowerCase()
+								.replace(/[^a-z0-9]+/g, "_")
+								.replace(/^_+|_+$/g, ""),
+							fingerprint: c.campaign.fingerprint,
+							risk: c.campaign.risk,
+						}))}
+						investigateLabel="조사"
+						loadingLabel="불러오는 중…"
+						closeLabel="닫기"
+						emptyCommitsLabel="이 클러스터에 아직 커밋이 없습니다."
+					/>
+				</div>
 			</PlanGate>
 			<SiteFooter lang="ko" />
 		</>

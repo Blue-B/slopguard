@@ -1,9 +1,14 @@
+import { cookies } from "next/headers";
 import MarketingNav from "@/app/components/MarketingNav";
 import EnterpriseConsole, {
 	type EnterpriseConsoleCopy,
 } from "@/app/components/EnterpriseConsole";
+import EnterpriseClient from "@/app/components/EnterpriseClient";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
+import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
+import { hasSso } from "@/lib/billing/entitlement";
+import { getState } from "@/lib/billing/console-store";
 
 export const metadata = {
 	title: "SlopGuard: 엔터프라이즈 포털 — SSO, 감사, 자체 호스팅",
@@ -121,12 +126,31 @@ const copy: EnterpriseConsoleCopy = {
 	note: "감사 보존 기간과 자체 호스팅 지원 범위는 계약 단위로 지정됩니다. 조정은 전담 매니저에게 문의하세요.",
 };
 
-export default function EnterprisePageKo() {
+export default async function EnterprisePageKo() {
+	const store = await cookies();
+	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
+	let live: { audit: ReturnType<typeof getState>["audit"]; integrations: ReturnType<typeof getState>["integrations"] } | null = null;
+	if (session && (await hasSso(session.login))) {
+		const state = getState(session.login);
+		live = { audit: state.audit, integrations: state.integrations };
+	}
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/enterprise" koHref="/ko/enterprise" />
 			<PlanGate lang="ko" required="enterprise">
 				<EnterpriseConsole copy={copy} />
+				{live ? (
+					<div style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}>
+						<EnterpriseClient
+							audit={live.audit}
+							integrations={live.integrations}
+							exportJsonLabel="JSON 내보내기"
+							exportCsvLabel="CSV 내보내기"
+							connectLabel="연결"
+							disconnectLabel="해제"
+						/>
+					</div>
+				) : null}
 			</PlanGate>
 			<SiteFooter lang="ko" />
 		</>

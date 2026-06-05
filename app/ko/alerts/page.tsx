@@ -1,9 +1,14 @@
+import { cookies } from "next/headers";
 import MarketingNav from "@/app/components/MarketingNav";
 import AlertsConsole, {
 	type AlertsConsoleCopy,
 } from "@/app/components/AlertsConsole";
+import AlertsConsoleClient from "@/app/components/AlertsConsoleClient";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
+import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
+import { hasAlerts } from "@/lib/billing/entitlement";
+import { getState } from "@/lib/billing/console-store";
 
 export const metadata = {
 	title: "SlopGuard: 알림 & 웹훅 — Team",
@@ -142,12 +147,39 @@ const copy: AlertsConsoleCopy = {
 	note: "전송은 best-effort로 동작합니다. 전체 내역은 Slack/Discord 또는 웹훅 엔드포인트에 미러링됩니다.",
 };
 
-export default function AlertsPageKo() {
+export default async function AlertsPageKo() {
+	const store = await cookies();
+	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
+	let live: { channels: ReturnType<typeof getState>["channels"]; sentAlerts: ReturnType<typeof getState>["sentAlerts"] } | null = null;
+	if (session && (await hasAlerts(session.login))) {
+		const state = getState(session.login);
+		live = { channels: state.channels, sentAlerts: state.sentAlerts.slice(0, 20) };
+	}
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/alerts" koHref="/ko/alerts" />
 			<PlanGate lang="ko" required="team">
 				<AlertsConsole copy={copy} />
+				{live ? (
+					<div style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}>
+						<AlertsConsoleClient
+							channels={live.channels}
+							sentAlerts={live.sentAlerts}
+							addChannelLabel="채널 추가 (실제 동작)"
+							channelKindLabel="유형"
+							targetLabel="웹훅 URL"
+							kindSlack="Slack"
+							kindDiscord="Discord"
+							kindWebhook="범용 웹훅"
+							submitLabel="채널 추가"
+							testSendLabel="테스트 발송"
+							sendingLabel="전송 중…"
+							successLabel="전송 완료"
+							failedLabel="전송 실패"
+							emptyChannelsLabel="아직 설정된 채널이 없습니다."
+						/>
+					</div>
+				) : null}
 			</PlanGate>
 			<SiteFooter lang="ko" />
 		</>
