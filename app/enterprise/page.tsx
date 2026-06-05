@@ -1,9 +1,14 @@
+import { cookies } from "next/headers";
 import MarketingNav from "@/app/components/MarketingNav";
 import EnterpriseConsole, {
 	type EnterpriseConsoleCopy,
 } from "@/app/components/EnterpriseConsole";
+import EnterpriseClient from "@/app/components/EnterpriseClient";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
+import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
+import { hasSso } from "@/lib/billing/entitlement";
+import { getState } from "@/lib/billing/console-store";
 
 export const metadata = {
 	title: "SlopGuard: Enterprise Portal — SSO, Audit, Self-host",
@@ -134,12 +139,31 @@ const copy: EnterpriseConsoleCopy = {
 	note: "Audit retention and self-host support are scoped per contract. Contact your account manager to adjust.",
 };
 
-export default function EnterprisePage() {
+export default async function EnterprisePage() {
+	const store = await cookies();
+	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
+	let live: { audit: ReturnType<typeof getState>["audit"]; integrations: ReturnType<typeof getState>["integrations"] } | null = null;
+	if (session && (await hasSso(session.login))) {
+		const state = getState(session.login);
+		live = { audit: state.audit, integrations: state.integrations };
+	}
 	return (
 		<>
 			<MarketingNav lang="en" enHref="/enterprise" koHref="/ko/enterprise" />
 			<PlanGate lang="en" required="enterprise">
 				<EnterpriseConsole copy={copy} />
+				{live ? (
+					<div style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}>
+						<EnterpriseClient
+							audit={live.audit}
+							integrations={live.integrations}
+							exportJsonLabel="Export JSON"
+							exportCsvLabel="Export CSV"
+							connectLabel="Connect"
+							disconnectLabel="Disconnect"
+						/>
+					</div>
+				) : null}
 			</PlanGate>
 			<SiteFooter lang="en" />
 		</>

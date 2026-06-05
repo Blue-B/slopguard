@@ -1,9 +1,12 @@
+import { cookies } from "next/headers";
 import MarketingNav from "@/app/components/MarketingNav";
-import AlertsConsole, {
-	type AlertsConsoleCopy,
-} from "@/app/components/AlertsConsole";
+import AlertsConsole, { type AlertsConsoleCopy } from "@/app/components/AlertsConsole";
+import AlertsConsoleClient from "@/app/components/AlertsConsoleClient";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
+import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
+import { hasAlerts, planForOwner } from "@/lib/billing/entitlement";
+import { getState } from "@/lib/billing/console-store";
 
 export const metadata = {
 	title: "SlopGuard: Alerts & Notifications — Team",
@@ -30,11 +33,7 @@ const copy: AlertsConsoleCopy = {
 	orgHref: "/org",
 	metrics: [
 		{ label: "Active channels", value: "3", detail: "Slack, Discord, webhook" },
-		{
-			label: "Routing rules",
-			value: "5",
-			detail: "2 score-based, 3 pattern-based",
-		},
+		{ label: "Routing rules", value: "5", detail: "2 score-based, 3 pattern-based" },
 		{ label: "Alerts sent (30d)", value: "47", detail: "96% delivered" },
 		{ label: "Avg. latency", value: "1.4s", detail: "p95 3.1s" },
 	],
@@ -99,7 +98,7 @@ const copy: AlertsConsoleCopy = {
 			threshold: 85,
 		},
 	],
-	logTitle: "Sent alert log",
+	logTitle: "Sent alert log (sample)",
 	logSubtitle: "What was delivered, what failed, and how fast",
 	logColumns: {
 		when: "When",
@@ -146,12 +145,48 @@ const copy: AlertsConsoleCopy = {
 	note: "Delivery is best-effort. Full history is mirrored to your Slack/Discord or webhook endpoint.",
 };
 
-export default function AlertsPage() {
+async function loadLiveData() {
+	const store = await cookies();
+	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
+	if (!session) return null;
+	const plan = await planForOwner(session.login);
+	if (!(await hasAlerts(session.login))) return null;
+	const state = getState(session.login);
+	return {
+		login: session.login,
+		plan,
+		channels: state.channels,
+		sentAlerts: state.sentAlerts.slice(0, 20),
+	};
+}
+
+export default async function AlertsPage() {
+	const live = await loadLiveData();
 	return (
 		<>
 			<MarketingNav lang="en" enHref="/alerts" koHref="/ko/alerts" />
 			<PlanGate lang="en" required="team">
 				<AlertsConsole copy={copy} />
+				{live ? (
+					<div style={{ maxWidth: 1200, margin: "0 auto 56px", padding: "0 20px" }}>
+						<AlertsConsoleClient
+							channels={live.channels}
+							sentAlerts={live.sentAlerts}
+							addChannelLabel="Add a real channel"
+							channelKindLabel="Kind"
+							targetLabel="Webhook URL"
+							kindSlack="Slack"
+							kindDiscord="Discord"
+							kindWebhook="Generic webhook"
+							submitLabel="Add channel"
+							testSendLabel="Send test alert"
+							sendingLabel="Sending…"
+							successLabel="Sent"
+							failedLabel="Failed"
+							emptyChannelsLabel="No channels configured yet."
+						/>
+					</div>
+				) : null}
 			</PlanGate>
 			<SiteFooter lang="en" />
 		</>

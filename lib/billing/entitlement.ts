@@ -69,3 +69,8 @@ export async function hasAlerts(owner: string): Promise<boolean> {
 export async function hasOrgDashboard(owner: string): Promise<boolean> {
 	return PLANS[await planForOwner(owner)].orgDashboard;
 }
+
+/** SAML SSO / Enterprise features (audit export, SLA) enabled for this owner? */
+export async function hasSso(owner: string): Promise<boolean> {
+	return PLANS[await planForOwner(owner)].sso;
+}
