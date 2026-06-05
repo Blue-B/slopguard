@@ -1,5 +1,8 @@
 import MarketingNav from "@/app/components/MarketingNav";
-import AlertsConsole, { type AlertsConsoleCopy } from "@/app/components/AlertsConsole";
+import AlertsConsole, {
+	type AlertsConsoleCopy,
+} from "@/app/components/AlertsConsole";
+import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
@@ -27,7 +30,11 @@ const copy: AlertsConsoleCopy = {
 	orgHref: "/org",
 	metrics: [
 		{ label: "Active channels", value: "3", detail: "Slack, Discord, webhook" },
-		{ label: "Routing rules", value: "5", detail: "2 score-based, 3 pattern-based" },
+		{
+			label: "Routing rules",
+			value: "5",
+			detail: "2 score-based, 3 pattern-based",
+		},
 		{ label: "Alerts sent (30d)", value: "47", detail: "96% delivered" },
 		{ label: "Avg. latency", value: "1.4s", detail: "p95 3.1s" },
 	],
@@ -143,7 +150,9 @@ export default function AlertsPage() {
 	return (
 		<>
 			<MarketingNav lang="en" enHref="/alerts" koHref="/ko/alerts" />
-			<AlertsConsole copy={copy} />
+			<PlanGate lang="en" required="team">
+				<AlertsConsole copy={copy} />
+			</PlanGate>
 			<SiteFooter lang="en" />
 		</>
 	);

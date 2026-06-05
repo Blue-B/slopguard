@@ -2,6 +2,7 @@ import MarketingNav from "@/app/components/MarketingNav";
 import CampaignsConsole, {
 	type CampaignsConsoleCopy,
 } from "@/app/components/CampaignsConsole";
+import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
@@ -55,8 +56,18 @@ const copy: CampaignsConsoleCopy = {
 				boost: 25,
 			},
 			repos: [
-				{ repo: "blue-b/slopguard", commits: 6, authors: ["@blue-b"], score: 78 },
-				{ repo: "blue-b/web", commits: 4, authors: ["@alex", "@rin"], score: 71 },
+				{
+					repo: "blue-b/slopguard",
+					commits: 6,
+					authors: ["@blue-b"],
+					score: 78,
+				},
+				{
+					repo: "blue-b/web",
+					commits: 4,
+					authors: ["@alex", "@rin"],
+					score: 71,
+				},
 				{ repo: "blue-b/api", commits: 3, authors: ["@alex"], score: 64 },
 			],
 		},
@@ -86,8 +97,18 @@ const copy: CampaignsConsoleCopy = {
 				boost: 8,
 			},
 			repos: [
-				{ repo: "blue-b/docs", commits: 3, authors: ["@blue-b", "@rin"], score: 41 },
-				{ repo: "blue-b/help-center", commits: 2, authors: ["@alex"], score: 38 },
+				{
+					repo: "blue-b/docs",
+					commits: 3,
+					authors: ["@blue-b", "@rin"],
+					score: 41,
+				},
+				{
+					repo: "blue-b/help-center",
+					commits: 2,
+					authors: ["@alex"],
+					score: 38,
+				},
 			],
 		},
 	],
@@ -98,7 +119,9 @@ export default function CampaignsPageKo() {
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/campaigns" koHref="/ko/campaigns" />
-			<CampaignsConsole copy={copy} />
+			<PlanGate lang="ko" required="pro">
+				<CampaignsConsole copy={copy} />
+			</PlanGate>
 			<SiteFooter lang="ko" />
 		</>
 	);

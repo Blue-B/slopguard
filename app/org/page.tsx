@@ -2,6 +2,7 @@ import MarketingNav from "@/app/components/MarketingNav";
 import OrgDashboardConsole, {
 	type OrgDashboardConsoleCopy,
 } from "@/app/components/OrgDashboardConsole";
+import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
@@ -86,7 +87,9 @@ export default function OrgDashboard() {
 	return (
 		<>
 			<MarketingNav lang="en" enHref="/org" koHref="/ko/org" />
-			<OrgDashboardConsole copy={copy} />
+			<PlanGate lang="en" required="team">
+				<OrgDashboardConsole copy={copy} />
+			</PlanGate>
 			<SiteFooter lang="en" />
 		</>
 	);

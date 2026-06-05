@@ -1,5 +1,8 @@
 import MarketingNav from "@/app/components/MarketingNav";
-import AlertsConsole, { type AlertsConsoleCopy } from "@/app/components/AlertsConsole";
+import AlertsConsole, {
+	type AlertsConsoleCopy,
+} from "@/app/components/AlertsConsole";
+import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
@@ -143,7 +146,9 @@ export default function AlertsPageKo() {
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/alerts" koHref="/ko/alerts" />
-			<AlertsConsole copy={copy} />
+			<PlanGate lang="ko" required="team">
+				<AlertsConsole copy={copy} />
+			</PlanGate>
 			<SiteFooter lang="ko" />
 		</>
 	);

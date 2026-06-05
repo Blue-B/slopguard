@@ -2,6 +2,7 @@ import MarketingNav from "@/app/components/MarketingNav";
 import EnterpriseConsole, {
 	type EnterpriseConsoleCopy,
 } from "@/app/components/EnterpriseConsole";
+import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
@@ -124,7 +125,9 @@ export default function EnterprisePageKo() {
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/enterprise" koHref="/ko/enterprise" />
-			<EnterpriseConsole copy={copy} />
+			<PlanGate lang="ko" required="enterprise">
+				<EnterpriseConsole copy={copy} />
+			</PlanGate>
 			<SiteFooter lang="ko" />
 		</>
 	);

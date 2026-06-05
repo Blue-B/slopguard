@@ -2,6 +2,7 @@ import MarketingNav from "@/app/components/MarketingNav";
 import EnterpriseConsole, {
 	type EnterpriseConsoleCopy,
 } from "@/app/components/EnterpriseConsole";
+import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
@@ -16,7 +17,16 @@ const copy: EnterpriseConsoleCopy = {
 	user: "Blue-B",
 	entitlement: "Enterprise entitlement active",
 	connected: "● Connected via SSO",
-	nav: ["Overview", "Queue", "Repos", "Campaigns", "Alerts", "SSO", "Audit", "Support"],
+	nav: [
+		"Overview",
+		"Queue",
+		"Repos",
+		"Campaigns",
+		"Alerts",
+		"SSO",
+		"Audit",
+		"Support",
+	],
 	activeNav: "Overview",
 	eyebrow: "ENTERPRISE FEATURE",
 	title: "Run SlopGuard across your entire organization with controls.",
@@ -30,7 +40,11 @@ const copy: EnterpriseConsoleCopy = {
 	campaignsHref: "/campaigns",
 	metrics: [
 		{ label: "SSO", value: "Active", detail: "Okta · SAML 2.0" },
-		{ label: "Audit retention", value: "365d", detail: "configurable per plan" },
+		{
+			label: "Audit retention",
+			value: "365d",
+			detail: "configurable per plan",
+		},
 		{ label: "Self-host", value: "On", detail: "managed by your team" },
 		{ label: "Support SLA", value: "1h P1", detail: "24×7, named contact" },
 	],
@@ -124,7 +138,9 @@ export default function EnterprisePage() {
 	return (
 		<>
 			<MarketingNav lang="en" enHref="/enterprise" koHref="/ko/enterprise" />
-			<EnterpriseConsole copy={copy} />
+			<PlanGate lang="en" required="enterprise">
+				<EnterpriseConsole copy={copy} />
+			</PlanGate>
 			<SiteFooter lang="en" />
 		</>
 	);
