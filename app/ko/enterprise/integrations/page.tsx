@@ -6,7 +6,7 @@ import IntegrationsFullView, {
 } from "@/app/components/IntegrationsFullView";
 
 export const metadata = {
-	title: "SlopGuard: 통합 — Enterprise",
+	title: "SlopGuard: 통합 - Enterprise",
 	description: "Jira, PagerDuty, Datadog, Slack, Linear, Opsgenie와 연결.",
 };
 
@@ -30,8 +30,8 @@ const copy: IntegrationsFullViewCopy = {
 	empty: "사용 가능한 통합이 없습니다. SlopGuard 관리자에게 문의하세요.",
 	backHref: "/ko/enterprise",
 	backLabel: "개요",
-	heroEyebrow: "INTEGRATIONS · ENTERPRISE",
-	heroTitle: "이벤트를 티켓·페이징·관측 도구로 전달합니다.",
+	heroEyebrow: "INTEGRATIONS / ENTERPRISE",
+	heroTitle: "이벤트를 티켓/페이징/관측 도구로 전달합니다.",
 	heroBody:
 		"팀이 이미 쓰는 시스템으로 SlopGuard 알림을 흘려보내세요. 연결/해제 액션은 감사 로그에 기록됩니다.",
 	connect: "연결",

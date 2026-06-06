@@ -250,7 +250,7 @@ export default function AlertsConsoleClient(props: Props) {
 								<span
 									style={{ color: "#8b949e", fontSize: 12, fontWeight: 500 }}
 								>
-									· {channel.kind}
+									/ {channel.kind}
 								</span>
 							</div>
 							<div style={{ color: "#8b949e", fontSize: 12, marginTop: 4 }}>

@@ -55,7 +55,12 @@ export interface Integration {
 	scope: string;
 }
 
-export type SsoProvider = "okta" | "azure-ad" | "google" | "onelogin" | "generic";
+export type SsoProvider =
+	| "okta"
+	| "azure-ad"
+	| "google"
+	| "onelogin"
+	| "generic";
 export type SsoStatus = "active" | "pending" | "unconfigured";
 
 export interface SsoConfig {

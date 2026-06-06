@@ -6,7 +6,7 @@ import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
-	title: "SlopGuard: 캠페인 감지 — Pro",
+	title: "SlopGuard: 캠페인 감지 - Pro",
 	description:
 		"Pro 플랜 레포 간 핑거프린트 클러스터링: 반복되는 AI 스타일 커밋 패턴을 묶어서 보여줍니다.",
 };
@@ -35,7 +35,7 @@ const copy: CampaignsConsoleCopy = {
 	backToOrg: "조직 페이지로",
 	orgHref: "/ko/org",
 	accountHref: "/ko/account",
-	heroEyebrow: "CAMPAIGNS · PRO 플랜",
+	heroEyebrow: "CAMPAIGNS / PRO 플랜",
 	heroTitle: "같은 프롬프트가 여러 레포에 퍼지는 것을 잡습니다.",
 	heroBody:
 		"SlopGuard가 커밋 제목 prefix로 PR을 묶고, 설치된 레포들 사이로 번지는 것을 표시합니다. 각 클러스터는 drill-down 페이지로 이어집니다.",
@@ -44,7 +44,7 @@ const copy: CampaignsConsoleCopy = {
 	clustersTitle: "활성 클러스터",
 	clustersSubtitle: "설치된 레포들 사이에서 커밋 제목 prefix별로 묶음",
 	clustersEmpty:
-		"클러스터가 없습니다 — prefix가 반복되기 시작하면 여기에 표시됩니다.",
+		"클러스터가 없습니다 - prefix가 반복되기 시작하면 여기에 표시됩니다.",
 	scoreBoostTitle: "점수 부스트 구간",
 	scoreBoostBody: "플랜 등급이 레포 간 매칭 신뢰도에 미치는 영향",
 };

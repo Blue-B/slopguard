@@ -6,7 +6,7 @@ import AuditFullView, {
 } from "@/app/components/AuditFullView";
 
 export const metadata = {
-	title: "SlopGuard: 감사 로그 — Enterprise",
+	title: "SlopGuard: 감사 로그 - Enterprise",
 	description:
 		"조직에 영향을 주는 모든 액션을 기록합니다. JSON/CSV 내보내기 가능.",
 };
@@ -31,7 +31,7 @@ const copy: AuditFullViewCopy = {
 	empty: "감사 항목이 없습니다. 설정 변경과 내보내기 실행이 기록됩니다.",
 	backHref: "/ko/enterprise",
 	backLabel: "개요",
-	heroEyebrow: "AUDIT · ENTERPRISE",
+	heroEyebrow: "AUDIT / ENTERPRISE",
 	heroTitle: "조직에 영향을 주는 모든 액션, 한 곳에서.",
 	heroBody:
 		"채널 추가/해제, 통합 연결/해제, 감사 내보내기가 모두 여기에 남습니다. JSON/CSV로 내보낼 수 있고, 내보내기 자체도 한 행으로 기록됩니다.",

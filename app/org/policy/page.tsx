@@ -6,7 +6,7 @@ import PolicyFullView, {
 } from "@/app/components/PolicyFullView";
 
 export const metadata = {
-	title: "SlopGuard: Policy Coverage — Team",
+	title: "SlopGuard: Policy Coverage - Team",
 	description:
 		"How many of your installed repos are actively protected by SlopGuard's quarantine policy.",
 };
@@ -32,7 +32,7 @@ const copy: PolicyFullViewCopy = {
 	installHref: "/setup",
 	backHref: "/org",
 	backLabel: "Overview",
-	heroEyebrow: "POLICY · ORG",
+	heroEyebrow: "POLICY / ORG",
 	heroTitle: "How many of your installed repos are actively protected.",
 	heroBody:
 		"Coverage is the share of installed repos that have at least one quarantine or clear label applied. Repos with no activity are not yet exercising the policy.",

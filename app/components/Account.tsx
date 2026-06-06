@@ -113,7 +113,7 @@ const T = {
 } as const;
 
 function PlanBadge({ plan, label }: { plan: PlanId; label?: string }) {
-	const color = plan === "team" ? "#a371f7" : "var(--green)";
+	const color = plan === "team" ? "var(--green)" : "var(--green)";
 	const bg =
 		plan === "team" ? "rgba(163,113,247,0.12)" : "rgba(63,185,80,0.12)";
 	const border =

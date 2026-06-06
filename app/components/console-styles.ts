@@ -4,25 +4,26 @@
 // respect prefers-reduced-motion for any transition.
 
 export const shell: React.CSSProperties = {
-	maxWidth: 1280,
-	margin: "32px auto 64px",
-	padding: "0 24px",
+	maxWidth: 1480,
+	margin: "18px auto 96px",
+	padding: "0 32px",
 };
 
 export const frame: React.CSSProperties = {
-	border: "1px solid var(--border)",
-	borderRadius: 20,
+	border: "1px solid #1c2530",
+	borderRadius: 18,
 	overflow: "hidden",
-	background: "linear-gradient(180deg, #0a0e15 0%, #0c1119 60%, #0a0e15 100%)",
+	background:
+		"linear-gradient(180deg, rgba(255,255,255,0.018) 0%, rgba(255,255,255,0.006) 100%), #0a0e15",
 	boxShadow:
-		"0 30px 80px -20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)",
+		"0 28px 70px -30px rgba(0,0,0,0.72), inset 0 1px 0 rgba(255,255,255,0.035)",
 };
 
 export const card: React.CSSProperties = {
 	border: "1px solid #1c2530",
-	borderRadius: 14,
+	borderRadius: 12,
 	background:
-		"linear-gradient(180deg, rgba(255,255,255,0.012) 0%, rgba(255,255,255,0) 100%), #0d141d",
+		"linear-gradient(180deg, rgba(255,255,255,0.012) 0%, rgba(255,255,255,0) 100%), rgba(13,20,29,0.74)",
 };
 
 export const muted: React.CSSProperties = { color: "#8b949e" };

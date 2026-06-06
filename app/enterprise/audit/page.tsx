@@ -6,7 +6,7 @@ import AuditFullView, {
 } from "@/app/components/AuditFullView";
 
 export const metadata = {
-	title: "SlopGuard: Audit Log — Enterprise",
+	title: "SlopGuard: Audit Log - Enterprise",
 	description:
 		"Every action that affects the org is recorded here. Exportable as JSON or CSV.",
 };
@@ -32,10 +32,10 @@ const copy: AuditFullViewCopy = {
 		"No audit entries yet. Every config change, channel send, and export shows up here.",
 	backHref: "/enterprise",
 	backLabel: "Overview",
-	heroEyebrow: "AUDIT · ENTERPRISE",
+	heroEyebrow: "AUDIT / ENTERPRISE",
 	heroTitle: "Every action that affects the org, in one place.",
 	heroBody:
-		"Channel add/remove, integration connect/disconnect, and audit export all land here. Exportable as JSON or CSV — each export itself records an entry.",
+		"Channel add/remove, integration connect/disconnect, and audit export all land here. Exportable as JSON or CSV - each export itself records an entry.",
 	columns: {
 		when: "When",
 		actor: "Actor",

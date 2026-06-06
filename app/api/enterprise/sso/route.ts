@@ -17,7 +17,9 @@ async function ownerOrError() {
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) {
-		return { error: NextResponse.json({ error: "unauthorized" }, { status: 401 }) };
+		return {
+			error: NextResponse.json({ error: "unauthorized" }, { status: 401 }),
+		};
 	}
 	if (!(await hasSso(session.login))) {
 		return {
@@ -49,7 +51,10 @@ export async function POST(req: Request) {
 	}
 
 	const updates: Partial<SsoConfig> = {};
-	if (typeof body.provider === "string" && VALID_PROVIDERS.includes(body.provider as SsoProvider)) {
+	if (
+		typeof body.provider === "string" &&
+		VALID_PROVIDERS.includes(body.provider as SsoProvider)
+	) {
 		updates.provider = body.provider as SsoProvider;
 	}
 	if (typeof body.idpMetadataUrl === "string") {

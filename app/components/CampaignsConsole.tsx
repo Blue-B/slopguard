@@ -97,10 +97,14 @@ export default function CampaignsConsole({
 		data !== null && "installed" in data && data.installed === false;
 	const live = data && data.installed ? data : null;
 
+	const detailBase = copy.heroCtaHref.startsWith("/ko/")
+		? "/ko/campaigns"
+		: "/campaigns";
+
 	const metrics = [
 		{
 			label: "Active clusters",
-			value: live ? String(live.clusters.length) : "—",
+			value: live ? String(live.clusters.length) : "-",
 			detail: live
 				? `${live.clusters.filter((c) => c.risk === "high").length} high-risk`
 				: "loading",
@@ -111,7 +115,7 @@ export default function CampaignsConsole({
 		},
 		{
 			label: "Total hits",
-			value: live ? String(live.clusters.reduce((s, c) => s + c.hits, 0)) : "—",
+			value: live ? String(live.clusters.reduce((s, c) => s + c.hits, 0)) : "-",
 			detail: live ? `${live.repoCount} installed repos` : "loading",
 			tone: "ok" as const,
 		},
@@ -119,13 +123,13 @@ export default function CampaignsConsole({
 			label: "Authors involved",
 			value: live
 				? String(new Set(live.clusters.flatMap((c) => c.authors)).size)
-				: "—",
+				: "-",
 			detail: live ? "unique handles" : "loading",
 			tone: "neutral" as const,
 		},
 		{
 			label: "Repos monitored",
-			value: live ? String(live.repoCount) : "—",
+			value: live ? String(live.repoCount) : "-",
 			detail: live ? "in this account" : "loading",
 			tone: "ok" as const,
 		},
@@ -134,15 +138,15 @@ export default function CampaignsConsole({
 	return (
 		<main
 			style={{
-				maxWidth: 1320,
+				maxWidth: 1480,
 				margin: "0 auto",
-				padding: "0 24px 80px",
+				padding: "18px 32px 96px",
 			}}
 		>
 			<div
 				style={{
 					display: "grid",
-					gridTemplateColumns: "232px 1fr",
+					gridTemplateColumns: "260px minmax(0, 1fr)",
 					gap: 0,
 					alignItems: "start",
 				}}
@@ -157,42 +161,75 @@ export default function CampaignsConsole({
 					activeNav={copy.activeNav}
 				/>
 
-				<div style={{ paddingLeft: 32, paddingTop: 8 }}>
-					{/* Clean, premium header */}
-					<div style={{ marginBottom: 32 }}>
+				<div style={{ paddingLeft: 36, paddingTop: 8 }}>
+					<div
+						style={{
+							position: "relative",
+							overflow: "hidden",
+							borderRadius: 18,
+							border: "1px solid #1c2530",
+							minHeight: 206,
+							marginBottom: 34,
+							background: "#0a0e15",
+						}}
+					>
+						{/* eslint-disable-next-line @next/next/no-img-element */}
+						<img
+							src="/paid-console-premium-header.png"
+							alt=""
+							style={{
+								position: "absolute",
+								inset: 0,
+								width: "100%",
+								height: "100%",
+								objectFit: "cover",
+								opacity: 0.52,
+							}}
+						/>
 						<div
 							style={{
-								color: "#3fb950",
-								fontSize: 10,
-								letterSpacing: "0.18em",
-								fontFamily: "var(--mono)",
-								marginBottom: 8,
+								position: "absolute",
+								inset: 0,
+								background:
+									"linear-gradient(90deg, rgba(10,14,21,0.96) 0%, rgba(10,14,21,0.74) 48%, rgba(10,14,21,0.36) 100%)",
 							}}
-						>
-							{copy.heroEyebrow}
+						/>
+						<div style={{ position: "relative", padding: "34px 38px" }}>
+							<div
+								style={{
+									color: "#3fb950",
+									fontSize: 10,
+									letterSpacing: "0.18em",
+									fontFamily: "var(--mono)",
+									marginBottom: 10,
+								}}
+							>
+								{copy.heroEyebrow}
+							</div>
+							<h1
+								style={{
+									margin: 0,
+									fontSize: 34,
+									letterSpacing: "-0.04em",
+									fontWeight: 780,
+									lineHeight: 1.05,
+									maxWidth: 680,
+								}}
+							>
+								{copy.heroTitle}
+							</h1>
+							<p
+								style={{
+									...muted,
+									marginTop: 12,
+									maxWidth: 600,
+									fontSize: 14,
+									lineHeight: 1.55,
+								}}
+							>
+								{copy.heroBody}
+							</p>
 						</div>
-						<h1
-							style={{
-								margin: 0,
-								fontSize: 28,
-								letterSpacing: "-0.032em",
-								fontWeight: 700,
-								lineHeight: 1.1,
-							}}
-						>
-							{copy.heroTitle}
-						</h1>
-						<p
-							style={{
-								...muted,
-								marginTop: 10,
-								maxWidth: 520,
-								fontSize: 14,
-								lineHeight: 1.5,
-							}}
-						>
-							{copy.heroBody}
-						</p>
 					</div>
 
 					{isLoading && (
@@ -398,7 +435,7 @@ export default function CampaignsConsole({
 															</div>
 															<div style={{ fontSize: 12, color: "#8b949e" }}>
 																{cluster.hits} hits across {cluster.repoCount}{" "}
-																repos · {cluster.authorCount} authors
+																repos / {cluster.authorCount} authors
 															</div>
 														</div>
 
@@ -420,8 +457,9 @@ export default function CampaignsConsole({
 																{cluster.firstSeen}
 															</span>
 															<Link
-																href={`/campaigns/${cluster.id}`}
+																href={`${detailBase}/${cluster.id}`}
 																className="btn btn-ghost btn-sm"
+																prefetch={false}
 															>
 																{copy.investigate}
 															</Link>

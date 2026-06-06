@@ -6,7 +6,7 @@ import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
-	title: "SlopGuard: Org Dashboard — Team",
+	title: "SlopGuard: Org Dashboard - Team",
 	description:
 		"Team plan console for org-wide quarantine queues, campaign clusters, and policy coverage.",
 };
@@ -31,10 +31,10 @@ const copy: OrgDashboardConsoleCopy = {
 		"This console is a live view of your GitHub activity. Install SlopGuard on your repos and the dashboard will populate as soon as SlopGuard detects and labels your first item.",
 	emptyCta: "Install SlopGuard on GitHub",
 	emptyCtaHref: "/setup",
-	heroEyebrow: "ORG · TEAM PLAN",
+	heroEyebrow: "ORG / TEAM PLAN",
 	heroTitle: "One pane for quarantine, campaigns, and policy coverage.",
 	heroBody:
-		"Live view of every repo SlopGuard protects. Quarantine items, group repeated patterns, and verify policy coverage — all from the same console.",
+		"Live view of every repo SlopGuard protects. Quarantine items, group repeated patterns, and verify policy coverage - all from the same console.",
 	heroCta: "Open campaigns",
 	heroCtaHref: "/campaigns",
 	queueTitle: "Quarantine queue",
@@ -60,7 +60,7 @@ const copy: OrgDashboardConsoleCopy = {
 	campaignTitle: "Campaign radar",
 	campaignSubtitle: "Top clusters by commit prefix",
 	campaignsEmpty:
-		"No campaign clusters yet — once 3+ items share a prefix they show up here.",
+		"No campaign clusters yet - once 3+ items share a prefix they show up here.",
 	policyTitle: "Policy coverage",
 	policyBody: "Share of installed repos that are actively protected",
 	policyViewAll: "Open policy",

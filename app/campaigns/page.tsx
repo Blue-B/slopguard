@@ -6,7 +6,7 @@ import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
-	title: "SlopGuard: Campaign Detection — Pro",
+	title: "SlopGuard: Campaign Detection - Pro",
 	description:
 		"Pro plan cross-repo fingerprint clustering: group repeated AI-style commit patterns across your installed repos.",
 };
@@ -35,7 +35,7 @@ const copy: CampaignsConsoleCopy = {
 	backToOrg: "Back to org",
 	orgHref: "/org",
 	accountHref: "/account",
-	heroEyebrow: "CAMPAIGNS · PRO PLAN",
+	heroEyebrow: "CAMPAIGNS / PRO PLAN",
 	heroTitle: "Catch the same prompt being used across repos.",
 	heroBody:
 		"SlopGuard groups PRs by commit-title prefix and surfaces the ones spreading across your installed repos. Each cluster links to its drill-down view.",
@@ -44,7 +44,7 @@ const copy: CampaignsConsoleCopy = {
 	clustersTitle: "Active clusters",
 	clustersSubtitle:
 		"Clustered by commit-title prefix across your installed repos",
-	clustersEmpty: "No clusters yet — once a prefix repeats, it shows up here.",
+	clustersEmpty: "No clusters yet - once a prefix repeats, it shows up here.",
 	scoreBoostTitle: "Score boost tiers",
 	scoreBoostBody: "How plan tier affects confidence on cross-repo matches",
 };

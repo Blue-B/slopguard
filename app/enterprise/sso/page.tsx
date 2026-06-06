@@ -1,10 +1,12 @@
 import MarketingNav from "@/app/components/MarketingNav";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
-import SsoFullView, { type SsoFullViewCopy } from "@/app/components/SsoFullView";
+import SsoFullView, {
+	type SsoFullViewCopy,
+} from "@/app/components/SsoFullView";
 
 export const metadata = {
-	title: "SlopGuard: SAML SSO — Enterprise",
+	title: "SlopGuard: SAML SSO - Enterprise",
 	description:
 		"Configure SAML SSO for your SlopGuard enterprise account: provider, IdP metadata, attribute mapping, and enforcement.",
 };
@@ -25,16 +27,18 @@ const copy: SsoFullViewCopy = {
 		{ label: "Audit", href: "/enterprise/audit" },
 		{ label: "Integrations", href: "/enterprise/integrations" },
 	],
-	eyebrow: "ENTERPRISE · SAML SSO",
+	eyebrow: "ENTERPRISE / SAML SSO",
 	title: "SAML single sign-on, governed by your IdP.",
 	body: "Configure your identity provider, attribute mapping, and enforcement policy. Connection details below are what your IdP admin needs to complete the SAML handshake.",
 	providerLabel: "Identity provider",
 	idpMetadataLabel: "IdP metadata URL",
-	idpMetadataPlaceholder: "https://your-idp.example.com/app/slopguard/sso/saml/metadata",
+	idpMetadataPlaceholder:
+		"https://your-idp.example.com/app/slopguard/sso/saml/metadata",
 	emailAttributeLabel: "Email attribute",
 	loginAttributeLabel: "Login attribute",
 	enforcedLabel: "Enforcement",
-	enforcedHint: "When enabled, GitHub login is disabled for members of this workspace.",
+	enforcedHint:
+		"When enabled, GitHub login is disabled for members of this workspace.",
 	activateCta: "Activate SSO",
 	deactivateCta: "Deactivate",
 	saveCta: "Save changes",
@@ -49,15 +53,22 @@ const copy: SsoFullViewCopy = {
 	statusUnconfigured: "Unconfigured",
 	helpTitle: "Setup checklist",
 	helpSteps: [
-		{ name: "1. Provider", value: "Create a new SAML 2.0 application in your IdP." },
-		{ name: "2. ACS URL", value: "Paste the ACS URL above into the IdP's Reply URL field." },
+		{
+			name: "1. Provider",
+			value: "Create a new SAML 2.0 application in your IdP.",
+		},
+		{
+			name: "2. ACS URL",
+			value: "Paste the ACS URL above into the IdP's Reply URL field.",
+		},
 		{
 			name: "3. Entity ID",
 			value: "Set the IdP's Audience URI to the SP entity ID above.",
 		},
 		{
 			name: "4. Attributes",
-			value: "Map the email and login claims to the attributes shown in the form.",
+			value:
+				"Map the email and login claims to the attributes shown in the form.",
 		},
 		{
 			name: "5. Metadata",
@@ -76,7 +87,11 @@ const copy: SsoFullViewCopy = {
 export default function SsoPage() {
 	return (
 		<>
-			<MarketingNav lang="en" enHref="/enterprise/sso" koHref="/ko/enterprise/sso" />
+			<MarketingNav
+				lang="en"
+				enHref="/enterprise/sso"
+				koHref="/ko/enterprise/sso"
+			/>
 			<PlanGate lang="en" required="enterprise">
 				<SsoFullView copy={copy} />
 			</PlanGate>

@@ -6,7 +6,7 @@ import PolicyFullView, {
 } from "@/app/components/PolicyFullView";
 
 export const metadata = {
-	title: "SlopGuard: 정책 커버리지 — Team",
+	title: "SlopGuard: 정책 커버리지 - Team",
 	description: "설치된 레포 중 SlopGuard 격리 정책으로 보호 중인 비율.",
 };
 
@@ -31,13 +31,13 @@ const copy: PolicyFullViewCopy = {
 	installHref: "/ko/setup",
 	backHref: "/ko/org",
 	backLabel: "개요",
-	heroEyebrow: "POLICY · ORG",
+	heroEyebrow: "POLICY / ORG",
 	heroTitle: "설치된 레포 중 실제로 보호 중인 비율.",
 	heroBody:
-		"커버리지는 격리·정상 확인 라벨이 한 번이라도 적용된 설치 레포의 비율입니다. 활동이 없는 레포는 아직 정책이 동작하지 않습니다.",
+		"커버리지는 격리/정상 확인 라벨이 한 번이라도 적용된 설치 레포의 비율입니다. 활동이 없는 레포는 아직 정책이 동작하지 않습니다.",
 	policyFileTitle: "정책 파일",
 	policyFileBody:
-		"레포에 .github/SLOP_POLICY.yml을 추가해 임계값·라벨 이름·자동 머지 규칙을 커스터마이즈할 수 있습니다.",
+		"레포에 .github/SLOP_POLICY.yml을 추가해 임계값/라벨 이름/자동 머지 규칙을 커스터마이즈할 수 있습니다.",
 	docsHref: "/ko/docs#policy",
 };
 

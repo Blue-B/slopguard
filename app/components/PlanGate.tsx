@@ -11,7 +11,7 @@ const T = {
 		signinSub:
 			"This is a paid-feature console. Sign in with GitHub to see your real data, or browse the preview.",
 		signinCta: "Sign in with GitHub",
-		previewBadge: "Preview · sample data",
+		previewBadge: "Preview data",
 		upgradeTitle: (required: string) =>
 			`This console requires the ${required} plan`,
 		upgradeSub: (required: string, current: string) =>
@@ -27,7 +27,7 @@ const T = {
 		signinSub:
 			"이 페이지는 유료 기능 콘솔입니다. GitHub으로 로그인하면 실제 데이터가 표시됩니다. 지금은 미리보기로 보고 계세요.",
 		signinCta: "GitHub으로 로그인",
-		previewBadge: "미리보기 · 샘플 데이터",
+		previewBadge: "샘플 데이터",
 		upgradeTitle: (required: string) =>
 			`이 콘솔은 ${required} 플랜에서 제공됩니다`,
 		upgradeSub: (required: string, current: string) =>
@@ -117,18 +117,16 @@ export default async function PlanGate({
 	}
 
 	return (
-		<div style={{ position: "relative" }}>
-			<div
-				aria-hidden="true"
-				style={{
-					filter: "blur(2px) saturate(0.6)",
-					opacity: 0.55,
-					pointerEvents: "none",
-					userSelect: "none",
-				}}
-			>
-				{children}
-			</div>
+		<div
+			style={{
+				position: "relative",
+				minHeight: 720,
+				backgroundImage:
+					"linear-gradient(180deg, rgba(13,17,23,0.52), rgba(13,17,23,0.92)), url('/paid-console-premium-header.png')",
+				backgroundSize: "cover",
+				backgroundPosition: "center top",
+			}}
+		>
 			<PlanGateOverlay banner={gate.banner} />
 		</div>
 	);
@@ -153,19 +151,22 @@ function PlanGateOverlay({
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
-				padding: "20px 16px",
+				padding: "24px 32px",
+				background:
+					"linear-gradient(180deg, rgba(5,8,12,0.18), rgba(5,8,12,0.34))",
 			}}
 		>
 			<div
 				role="status"
 				style={{
-					maxWidth: 460,
+					maxWidth: 760,
 					width: "100%",
-					background: "#0b1016",
-					border: "1px solid #2b3846",
-					borderRadius: 16,
-					padding: 22,
-					boxShadow: "0 30px 80px rgba(0,0,0,.45)",
+					background:
+						"linear-gradient(90deg, rgba(10,14,21,0.96), rgba(10,14,21,0.86))",
+					borderTop: "1px solid #2b3846",
+					borderBottom: "1px solid #2b3846",
+					padding: "26px 30px",
+					boxShadow: "0 36px 90px rgba(0,0,0,.38)",
 					textAlign: "left",
 				}}
 			>
@@ -200,11 +201,26 @@ function PlanGateOverlay({
 				>
 					{banner.body}
 				</p>
-				<div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-					<Link href={banner.primary.href} className="btn btn-primary btn-sm">
+				<div
+					style={{
+						display: "flex",
+						gap: 10,
+						flexWrap: "wrap",
+						alignItems: "center",
+					}}
+				>
+					<Link
+						href={banner.primary.href}
+						className="btn btn-primary btn-sm"
+						prefetch={false}
+					>
 						{banner.primary.label}
 					</Link>
-					<Link href={banner.secondary.href} className="btn btn-ghost btn-sm">
+					<Link
+						href={banner.secondary.href}
+						className="btn btn-ghost btn-sm"
+						prefetch={false}
+					>
 						{banner.secondary.label}
 					</Link>
 				</div>

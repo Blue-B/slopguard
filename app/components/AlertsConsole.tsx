@@ -149,7 +149,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 		}
 	}
 
-	async function addChannel(e: React.FormEvent) {
+	async function addChannel(e: { preventDefault: () => void }) {
 		e.preventDefault();
 		if (!addLabel.trim() || !addTarget.trim()) return;
 		setAddBusy(true);
@@ -195,7 +195,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 		}
 	}
 
-	async function addRule(e: React.FormEvent) {
+	async function addRule(e: { preventDefault: () => void }) {
 		e.preventDefault();
 		if (
 			!addRuleRepo.trim() ||
@@ -279,7 +279,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 			{
 				label: "Channels",
 				value: String(channels.length),
-				detail: `${active} active · ${failed} failed`,
+				detail: `${active} active / ${failed} failed`,
 				tone: failed > 0 ? ("warn" as const) : ("ok" as const),
 			},
 			{
@@ -296,7 +296,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 			},
 			{
 				label: "Avg. latency",
-				value: avgLatency > 0 ? `${avgLatency.toFixed(2)}s` : "—",
+				value: avgLatency > 0 ? `${avgLatency.toFixed(2)}s` : "-",
 				detail: `${sent.length} sample${sent.length === 1 ? "" : "s"}`,
 				tone: avgLatency >= 2 ? ("warn" as const) : ("ok" as const),
 			},
@@ -306,15 +306,15 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 	return (
 		<main
 			style={{
-				maxWidth: 1280,
+				maxWidth: 1480,
 				margin: "0 auto",
-				padding: "24px 24px 64px",
+				padding: "18px 32px 96px",
 			}}
 		>
 			<div
 				style={{
 					display: "grid",
-					gridTemplateColumns: "240px 1fr",
+					gridTemplateColumns: "260px minmax(0, 1fr)",
 					gap: 24,
 				}}
 			>
@@ -396,7 +396,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 							}}
 						>
 							<Image
-								src="/funnel-circuit.png"
+								src="/paid-console-premium-header.png"
 								alt="Alerts routing"
 								fill
 								style={{ objectFit: "cover", opacity: 0.7 }}
@@ -427,7 +427,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 								</div>
 								<div style={{ marginTop: 4 }}>
 									{data
-										? `${data.channels.length} channels · ${data.rules.length} rules`
+										? `${data.channels.length} channels / ${data.rules.length} rules`
 										: copy.loading}
 								</div>
 							</div>
@@ -473,7 +473,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 						</div>
 					) : (
 						<>
-							{/* Metrics row — no card box, just border-b + mono numbers */}
+							{/* Metrics row - no card box, just border-b + mono numbers */}
 							<div
 								style={{
 									display: "grid",
@@ -636,7 +636,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 									</div>
 								)}
 
-								{/* Add channel form — real */}
+								{/* Add channel form - real */}
 								<form
 									onSubmit={addChannel}
 									style={{
@@ -846,7 +846,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 									</div>
 								)}
 
-								{/* Add rule form — real */}
+								{/* Add rule form - real */}
 								<form
 									onSubmit={addRule}
 									style={{

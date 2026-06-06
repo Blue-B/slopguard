@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ConsoleSidebar, { type SidebarItem } from "./ConsoleSidebar";
-import { toneColor } from "./console-styles";
 
 type RecentItem = {
 	number: number;
@@ -56,7 +55,7 @@ function extractRepo(url: string): string {
 	const m =
 		url.match(/repos\/([^/]+)\/([^/]+)\/(?:issues|pulls)\/\d+/) ??
 		url.match(/github\.com\/([^/]+)\/([^/]+)\/(?:issues|pull)\/\d+/);
-	return m ? `${m[1]}/${m[2]}` : "—";
+	return m ? `${m[1]}/${m[2]}` : "-";
 }
 
 export type QueueFullViewCopy = {
@@ -109,6 +108,11 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 		data !== null && "installed" in data && data.installed === false;
 	const live = data && data.installed ? data : null;
 
+	const isKo = copy.backHref.startsWith("/ko/");
+	const queueEmpty = isKo
+		? "아직 격리 항목이 없습니다. 새 활동이 생기면 여기에 표시됩니다."
+		: "No quarantine items yet. New activity shows up here.";
+
 	const rows = (live?.recent ?? []).map((it) => ({
 		key: `${it.url}#${it.number}`,
 		item: it.title,
@@ -124,10 +128,14 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 
 	return (
 		<main
-			style={{ maxWidth: 1280, margin: "0 auto", padding: "24px 24px 80px" }}
+			style={{ maxWidth: 1480, margin: "0 auto", padding: "18px 32px 96px" }}
 		>
 			<div
-				style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 28 }}
+				style={{
+					display: "grid",
+					gridTemplateColumns: "260px minmax(0, 1fr)",
+					gap: 32,
+				}}
 			>
 				<ConsoleSidebar
 					workspace={copy.workspace}
@@ -153,7 +161,7 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 					>
 						{/* eslint-disable-next-line @next/next/no-img-element */}
 						<img
-							src="/org-hero-premium.png"
+							src="/paid-console-premium-header.png"
 							alt=""
 							style={{
 								position: "absolute",
@@ -261,7 +269,7 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 								fontSize: 12,
 							}}
 						>
-							No quarantine items yet. New activity shows up here.
+							{queueEmpty}
 						</div>
 					)}
 

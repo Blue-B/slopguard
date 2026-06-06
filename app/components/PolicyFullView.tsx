@@ -69,10 +69,10 @@ export default function PolicyFullView({ copy }: { copy: PolicyFullViewCopy }) {
 
 	return (
 		<main
-			style={{ maxWidth: 1280, margin: "0 auto", padding: "24px 24px 80px" }}
+			style={{ maxWidth: 1480, margin: "0 auto", padding: "18px 32px 96px" }}
 		>
 			<div
-				style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 28 }}
+				style={{ display: "grid", gridTemplateColumns: "260px minmax(0, 1fr)", gap: 32 }}
 			>
 				<ConsoleSidebar
 					workspace={copy.workspace}
@@ -98,7 +98,7 @@ export default function PolicyFullView({ copy }: { copy: PolicyFullViewCopy }) {
 					>
 						{/* eslint-disable-next-line @next/next/no-img-element */}
 						<img
-							src="/org-hero-premium.png"
+							src="/paid-console-premium-header.png"
 							alt=""
 							style={{
 								position: "absolute",
@@ -198,7 +198,7 @@ export default function PolicyFullView({ copy }: { copy: PolicyFullViewCopy }) {
 
 					{live && (
 						<>
-							{/* Coverage metrics — premium */}
+							{/* Coverage metrics - premium */}
 							<div
 								style={{
 									display: "grid",

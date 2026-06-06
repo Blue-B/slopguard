@@ -64,7 +64,7 @@ function extractRepo(url: string): string {
 	const m =
 		url.match(/repos\/([^/]+)\/([^/]+)\/(?:issues|pulls)\/\d+/) ??
 		url.match(/github\.com\/([^/]+)\/([^/]+)\/(?:issues|pull)\/\d+/);
-	return m ? `${m[1]}/${m[2]}` : "—";
+	return m ? `${m[1]}/${m[2]}` : "-";
 }
 
 export type OrgDashboardConsoleCopy = {
@@ -164,25 +164,25 @@ export default function OrgDashboardConsole({
 			return [
 				{
 					label: "Open reviews",
-					value: "—",
+					value: "-",
 					detail: "loading",
 					tone: "neutral" as const,
 				},
 				{
 					label: "Protected repos",
-					value: "—",
+					value: "-",
 					detail: "loading",
 					tone: "neutral" as const,
 				},
 				{
 					label: "Avg. slop score",
-					value: "—",
+					value: "-",
 					detail: "loading",
 					tone: "neutral" as const,
 				},
 				{
 					label: "Active clusters",
-					value: "—",
+					value: "-",
 					detail: "loading",
 					tone: "neutral" as const,
 				},
@@ -229,15 +229,15 @@ export default function OrgDashboardConsole({
 	return (
 		<main
 			style={{
-				maxWidth: 1280,
+				maxWidth: 1480,
 				margin: "0 auto",
-				padding: "24px 24px 64px",
+				padding: "18px 32px 96px",
 			}}
 		>
 			<div
 				style={{
 					display: "grid",
-					gridTemplateColumns: "240px 1fr",
+					gridTemplateColumns: "260px minmax(0, 1fr)",
 					gap: 24,
 				}}
 			>
@@ -251,7 +251,7 @@ export default function OrgDashboardConsole({
 				/>
 
 				<section>
-					{/* Hero — left text / right circuit asset. No card box. */}
+					{/* Hero - left text / right circuit asset. No card box. */}
 					<header
 						style={{
 							display: "grid",
@@ -312,7 +312,7 @@ export default function OrgDashboardConsole({
 							}}
 						>
 							<Image
-								src="/radar-circuit.png"
+								src="/paid-console-premium-header.png"
 								alt="Cross-repo campaign radar"
 								fill
 								style={{ objectFit: "cover", opacity: 0.7 }}
@@ -343,7 +343,7 @@ export default function OrgDashboardConsole({
 								</div>
 								<div style={{ marginTop: 4 }}>
 									{live
-										? `${campaigns.length} clusters · ${live.open} open reviews`
+										? `${campaigns.length} clusters / ${live.open} open reviews`
 										: copy.loading}
 								</div>
 							</div>
@@ -429,7 +429,7 @@ export default function OrgDashboardConsole({
 
 					{!isLoading && !notInstalled && (
 						<>
-							{/* Metrics row — no card box, just border-t/b + mono numbers */}
+							{/* Metrics row - no card box, just border-t/b + mono numbers */}
 							<div
 								style={{
 									display: "grid",
@@ -484,7 +484,7 @@ export default function OrgDashboardConsole({
 								))}
 							</div>
 
-							{/* Quarantine queue — TOP 5 with View all link */}
+							{/* Quarantine queue - TOP 5 with View all link */}
 							<section style={{ padding: "20px 0 0" }}>
 								<header
 									style={{
@@ -645,7 +645,7 @@ export default function OrgDashboardConsole({
 								)}
 							</section>
 
-							{/* Repos — TOP 5 with View all link */}
+							{/* Repos - TOP 5 with View all link */}
 							<section style={{ padding: "20px 0 0" }}>
 								<header
 									style={{
@@ -766,7 +766,7 @@ export default function OrgDashboardConsole({
 								)}
 							</section>
 
-							{/* Campaign radar — TOP 3 */}
+							{/* Campaign radar - TOP 3 */}
 							<section style={{ padding: "20px 0 0" }}>
 								<header
 									style={{
@@ -916,7 +916,7 @@ export default function OrgDashboardConsole({
 								)}
 							</section>
 
-							{/* Policy coverage — single big bar + View policy link */}
+							{/* Policy coverage - single big bar + View policy link */}
 							<section style={{ padding: "20px 0 0" }}>
 								<header
 									style={{

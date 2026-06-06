@@ -6,7 +6,7 @@ import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
-	title: "SlopGuard: Enterprise — SSO, 감사, 컴플라이언스",
+	title: "SlopGuard: Enterprise - SSO, 감사, 컴플라이언스",
 	description: "Enterprise 플랜 콘솔: SAML SSO, 감사 로그, 통합, 지원 계약.",
 };
 
@@ -31,10 +31,10 @@ const copy: EnterpriseConsoleCopy = {
 	contactSales: "세일즈 문의",
 	accountHref: "/ko/account",
 	orgHref: "/ko/org",
-	heroEyebrow: "ENTERPRISE · 컴플라이언스",
+	heroEyebrow: "ENTERPRISE / 컴플라이언스",
 	heroTitle: "보안팀이 기대하는 통제 아래에서 SlopGuard를 운영합니다.",
 	heroBody:
-		"SAML SSO, 전체 감사 추적, 커스텀 통합, 24/7 지원. 감사 로그는 모든 설정 변경·채널 발송·내보내기를 기록합니다.",
+		"SAML SSO, 전체 감사 추적, 커스텀 통합, 24/7 지원. 감사 로그는 모든 설정 변경/채널 발송/내보내기를 기록합니다.",
 	heroCta: "감사 로그 열기",
 	heroCtaHref: "/ko/enterprise/audit",
 	ssoTitle: "SAML SSO",
@@ -44,7 +44,7 @@ const copy: EnterpriseConsoleCopy = {
 	auditViewAll: "전체 로그 열기",
 	auditViewAllHref: "/ko/enterprise/audit",
 	integrationsTitle: "통합",
-	integrationsSubtitle: "이벤트를 티켓·페이징·관측 도구로 전달",
+	integrationsSubtitle: "이벤트를 티켓/페이징/관측 도구로 전달",
 	integrationsViewAll: "통합 관리",
 	integrationsViewAllHref: "/ko/enterprise/integrations",
 	supportTitle: "지원",
