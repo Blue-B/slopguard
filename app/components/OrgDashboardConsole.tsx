@@ -82,11 +82,13 @@ export type OrgDashboardConsoleCopy = {
 	policyViewAllHref: string;
 };
 
-function deriveStatus(labels: string[]): string {
+type OrgQueueStatus = "quarantined" | "cleared" | "watching";
+
+function deriveStatus(labels: string[]): OrgQueueStatus {
 	if (labels.some((l) => l.toLowerCase().includes("quarantine")))
-		return "Quarantined";
-	if (labels.some((l) => l.toLowerCase().includes("cleared"))) return "Cleared";
-	return "Watching";
+		return "quarantined";
+	if (labels.some((l) => l.toLowerCase().includes("cleared"))) return "cleared";
+	return "watching";
 }
 
 function deriveScore(labels: string[]): number {
@@ -141,6 +143,24 @@ export default function OrgDashboardConsole({
 	const notInstalled =
 		data !== null && "installed" in data && data.installed === false;
 	const live = data && data.installed ? data : null;
+	const isKo = copy.nav.some((item) => item.href.startsWith("/ko/"));
+	const labels = isKo
+		? {
+				status: { quarantined: "격리됨", cleared: "정상화", watching: "관찰 중" } satisfies Record<OrgQueueStatus, string>,
+				emptyQueue: "최근 30일 안에 처리할 항목이 없습니다.",
+				emptyRepos: "아직 활동이 있는 레포가 없습니다.",
+				campaignCta: "캠페인 열기",
+				policyReadout: (coveredCount: number, totalCount: number) =>
+					`설치 레포 ${totalCount}개 중 ${coveredCount}개에서 정책 신호가 동작 중`,
+			}
+		: {
+				status: { quarantined: "Quarantined", cleared: "Cleared", watching: "Watching" } satisfies Record<OrgQueueStatus, string>,
+				emptyQueue: "No items in the last 30 days.",
+				emptyRepos: "No repos with activity yet.",
+				campaignCta: "Open campaigns",
+				policyReadout: (coveredCount: number, totalCount: number) =>
+					`Enforcing on ${coveredCount} of ${totalCount} installed repos`,
+			};
 
 	const queue = useMemo(() => {
 		if (!live) return [];
@@ -298,7 +318,7 @@ export default function OrgDashboardConsole({
 										<span>{copy.queueColumns.age}</span>
 									</div>
 									{queue.length === 0 ? (
-										<EmptyLine>No items in the last 30 days.</EmptyLine>
+										<EmptyLine>{labels.emptyQueue}</EmptyLine>
 									) : (
 										queue.map((row) => (
 											<div className="org-table-row" key={row.key}>
@@ -307,7 +327,7 @@ export default function OrgDashboardConsole({
 												</Link>
 												<span>{row.repo}</span>
 												<b>{row.score}</b>
-												<span>{row.status}</span>
+												<span>{labels.status[row.status]}</span>
 												<span>{row.age}</span>
 											</div>
 										))
@@ -323,7 +343,7 @@ export default function OrgDashboardConsole({
 									cta={copy.reposViewAll}
 								>
 									{reposRows.length === 0 ? (
-										<EmptyLine>No repos with activity yet.</EmptyLine>
+										<EmptyLine>{labels.emptyRepos}</EmptyLine>
 									) : (
 										reposRows.map((row) => (
 											<div className="org-mini-row" key={row.repo}>
@@ -338,7 +358,7 @@ export default function OrgDashboardConsole({
 									title={copy.campaignTitle}
 									sub={copy.campaignSubtitle}
 									href={campaignHref}
-									cta="Open campaigns"
+									cta={labels.campaignCta}
 								>
 									{campaigns.length === 0 ? (
 										<EmptyLine>{copy.campaignsEmpty}</EmptyLine>
@@ -366,9 +386,7 @@ export default function OrgDashboardConsole({
 								>
 									<div className="org-policy-readout">
 										<b>{pct}%</b>
-										<span>
-											Enforcing on {covered} of {total} installed repos
-										</span>
+										<span>{labels.policyReadout(covered, total)}</span>
 									</div>
 								</MiniPanel>
 							</aside>
