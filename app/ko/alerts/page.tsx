@@ -6,9 +6,9 @@ import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
-	title: "SlopGuard: 알림 설정 — Team",
+	title: "SlopGuard: 알림 설정 - Team",
 	description:
-		"Team 플랜 알림 콘솔: Slack/Discord/웹훅 채널 추가, 레포·패턴별 라우팅, 발송 로그 실시간 확인.",
+		"Team 플랜 알림 콘솔: Slack/Discord/웹훅 채널 추가, 레포/패턴별 라우팅, 발송 로그 실시간 확인.",
 };
 
 const copy: AlertsConsoleCopy = {
@@ -30,10 +30,10 @@ const copy: AlertsConsoleCopy = {
 	orgHref: "/ko/org",
 	campaignsHref: "/ko/campaigns",
 	accountHref: "/ko/account",
-	heroEyebrow: "ALERTS · TEAM 플랜",
+	heroEyebrow: "ALERTS / TEAM 플랜",
 	heroTitle: "대상별 채널, 실제로 라우팅되는 규칙.",
 	heroBody:
-		"Slack·Discord·커스텀 웹훅을 추가하고, 레포+패턴을 채널에 묶고 slop 점수 임계값을 설정합니다. 아래 로그는 실제 발송 내역입니다.",
+		"Slack/Discord/커스텀 웹훅을 추가하고, 레포+패턴을 채널에 묶고 slop 점수 임계값을 설정합니다. 아래 로그는 실제 발송 내역입니다.",
 	heroCta: "캠페인 페이지 열기",
 	heroCtaHref: "/ko/campaigns",
 	channelsTitle: "활성 채널",

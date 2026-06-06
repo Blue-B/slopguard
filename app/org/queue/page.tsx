@@ -6,7 +6,7 @@ import QueueFullView, {
 } from "@/app/components/QueueFullView";
 
 export const metadata = {
-	title: "SlopGuard: Quarantine Queue — Team",
+	title: "SlopGuard: Quarantine Queue - Team",
 	description:
 		"Every quarantined and cleared item from your protected repos, sorted by recency.",
 };
@@ -32,7 +32,7 @@ const copy: QueueFullViewCopy = {
 	installHref: "/setup",
 	backHref: "/org",
 	backLabel: "Overview",
-	heroEyebrow: "QUEUE · ORG",
+	heroEyebrow: "QUEUE / ORG",
 	heroTitle: "Every quarantined and cleared item from your protected repos.",
 	heroBody:
 		"Sorted by recency. Click any row to open the underlying issue or PR on GitHub. Items here come from the labels SlopGuard applies to issues and pull requests.",

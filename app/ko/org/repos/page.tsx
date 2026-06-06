@@ -6,7 +6,7 @@ import ReposFullView, {
 } from "@/app/components/ReposFullView";
 
 export const metadata = {
-	title: "SlopGuard: 레포 — Team",
+	title: "SlopGuard: 레포 - Team",
 	description: "SlopGuard가 볼 수 있는 모든 레포 + 실시간 격리/정상 카운트.",
 };
 
@@ -31,10 +31,10 @@ const copy: ReposFullViewCopy = {
 	installHref: "/ko/setup",
 	backHref: "/ko/org",
 	backLabel: "개요",
-	heroEyebrow: "REPOS · ORG",
+	heroEyebrow: "REPOS / ORG",
 	heroTitle: "SlopGuard가 보는 모든 레포, 실시간 활동 카운트.",
 	heroBody:
-		"격리·정상 확인 라벨이 GitHub 설치에서 레포별로 집계됩니다. 더 많은 레포에 설치하면 커버리지가 늘어납니다.",
+		"격리/정상 확인 라벨이 GitHub 설치에서 레포별로 집계됩니다. 더 많은 레포에 설치하면 커버리지가 늘어납니다.",
 	columns: {
 		repo: "레포지터리",
 		quarantined: "격리",

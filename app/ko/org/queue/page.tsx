@@ -6,8 +6,8 @@ import QueueFullView, {
 } from "@/app/components/QueueFullView";
 
 export const metadata = {
-	title: "SlopGuard: 격리 큐 — Team",
-	description: "보호된 레포의 격리·정상 확인 항목 전체 (최신순).",
+	title: "SlopGuard: 격리 큐 - Team",
+	description: "보호된 레포의 격리/정상 확인 항목 전체 (최신순).",
 };
 
 const copy: QueueFullViewCopy = {
@@ -31,8 +31,8 @@ const copy: QueueFullViewCopy = {
 	installHref: "/ko/setup",
 	backHref: "/ko/org",
 	backLabel: "개요",
-	heroEyebrow: "QUEUE · ORG",
-	heroTitle: "보호된 모든 레포의 격리·정상 확인 항목 전체.",
+	heroEyebrow: "QUEUE / ORG",
+	heroTitle: "보호된 모든 레포의 격리/정상 확인 항목 전체.",
 	heroBody:
 		"최신순. 행을 클릭하면 GitHub의 이슈/PR이 열립니다. 항목은 SlopGuard가 이슈/PR에 적용한 라벨에서 파생됩니다.",
 	columns: {

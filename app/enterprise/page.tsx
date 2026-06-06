@@ -6,7 +6,7 @@ import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
-	title: "SlopGuard: Enterprise — SSO, Audit, Compliance",
+	title: "SlopGuard: Enterprise - SSO, Audit, Compliance",
 	description:
 		"Enterprise plan console: SAML SSO, audit log, integrations, and support.",
 };
@@ -32,7 +32,7 @@ const copy: EnterpriseConsoleCopy = {
 	contactSales: "Contact sales",
 	accountHref: "/account",
 	orgHref: "/org",
-	heroEyebrow: "ENTERPRISE · COMPLIANCE",
+	heroEyebrow: "ENTERPRISE / COMPLIANCE",
 	heroTitle: "Run SlopGuard with the controls your security team expects.",
 	heroBody:
 		"SAML SSO, full audit trail, custom integrations, and a 24/7 support contract. The audit log records every config change, channel send, and export.",

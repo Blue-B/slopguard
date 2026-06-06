@@ -107,25 +107,25 @@ export default function EnterpriseConsole({
 			return [
 				{
 					label: "Audit entries",
-					value: "—",
+					value: "-",
 					detail: "loading",
 					tone: "neutral" as const,
 				},
 				{
 					label: "Integrations",
-					value: "—",
+					value: "-",
 					detail: "loading",
 					tone: "neutral" as const,
 				},
 				{
 					label: "SSO provider",
-					value: "—",
+					value: "-",
 					detail: "loading",
 					tone: "neutral" as const,
 				},
 				{
 					label: "SSO status",
-					value: "—",
+					value: "-",
 					detail: "loading",
 					tone: "neutral" as const,
 				},
@@ -166,15 +166,15 @@ export default function EnterpriseConsole({
 	return (
 		<main
 			style={{
-				maxWidth: 1280,
+				maxWidth: 1480,
 				margin: "0 auto",
-				padding: "24px 24px 64px",
+				padding: "18px 32px 96px",
 			}}
 		>
 			<div
 				style={{
 					display: "grid",
-					gridTemplateColumns: "240px 1fr",
+					gridTemplateColumns: "260px minmax(0, 1fr)",
 					gap: 24,
 				}}
 			>
@@ -201,7 +201,7 @@ export default function EnterpriseConsole({
 						<div style={{ padding: "8px 0" }}>
 							<div
 								style={{
-									color: "#a371f7",
+									color: "#3fb950",
 									fontSize: 10,
 									letterSpacing: ".18em",
 									textTransform: "uppercase",
@@ -248,7 +248,7 @@ export default function EnterpriseConsole({
 							}}
 						>
 							<Image
-								src="/gears-circuit.png"
+								src="/paid-console-premium-header.png"
 								alt="Enterprise integrations"
 								fill
 								style={{ objectFit: "cover", opacity: 0.7 }}
@@ -275,11 +275,11 @@ export default function EnterpriseConsole({
 								}}
 							>
 								<div style={{ color: "#f0f6fc", fontWeight: 700 }}>
-									Compliance · Audit · SSO
+									Compliance / Audit / SSO
 								</div>
 								<div style={{ marginTop: 4 }}>
 									{data
-										? `${data.audit.length} audit · ${data.integrations.length} integrations`
+										? `${data.audit.length} audit / ${data.integrations.length} integrations`
 										: copy.loading}
 								</div>
 							</div>
@@ -382,7 +382,7 @@ export default function EnterpriseConsole({
 								>
 									<div
 										style={{
-											color: "#a371f7",
+											color: "#3fb950",
 											fontSize: 10,
 											letterSpacing: ".14em",
 											textTransform: "uppercase",
@@ -437,7 +437,7 @@ export default function EnterpriseConsole({
 													fontWeight: 600,
 												}}
 											>
-												● {data?.sso.status}
+												{data?.sso.status}
 											</span>
 										</div>
 										<div
@@ -450,7 +450,7 @@ export default function EnterpriseConsole({
 										>
 											<span style={{ color: "#8b949e" }}>Last sync</span>
 											<span style={{ color: "#f0f6fc" }}>
-												{data ? formatLastSync(data.sso.lastSync) : "—"}
+												{data ? formatLastSync(data.sso.lastSync) : "-"}
 											</span>
 										</div>
 									</div>
@@ -459,7 +459,7 @@ export default function EnterpriseConsole({
 								<div style={{ padding: "20px 0 20px 16px" }}>
 									<div
 										style={{
-											color: "#a371f7",
+											color: "#3fb950",
 											fontSize: 10,
 											letterSpacing: ".14em",
 											textTransform: "uppercase",
@@ -530,7 +530,7 @@ export default function EnterpriseConsole({
 								</div>
 							</div>
 
-							{/* Quick links — Audit / Integrations */}
+							{/* Quick links - Audit / Integrations */}
 							<div
 								style={{
 									padding: "20px 0 0",
@@ -573,7 +573,7 @@ export default function EnterpriseConsole({
 									</div>
 									<span
 										style={{
-											color: "#a371f7",
+											color: "#3fb950",
 											fontFamily: "var(--mono)",
 											fontSize: 12,
 										}}
@@ -614,7 +614,7 @@ export default function EnterpriseConsole({
 									</div>
 									<span
 										style={{
-											color: "#a371f7",
+											color: "#3fb950",
 											fontFamily: "var(--mono)",
 											fontSize: 12,
 										}}

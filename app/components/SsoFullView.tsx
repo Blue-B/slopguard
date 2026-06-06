@@ -55,7 +55,7 @@ export type SsoFullViewCopy = {
 };
 
 function relativeTime(iso?: string): string {
-	if (!iso) return "—";
+	if (!iso) return "-";
 	const ms = Date.now() - new Date(iso).getTime();
 	const m = Math.floor(ms / 60000);
 	if (m < 1) return "just now";
@@ -133,7 +133,11 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 				? copy.statusPending
 				: copy.statusUnconfigured;
 	const statusColor =
-		status === "active" ? "#3fb950" : status === "pending" ? "#d29922" : "#8b949e";
+		status === "active"
+			? "#3fb950"
+			: status === "pending"
+				? "#d29922"
+				: "#8b949e";
 
 	return (
 		<main style={shell}>
@@ -141,7 +145,7 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 				<div
 					style={{
 						display: "grid",
-						gridTemplateColumns: "240px 1fr",
+						gridTemplateColumns: "260px minmax(0, 1fr)",
 						minHeight: 760,
 					}}
 				>
@@ -236,7 +240,12 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 										marginBottom: 24,
 									}}
 								>
-									<div style={{ padding: "14px 18px", borderRight: "1px solid #1c2530" }}>
+									<div
+										style={{
+											padding: "14px 18px",
+											borderRight: "1px solid #1c2530",
+										}}
+									>
 										<div
 											style={{
 												...muted,
@@ -261,7 +270,12 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 											{statusLabel}
 										</div>
 									</div>
-									<div style={{ padding: "14px 18px", borderRight: "1px solid #1c2530" }}>
+									<div
+										style={{
+											padding: "14px 18px",
+											borderRight: "1px solid #1c2530",
+										}}
+									>
 										<div
 											style={{
 												...muted,
@@ -286,7 +300,12 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 											{cfg.provider}
 										</div>
 									</div>
-									<div style={{ padding: "14px 18px", borderRight: "1px solid #1c2530" }}>
+									<div
+										style={{
+											padding: "14px 18px",
+											borderRight: "1px solid #1c2530",
+										}}
+									>
 										<div
 											style={{
 												...muted,
@@ -350,7 +369,10 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 										<select
 											value={cfg.provider}
 											onChange={(e) =>
-												setCfg({ ...cfg, provider: e.target.value as SsoProvider })
+												setCfg({
+													...cfg,
+													provider: e.target.value as SsoProvider,
+												})
 											}
 											disabled={busy}
 											style={inputStyle}
@@ -584,7 +606,13 @@ const inputStyle: React.CSSProperties = {
 	outline: "none",
 };
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+	label,
+	children,
+}: {
+	label: string;
+	children: React.ReactNode;
+}) {
 	return (
 		<div style={{ marginBottom: 14 }}>
 			<label

@@ -6,7 +6,7 @@ import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata = {
-	title: "SlopGuard: Alerts & Notifications — Team",
+	title: "SlopGuard: Alerts & Notifications - Team",
 	description:
 		"Team plan alert console: configure Slack, Discord, and webhook channels, route by repo + pattern, and watch live delivery.",
 };
@@ -30,7 +30,7 @@ const copy: AlertsConsoleCopy = {
 	orgHref: "/org",
 	campaignsHref: "/campaigns",
 	accountHref: "/account",
-	heroEyebrow: "ALERTS · TEAM PLAN",
+	heroEyebrow: "ALERTS / TEAM PLAN",
 	heroTitle: "One channel per audience, with rules that actually route.",
 	heroBody:
 		"Add Slack, Discord, or a custom webhook. Then bind a repo + pattern to a channel with a slop-score threshold. The log below shows live delivery.",
@@ -40,7 +40,7 @@ const copy: AlertsConsoleCopy = {
 	channelsSubtitle:
 		"Targets are stored per-owner. Add a channel, then create a routing rule that points at it.",
 	channelsEmpty:
-		"No channels yet. Add one below — pick Slack, Discord, or a generic webhook target.",
+		"No channels yet. Add one below - pick Slack, Discord, or a generic webhook target.",
 	addChannelTitle: "Add a channel",
 	addChannelBody: "",
 	addChannelKindLabel: "Channel kind",

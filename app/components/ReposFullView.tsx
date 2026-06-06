@@ -63,13 +63,35 @@ export default function ReposFullView({ copy }: { copy: ReposFullViewCopy }) {
 	const totalCleared = live?.repos.reduce((s, r) => s + r.cleared, 0) ?? 0;
 	const protectedPct =
 		totalRepos > 0 ? Math.round((live!.repos.length / totalRepos) * 100) : 0;
+	const isKo = copy.backHref.startsWith("/ko/");
+	const metricLabels = isKo
+		? {
+				repos: "설치된 레포",
+				protected: "보호 중",
+				quarantined: "격리",
+				cleared: "정상 확인",
+				coverage:
+					"Team 플랜의 실시간 레포 커버리지입니다. 설치 범위가 늘수록 보호 범위도 늘어납니다.",
+			}
+		: {
+				repos: "Installed repos",
+				protected: "Protected",
+				quarantined: "Quarantined",
+				cleared: "Cleared",
+				coverage:
+					"Live Team-plan repo coverage. Install SlopGuard on more repos to expand protection.",
+			};
 
 	return (
 		<main
-			style={{ maxWidth: 1280, margin: "0 auto", padding: "24px 24px 80px" }}
+			style={{ maxWidth: 1480, margin: "0 auto", padding: "18px 32px 96px" }}
 		>
 			<div
-				style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 28 }}
+				style={{
+					display: "grid",
+					gridTemplateColumns: "260px minmax(0, 1fr)",
+					gap: 32,
+				}}
 			>
 				<ConsoleSidebar
 					workspace={copy.workspace}
@@ -95,7 +117,7 @@ export default function ReposFullView({ copy }: { copy: ReposFullViewCopy }) {
 					>
 						{/* eslint-disable-next-line @next/next/no-img-element */}
 						<img
-							src="/org-hero-premium.png"
+							src="/paid-console-premium-header.png"
 							alt=""
 							style={{
 								position: "absolute",
@@ -156,7 +178,7 @@ export default function ReposFullView({ copy }: { copy: ReposFullViewCopy }) {
 						</div>
 					</div>
 
-					{/* Live Metrics — premium row, no cards */}
+					{/* Live Metrics - premium row, no cards */}
 					{live && (
 						<div
 							style={{
@@ -169,23 +191,23 @@ export default function ReposFullView({ copy }: { copy: ReposFullViewCopy }) {
 						>
 							{[
 								{
-									label: "설치된 레포",
+									label: metricLabels.repos,
 									value: totalRepos,
 									tone: "ok" as const,
 								},
 								{
-									label: "보호 중",
+									label: metricLabels.protected,
 									value: live.repos.length,
 									detail: `${protectedPct}%`,
 									tone: "ok" as const,
 								},
 								{
-									label: "격리",
+									label: metricLabels.quarantined,
 									value: totalQuarantined,
 									tone: "danger" as const,
 								},
 								{
-									label: "정상 확인",
+									label: metricLabels.cleared,
 									value: totalCleared,
 									tone: "ok" as const,
 								},
@@ -409,8 +431,7 @@ export default function ReposFullView({ copy }: { copy: ReposFullViewCopy }) {
 									fontFamily: "var(--mono)",
 								}}
 							>
-								Team 플랜에서 제공하는 실시간 레포 커버리지. 더 많은 레포에
-								설치하면 보호 범위가 늘어납니다.
+								{metricLabels.coverage}
 							</div>
 						</>
 					)}

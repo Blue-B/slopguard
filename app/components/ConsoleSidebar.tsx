@@ -138,7 +138,7 @@ export default function ConsoleSidebar({
 						>
 							<span>{item.label}</span>
 							{active ? (
-								<span style={{ fontSize: 10, color: "#3fb950" }}>●</span>
+								<span style={{ fontSize: 10, color: "#3fb950" }}>active</span>
 							) : item.external ? (
 								<span style={{ fontSize: 10, opacity: 0.5 }}>↗</span>
 							) : null}

@@ -112,15 +112,15 @@ export default function IntegrationsFullView({
 	return (
 		<main
 			style={{
-				maxWidth: 1280,
+				maxWidth: 1480,
 				margin: "0 auto",
-				padding: "24px 24px 64px",
+				padding: "18px 32px 96px",
 			}}
 		>
 			<div
 				style={{
 					display: "grid",
-					gridTemplateColumns: "240px 1fr",
+					gridTemplateColumns: "260px minmax(0, 1fr)",
 					gap: 24,
 				}}
 			>
@@ -139,15 +139,21 @@ export default function IntegrationsFullView({
 							display: "flex",
 							justifyContent: "space-between",
 							alignItems: "flex-end",
-							padding: "8px 0 24px",
-							borderBottom: "1px solid #1c2530",
-							marginBottom: 8,
+							gap: 24,
+							padding: "28px 30px",
+							border: "1px solid #1c2530",
+							borderRadius: 18,
+							marginBottom: 26,
+							backgroundImage:
+								"linear-gradient(90deg, rgba(10,14,21,0.97) 0%, rgba(10,14,21,0.78) 52%, rgba(10,14,21,0.46) 100%), url('/paid-feature-evidence-visual.png')",
+							backgroundSize: "cover",
+							backgroundPosition: "center right",
 						}}
 					>
 						<div>
 							<div
 								style={{
-									color: "#a371f7",
+									color: "#3fb950",
 									fontSize: 10,
 									letterSpacing: ".18em",
 									textTransform: "uppercase",

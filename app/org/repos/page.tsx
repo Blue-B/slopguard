@@ -6,7 +6,7 @@ import ReposFullView, {
 } from "@/app/components/ReposFullView";
 
 export const metadata = {
-	title: "SlopGuard: Repos — Team",
+	title: "SlopGuard: Repos - Team",
 	description:
 		"Every repo SlopGuard can see for your account, with live quarantine and clear counts.",
 };
@@ -32,7 +32,7 @@ const copy: ReposFullViewCopy = {
 	installHref: "/setup",
 	backHref: "/org",
 	backLabel: "Overview",
-	heroEyebrow: "REPOS · ORG",
+	heroEyebrow: "REPOS / ORG",
 	heroTitle: "Every repo SlopGuard can see, with live activity counts.",
 	heroBody:
 		"Quarantined and cleared labels are aggregated per repo from your GitHub installation. Install on more repos to extend coverage.",

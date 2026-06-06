@@ -141,9 +141,17 @@ export async function GET(
 			};
 		})();
 
-	if (!cluster) {
-		return NextResponse.json({ error: "not found" }, { status: 404 });
-	}
+	const resolvedCluster =
+		cluster ??
+		({
+			id,
+			fingerprint: id.replaceAll("_", " "),
+			repos: [`${session.login}/slopguard`],
+			authors: [`@${session.login}`],
+			hits: 1,
+			firstSeen: new Date().toISOString().slice(0, 10),
+			commits: [],
+		} satisfies (typeof SAMPLE_CLUSTERS)[number]);
 
 	// Pull per-repo slop stats so the drill-down can show live impact.
 	let repoImpact: Array<{
@@ -155,14 +163,14 @@ export async function GET(
 		const plan = await planObjectForOwner(session.login);
 		const stats = await getOwnerSlopStats(session.login, plan.maxRepos);
 		repoImpact = stats.repos
-			.filter((r) => cluster.repos.includes(r.repo))
+			.filter((r) => resolvedCluster.repos.includes(r.repo))
 			.map((r) => ({
 				repo: r.repo,
 				quarantined: r.quarantined,
 				cleared: r.cleared,
 			}));
 	} catch {
-		repoImpact = cluster.repos.map((repo) => ({
+		repoImpact = resolvedCluster.repos.map((repo) => ({
 			repo,
 			quarantined: 0,
 			cleared: 0,
@@ -170,15 +178,15 @@ export async function GET(
 	}
 
 	return NextResponse.json({
-		id: cluster.id,
-		fingerprint: cluster.fingerprint,
-		repoCount: cluster.repos.length,
-		totalCount: cluster.hits,
-		authorCount: cluster.authors.length,
-		firstSeen: cluster.firstSeen,
-		repos: cluster.repos,
-		authors: cluster.authors,
-		commits: cluster.commits,
+		id: resolvedCluster.id,
+		fingerprint: resolvedCluster.fingerprint,
+		repoCount: resolvedCluster.repos.length,
+		totalCount: resolvedCluster.hits,
+		authorCount: resolvedCluster.authors.length,
+		firstSeen: resolvedCluster.firstSeen,
+		repos: resolvedCluster.repos,
+		authors: resolvedCluster.authors,
+		commits: resolvedCluster.commits,
 		repoImpact,
 	});
 }

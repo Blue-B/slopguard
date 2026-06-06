@@ -139,7 +139,7 @@ export default function EnterpriseClient(props: Props) {
 										padding: "10px 8px",
 										color:
 											row.source === "SSO"
-												? "#a371f7"
+												? "var(--green)"
 												: row.source === "Admin"
 													? "#3fb950"
 													: "#d29922",

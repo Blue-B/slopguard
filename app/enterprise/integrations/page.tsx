@@ -6,7 +6,7 @@ import IntegrationsFullView, {
 } from "@/app/components/IntegrationsFullView";
 
 export const metadata = {
-	title: "SlopGuard: Integrations — Enterprise",
+	title: "SlopGuard: Integrations - Enterprise",
 	description:
 		"Connect SlopGuard to Jira, PagerDuty, Datadog, Slack, Linear, or Opsgenie.",
 };
@@ -31,7 +31,7 @@ const copy: IntegrationsFullViewCopy = {
 	empty: "No integrations available. Contact your SlopGuard admin.",
 	backHref: "/enterprise",
 	backLabel: "Overview",
-	heroEyebrow: "INTEGRATIONS · ENTERPRISE",
+	heroEyebrow: "INTEGRATIONS / ENTERPRISE",
 	heroTitle:
 		"Forward events to your ticketing, paging, and observability tools.",
 	heroBody:
