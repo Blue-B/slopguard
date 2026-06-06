@@ -248,7 +248,7 @@ export default function EnterpriseConsole({
 							}}
 						>
 							<Image
-								src="/paid-console-premium-header.png"
+								src="/paid-command-mesh.png"
 								alt="Enterprise integrations"
 								fill
 								style={{ objectFit: "cover", opacity: 0.7 }}

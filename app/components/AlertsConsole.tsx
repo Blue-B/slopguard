@@ -396,7 +396,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 							}}
 						>
 							<Image
-								src="/paid-console-premium-header.png"
+								src="/paid-command-mesh.png"
 								alt="Alerts routing"
 								fill
 								style={{ objectFit: "cover", opacity: 0.7 }}

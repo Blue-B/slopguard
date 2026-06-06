@@ -100,7 +100,7 @@ export default function CampaignDetailConsole({
 							padding: "34px 38px",
 							marginBottom: 30,
 							backgroundImage:
-								"linear-gradient(90deg, rgba(10,14,21,0.97), rgba(10,14,21,0.72)), url('/paid-feature-evidence-visual.png')",
+								"linear-gradient(90deg, rgba(10,14,21,0.97), rgba(10,14,21,0.72)), url('/paid-command-mesh.png')",
 							backgroundSize: "cover",
 							backgroundPosition: "center right",
 						}}

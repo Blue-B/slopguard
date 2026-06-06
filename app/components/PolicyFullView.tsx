@@ -98,7 +98,7 @@ export default function PolicyFullView({ copy }: { copy: PolicyFullViewCopy }) {
 					>
 						{/* eslint-disable-next-line @next/next/no-img-element */}
 						<img
-							src="/paid-console-premium-header.png"
+							src="/paid-command-mesh.png"
 							alt=""
 							style={{
 								position: "absolute",

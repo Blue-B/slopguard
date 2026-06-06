@@ -122,7 +122,7 @@ export default async function PlanGate({
 				position: "relative",
 				minHeight: 720,
 				backgroundImage:
-					"linear-gradient(180deg, rgba(13,17,23,0.52), rgba(13,17,23,0.92)), url('/paid-console-premium-header.png')",
+					"linear-gradient(180deg, rgba(13,17,23,0.52), rgba(13,17,23,0.92)), url('/paid-command-mesh.png')",
 				backgroundSize: "cover",
 				backgroundPosition: "center top",
 			}}

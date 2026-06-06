@@ -1,9 +1,10 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import ConsoleSidebar, { type SidebarItem } from "./ConsoleSidebar";
-import { shell, frame, card, muted } from "./console-styles";
+import { content, frame, heroSurface, lineSection, muted, shell } from "./console-styles";
 
 type SsoProvider = "okta" | "azure-ad" | "google" | "onelogin" | "generic";
 type SsoStatus = "active" | "pending" | "unconfigured";
@@ -133,11 +134,7 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 				? copy.statusPending
 				: copy.statusUnconfigured;
 	const statusColor =
-		status === "active"
-			? "#3fb950"
-			: status === "pending"
-				? "#d29922"
-				: "#8b949e";
+		status === "active" ? "#3fb950" : status === "pending" ? "#d29922" : "#8b949e";
 
 	return (
 		<main style={shell}>
@@ -145,8 +142,8 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 				<div
 					style={{
 						display: "grid",
-						gridTemplateColumns: "260px minmax(0, 1fr)",
-						minHeight: 760,
+						gridTemplateColumns: "280px minmax(0, 1fr)",
+						minHeight: 780,
 					}}
 				>
 					<ConsoleSidebar
@@ -158,434 +155,120 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 						nav={copy.nav}
 					/>
 
-					<div style={{ padding: "26px 28px 32px" }}>
-						<header style={{ marginBottom: 22 }}>
-							<div
-								style={{
-									color: "#3fb950",
-									fontSize: 11,
-									fontWeight: 800,
-									letterSpacing: ".14em",
-									fontFamily: "var(--mono)",
-								}}
-							>
-								{copy.eyebrow}
+					<div style={content}>
+						<header
+							style={{
+								...heroSurface,
+								display: "grid",
+								gridTemplateColumns: "minmax(0, 1fr) 420px",
+								minHeight: 270,
+								marginBottom: 26,
+							}}
+						>
+							<div style={{ padding: "32px 34px", position: "relative", zIndex: 2 }}>
+								<div style={{ color: "#3fb950", fontSize: 10, fontWeight: 800, letterSpacing: ".18em", textTransform: "uppercase", fontFamily: "var(--mono)", marginBottom: 14 }}>
+									{copy.eyebrow}
+								</div>
+								<h1 style={{ margin: 0, fontSize: "clamp(34px, 4vw, 56px)", letterSpacing: "-.06em", fontWeight: 850, lineHeight: .95, maxWidth: 760 }}>
+									{copy.title}
+								</h1>
+								<p style={{ ...muted, margin: "18px 0 0", maxWidth: 660, lineHeight: 1.55, fontSize: 14 }}>
+									{copy.body}
+								</p>
 							</div>
-							<h1
-								style={{
-									margin: "8px 0 6px",
-									fontSize: 28,
-									letterSpacing: "-.035em",
-									fontWeight: 800,
-									lineHeight: 1.1,
-								}}
-							>
-								{copy.title}
-							</h1>
-							<p
-								style={{
-									...muted,
-									margin: 0,
-									maxWidth: 620,
-									lineHeight: 1.55,
-									fontSize: 13,
-								}}
-							>
-								{copy.body}
-							</p>
+							<div style={{ position: "relative", minHeight: 240 }}>
+								<Image
+									src="/paid-command-mesh.png"
+									alt="Enterprise identity command mesh"
+									fill
+									priority
+									style={{ objectFit: "cover", opacity: .78 }}
+									sizes="420px"
+								/>
+								<div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(11,17,25,.98) 0%, rgba(11,17,25,.12) 58%, rgba(11,17,25,.72) 100%)" }} />
+							</div>
 						</header>
 
-						{!cfg && !error && (
-							<div
-								style={{
-									...card,
-									padding: "32px 24px",
-									textAlign: "center",
-									color: "#8b949e",
-									fontFamily: "var(--mono)",
-									fontSize: 12,
-									marginBottom: 24,
-								}}
-							>
-								Loading SSO configuration…
-							</div>
-						)}
-
-						{error && (
-							<div
-								style={{
-									...card,
-									padding: "12px 14px",
-									border: "1px solid rgba(248,81,73,.4)",
-									color: "#f85149",
-									fontSize: 12,
-									fontFamily: "var(--mono)",
-									marginBottom: 18,
-								}}
-							>
-								{error}
-							</div>
-						)}
+						{!cfg && !error && <StateLine>Loading SSO configuration...</StateLine>}
+						{error && <StateLine tone="danger">{error}</StateLine>}
 
 						{cfg && (
 							<>
-								{/* Status row */}
-								<div
-									style={{
-										display: "grid",
-										gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-										gap: 0,
-										borderTop: "1px solid #1c2530",
-										borderBottom: "1px solid #1c2530",
-										marginBottom: 24,
-									}}
-								>
-									<div
-										style={{
-											padding: "14px 18px",
-											borderRight: "1px solid #1c2530",
-										}}
-									>
-										<div
-											style={{
-												...muted,
-												fontSize: 10,
-												letterSpacing: ".14em",
-												textTransform: "uppercase",
-												fontFamily: "var(--mono)",
-											}}
-										>
-											Status
-										</div>
-										<div
-											style={{
-												marginTop: 6,
-												fontSize: 18,
-												fontWeight: 700,
-												color: statusColor,
-												fontFamily: "var(--mono)",
-												letterSpacing: "-.02em",
-											}}
-										>
-											{statusLabel}
-										</div>
-									</div>
-									<div
-										style={{
-											padding: "14px 18px",
-											borderRight: "1px solid #1c2530",
-										}}
-									>
-										<div
-											style={{
-												...muted,
-												fontSize: 10,
-												letterSpacing: ".14em",
-												textTransform: "uppercase",
-												fontFamily: "var(--mono)",
-											}}
-										>
-											Provider
-										</div>
-										<div
-											style={{
-												marginTop: 6,
-												fontSize: 18,
-												fontWeight: 700,
-												color: "#f0f6fc",
-												fontFamily: "var(--mono)",
-												letterSpacing: "-.02em",
-											}}
-										>
-											{cfg.provider}
-										</div>
-									</div>
-									<div
-										style={{
-											padding: "14px 18px",
-											borderRight: "1px solid #1c2530",
-										}}
-									>
-										<div
-											style={{
-												...muted,
-												fontSize: 10,
-												letterSpacing: ".14em",
-												textTransform: "uppercase",
-												fontFamily: "var(--mono)",
-											}}
-										>
-											Enforced
-										</div>
-										<div
-											style={{
-												marginTop: 6,
-												fontSize: 18,
-												fontWeight: 700,
-												color: cfg.enforced ? "#3fb950" : "#8b949e",
-												fontFamily: "var(--mono)",
-												letterSpacing: "-.02em",
-											}}
-										>
-											{cfg.enforced ? "Yes" : "No"}
-										</div>
-									</div>
-									<div style={{ padding: "14px 18px" }}>
-										<div
-											style={{
-												...muted,
-												fontSize: 10,
-												letterSpacing: ".14em",
-												textTransform: "uppercase",
-												fontFamily: "var(--mono)",
-											}}
-										>
-											{copy.lastSyncLabel}
-										</div>
-										<div
-											style={{
-												marginTop: 6,
-												fontSize: 18,
-												fontWeight: 700,
-												color: "#f0f6fc",
-												fontFamily: "var(--mono)",
-												letterSpacing: "-.02em",
-											}}
-										>
-											{relativeTime(cfg.lastSync)}
-										</div>
-									</div>
+								<div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", borderTop: "1px solid #1b2632", borderBottom: "1px solid #1b2632", marginBottom: 28 }}>
+									<Metric label="Status" value={statusLabel} color={statusColor} />
+									<Metric label="Provider" value={cfg.provider} />
+									<Metric label="Enforced" value={cfg.enforced ? "Yes" : "No"} color={cfg.enforced ? "#3fb950" : "#8b949e"} />
+									<Metric label={copy.lastSyncLabel} value={relativeTime(cfg.lastSync)} last />
 								</div>
 
-								{/* Form */}
-								<div
-									style={{
-										...card,
-										padding: "18px 20px",
-										marginBottom: 24,
-									}}
-								>
-									<Field label={copy.providerLabel}>
-										<select
-											value={cfg.provider}
-											onChange={(e) =>
-												setCfg({
-													...cfg,
-													provider: e.target.value as SsoProvider,
-												})
-											}
-											disabled={busy}
-											style={inputStyle}
-										>
-											{copy.providerOptions.map((o) => (
-												<option key={o.value} value={o.value}>
-													{o.label}
-												</option>
-											))}
-										</select>
-									</Field>
+								<div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.08fr) minmax(340px, .92fr)", gap: 30 }}>
+									<section style={lineSection}>
+										<div style={{ marginBottom: 18 }}>
+											<h2 style={{ margin: 0, fontSize: 20, letterSpacing: "-.04em" }}>Identity configuration</h2>
+											<p style={{ ...muted, margin: "7px 0 0", fontSize: 12, lineHeight: 1.5 }}>SAML metadata and enforcement controls stay connected to the live backend.</p>
+										</div>
+										<div style={{ borderTop: "1px solid #1b2632" }}>
+											<Field label={copy.providerLabel}>
+												<select value={cfg.provider} onChange={(e) => setCfg({ ...cfg, provider: e.target.value as SsoProvider })} disabled={busy} style={inputStyle}>
+													{copy.providerOptions.map((o) => (
+														<option key={o.value} value={o.value}>{o.label}</option>
+													))}
+												</select>
+											</Field>
+											<Field label={copy.idpMetadataLabel}>
+												<input type="url" value={cfg.idpMetadataUrl} placeholder={copy.idpMetadataPlaceholder} onChange={(e) => setCfg({ ...cfg, idpMetadataUrl: e.target.value })} disabled={busy} style={inputStyle} />
+											</Field>
+											<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+												<Field label={copy.emailAttributeLabel}>
+													<input type="text" value={cfg.emailAttribute} onChange={(e) => setCfg({ ...cfg, emailAttribute: e.target.value })} disabled={busy} style={inputStyle} />
+												</Field>
+												<Field label={copy.loginAttributeLabel}>
+													<input type="text" value={cfg.loginAttribute} onChange={(e) => setCfg({ ...cfg, loginAttribute: e.target.value })} disabled={busy} style={inputStyle} />
+												</Field>
+											</div>
+											<Field label={copy.enforcedLabel}>
+												<label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 12, color: "#c9d1d9" }}>
+													<input type="checkbox" checked={cfg.enforced} onChange={(e) => setCfg({ ...cfg, enforced: e.target.checked })} disabled={busy} />
+													<span>{copy.enforcedHint}</span>
+												</label>
+											</Field>
+										</div>
 
-									<Field label={copy.idpMetadataLabel}>
-										<input
-											type="url"
-											value={cfg.idpMetadataUrl}
-											placeholder={copy.idpMetadataPlaceholder}
-											onChange={(e) =>
-												setCfg({ ...cfg, idpMetadataUrl: e.target.value })
-											}
-											disabled={busy}
-											style={inputStyle}
-										/>
-									</Field>
+										<div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
+											<button type="button" className="btn btn-primary btn-sm" disabled={busy} onClick={() => save({ activate: true })}>{copy.activateCta}</button>
+											<button type="button" className="btn btn-ghost btn-sm" disabled={busy} onClick={() => save()}>{busy ? copy.savingCta : copy.saveCta}</button>
+											<button type="button" className="btn btn-ghost btn-sm" disabled={busy || status !== "active"} onClick={() => save({ activate: false })}>{copy.deactivateCta}</button>
+											{flash && <span style={{ fontSize: 11, color: "#3fb950", fontFamily: "var(--mono)", alignSelf: "center" }}>{flash}</span>}
+										</div>
+									</section>
 
-									<div
-										style={{
-											display: "grid",
-											gridTemplateColumns: "1fr 1fr",
-											gap: 14,
-										}}
-									>
-										<Field label={copy.emailAttributeLabel}>
-											<input
-												type="text"
-												value={cfg.emailAttribute}
-												onChange={(e) =>
-													setCfg({ ...cfg, emailAttribute: e.target.value })
-												}
-												disabled={busy}
-												style={inputStyle}
-											/>
-										</Field>
-										<Field label={copy.loginAttributeLabel}>
-											<input
-												type="text"
-												value={cfg.loginAttribute}
-												onChange={(e) =>
-													setCfg({ ...cfg, loginAttribute: e.target.value })
-												}
-												disabled={busy}
-												style={inputStyle}
-											/>
-										</Field>
+									<div style={{ display: "grid", gap: 24, alignContent: "start" }}>
+										<section style={lineSection}>
+											<h2 style={{ margin: 0, fontSize: 20, letterSpacing: "-.04em" }}>Service endpoints</h2>
+											<div style={{ marginTop: 14, borderTop: "1px solid #1b2632" }}>
+												<ReadOnly label={copy.entityIdLabel} value={cfg.entityId} />
+												<ReadOnly label={copy.acsUrlLabel} value={cfg.acsUrl} />
+											</div>
+										</section>
+
+										<section style={lineSection}>
+											<h2 style={{ margin: 0, fontSize: 20, letterSpacing: "-.04em" }}>{copy.helpTitle}</h2>
+											<div style={{ marginTop: 14, borderTop: "1px solid #1b2632" }}>
+												{copy.helpSteps.map((s) => (
+													<div key={s.name} style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 14, padding: "12px 0", borderBottom: "1px solid #121a24", fontSize: 12 }}>
+														<div style={{ ...muted, fontFamily: "var(--mono)", letterSpacing: ".05em" }}>{s.name}</div>
+														<div style={{ color: "#c9d1d9", fontFamily: "var(--mono)", wordBreak: "break-word" }}>{s.value}</div>
+													</div>
+												))}
+											</div>
+										</section>
 									</div>
-
-									<Field label={copy.enforcedLabel}>
-										<label
-											style={{
-												display: "flex",
-												alignItems: "center",
-												gap: 8,
-												fontSize: 12,
-												color: "#c9d1d9",
-											}}
-										>
-											<input
-												type="checkbox"
-												checked={cfg.enforced}
-												onChange={(e) =>
-													setCfg({ ...cfg, enforced: e.target.checked })
-												}
-												disabled={busy}
-											/>
-											<span>{copy.enforcedHint}</span>
-										</label>
-									</Field>
-
-									<div
-										style={{
-											display: "flex",
-											gap: 10,
-											marginTop: 6,
-											flexWrap: "wrap",
-										}}
-									>
-										<button
-											type="button"
-											className="btn btn-primary btn-sm"
-											disabled={busy}
-											onClick={() => save({ activate: true })}
-										>
-											{copy.activateCta}
-										</button>
-										<button
-											type="button"
-											className="btn btn-ghost btn-sm"
-											disabled={busy}
-											onClick={() => save()}
-										>
-											{busy ? copy.savingCta : copy.saveCta}
-										</button>
-										<button
-											type="button"
-											className="btn btn-ghost btn-sm"
-											disabled={busy || status !== "active"}
-											onClick={() => save({ activate: false })}
-										>
-											{copy.deactivateCta}
-										</button>
-										{flash && (
-											<span
-												style={{
-													fontSize: 11,
-													color: "#3fb950",
-													fontFamily: "var(--mono)",
-													alignSelf: "center",
-												}}
-											>
-												{flash}
-											</span>
-										)}
-									</div>
-								</div>
-
-								{/* Read-only connection info */}
-								<div
-									style={{
-										...card,
-										padding: "18px 20px",
-										marginBottom: 24,
-									}}
-								>
-									<div
-										style={{
-											...muted,
-											fontSize: 11,
-											letterSpacing: ".12em",
-											textTransform: "uppercase",
-											fontFamily: "var(--mono)",
-											marginBottom: 10,
-										}}
-									>
-										Connection info
-									</div>
-									<ReadOnly label={copy.entityIdLabel} value={cfg.entityId} />
-									<ReadOnly label={copy.acsUrlLabel} value={cfg.acsUrl} />
-								</div>
-
-								{/* Help / steps */}
-								<div
-									style={{
-										...card,
-										padding: "18px 20px",
-									}}
-								>
-									<div
-										style={{
-											color: "#f0f6fc",
-											fontWeight: 700,
-											fontSize: 13,
-											marginBottom: 10,
-										}}
-									>
-										{copy.helpTitle}
-									</div>
-									<dl
-										style={{
-											display: "grid",
-											gridTemplateColumns: "120px 1fr",
-											gap: "8px 14px",
-											margin: 0,
-											fontSize: 12,
-										}}
-									>
-										{copy.helpSteps.map((s) => (
-											<Fragment key={s.name}>
-												<dt
-													style={{
-														...muted,
-														fontFamily: "var(--mono)",
-														letterSpacing: ".05em",
-													}}
-												>
-													{s.name}
-												</dt>
-												<dd
-													style={{
-														margin: 0,
-														color: "#c9d1d9",
-														fontFamily: "var(--mono)",
-													}}
-												>
-													{s.value}
-												</dd>
-											</Fragment>
-										))}
-									</dl>
 								</div>
 							</>
 						)}
 
-						<div
-							style={{
-								marginTop: 24,
-								display: "flex",
-								gap: 10,
-								justifyContent: "flex-end",
-							}}
-						>
-							<Link href="/enterprise" className="btn btn-ghost btn-sm">
-								{copy.backToEnterprise}
-							</Link>
+						<div style={{ marginTop: 26, display: "flex", justifyContent: "flex-end" }}>
+							<Link href="/enterprise" className="btn btn-ghost btn-sm">{copy.backToEnterprise}</Link>
 						</div>
 					</div>
 				</div>
@@ -596,38 +279,33 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 
 const inputStyle: React.CSSProperties = {
 	width: "100%",
-	background: "#0a0e15",
+	background: "#071019",
 	color: "#f0f6fc",
-	border: "1px solid #1c2530",
-	borderRadius: 8,
-	padding: "9px 11px",
+	border: "1px solid #203040",
+	borderRadius: 10,
+	padding: "11px 12px",
 	fontSize: 13,
 	fontFamily: "var(--mono)",
 	outline: "none",
 };
 
-function Field({
-	label,
-	children,
-}: {
-	label: string;
-	children: React.ReactNode;
-}) {
+function Metric({ label, value, color = "#f0f6fc", last = false }: { label: string; value: string; color?: string; last?: boolean }) {
 	return (
-		<div style={{ marginBottom: 14 }}>
-			<label
-				style={{
-					display: "block",
-					fontSize: 11,
-					letterSpacing: ".12em",
-					textTransform: "uppercase",
-					color: "#8b949e",
-					fontFamily: "var(--mono)",
-					marginBottom: 6,
-				}}
-			>
-				{label}
-			</label>
+		<div style={{ padding: "17px 18px", borderRight: last ? "none" : "1px solid #1b2632" }}>
+			<div style={{ ...muted, fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", fontFamily: "var(--mono)" }}>{label}</div>
+			<div style={{ marginTop: 7, fontSize: 21, fontWeight: 800, color, fontFamily: "var(--mono)", letterSpacing: "-.03em" }}>{value}</div>
+		</div>
+	);
+}
+
+function StateLine({ children, tone = "neutral" }: { children: React.ReactNode; tone?: "neutral" | "danger" }) {
+	return <div style={{ padding: "24px 0", color: tone === "danger" ? "#f85149" : "#8b949e", fontFamily: "var(--mono)", fontSize: 12 }}>{children}</div>;
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+	return (
+		<div style={{ display: "grid", gridTemplateColumns: "180px minmax(0, 1fr)", gap: 18, alignItems: "center", padding: "14px 0", borderBottom: "1px solid #121a24" }}>
+			<label style={{ fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#8b949e", fontFamily: "var(--mono)" }}>{label}</label>
 			{children}
 		</div>
 	);
@@ -635,33 +313,9 @@ function Field({
 
 function ReadOnly({ label, value }: { label: string; value: string }) {
 	return (
-		<div style={{ marginBottom: 10 }}>
-			<div
-				style={{
-					...muted,
-					fontSize: 10,
-					letterSpacing: ".12em",
-					textTransform: "uppercase",
-					fontFamily: "var(--mono)",
-					marginBottom: 4,
-				}}
-			>
-				{label}
-			</div>
-			<div
-				style={{
-					background: "#0a0e15",
-					border: "1px solid #1c2530",
-					borderRadius: 8,
-					padding: "8px 10px",
-					color: "#c9d1d9",
-					fontFamily: "var(--mono)",
-					fontSize: 12,
-					wordBreak: "break-all",
-				}}
-			>
-				{value}
-			</div>
+		<div style={{ padding: "12px 0", borderBottom: "1px solid #121a24" }}>
+			<div style={{ ...muted, fontSize: 10, letterSpacing: ".12em", textTransform: "uppercase", fontFamily: "var(--mono)", marginBottom: 6 }}>{label}</div>
+			<div style={{ color: "#c9d1d9", fontFamily: "var(--mono)", fontSize: 12, wordBreak: "break-all" }}>{value}</div>
 		</div>
 	);
 }

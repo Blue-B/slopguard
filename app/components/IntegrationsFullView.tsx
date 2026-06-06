@@ -145,7 +145,7 @@ export default function IntegrationsFullView({
 							borderRadius: 18,
 							marginBottom: 26,
 							backgroundImage:
-								"linear-gradient(90deg, rgba(10,14,21,0.97) 0%, rgba(10,14,21,0.78) 52%, rgba(10,14,21,0.46) 100%), url('/paid-feature-evidence-visual.png')",
+								"linear-gradient(90deg, rgba(10,14,21,0.97) 0%, rgba(10,14,21,0.78) 52%, rgba(10,14,21,0.46) 100%), url('/paid-command-mesh.png')",
 							backgroundSize: "cover",
 							backgroundPosition: "center right",
 						}}

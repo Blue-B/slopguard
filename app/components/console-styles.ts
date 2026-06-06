@@ -1,29 +1,46 @@
-// Shared style tokens for paid-feature consoles. Keeps dark-tech tone
-// consistent across /org, /alerts, /campaigns, /enterprise (and KO mirrors).
-// All values are tuned to read on the marketing-site background and
-// respect prefers-reduced-motion for any transition.
+// Shared style tokens for paid-feature consoles. The paid surfaces use one
+// dark product language: wide command frame, integrated rail, sparse lines,
+// no heavy marketing cards.
 
 export const shell: React.CSSProperties = {
-	maxWidth: 1480,
-	margin: "18px auto 96px",
-	padding: "0 32px",
+	maxWidth: 1520,
+	margin: "16px auto 96px",
+	padding: "0 28px",
 };
 
 export const frame: React.CSSProperties = {
-	border: "1px solid #1c2530",
-	borderRadius: 18,
+	border: "1px solid #1b2632",
+	borderRadius: 22,
 	overflow: "hidden",
 	background:
-		"linear-gradient(180deg, rgba(255,255,255,0.018) 0%, rgba(255,255,255,0.006) 100%), #0a0e15",
+		"linear-gradient(180deg, rgba(16,24,34,0.98) 0%, rgba(7,11,17,0.99) 100%)",
 	boxShadow:
-		"0 28px 70px -30px rgba(0,0,0,0.72), inset 0 1px 0 rgba(255,255,255,0.035)",
+		"0 38px 90px -44px rgba(0,0,0,0.82), inset 0 1px 0 rgba(255,255,255,0.04)",
+};
+
+export const content: React.CSSProperties = {
+	padding: "28px clamp(22px, 3vw, 42px) 42px",
+	minWidth: 0,
+};
+
+export const heroSurface: React.CSSProperties = {
+	position: "relative",
+	overflow: "hidden",
+	border: "1px solid #203040",
+	borderRadius: 18,
+	background:
+		"linear-gradient(135deg, rgba(18,29,39,0.94), rgba(7,11,17,0.98))",
+};
+
+export const lineSection: React.CSSProperties = {
+	borderTop: "1px solid #1b2632",
+	paddingTop: 22,
 };
 
 export const card: React.CSSProperties = {
-	border: "1px solid #1c2530",
-	borderRadius: 12,
-	background:
-		"linear-gradient(180deg, rgba(255,255,255,0.012) 0%, rgba(255,255,255,0) 100%), rgba(13,20,29,0.74)",
+	border: "1px solid #1b2632",
+	borderRadius: 16,
+	background: "rgba(10,16,24,0.72)",
 };
 
 export const muted: React.CSSProperties = { color: "#8b949e" };
