@@ -161,7 +161,12 @@ export default function CampaignDetailConsole({
 						<div className="campaign-evidence-stream">
 							<header className="campaign-section-title">
 								<h2>{copy.commitsTitle}</h2>
-								<p>{copy.commitMeta.replace("{count}", String(data.commits.length))}</p>
+								<p>
+									{copy.commitMeta.replace(
+										"{count}",
+										String(data.commits.length),
+									)}
+								</p>
 							</header>
 							<div className="campaign-stream detail-stream">
 								{data.commits.length === 0 ? (

@@ -44,7 +44,8 @@ const copy: CampaignDetailCopy = {
 	plateLabel: "campaign investigation",
 	commitMeta: "{count} commits tied to this fingerprint",
 	emptyCommits: "No commit evidence yet.",
-	impactSubhead: "Repository-level quarantine and cleared impact from the campaign API.",
+	impactSubhead:
+		"Repository-level quarantine and cleared impact from the campaign API.",
 	authorsLabel: "Authors",
 };
 

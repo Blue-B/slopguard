@@ -29,7 +29,8 @@ const copy: QueueFullViewCopy = {
 	loading: "Loading queue…",
 	empty:
 		"SlopGuard is not installed on this account. Install it to see quarantine activity here.",
-	queueEmpty: "No queue items need action right now. New activity appears here.",
+	queueEmpty:
+		"No queue items need action right now. New activity appears here.",
 	installCta: "Install on GitHub",
 	installHref: "/setup",
 	backHref: "/org",

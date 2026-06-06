@@ -28,7 +28,8 @@ const copy: QueueFullViewCopy = {
 	loading: "큐 불러오는 중…",
 	empty:
 		"이 계정에 SlopGuard가 설치되어 있지 않습니다. 설치하면 격리 활동이 여기에 표시됩니다.",
-	queueEmpty: "지금 처리할 격리 항목이 없습니다. 새 활동이 생기면 여기에 표시됩니다.",
+	queueEmpty:
+		"지금 처리할 격리 항목이 없습니다. 새 활동이 생기면 여기에 표시됩니다.",
 	installCta: "GitHub에 설치",
 	installHref: "/ko/setup",
 	backHref: "/ko/org",
