@@ -3315,8 +3315,13 @@ footer.site.footer-app {
 	justify-content: space-between;
 	align-items: center;
 	gap: 18px;
-	padding: 14px 0 18px;
-	border-bottom: 1px solid var(--border-muted);
+	padding: 12px 14px;
+	border: 1px solid var(--border-muted);
+	background:
+		linear-gradient(180deg, rgba(22, 27, 34, 0.76), rgba(13, 17, 23, 0.62)),
+		rgba(13, 17, 23, 0.72);
+	backdrop-filter: blur(14px);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 	margin-bottom: 34px;
 }
 .org-console-nav strong {
@@ -3336,10 +3341,10 @@ footer.site.footer-app {
 .org-nav-links {
 	display: flex;
 	align-items: center;
-	gap: 4px;
-	padding: 4px;
-	border: 1px solid var(--border-muted);
-	background: rgba(13, 17, 23, 0.72);
+	gap: 2px;
+	padding: 3px;
+	border: 1px solid rgba(63, 185, 80, 0.18);
+	background: rgba(1, 4, 9, 0.34);
 	backdrop-filter: blur(10px);
 }
 .org-nav-links a {
@@ -3355,8 +3360,9 @@ footer.site.footer-app {
 .org-nav-links a.active,
 .org-nav-links a:hover {
 	color: var(--fg);
-	background: var(--surface);
-	border-color: var(--border-muted);
+	background: linear-gradient(180deg, rgba(63, 185, 80, 0.16), rgba(63, 185, 80, 0.06));
+	border-color: rgba(63, 185, 80, 0.32);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 .org-nav-links span {
 	font-size: 10px;
@@ -3447,14 +3453,14 @@ footer.site.footer-app {
 	margin: 12px 0 0;
 }
 .org-flow-section {
-	padding-top: 56px;
+	padding-top: 46px;
 }
 .org-flow-plate {
 	overflow: hidden;
 }
 .org-flow-art {
 	position: relative;
-	min-height: 460px;
+	min-height: 390px;
 }
 .org-flow-art img {
 	height: 100%;
@@ -3487,11 +3493,12 @@ footer.site.footer-app {
 	color: var(--green);
 }
 .org-live-grid {
+	position: relative;
 	display: grid;
 	grid-template-columns: minmax(0, 1.12fr) minmax(330px, 0.88fr);
 	gap: 30px;
 	align-items: start;
-	padding-top: 58px;
+	padding-top: 42px;
 }
 .org-section-head {
 	display: flex;
@@ -3660,8 +3667,22 @@ footer.site.footer-app {
 	.org-flow-links {
 		grid-template-columns: repeat(2, 1fr);
 	}
-	.org-table-head,
+	.org-table-head {
+		display: none;
+	}
 	.org-table-row {
-		min-width: 760px;
+		grid-template-columns: 1fr;
+		gap: 7px;
+		padding: 15px 0;
+	}
+	.org-table-row > * {
+		text-align: left !important;
+		white-space: normal;
+	}
+	.org-table-row span {
+		color: var(--muted);
+	}
+	.org-table-row b {
+		color: var(--green);
 	}
 }

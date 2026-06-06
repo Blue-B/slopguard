@@ -61,7 +61,13 @@ export type OrgDashboardConsoleCopy = {
 	queueSubtitle: string;
 	queueViewAll: string;
 	queueViewAllHref: string;
-	queueColumns: { item: string; repo: string; score: string; status: string; age: string };
+	queueColumns: {
+		item: string;
+		repo: string;
+		score: string;
+		status: string;
+		age: string;
+	};
 	reposTitle: string;
 	reposSubtitle: string;
 	reposViewAll: string;
@@ -77,7 +83,8 @@ export type OrgDashboardConsoleCopy = {
 };
 
 function deriveStatus(labels: string[]): string {
-	if (labels.some((l) => l.toLowerCase().includes("quarantine"))) return "Quarantined";
+	if (labels.some((l) => l.toLowerCase().includes("quarantine")))
+		return "Quarantined";
 	if (labels.some((l) => l.toLowerCase().includes("cleared"))) return "Cleared";
 	return "Watching";
 }
@@ -106,7 +113,11 @@ function extractRepo(url: string): string {
 	return m ? `${m[1]}/${m[2]}` : "-";
 }
 
-export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsoleCopy }) {
+export default function OrgDashboardConsole({
+	copy,
+}: {
+	copy: OrgDashboardConsoleCopy;
+}) {
 	const [data, setData] = useState<DashboardResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const pathname = usePathname() ?? "";
@@ -127,7 +138,8 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 	}, []);
 
 	const isLoading = data === null && error === null;
-	const notInstalled = data !== null && "installed" in data && data.installed === false;
+	const notInstalled =
+		data !== null && "installed" in data && data.installed === false;
 	const live = data && data.installed ? data : null;
 
 	const queue = useMemo(() => {
@@ -139,7 +151,9 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 			score: deriveScore(it.labels),
 			status: deriveStatus(it.labels),
 			age: formatAge(it.updatedAt),
-			href: it.url.replace("api.github.com", "github.com").replace(/\/repos\//, "/"),
+			href: it.url
+				.replace("api.github.com", "github.com")
+				.replace(/\/repos\//, "/"),
 		}));
 	}, [live]);
 
@@ -150,19 +164,42 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 	const pct = total > 0 ? Math.round((covered / total) * 100) : 0;
 
 	const avgScore = live?.recent.length
-		? Math.round(live.recent.reduce((s, it) => s + deriveScore(it.labels), 0) / live.recent.length)
+		? Math.round(
+				live.recent.reduce((s, it) => s + deriveScore(it.labels), 0) /
+					live.recent.length,
+			)
 		: 0;
 
 	const metrics = [
-		{ label: "Open reviews", value: live ? String(live.open) : "-", tone: live && live.open > 0 ? "warn" : "ok" },
-		{ label: "Protected repos", value: live ? String(covered) : "-", tone: "ok" },
-		{ label: "Avg score", value: live ? String(avgScore) : "-", tone: avgScore >= 60 ? "warn" : "ok" },
+		{
+			label: "Open reviews",
+			value: live ? String(live.open) : "-",
+			tone: live && live.open > 0 ? "warn" : "ok",
+		},
+		{
+			label: "Protected repos",
+			value: live ? String(covered) : "-",
+			tone: "ok",
+		},
+		{
+			label: "Avg score",
+			value: live ? String(avgScore) : "-",
+			tone: avgScore >= 60 ? "warn" : "ok",
+		},
 		{ label: "Policy", value: live ? `${pct}%` : "-", tone: "neutral" },
 	] as const;
 
-	const campaignHref = copy.nav.find((item) => item.href.includes("/campaigns"))?.href ?? "/campaigns";
+	const campaignHref =
+		copy.nav.find((item) => item.href.includes("/campaigns"))?.href ??
+		"/campaigns";
 	const flowTitle = `${copy.queueTitle} / ${copy.reposTitle} / ${copy.campaignTitle} / ${copy.policyTitle}`;
 	const flowSub = copy.heroBody;
+	const activeBase = copy.nav.reduce<string | null>((best, item) => {
+		const base = item.href.split("#")[0];
+		const match = pathname === base || pathname.startsWith(`${base}/`);
+		if (!match) return best;
+		return !best || base.length > best.length ? base : best;
+	}, null);
 
 	return (
 		<main className="org-experience">
@@ -176,9 +213,13 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 					<div className="org-nav-links">
 						{copy.nav.map((item) => {
 							const base = item.href.split("#")[0];
-							const active = pathname === base || pathname.startsWith(`${base}/`);
+							const active = activeBase === base;
 							return (
-								<Link key={item.label} href={item.href} className={active ? "active" : ""}>
+								<Link
+									key={item.label}
+									href={item.href}
+									className={active ? "active" : ""}
+								>
 									{item.label}
 									{item.external ? <span>↗</span> : null}
 								</Link>
@@ -193,8 +234,13 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 						<h1>{copy.heroTitle}</h1>
 						<p>{copy.heroBody}</p>
 						<div className="hero-actions">
-							<Link href={copy.heroCtaHref} className="btn btn-primary btn-lg">{copy.heroCta}</Link>
-							<Link href={copy.queueViewAllHref} className="text-link">{copy.queueViewAll}<span>→</span></Link>
+							<Link href={copy.heroCtaHref} className="btn btn-primary btn-lg">
+								{copy.heroCta}
+							</Link>
+							<Link href={copy.queueViewAllHref} className="text-link">
+								{copy.queueViewAll}
+								<span>→</span>
+							</Link>
 						</div>
 						<ul className="hero-spec org-spec">
 							{metrics.map((m) => (
@@ -229,12 +275,107 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 					<section className="plate org-empty">
 						<h2>{copy.emptyTitle}</h2>
 						<p>{copy.emptyBody}</p>
-						<Link href={copy.emptyCtaHref} className="btn btn-primary btn-sm">{copy.emptyCta}</Link>
+						<Link href={copy.emptyCtaHref} className="btn btn-primary btn-sm">
+							{copy.emptyCta}
+						</Link>
 					</section>
 				)}
 
 				{!isLoading && !notInstalled && (
 					<>
+						<section className="org-live-grid section">
+							<div className="org-main-feed">
+								<SectionHeader
+									title={copy.queueTitle}
+									sub={copy.queueSubtitle}
+									href={copy.queueViewAllHref}
+									cta={copy.queueViewAll}
+								/>
+								<div className="plate org-review-plate">
+									<div className="org-table-head mono">
+										<span>{copy.queueColumns.item}</span>
+										<span>{copy.queueColumns.repo}</span>
+										<span>{copy.queueColumns.score}</span>
+										<span>{copy.queueColumns.status}</span>
+										<span>{copy.queueColumns.age}</span>
+									</div>
+									{queue.length === 0 ? (
+										<EmptyLine>No items in the last 30 days.</EmptyLine>
+									) : (
+										queue.map((row) => (
+											<div className="org-table-row" key={row.key}>
+												<Link href={row.href} target="_blank" rel="noreferrer">
+													{row.item}
+												</Link>
+												<span>{row.repo}</span>
+												<b>{row.score}</b>
+												<span>{row.status}</span>
+												<span>{row.age}</span>
+											</div>
+										))
+									)}
+								</div>
+							</div>
+
+							<aside className="org-side-stack">
+								<MiniPanel
+									title={copy.reposTitle}
+									sub={copy.reposSubtitle}
+									href={copy.reposViewAllHref}
+									cta={copy.reposViewAll}
+								>
+									{reposRows.length === 0 ? (
+										<EmptyLine>No repos with activity yet.</EmptyLine>
+									) : (
+										reposRows.map((row) => (
+											<div className="org-mini-row" key={row.repo}>
+												<span>{row.repo}</span>
+												<b>{row.quarantined}</b>
+												<em>{row.cleared}</em>
+											</div>
+										))
+									)}
+								</MiniPanel>
+								<MiniPanel
+									title={copy.campaignTitle}
+									sub={copy.campaignSubtitle}
+									href={campaignHref}
+									cta="Open campaigns"
+								>
+									{campaigns.length === 0 ? (
+										<EmptyLine>{copy.campaignsEmpty}</EmptyLine>
+									) : (
+										campaigns.map((c) => (
+											<div className="org-campaign-row" key={c.name}>
+												<span>{c.fingerprint}</span>
+												<b
+													style={{
+														color: riskColor[c.risk],
+														background: riskBg[c.risk],
+													}}
+												>
+													{c.risk}
+												</b>
+											</div>
+										))
+									)}
+								</MiniPanel>
+								<MiniPanel
+									title={copy.policyTitle}
+									sub={copy.policyBody}
+									href={copy.policyViewAllHref}
+									cta={copy.policyViewAll}
+								>
+									<div className="org-policy-readout">
+										<b>{pct}%</b>
+										<span>
+											Enforcing on {covered} of {total} installed repos
+										</span>
+									</div>
+								</MiniPanel>
+							</aside>
+						</section>
+
 						<section className="org-flow-section section">
 							<div className="section-head-lite">
 								<h2>{flowTitle}</h2>
@@ -262,47 +403,6 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 								</div>
 							</figure>
 						</section>
-
-						<section className="org-live-grid section">
-							<div className="org-main-feed">
-								<SectionHeader title={copy.queueTitle} sub={copy.queueSubtitle} href={copy.queueViewAllHref} cta={copy.queueViewAll} />
-								<div className="plate org-review-plate">
-									<div className="org-table-head mono">
-										<span>{copy.queueColumns.item}</span><span>{copy.queueColumns.repo}</span><span>{copy.queueColumns.score}</span><span>{copy.queueColumns.status}</span><span>{copy.queueColumns.age}</span>
-									</div>
-									{queue.length === 0 ? <EmptyLine>No items in the last 30 days.</EmptyLine> : queue.map((row) => (
-										<div className="org-table-row" key={row.key}>
-											<Link href={row.href} target="_blank" rel="noreferrer">{row.item}</Link>
-											<span>{row.repo}</span>
-											<b>{row.score}</b>
-											<span>{row.status}</span>
-											<span>{row.age}</span>
-										</div>
-									))}
-								</div>
-							</div>
-
-							<aside className="org-side-stack">
-								<MiniPanel title={copy.reposTitle} sub={copy.reposSubtitle} href={copy.reposViewAllHref} cta={copy.reposViewAll}>
-									{reposRows.length === 0 ? <EmptyLine>No repos with activity yet.</EmptyLine> : reposRows.map((row) => (
-										<div className="org-mini-row" key={row.repo}>
-											<span>{row.repo}</span><b>{row.quarantined}</b><em>{row.cleared}</em>
-										</div>
-									))}
-								</MiniPanel>
-								<MiniPanel title={copy.campaignTitle} sub={copy.campaignSubtitle} href={campaignHref} cta="Open campaigns">
-									{campaigns.length === 0 ? <EmptyLine>{copy.campaignsEmpty}</EmptyLine> : campaigns.map((c) => (
-										<div className="org-campaign-row" key={c.name}>
-											<span>{c.fingerprint}</span>
-											<b style={{ color: riskColor[c.risk], background: riskBg[c.risk] }}>{c.risk}</b>
-										</div>
-									))}
-								</MiniPanel>
-								<MiniPanel title={copy.policyTitle} sub={copy.policyBody} href={copy.policyViewAllHref} cta={copy.policyViewAll}>
-									<div className="org-policy-readout"><b>{pct}%</b><span>Enforcing on {covered} of {total} installed repos</span></div>
-								</MiniPanel>
-							</aside>
-						</section>
 					</>
 				)}
 			</div>
@@ -310,20 +410,58 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 	);
 }
 
-function StatusPlate({ children, danger = false }: { children: React.ReactNode; danger?: boolean }) {
-	return <div className={danger ? "plate org-status danger" : "plate org-status"}>{children}</div>;
+function StatusPlate({
+	children,
+	danger = false,
+}: {
+	children: React.ReactNode;
+	danger?: boolean;
+}) {
+	return (
+		<div className={danger ? "plate org-status danger" : "plate org-status"}>
+			{children}
+		</div>
+	);
 }
 
-function SectionHeader({ title, sub, href, cta }: { title: string; sub: string; href: string; cta: string }) {
+function SectionHeader({
+	title,
+	sub,
+	href,
+	cta,
+}: {
+	title: string;
+	sub: string;
+	href: string;
+	cta: string;
+}) {
 	return (
 		<header className="org-section-head">
-			<div><h2>{title}</h2><p>{sub}</p></div>
-			<Link href={href}>{cta}<span>→</span></Link>
+			<div>
+				<h2>{title}</h2>
+				<p>{sub}</p>
+			</div>
+			<Link href={href}>
+				{cta}
+				<span>→</span>
+			</Link>
 		</header>
 	);
 }
 
-function MiniPanel({ title, sub, href, cta, children }: { title: string; sub: string; href: string; cta: string; children: React.ReactNode }) {
+function MiniPanel({
+	title,
+	sub,
+	href,
+	cta,
+	children,
+}: {
+	title: string;
+	sub: string;
+	href: string;
+	cta: string;
+	children: React.ReactNode;
+}) {
 	return (
 		<section className="plate org-mini-panel">
 			<SectionHeader title={title} sub={sub} href={href} cta={cta} />
