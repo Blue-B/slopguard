@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ConsoleSidebar, { type SidebarItem } from "./ConsoleSidebar";
+import { toneColor } from "./console-styles";
 
 type DashboardResponse =
 	| {
@@ -63,24 +64,15 @@ export default function PolicyFullView({ copy }: { copy: PolicyFullViewCopy }) {
 	const total = live?.repoCount ?? 0;
 	const covered = live?.repos.length ?? 0;
 	const pct = total > 0 ? Math.round((covered / total) * 100) : 0;
-	const missing = total - covered;
 	const quarantined = live?.quarantined ?? 0;
 	const cleared = live?.cleared ?? 0;
 
 	return (
 		<main
-			style={{
-				maxWidth: 1280,
-				margin: "0 auto",
-				padding: "24px 24px 64px",
-			}}
+			style={{ maxWidth: 1280, margin: "0 auto", padding: "24px 24px 80px" }}
 		>
 			<div
-				style={{
-					display: "grid",
-					gridTemplateColumns: "240px 1fr",
-					gap: 24,
-				}}
+				style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 28 }}
 			>
 				<ConsoleSidebar
 					workspace={copy.workspace}
@@ -92,23 +84,45 @@ export default function PolicyFullView({ copy }: { copy: PolicyFullViewCopy }) {
 				/>
 
 				<section>
-					<header
+					{/* Premium Hero */}
+					<div
 						style={{
-							display: "flex",
-							justifyContent: "space-between",
-							alignItems: "flex-end",
-							padding: "8px 0 24px",
-							borderBottom: "1px solid #1c2530",
-							marginBottom: 8,
+							position: "relative",
+							borderRadius: 16,
+							overflow: "hidden",
+							border: "1px solid #1c2530",
+							marginBottom: 28,
+							minHeight: 168,
+							background: "#0a0e15",
 						}}
 					>
-						<div>
+						{/* eslint-disable-next-line @next/next/no-img-element */}
+						<img
+							src="/org-hero-premium.png"
+							alt=""
+							style={{
+								position: "absolute",
+								inset: 0,
+								width: "100%",
+								height: "100%",
+								objectFit: "cover",
+								opacity: 0.5,
+							}}
+						/>
+						<div
+							style={{
+								position: "absolute",
+								inset: 0,
+								background:
+									"linear-gradient(90deg, rgba(10,14,21,0.92) 0%, rgba(10,14,21,0.6) 50%, rgba(10,14,21,0.3) 100%)",
+							}}
+						/>
+						<div style={{ position: "relative", padding: "28px 32px" }}>
 							<div
 								style={{
 									color: "#3fb950",
 									fontSize: 10,
-									letterSpacing: ".18em",
-									textTransform: "uppercase",
+									letterSpacing: ".2em",
 									fontFamily: "var(--mono)",
 									marginBottom: 8,
 								}}
@@ -118,34 +132,37 @@ export default function PolicyFullView({ copy }: { copy: PolicyFullViewCopy }) {
 							<h1
 								style={{
 									margin: 0,
-									fontSize: 24,
-									letterSpacing: "-.03em",
+									fontSize: 26,
 									fontWeight: 800,
+									letterSpacing: "-0.035em",
+									lineHeight: 1.1,
 								}}
 							>
 								{copy.heroTitle}
 							</h1>
 							<p
 								style={{
+									maxWidth: 540,
 									color: "#8b949e",
-									margin: "8px 0 0",
-									maxWidth: 560,
 									fontSize: 13,
+									marginTop: 10,
 									lineHeight: 1.5,
 								}}
 							>
 								{copy.heroBody}
 							</p>
+							<div style={{ marginTop: 14 }}>
+								<Link href={copy.backHref} className="btn btn-ghost btn-sm">
+									← {copy.backLabel}
+								</Link>
+							</div>
 						</div>
-						<Link href={copy.backHref} className="btn btn-ghost btn-sm">
-							← {copy.backLabel}
-						</Link>
-					</header>
+					</div>
 
 					{isLoading && (
 						<div
 							style={{
-								padding: "48px 0",
+								padding: "60px 0",
 								textAlign: "center",
 								color: "#8b949e",
 								fontFamily: "var(--mono)",
@@ -155,16 +172,24 @@ export default function PolicyFullView({ copy }: { copy: PolicyFullViewCopy }) {
 							{copy.loading}
 						</div>
 					)}
-
-					{notInstalled && (
+					{error && !isLoading && (
 						<div
 							style={{
-								padding: "48px 0",
-								textAlign: "center",
-								color: "#8b949e",
+								padding: "16px 0",
+								color: "#f85149",
+								fontFamily: "var(--mono)",
+								fontSize: 12,
 							}}
 						>
-							<p style={{ fontSize: 13, marginBottom: 16 }}>{copy.empty}</p>
+							{error}
+						</div>
+					)}
+
+					{notInstalled && (
+						<div style={{ padding: "56px 0", textAlign: "center" }}>
+							<p style={{ fontSize: 14, color: "#8b949e", marginBottom: 18 }}>
+								{copy.empty}
+							</p>
 							<Link href={copy.installHref} className="btn btn-primary btn-sm">
 								{copy.installCta}
 							</Link>
@@ -173,204 +198,126 @@ export default function PolicyFullView({ copy }: { copy: PolicyFullViewCopy }) {
 
 					{live && (
 						<>
-							{/* Coverage bar — full width, no card */}
+							{/* Coverage metrics — premium */}
 							<div
 								style={{
-									padding: "32px 0 24px",
+									display: "grid",
+									gridTemplateColumns: "repeat(4, 1fr)",
+									gap: 0,
 									borderBottom: "1px solid #1c2530",
+									marginBottom: 24,
+								}}
+							>
+								{[
+									{
+										label: "설치 레포",
+										value: total,
+										tone: "neutral" as const,
+									},
+									{
+										label: "정책 적용",
+										value: covered,
+										detail: `${pct}%`,
+										tone: "ok" as const,
+									},
+									{
+										label: "격리",
+										value: quarantined,
+										tone: "danger" as const,
+									},
+									{ label: "정상 확인", value: cleared, tone: "ok" as const },
+								].map((m, i) => (
+									<div
+										key={i}
+										style={{
+											padding: "18px 20px",
+											borderRight: i < 3 ? "1px solid #1c2530" : "none",
+										}}
+									>
+										<div
+											style={{
+												color: "#8b949e",
+												fontSize: 10,
+												letterSpacing: ".14em",
+												fontFamily: "var(--mono)",
+											}}
+										>
+											{m.label}
+										</div>
+										<div
+											style={{
+												fontSize: 28,
+												fontWeight: 800,
+												letterSpacing: "-0.03em",
+												marginTop: 4,
+												fontFamily: "var(--mono)",
+												color: toneColor[m.tone],
+											}}
+										>
+											{m.value}
+											{m.detail && (
+												<span
+													style={{
+														fontSize: 13,
+														marginLeft: 6,
+														color: "#8b949e",
+													}}
+												>
+													{m.detail}
+												</span>
+											)}
+										</div>
+									</div>
+								))}
+							</div>
+
+							<div
+								style={{
+									border: "1px solid #1c2530",
+									borderRadius: 14,
+									padding: "24px 28px",
+									background: "#0d141d",
 								}}
 							>
 								<div
 									style={{
 										display: "flex",
 										justifyContent: "space-between",
-										alignItems: "baseline",
-										marginBottom: 14,
-										fontFamily: "var(--mono)",
+										alignItems: "center",
+									}}
+								>
+									<div>
+										<div style={{ fontSize: 15, fontWeight: 600 }}>
+											{copy.policyFileTitle}
+										</div>
+										<p
+											style={{
+												color: "#8b949e",
+												fontSize: 13,
+												marginTop: 6,
+												maxWidth: 520,
+											}}
+										>
+											{copy.policyFileBody}
+										</p>
+									</div>
+									<Link href={copy.docsHref} className="btn btn-ghost btn-sm">
+										Open docs →
+									</Link>
+								</div>
+							</div>
+
+							{covered < total && (
+								<div
+									style={{
+										marginTop: 16,
 										fontSize: 12,
-									}}
-								>
-									<span style={{ color: "#8b949e" }}>Enforcing policy on</span>
-									<span
-										style={{
-											color: "#3fb950",
-											fontWeight: 700,
-											fontSize: 28,
-											letterSpacing: "-.03em",
-										}}
-									>
-										{pct}%
-									</span>
-								</div>
-								<div
-									style={{
-										height: 8,
-										background: "rgba(255,255,255,0.04)",
-										borderRadius: 99,
-										overflow: "hidden",
-									}}
-								>
-									<div
-										style={{
-											width: `${pct}%`,
-											height: "100%",
-											background:
-												"linear-gradient(90deg, #3fb950 0%, #2ea043 100%)",
-										}}
-									/>
-								</div>
-								<div
-									style={{
-										display: "grid",
-										gridTemplateColumns: "repeat(4, 1fr)",
-										gap: 16,
-										marginTop: 28,
-									}}
-								>
-									<div>
-										<div
-											style={{
-												color: "#8b949e",
-												fontSize: 10,
-												letterSpacing: ".14em",
-												textTransform: "uppercase",
-												fontFamily: "var(--mono)",
-											}}
-										>
-											Installed repos
-										</div>
-										<div
-											style={{
-												fontSize: 22,
-												fontWeight: 800,
-												fontFamily: "var(--mono)",
-												marginTop: 6,
-											}}
-										>
-											{total}
-										</div>
-									</div>
-									<div>
-										<div
-											style={{
-												color: "#8b949e",
-												fontSize: 10,
-												letterSpacing: ".14em",
-												textTransform: "uppercase",
-												fontFamily: "var(--mono)",
-											}}
-										>
-											Protected
-										</div>
-										<div
-											style={{
-												fontSize: 22,
-												fontWeight: 800,
-												fontFamily: "var(--mono)",
-												marginTop: 6,
-												color: "#3fb950",
-											}}
-										>
-											{covered}
-										</div>
-									</div>
-									<div>
-										<div
-											style={{
-												color: "#8b949e",
-												fontSize: 10,
-												letterSpacing: ".14em",
-												textTransform: "uppercase",
-												fontFamily: "var(--mono)",
-											}}
-										>
-											Quarantined
-										</div>
-										<div
-											style={{
-												fontSize: 22,
-												fontWeight: 800,
-												fontFamily: "var(--mono)",
-												marginTop: 6,
-												color: "#f85149",
-											}}
-										>
-											{quarantined}
-										</div>
-									</div>
-									<div>
-										<div
-											style={{
-												color: "#8b949e",
-												fontSize: 10,
-												letterSpacing: ".14em",
-												textTransform: "uppercase",
-												fontFamily: "var(--mono)",
-											}}
-										>
-											Cleared
-										</div>
-										<div
-											style={{
-												fontSize: 22,
-												fontWeight: 800,
-												fontFamily: "var(--mono)",
-												marginTop: 6,
-												color: "#3fb950",
-											}}
-										>
-											{cleared}
-										</div>
-									</div>
-								</div>
-							</div>
-
-							{/* Policy file — link to docs */}
-							<div
-								style={{
-									padding: "24px 0",
-									display: "flex",
-									justifyContent: "space-between",
-									alignItems: "center",
-								}}
-							>
-								<div>
-									<h3
-										style={{
-											margin: 0,
-											fontSize: 15,
-											letterSpacing: "-.02em",
-										}}
-									>
-										{copy.policyFileTitle}
-									</h3>
-									<p
-										style={{
-											color: "#8b949e",
-											margin: "4px 0 0",
-											fontSize: 12,
-										}}
-									>
-										{copy.policyFileBody}
-									</p>
-								</div>
-								<Link href={copy.docsHref} className="btn btn-ghost btn-sm">
-									Open docs →
-								</Link>
-							</div>
-
-							{missing > 0 && (
-								<div
-									style={{
-										padding: "16px 0",
 										color: "#d29922",
-										fontSize: 12,
 										fontFamily: "var(--mono)",
 									}}
 								>
-									{missing} installed repos have no quarantine activity yet —
-									they&apos;ll be marked protected once SlopGuard labels their
-									first item.
+									{total - covered}개 레포는 아직 격리 활동이 없어 보호 상태로
+									표시되지 않았습니다. 첫 활동 발생 시 자동 보호됩니다.
 								</div>
 							)}
 						</>

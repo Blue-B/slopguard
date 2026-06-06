@@ -11,20 +11,21 @@ export type SidebarItem = {
 
 const aside: React.CSSProperties = {
 	borderRight: "1px solid #1c2530",
-	background: "linear-gradient(180deg, #0d141d 0%, #0a0e15 100%)",
-	padding: 18,
+	background: "#0a0e15",
+	padding: "20px 16px 24px",
 	display: "flex",
 	flexDirection: "column",
 	position: "sticky",
-	top: 76,
-	height: "calc(100dvh - 76px)",
+	top: 60,
+	height: "calc(100dvh - 60px)",
+	boxShadow: "1px 0 0 rgba(0,0,0,0.3)",
 };
 
-const card: React.CSSProperties = {
+const userCard: React.CSSProperties = {
 	border: "1px solid #1c2530",
-	borderRadius: 14,
-	background:
-		"linear-gradient(180deg, rgba(255,255,255,0.012) 0%, rgba(255,255,255,0) 100%), #0d141d",
+	borderRadius: 10,
+	background: "#0d141d",
+	padding: "12px 14px",
 };
 
 const muted: React.CSSProperties = { color: "#8b949e" };
@@ -78,12 +79,18 @@ export default function ConsoleSidebar({
 
 	return (
 		<aside style={aside}>
-			<div style={{ marginBottom: 26 }}>
+			<div
+				style={{
+					marginBottom: 20,
+					paddingBottom: 16,
+					borderBottom: "1px solid #1c2530",
+				}}
+			>
 				<div
 					style={{
-						fontWeight: 800,
-						letterSpacing: "-.02em",
-						fontSize: 16,
+						fontWeight: 700,
+						letterSpacing: "-.015em",
+						fontSize: 15,
 						color: "#f0f6fc",
 					}}
 				>
@@ -92,9 +99,9 @@ export default function ConsoleSidebar({
 				<div
 					style={{
 						...muted,
-						fontSize: 11,
-						marginTop: 3,
-						letterSpacing: ".04em",
+						fontSize: 10,
+						marginTop: 2,
+						letterSpacing: ".05em",
 					}}
 				>
 					{workspaceSub}
@@ -142,29 +149,29 @@ export default function ConsoleSidebar({
 
 			<div
 				style={{
-					...card,
+					...userCard,
 					marginTop: "auto",
-					padding: 12,
 					fontSize: 12,
 				}}
 			>
 				<div
 					style={{
 						color: "#f0f6fc",
-						fontWeight: 700,
+						fontWeight: 600,
 						fontFamily: "var(--mono)",
+						fontSize: 13,
 					}}
 				>
 					{user}
 				</div>
-				<div style={{ ...muted, marginTop: 4, fontSize: 11 }}>
+				<div style={{ ...muted, marginTop: 3, fontSize: 10 }}>
 					{entitlement}
 				</div>
 				<div
 					style={{
 						marginTop: 10,
 						color: "#3fb950",
-						fontSize: 11,
+						fontSize: 10,
 						display: "flex",
 						gap: 6,
 						alignItems: "center",
@@ -173,11 +180,10 @@ export default function ConsoleSidebar({
 					<span
 						style={{
 							display: "inline-block",
-							width: 6,
-							height: 6,
+							width: 5,
+							height: 5,
 							borderRadius: 99,
 							background: "#3fb950",
-							boxShadow: "0 0 6px rgba(63,185,80,.6)",
 						}}
 					/>
 					{connected}

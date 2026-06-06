@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ConsoleSidebar, { type SidebarItem } from "./ConsoleSidebar";
+import { toneColor } from "./console-styles";
 
 type RecentItem = {
 	number: number;
@@ -27,15 +28,6 @@ type DashboardResponse =
 			closed: number;
 			recent: RecentItem[];
 			repos: Array<{ repo: string; quarantined: number; cleared: number }>;
-			radar: Array<{
-				name: string;
-				fingerprint: string;
-				repos: number;
-				risk: "low" | "medium" | "high";
-				commits: number;
-				authors: number;
-				delta: number;
-			}>;
 	  }
 	| { installed: false; owner: string; reason: string };
 
@@ -58,8 +50,7 @@ function formatAge(iso: string): string {
 	if (m < 60) return `${m}m`;
 	const h = Math.floor(m / 60);
 	if (h < 24) return `${h}h`;
-	const d = Math.floor(h / 24);
-	return `${d}d`;
+	return `${Math.floor(h / 24)}d`;
 }
 function extractRepo(url: string): string {
 	const m =
@@ -133,18 +124,10 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 
 	return (
 		<main
-			style={{
-				maxWidth: 1280,
-				margin: "0 auto",
-				padding: "24px 24px 64px",
-			}}
+			style={{ maxWidth: 1280, margin: "0 auto", padding: "24px 24px 80px" }}
 		>
 			<div
-				style={{
-					display: "grid",
-					gridTemplateColumns: "240px 1fr",
-					gap: 24,
-				}}
+				style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 28 }}
 			>
 				<ConsoleSidebar
 					workspace={copy.workspace}
@@ -156,23 +139,45 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 				/>
 
 				<section>
-					<header
+					{/* Premium Hero */}
+					<div
 						style={{
-							display: "flex",
-							justifyContent: "space-between",
-							alignItems: "flex-end",
-							padding: "8px 0 24px",
-							borderBottom: "1px solid #1c2530",
-							marginBottom: 8,
+							position: "relative",
+							borderRadius: 16,
+							overflow: "hidden",
+							border: "1px solid #1c2530",
+							marginBottom: 28,
+							minHeight: 168,
+							background: "#0a0e15",
 						}}
 					>
-						<div>
+						{/* eslint-disable-next-line @next/next/no-img-element */}
+						<img
+							src="/org-hero-premium.png"
+							alt=""
+							style={{
+								position: "absolute",
+								inset: 0,
+								width: "100%",
+								height: "100%",
+								objectFit: "cover",
+								opacity: 0.5,
+							}}
+						/>
+						<div
+							style={{
+								position: "absolute",
+								inset: 0,
+								background:
+									"linear-gradient(90deg, rgba(10,14,21,0.92) 0%, rgba(10,14,21,0.6) 50%, rgba(10,14,21,0.3) 100%)",
+							}}
+						/>
+						<div style={{ position: "relative", padding: "28px 32px" }}>
 							<div
 								style={{
 									color: "#3fb950",
 									fontSize: 10,
-									letterSpacing: ".18em",
-									textTransform: "uppercase",
+									letterSpacing: ".2em",
 									fontFamily: "var(--mono)",
 									marginBottom: 8,
 								}}
@@ -182,34 +187,37 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 							<h1
 								style={{
 									margin: 0,
-									fontSize: 24,
-									letterSpacing: "-.03em",
+									fontSize: 26,
 									fontWeight: 800,
+									letterSpacing: "-0.035em",
+									lineHeight: 1.1,
 								}}
 							>
 								{copy.heroTitle}
 							</h1>
 							<p
 								style={{
+									maxWidth: 540,
 									color: "#8b949e",
-									margin: "8px 0 0",
-									maxWidth: 560,
 									fontSize: 13,
+									marginTop: 10,
 									lineHeight: 1.5,
 								}}
 							>
 								{copy.heroBody}
 							</p>
+							<div style={{ marginTop: 14 }}>
+								<Link href={copy.backHref} className="btn btn-ghost btn-sm">
+									← {copy.backLabel}
+								</Link>
+							</div>
 						</div>
-						<Link href={copy.backHref} className="btn btn-ghost btn-sm">
-							← {copy.backLabel}
-						</Link>
-					</header>
+					</div>
 
 					{isLoading && (
 						<div
 							style={{
-								padding: "48px 0",
+								padding: "60px 0",
 								textAlign: "center",
 								color: "#8b949e",
 								fontFamily: "var(--mono)",
@@ -219,7 +227,6 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 							{copy.loading}
 						</div>
 					)}
-
 					{error && !isLoading && (
 						<div
 							style={{
@@ -234,14 +241,10 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 					)}
 
 					{notInstalled && (
-						<div
-							style={{
-								padding: "48px 0",
-								textAlign: "center",
-								color: "#8b949e",
-							}}
-						>
-							<p style={{ fontSize: 13, marginBottom: 16 }}>{copy.empty}</p>
+						<div style={{ padding: "56px 0", textAlign: "center" }}>
+							<p style={{ fontSize: 14, color: "#8b949e", marginBottom: 18 }}>
+								{copy.empty}
+							</p>
 							<Link href={copy.installHref} className="btn btn-primary btn-sm">
 								{copy.installCta}
 							</Link>
@@ -251,7 +254,7 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 					{live && rows.length === 0 && (
 						<div
 							style={{
-								padding: "48px 0",
+								padding: "56px 0",
 								textAlign: "center",
 								color: "#8b949e",
 								fontFamily: "var(--mono)",
@@ -263,126 +266,148 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 					)}
 
 					{live && rows.length > 0 && (
-						<table
+						<div
 							style={{
-								width: "100%",
-								borderCollapse: "collapse",
-								fontSize: 13,
+								border: "1px solid #1c2530",
+								borderRadius: 14,
+								overflow: "hidden",
+								background: "#0d141d",
 							}}
 						>
-							<thead>
-								<tr style={{ color: "#7d8590" }}>
-									{(
-										["item", "repo", "score", "status", "owner", "age"] as const
-									).map((k) => (
-										<th
-											key={k}
-											style={{
-												textAlign: k === "score" ? "right" : "left",
-												padding: "12px 4px",
-												fontSize: 10,
-												letterSpacing: ".14em",
-												textTransform: "uppercase",
-												fontWeight: 600,
-												fontFamily: "var(--mono)",
-												borderBottom: "1px solid #1c2530",
-											}}
-										>
-											{copy.columns[k]}
-										</th>
-									))}
-								</tr>
-							</thead>
-							<tbody>
-								{rows.map((row) => (
-									<tr
-										key={row.key}
-										style={{ borderBottom: "1px solid #161e29" }}
-									>
-										<td
-											style={{
-												padding: "14px 4px",
-												fontFamily: "var(--mono)",
-												color: "#c9d1d9",
-											}}
-										>
-											<Link
-												href={row.href}
-												target="_blank"
-												rel="noreferrer"
+							<table
+								style={{
+									width: "100%",
+									borderCollapse: "collapse",
+									fontSize: 13,
+								}}
+							>
+								<thead>
+									<tr style={{ background: "rgba(255,255,255,0.015)" }}>
+										{(
+											[
+												"item",
+												"repo",
+												"score",
+												"status",
+												"owner",
+												"age",
+											] as const
+										).map((k) => (
+											<th
+												key={k}
 												style={{
-													color: "#c9d1d9",
-													textDecoration: "none",
+													textAlign:
+														k === "score" || k === "age" ? "right" : "left",
+													padding: "14px 18px",
+													fontSize: 10,
+													letterSpacing: ".14em",
+													textTransform: "uppercase",
+													fontWeight: 600,
+													color: "#7d8590",
+													fontFamily: "var(--mono)",
+													borderBottom: "1px solid #1c2530",
 												}}
 											>
-												{row.item}
-											</Link>
-										</td>
-										<td style={{ padding: "14px 4px", color: "#c9d1d9" }}>
-											{row.repo}
-										</td>
-										<td
-											style={{
-												padding: "14px 4px",
-												textAlign: "right",
-												fontFamily: "var(--mono)",
-												color:
-													row.score >= 80
-														? "#f85149"
-														: row.score >= 60
-															? "#d29922"
-															: "#3fb950",
-											}}
+												{copy.columns[k]}
+											</th>
+										))}
+									</tr>
+								</thead>
+								<tbody>
+									{rows.map((row) => (
+										<tr
+											key={row.key}
+											style={{ borderTop: "1px solid #1c2530" }}
 										>
-											{row.score}
-										</td>
-										<td style={{ padding: "14px 4px" }}>
-											<span
+											<td
 												style={{
-													fontSize: 11,
-													padding: "2px 8px",
-													borderRadius: 99,
-													background:
-														row.status === "Quarantined"
-															? "rgba(248,81,73,.12)"
-															: row.status === "Cleared"
-																? "rgba(63,185,80,.12)"
-																: "rgba(210,153,34,.12)",
-													color:
-														row.status === "Quarantined"
-															? "#f85149"
-															: row.status === "Cleared"
-																? "#3fb950"
-																: "#d29922",
+													padding: "14px 18px",
+													fontFamily: "var(--mono)",
+													color: "#c9d1d9",
+												}}
+											>
+												<Link
+													href={row.href}
+													target="_blank"
+													rel="noreferrer"
+													style={{ color: "#c9d1d9", textDecoration: "none" }}
+												>
+													{row.item}
+												</Link>
+											</td>
+											<td
+												style={{
+													padding: "14px 18px",
+													color: "#c9d1d9",
 													fontFamily: "var(--mono)",
 												}}
 											>
-												{row.status}
-											</span>
-										</td>
-										<td
-											style={{
-												padding: "14px 4px",
-												color: "#8b949e",
-												fontFamily: "var(--mono)",
-											}}
-										>
-											{row.owner}
-										</td>
-										<td
-											style={{
-												padding: "14px 4px",
-												color: "#8b949e",
-												fontFamily: "var(--mono)",
-												textAlign: "right",
-											}}
-										>
-											{row.age}
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
+												{row.repo}
+											</td>
+											<td
+												style={{
+													padding: "14px 18px",
+													textAlign: "right",
+													fontFamily: "var(--mono)",
+													color:
+														row.score >= 70
+															? "#f85149"
+															: row.score >= 50
+																? "#d29922"
+																: "#3fb950",
+													fontWeight: 600,
+												}}
+											>
+												{row.score}
+											</td>
+											<td style={{ padding: "14px 18px" }}>
+												<span
+													style={{
+														fontSize: 11,
+														padding: "2px 10px",
+														borderRadius: 999,
+														background:
+															row.status === "Quarantined"
+																? "rgba(248,81,73,0.12)"
+																: row.status === "Cleared"
+																	? "rgba(63,185,80,0.12)"
+																	: "rgba(210,153,34,0.12)",
+														color:
+															row.status === "Quarantined"
+																? "#f85149"
+																: row.status === "Cleared"
+																	? "#3fb950"
+																	: "#d29922",
+														fontFamily: "var(--mono)",
+													}}
+												>
+													{row.status}
+												</span>
+											</td>
+											<td
+												style={{
+													padding: "14px 18px",
+													color: "#8b949e",
+													fontFamily: "var(--mono)",
+												}}
+											>
+												{row.owner}
+											</td>
+											<td
+												style={{
+													padding: "14px 18px",
+													textAlign: "right",
+													color: "#8b949e",
+													fontFamily: "var(--mono)",
+												}}
+											>
+												{row.age}
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</div>
 					)}
 				</section>
 			</div>
