@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import MarketingNav from "@/app/components/MarketingNav";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -5,7 +6,7 @@ import ReposFullView, {
 	type ReposFullViewCopy,
 } from "@/app/components/ReposFullView";
 
-export const metadata = {
+export const metadata: Metadata = {
 	title: "SlopGuard: Repos - Team",
 	description:
 		"Every repo SlopGuard can see for your account, with live quarantine and clear counts.",
@@ -32,10 +33,10 @@ const copy: ReposFullViewCopy = {
 	installHref: "/setup",
 	backHref: "/org",
 	backLabel: "Overview",
-	heroEyebrow: "REPOS / ORG",
-	heroTitle: "Every repo SlopGuard can see, with live activity counts.",
+	heroEyebrow: "ORG / REPOS",
+	heroTitle: "The repository scope for team operations, in one place.",
 	heroBody:
-		"Quarantined and cleared labels are aggregated per repo from your GitHub installation. Install on more repos to extend coverage.",
+		"Overview is the summary, Queue is what needs action, and Repos is the protection scope. Quarantine and cleared counts come from your GitHub installation.",
 	columns: {
 		repo: "Repository",
 		quarantined: "Quarantined",

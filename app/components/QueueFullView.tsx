@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { SidebarItem } from "./ConsoleSidebar";
 
 type RecentItem = {
@@ -82,6 +83,7 @@ export type QueueFullViewCopy = {
 export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 	const [data, setData] = useState<DashboardResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const pathname = usePathname() ?? "";
 
 	useEffect(() => {
 		(async () => {
@@ -115,28 +117,40 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 				.replace("api.github.com", "github.com")
 				.replace(/\/repos\//, "/"),
 		})) ?? [];
+	const activeBase = copy.nav.reduce<string | null>((best, item) => {
+		const base = item.href.split("#")[0];
+		const match = pathname === base || pathname.startsWith(`${base}/`);
+		if (!match) return best;
+		return !best || base.length > best.length ? base : best;
+	}, null);
 
 	return (
-		<main className="queue-experience">
+		<main className="org-experience queue-experience">
 			<div className="grid-bg" aria-hidden="true" />
-			<div className="wide campaign-wide">
-				<nav className="campaign-topnav" aria-label="Queue sections">
-					<Link href={copy.backHref}>← {copy.backLabel}</Link>
-					<div className="campaign-nav-center">
-						{copy.nav.map((item) => (
-							<Link
-								key={item.label}
-								href={item.href}
-								className={item.href.includes("/queue") ? "active" : ""}
-							>
-								{item.label}
-								{item.external ? <span>↗</span> : null}
-							</Link>
-						))}
+			<div className="wide org-wide">
+				<nav className="org-console-nav" aria-label="Team console sections">
+					<div>
+						<span className="org-nav-kicker mono">SlopGuard Team</span>
+						<strong>{copy.workspace}</strong>
 					</div>
-					<span className="campaign-detail-user mono">{copy.user}</span>
+					<div className="org-nav-links">
+						{copy.nav.map((item) => {
+							const base = item.href.split("#")[0];
+							const active = activeBase === base;
+							return (
+								<Link
+									key={item.label}
+									href={item.href}
+									className={active ? "active" : ""}
+								>
+									{item.label}
+									{item.external ? <span>↗</span> : null}
+								</Link>
+							);
+						})}
+					</div>
 				</nav>
-				<header className="queue-hero">
+				<header className="org-page-hero queue-hero">
 					<div>
 						<div className="eyebrow mono">{copy.heroEyebrow}</div>
 						<h1>{copy.heroTitle}</h1>
@@ -149,13 +163,14 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 					</div>
 				</header>
 
-				{isLoading && (
-					<div className="campaign-status mono">{copy.loading}</div>
-				)}
-				{error && <div className="campaign-status danger mono">{error}</div>}
+				{isLoading && <div className="org-status mono">{copy.loading}</div>}
+				{error && <div className="org-status danger mono">{error}</div>}
 				{notInstalled && (
-					<div className="campaign-empty-line mono">
-						{copy.empty} <Link href={copy.installHref}>{copy.installCta}</Link>
+					<div className="org-empty plate">
+						<p>{copy.empty}</p>
+						<Link href={copy.installHref} className="btn btn-primary btn-sm">
+							{copy.installCta}
+						</Link>
 					</div>
 				)}
 				{live && (

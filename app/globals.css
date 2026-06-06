@@ -4099,3 +4099,136 @@ footer.site.footer-app {
 		display: none;
 	}
 }
+
+/* ── Unified Org console subpages: overview / queue / repos / policy ── */
+.org-page-hero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(360px, 0.82fr);
+	gap: 34px;
+	align-items: end;
+	padding: 6px 0 38px;
+	border-bottom: 1px solid var(--border-muted);
+}
+.org-page-hero h1 {
+	font-size: clamp(40px, 5.2vw, 68px);
+	line-height: 0.98;
+	letter-spacing: -0.045em;
+	margin: 0;
+	max-width: 820px;
+}
+.org-page-hero p {
+	color: var(--muted);
+	font-size: clamp(16px, 1.3vw, 19px);
+	line-height: 1.55;
+	max-width: 40rem;
+	margin: 20px 0 0;
+}
+.org-page-spec {
+	justify-content: end;
+	align-self: stretch;
+	align-content: end;
+}
+.org-page-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+	gap: 30px;
+	align-items: start;
+	padding-top: 34px;
+}
+.org-page-table {
+	padding: 18px 18px 8px;
+	overflow-x: auto;
+}
+.org-repo-head,
+.org-repo-row {
+	display: grid;
+	grid-template-columns: minmax(220px, 1fr) 110px 90px;
+	gap: 14px;
+	align-items: center;
+}
+.org-repo-head {
+	padding: 13px 0;
+	border-bottom: 1px solid var(--border);
+	font-size: 10px;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+.org-repo-head span:nth-child(n + 2),
+.org-repo-row b,
+.org-repo-row em {
+	text-align: right;
+}
+.org-repo-row {
+	padding: 15px 0;
+	border-bottom: 1px solid var(--border-muted);
+	font-size: 13px;
+}
+.org-repo-row span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-family: var(--mono);
+}
+.org-repo-row b,
+.org-repo-row em {
+	font-family: var(--mono);
+	font-style: normal;
+}
+.org-repo-row b {
+	color: var(--danger);
+}
+.org-repo-row em {
+	color: var(--green);
+}
+.org-policy-main {
+	padding: 22px;
+}
+.org-policy-readout.large {
+	grid-template-columns: auto minmax(0, 1fr);
+	padding: 26px 0 8px;
+}
+.org-policy-readout.large b {
+	font-size: clamp(56px, 8vw, 92px);
+}
+.org-metric-card {
+	padding: 18px;
+}
+.org-metric-card span {
+	display: block;
+	font-size: 10px;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+.org-metric-card b {
+	display: block;
+	font-family: var(--mono);
+	font-size: 34px;
+	line-height: 1;
+	letter-spacing: -0.05em;
+	margin-top: 10px;
+}
+.org-empty-line.warn {
+	color: var(--warn);
+}
+@media (max-width: 980px) {
+	.org-page-hero,
+	.org-page-layout {
+		grid-template-columns: 1fr;
+	}
+	.org-page-spec {
+		justify-content: start;
+	}
+	.org-repo-head {
+		display: none;
+	}
+	.org-repo-row {
+		grid-template-columns: 1fr;
+		gap: 7px;
+	}
+	.org-repo-row > * {
+		text-align: left !important;
+		white-space: normal;
+	}
+}

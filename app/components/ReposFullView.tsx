@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import ConsoleSidebar, { type SidebarItem } from "./ConsoleSidebar";
+import { usePathname } from "next/navigation";
+import type { SidebarItem } from "./ConsoleSidebar";
 import { toneColor } from "./console-styles";
 
 type DashboardResponse =
@@ -36,6 +37,7 @@ export type ReposFullViewCopy = {
 export default function ReposFullView({ copy }: { copy: ReposFullViewCopy }) {
 	const [data, setData] = useState<DashboardResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const pathname = usePathname() ?? "";
 
 	useEffect(() => {
 		(async () => {
@@ -56,386 +58,150 @@ export default function ReposFullView({ copy }: { copy: ReposFullViewCopy }) {
 	const notInstalled =
 		data !== null && "installed" in data && data.installed === false;
 	const live = data && data.installed ? data : null;
-
 	const totalRepos = live?.repoCount ?? 0;
 	const totalQuarantined =
 		live?.repos.reduce((s, r) => s + r.quarantined, 0) ?? 0;
 	const totalCleared = live?.repos.reduce((s, r) => s + r.cleared, 0) ?? 0;
 	const protectedPct =
-		totalRepos > 0 ? Math.round((live!.repos.length / totalRepos) * 100) : 0;
+		totalRepos > 0 && live
+			? Math.round((live.repos.length / totalRepos) * 100)
+			: 0;
 	const isKo = copy.backHref.startsWith("/ko/");
 	const metricLabels = isKo
 		? {
-				repos: "설치된 레포",
-				protected: "보호 중",
+				repos: "설치 레포",
+				protected: "보호 커버리지",
 				quarantined: "격리",
-				cleared: "정상 확인",
+				cleared: "정상화",
 				coverage:
-					"Team 플랜의 실시간 레포 커버리지입니다. 설치 범위가 늘수록 보호 범위도 늘어납니다.",
+					"이 화면은 팀 운영 범위입니다. 어떤 레포가 보호 중이고 어디에서 격리/정상화가 발생했는지 확인합니다.",
 			}
 		: {
 				repos: "Installed repos",
-				protected: "Protected",
+				protected: "Coverage",
 				quarantined: "Quarantined",
 				cleared: "Cleared",
 				coverage:
-					"Live Team-plan repo coverage. Install SlopGuard on more repos to expand protection.",
+					"This is the team operations scope: which repos are protected and where quarantine/cleared activity happened.",
 			};
+	const activeBase = copy.nav.reduce<string | null>((best, item) => {
+		const base = item.href.split("#")[0];
+		const match = pathname === base || pathname.startsWith(`${base}/`);
+		if (!match) return best;
+		return !best || base.length > best.length ? base : best;
+	}, null);
 
 	return (
-		<main
-			style={{ maxWidth: 1480, margin: "0 auto", padding: "18px 32px 96px" }}
-		>
-			<div
-				style={{
-					display: "grid",
-					gridTemplateColumns: "280px minmax(0, 1fr)",
-					gap: 32,
-				}}
-			>
-				<ConsoleSidebar
-					workspace={copy.workspace}
-					workspaceSub={copy.workspaceSub}
-					user={copy.user}
-					entitlement={copy.entitlement}
-					connected={copy.connected}
-					nav={copy.nav}
-				/>
+		<main className="org-experience">
+			<div className="grid-bg" aria-hidden="true" />
+			<div className="wide org-wide">
+				<nav className="org-console-nav" aria-label="Team console sections">
+					<div>
+						<span className="org-nav-kicker mono">SlopGuard Team</span>
+						<strong>{copy.workspace}</strong>
+					</div>
+					<div className="org-nav-links">
+						{copy.nav.map((item) => {
+							const base = item.href.split("#")[0];
+							const active = activeBase === base;
+							return (
+								<Link
+									key={item.label}
+									href={item.href}
+									className={active ? "active" : ""}
+								>
+									{item.label}
+									{item.external ? <span>↗</span> : null}
+								</Link>
+							);
+						})}
+					</div>
+				</nav>
 
-				<section>
-					{/* Premium Hero with generated asset */}
-					<div
-						style={{
-							position: "relative",
-							borderRadius: 16,
-							overflow: "hidden",
-							border: "1px solid #1c2530",
-							marginBottom: 28,
-							minHeight: 168,
-							background: "#0a0e15",
-						}}
-					>
-						{/* eslint-disable-next-line @next/next/no-img-element */}
-						<img
-							src="/paid-command-mesh.png"
-							alt=""
-							style={{
-								position: "absolute",
-								inset: 0,
-								width: "100%",
-								height: "100%",
-								objectFit: "cover",
-								opacity: 0.55,
-							}}
-						/>
-						<div
-							style={{
-								position: "absolute",
-								inset: 0,
-								background:
-									"linear-gradient(90deg, rgba(10,14,21,0.92) 0%, rgba(10,14,21,0.65) 45%, rgba(10,14,21,0.35) 100%)",
-							}}
-						/>
-						<div style={{ position: "relative", padding: "28px 32px" }}>
-							<div
-								style={{
-									color: "#3fb950",
-									fontSize: 10,
-									letterSpacing: ".2em",
-									fontFamily: "var(--mono)",
-									marginBottom: 8,
-								}}
-							>
-								{copy.heroEyebrow}
-							</div>
-							<h1
-								style={{
-									margin: 0,
-									fontSize: 26,
-									fontWeight: 800,
-									letterSpacing: "-0.035em",
-									lineHeight: 1.1,
-								}}
-							>
-								{copy.heroTitle}
-							</h1>
-							<p
-								style={{
-									maxWidth: 520,
-									color: "#8b949e",
-									fontSize: 13,
-									marginTop: 10,
-									lineHeight: 1.5,
-								}}
-							>
-								{copy.heroBody}
-							</p>
-							<div style={{ marginTop: 14 }}>
-								<Link href={copy.backHref} className="btn btn-ghost btn-sm">
-									← {copy.backLabel}
+				<header className="org-page-hero">
+					<div>
+						<div className="eyebrow mono">{copy.heroEyebrow}</div>
+						<h1>{copy.heroTitle}</h1>
+						<p>{copy.heroBody}</p>
+					</div>
+					<ul className="hero-spec org-page-spec">
+						<li>
+							<span>{metricLabels.repos}</span>
+							<b>{live ? totalRepos : "-"}</b>
+						</li>
+						<li>
+							<span>{metricLabels.protected}</span>
+							<b>{live ? `${protectedPct}%` : "-"}</b>
+						</li>
+						<li>
+							<span>{metricLabels.quarantined}</span>
+							<b style={{ color: toneColor.danger }}>
+								{live ? totalQuarantined : "-"}
+							</b>
+						</li>
+						<li>
+							<span>{metricLabels.cleared}</span>
+							<b style={{ color: toneColor.ok }}>{live ? totalCleared : "-"}</b>
+						</li>
+					</ul>
+				</header>
+
+				{isLoading && <div className="org-status mono">{copy.loading}</div>}
+				{error && <div className="org-status danger mono">{error}</div>}
+				{notInstalled && (
+					<div className="org-empty plate">
+						<p>{copy.empty}</p>
+						<Link href={copy.installHref} className="btn btn-primary btn-sm">
+							{copy.installCta}
+						</Link>
+					</div>
+				)}
+
+				{live && (
+					<section className="org-page-layout section">
+						<div className="org-review-plate plate org-page-table">
+							<div className="org-section-head">
+								<div>
+									<h2>{copy.columns.repo}</h2>
+									<p>{metricLabels.coverage}</p>
+								</div>
+								<Link href={copy.backHref}>
+									{copy.backLabel} <span>→</span>
 								</Link>
 							</div>
-						</div>
-					</div>
-
-					{/* Live Metrics - premium row, no cards */}
-					{live && (
-						<div
-							style={{
-								display: "grid",
-								gridTemplateColumns: "repeat(4, 1fr)",
-								gap: 0,
-								borderBottom: "1px solid #1c2530",
-								marginBottom: 24,
-							}}
-						>
-							{[
-								{
-									label: metricLabels.repos,
-									value: totalRepos,
-									tone: "ok" as const,
-								},
-								{
-									label: metricLabels.protected,
-									value: live.repos.length,
-									detail: `${protectedPct}%`,
-									tone: "ok" as const,
-								},
-								{
-									label: metricLabels.quarantined,
-									value: totalQuarantined,
-									tone: "danger" as const,
-								},
-								{
-									label: metricLabels.cleared,
-									value: totalCleared,
-									tone: "ok" as const,
-								},
-							].map((m, i) => (
-								<div
-									key={i}
-									style={{
-										padding: "18px 20px",
-										borderRight: i < 3 ? "1px solid #1c2530" : "none",
-									}}
-								>
-									<div
-										style={{
-											color: "#8b949e",
-											fontSize: 10,
-											letterSpacing: ".14em",
-											fontFamily: "var(--mono)",
-										}}
-									>
-										{m.label}
+							<div className="org-repo-head mono">
+								<span>{copy.columns.repo}</span>
+								<span>{copy.columns.quarantined}</span>
+								<span>{copy.columns.cleared}</span>
+							</div>
+							{live.repos.length === 0 ? (
+								<div className="org-empty-line mono">{copy.empty}</div>
+							) : (
+								live.repos.map((repo) => (
+									<div className="org-repo-row" key={repo.repo}>
+										<span>{repo.repo}</span>
+										<b>{repo.quarantined}</b>
+										<em>{repo.cleared}</em>
 									</div>
-									<div
-										style={{
-											fontSize: 28,
-											fontWeight: 800,
-											letterSpacing: "-0.03em",
-											marginTop: 4,
-											fontFamily: "var(--mono)",
-											color: toneColor[m.tone],
-										}}
-									>
-										{m.value}
-										{m.detail && (
-											<span
-												style={{
-													fontSize: 13,
-													marginLeft: 6,
-													color: "#8b949e",
-												}}
-											>
-												{m.detail}
-											</span>
-										)}
+								))
+							)}
+						</div>
+						<aside className="org-side-stack">
+							<div className="org-mini-panel plate">
+								<div className="org-section-head">
+									<div>
+										<h2>{metricLabels.protected}</h2>
+										<p>{copy.connected}</p>
 									</div>
 								</div>
-							))}
-						</div>
-					)}
-
-					{isLoading && (
-						<div
-							style={{
-								padding: "60px 0",
-								textAlign: "center",
-								color: "#8b949e",
-								fontFamily: "var(--mono)",
-								fontSize: 12,
-							}}
-						>
-							{copy.loading}
-						</div>
-					)}
-
-					{error && !isLoading && (
-						<div
-							style={{
-								padding: "16px 0",
-								color: "#f85149",
-								fontFamily: "var(--mono)",
-								fontSize: 12,
-							}}
-						>
-							{error}
-						</div>
-					)}
-
-					{notInstalled && (
-						<div style={{ padding: "56px 0", textAlign: "center" }}>
-							<p style={{ fontSize: 14, color: "#8b949e", marginBottom: 18 }}>
-								{copy.empty}
-							</p>
-							<Link href={copy.installHref} className="btn btn-primary btn-sm">
-								{copy.installCta}
-							</Link>
-						</div>
-					)}
-
-					{live && live.repos.length === 0 && (
-						<div
-							style={{
-								padding: "56px 0",
-								textAlign: "center",
-								color: "#8b949e",
-								fontFamily: "var(--mono)",
-								fontSize: 12,
-							}}
-						>
-							{copy.empty}
-						</div>
-					)}
-
-					{live && live.repos.length > 0 && (
-						<>
-							{/* Premium table */}
-							<div
-								style={{
-									border: "1px solid #1c2530",
-									borderRadius: 14,
-									overflow: "hidden",
-									background: "#0d141d",
-								}}
-							>
-								<table
-									style={{
-										width: "100%",
-										borderCollapse: "collapse",
-										fontSize: 13,
-									}}
-								>
-									<thead>
-										<tr style={{ background: "rgba(255,255,255,0.015)" }}>
-											<th
-												style={{
-													textAlign: "left",
-													padding: "14px 20px",
-													fontSize: 10,
-													letterSpacing: ".14em",
-													textTransform: "uppercase",
-													fontWeight: 600,
-													color: "#7d8590",
-													fontFamily: "var(--mono)",
-													borderBottom: "1px solid #1c2530",
-												}}
-											>
-												{copy.columns.repo}
-											</th>
-											<th
-												style={{
-													textAlign: "right",
-													padding: "14px 20px",
-													fontSize: 10,
-													letterSpacing: ".14em",
-													textTransform: "uppercase",
-													fontWeight: 600,
-													color: "#7d8590",
-													fontFamily: "var(--mono)",
-													borderBottom: "1px solid #1c2530",
-												}}
-											>
-												{copy.columns.quarantined}
-											</th>
-											<th
-												style={{
-													textAlign: "right",
-													padding: "14px 20px",
-													fontSize: 10,
-													letterSpacing: ".14em",
-													textTransform: "uppercase",
-													fontWeight: 600,
-													color: "#7d8590",
-													fontFamily: "var(--mono)",
-													borderBottom: "1px solid #1c2530",
-												}}
-											>
-												{copy.columns.cleared}
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										{live.repos.map((row, idx) => (
-											<tr
-												key={row.repo}
-												style={{
-													borderTop: idx > 0 ? "1px solid #1c2530" : "none",
-													transition: "background .1s ease",
-												}}
-											>
-												<td
-													style={{
-														padding: "16px 20px",
-														fontFamily: "var(--mono)",
-														color: "#c9d1d9",
-														fontWeight: 500,
-													}}
-												>
-													{row.repo}
-												</td>
-												<td
-													style={{
-														padding: "16px 20px",
-														textAlign: "right",
-														fontFamily: "var(--mono)",
-														color: row.quarantined > 0 ? "#f85149" : "#8b949e",
-														fontWeight: 600,
-													}}
-												>
-													{row.quarantined}
-												</td>
-												<td
-													style={{
-														padding: "16px 20px",
-														textAlign: "right",
-														fontFamily: "var(--mono)",
-														color: row.cleared > 0 ? "#3fb950" : "#8b949e",
-														fontWeight: 600,
-													}}
-												>
-													{row.cleared}
-												</td>
-											</tr>
-										))}
-									</tbody>
-								</table>
+								<div className="org-policy-readout">
+									<b>{protectedPct}%</b>
+									<span>{metricLabels.coverage}</span>
+								</div>
 							</div>
-
-							<div
-								style={{
-									marginTop: 16,
-									fontSize: 11,
-									color: "#8b949e",
-									fontFamily: "var(--mono)",
-								}}
-							>
-								{metricLabels.coverage}
-							</div>
-						</>
-					)}
-				</section>
+						</aside>
+					</section>
+				)}
 			</div>
 		</main>
 	);

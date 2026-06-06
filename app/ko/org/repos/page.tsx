@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import MarketingNav from "@/app/components/MarketingNav";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -5,7 +6,7 @@ import ReposFullView, {
 	type ReposFullViewCopy,
 } from "@/app/components/ReposFullView";
 
-export const metadata = {
+export const metadata: Metadata = {
 	title: "SlopGuard: 레포 - Team",
 	description: "SlopGuard가 볼 수 있는 모든 레포 + 실시간 격리/정상 카운트.",
 };
@@ -31,10 +32,10 @@ const copy: ReposFullViewCopy = {
 	installHref: "/ko/setup",
 	backHref: "/ko/org",
 	backLabel: "개요",
-	heroEyebrow: "REPOS / ORG",
-	heroTitle: "SlopGuard가 보는 모든 레포, 실시간 활동 카운트.",
+	heroEyebrow: "ORG / REPOS",
+	heroTitle: "팀 운영 범위에 포함된 레포만 한 화면에서 봅니다.",
 	heroBody:
-		"격리/정상 확인 라벨이 GitHub 설치에서 레포별로 집계됩니다. 더 많은 레포에 설치하면 커버리지가 늘어납니다.",
+		"개요는 요약, 큐는 처리할 항목, 레포는 보호 범위 확인입니다. 격리/정상화 카운트는 GitHub 설치 데이터에서 레포별로 집계됩니다.",
 	columns: {
 		repo: "레포지터리",
 		quarantined: "격리",

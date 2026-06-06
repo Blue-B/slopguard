@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import MarketingNav from "@/app/components/MarketingNav";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -5,7 +6,7 @@ import PolicyFullView, {
 	type PolicyFullViewCopy,
 } from "@/app/components/PolicyFullView";
 
-export const metadata = {
+export const metadata: Metadata = {
 	title: "SlopGuard: Policy Coverage - Team",
 	description:
 		"How many of your installed repos are actively protected by SlopGuard's quarantine policy.",
@@ -32,10 +33,10 @@ const copy: PolicyFullViewCopy = {
 	installHref: "/setup",
 	backHref: "/org",
 	backLabel: "Overview",
-	heroEyebrow: "POLICY / ORG",
-	heroTitle: "How many of your installed repos are actively protected.",
+	heroEyebrow: "ORG / POLICY",
+	heroTitle: "The applied policy scope for team operations.",
 	heroBody:
-		"Coverage is the share of installed repos that have at least one quarantine or clear label applied. Repos with no activity are not yet exercising the policy.",
+		"Overview is status, Queue is work, Repos is scope, and Policy is coverage. Coverage is based on installed repos with quarantine or cleared signals.",
 	policyFileTitle: "Policy file",
 	policyFileBody:
 		"Add .github/SLOP_POLICY.yml to a repo to customize thresholds, label names, and auto-merge rules.",
