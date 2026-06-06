@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import MarketingNav from "@/app/components/MarketingNav";
 import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -5,7 +6,7 @@ import QueueFullView, {
 	type QueueFullViewCopy,
 } from "@/app/components/QueueFullView";
 
-export const metadata = {
+export const metadata: Metadata = {
 	title: "SlopGuard: Quarantine Queue - Team",
 	description:
 		"Every quarantined and cleared item from your protected repos, sorted by recency.",
@@ -28,14 +29,21 @@ const copy: QueueFullViewCopy = {
 	loading: "Loading queue…",
 	empty:
 		"SlopGuard is not installed on this account. Install it to see quarantine activity here.",
+	queueEmpty: "No queue items need action right now. New activity appears here.",
 	installCta: "Install on GitHub",
 	installHref: "/setup",
 	backHref: "/org",
 	backLabel: "Overview",
-	heroEyebrow: "QUEUE / ORG",
-	heroTitle: "Every quarantined and cleared item from your protected repos.",
+	heroEyebrow: "ORG ACTION QUEUE",
+	heroTitle: "Not campaign analysis — the team action queue for today.",
 	heroBody:
-		"Sorted by recency. Click any row to open the underlying issue or PR on GitHub. Items here come from the labels SlopGuard applies to issues and pull requests.",
+		"/campaigns groups repeated patterns across repos. This view is the operational queue of issues and PRs your team can open, triage, and clear now.",
+	openLabel: "Queue items",
+	statusLabels: {
+		quarantined: "Quarantined",
+		cleared: "Cleared",
+		watching: "Watching",
+	},
 	columns: {
 		item: "Item",
 		repo: "Repo",

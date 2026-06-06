@@ -32,7 +32,7 @@ const copy: CampaignDetailCopy = {
 	error: "캠페인을 불러오지 못했습니다",
 	heading: "CAMPAIGN EVIDENCE",
 	subhead:
-		"캠페인 API에서 불러온 실제 드릴다운입니다. 레포 영향은 설치된 GitHub 데이터와 연결됩니다.",
+		"/org가 팀 운영 현황이라면, 여기는 여러 레포에 반복된 하나의 패턴을 추적하는 캠페인 조사 화면입니다.",
 	metrics: {
 		repos: "레포",
 		hits: "히트",
@@ -41,6 +41,11 @@ const copy: CampaignDetailCopy = {
 	},
 	commitsTitle: "커밋 증거",
 	impactTitle: "레포 영향",
+	plateLabel: "campaign investigation",
+	commitMeta: "이 fingerprint에 연결된 커밋 {count}개",
+	emptyCommits: "아직 연결된 커밋 증거가 없습니다.",
+	impactSubhead: "캠페인 API에서 집계한 레포별 격리/정상화 영향입니다.",
+	authorsLabel: "작성자",
 };
 
 export default async function CampaignDetailPage({

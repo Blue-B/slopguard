@@ -32,7 +32,7 @@ const copy: CampaignDetailCopy = {
 	error: "Failed to load campaign",
 	heading: "CAMPAIGN EVIDENCE",
 	subhead:
-		"Live drill-down built from the campaign API. Repo impact stays tied to installed GitHub data.",
+		"/org is the team operations view; this page investigates one repeated pattern across repositories.",
 	metrics: {
 		repos: "Repos",
 		hits: "Hits",
@@ -41,6 +41,11 @@ const copy: CampaignDetailCopy = {
 	},
 	commitsTitle: "Commit evidence",
 	impactTitle: "Repo impact",
+	plateLabel: "campaign investigation",
+	commitMeta: "{count} commits tied to this fingerprint",
+	emptyCommits: "No commit evidence yet.",
+	impactSubhead: "Repository-level quarantine and cleared impact from the campaign API.",
+	authorsLabel: "Authors",
 };
 
 export default async function CampaignDetailPage({
