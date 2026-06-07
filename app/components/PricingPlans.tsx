@@ -56,6 +56,7 @@ const CONTACT_URL = `${REPO_URL}/issues/new?labels=enterprise&title=Enterprise%2
 export default function PricingPlans({
 	lang,
 	currentPlan,
+	hasManagedSub,
 	portalUrl,
 }: {
 	lang: Lang;
@@ -64,13 +65,17 @@ export default function PricingPlans({
 	 *  upgrade (applies now) / downgrade (scheduled next period) of the existing
 	 *  subscription. A logged-out / free user sees normal new-purchase checkouts. */
 	currentPlan?: string;
+	/** true only when the user has a real Polar subscription to change (not an
+	 *  env/comp grant) — gates the upgrade/downgrade controls. */
+	hasManagedSub?: boolean;
 	portalUrl?: string;
 }) {
 	const [yearly, setYearly] = useState(false);
 	const t = T[lang];
-	// A signed-in customer already on a paid tier manages their existing
-	// subscription (upgrade/downgrade) rather than starting a new checkout.
-	const paidCurrent = !!currentPlan && currentPlan !== "free";
+	// A signed-in customer with a real subscription manages it (upgrade/downgrade)
+	// rather than starting a new checkout. Comp/granted users (no Polar sub) keep
+	// normal checkout CTAs on the other tiers.
+	const manageable = !!currentPlan && currentPlan !== "free" && !!hasManagedSub;
 	const curRank = currentPlan ? PLAN_RANK[currentPlan as PlanId] : -1;
 	// Annual billing ships only once the Polar annual checkout links exist and
 	// are verified (NEXT_PUBLIC_ANNUAL_BILLING="1"). Until then we never show a
@@ -156,9 +161,9 @@ export default function PricingPlans({
 							</ul>
 
 							{isCurrent ? (
-								isFree || isContact ? (
-									// Free/Enterprise have no self-serve Polar subscription to
-									// manage, so just mark the tier as current.
+								isFree || isContact || !manageable ? (
+									// Free/Enterprise or a comp grant: no self-serve subscription
+									// to manage, so just mark the tier as current.
 									<span className="btn btn-ghost plan-cta is-current">
 										{t.current}
 									</span>
@@ -176,8 +181,8 @@ export default function PricingPlans({
 								<a className="btn btn-ghost plan-cta" href={CONTACT_URL}>
 									{t.contact}
 								</a>
-							) : paidCurrent ? (
-								// Signed-in paid user: change the EXISTING subscription.
+							) : manageable ? (
+								// Signed-in user with a real subscription: change it in place.
 								// Upgrade applies now; downgrade is scheduled for next period.
 								PLAN_RANK[id] > curRank ? (
 									<a

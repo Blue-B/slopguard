@@ -2,6 +2,11 @@ import { cookies } from "next/headers";
 import { PORTAL_URL, REPO_URL } from "@/lib/config";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
 import { planForOwner } from "@/lib/billing/entitlement";
+import {
+	getEntitlementMap,
+	isPolarConfigured,
+	normalizeGitHubOwner,
+} from "@/lib/billing/polar";
 import type { Lang } from "@/lib/i18n";
 import MarketingNav from "./MarketingNav";
 import RevealOnScroll from "./RevealOnScroll";
@@ -17,6 +22,18 @@ export default async function PricingBody({ lang }: { lang: Lang }) {
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	const currentPlan = session ? await planForOwner(session.login) : undefined;
+	// Whether the user has a real Polar subscription to change (vs an env/comp
+	// grant). Only then do we show upgrade/downgrade controls; otherwise other
+	// tiers stay normal checkouts. getEntitlementMap is cached, so this is cheap.
+	let hasManagedSub = false;
+	if (session && currentPlan && currentPlan !== "free" && isPolarConfigured()) {
+		try {
+			const map = await getEntitlementMap();
+			hasManagedSub = map.has(normalizeGitHubOwner(session.login));
+		} catch {
+			hasManagedSub = false;
+		}
+	}
 	const t = ko
 		? {
 				eyebrow: "가격",
@@ -97,6 +114,7 @@ export default async function PricingBody({ lang }: { lang: Lang }) {
 				<PricingPlans
 					lang={lang}
 					currentPlan={currentPlan}
+					hasManagedSub={hasManagedSub}
 					portalUrl={PORTAL_URL}
 				/>
 			</section>

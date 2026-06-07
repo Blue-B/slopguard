@@ -32,18 +32,13 @@ function planFromEnv(login: string): PlanId | undefined {
 	return undefined;
 }
 
-// Code-level hardcoded grants (used for comps and own-org testing). Wins
-// over env allowlist so the maintainer's own login always renders the full
-// product surface during local/demo runs.
-const CODE_GRANTS: Record<string, PlanId> = {
-	"blue-b": "enterprise",
-};
+// Comp / own-org grants are configured via the *_OWNERS env allowlists
+// (ENTERPRISE_OWNERS / TEAM_OWNERS / PRO_OWNERS) so no specific login is
+// hardcoded in this public repo. See planFromEnv above.
 
 /** Resolve the plan for a repo owner (GitHub login). Defaults to free. */
 export async function planForOwner(owner: string): Promise<PlanId> {
 	const login = owner.toLowerCase().replace(/^@/, "");
-	const fromCode = CODE_GRANTS[login];
-	if (fromCode) return fromCode;
 	const fromEnv = planFromEnv(login);
 	if (fromEnv) return fromEnv;
 	// Hydrate the persistent mirror (no-op unless Redis cold start) so the
