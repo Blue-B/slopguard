@@ -6,13 +6,13 @@
 // GitHub sends `marketplace_purchase` events to the GitHub App webhook
 // (/api/webhook). We map account.login -> PlanId here.
 //
-// NOTE: this in-memory map is process-local (the codebase is DB-less; Polar is
-// re-fetched live from its API). On redeploy the map is empty until the next
-// event. For production-grade persistence, persist these rows or reconcile via
-// the GitHub Marketplace API on boot.
+// Persistence: when DATA_DIR is set the map is mirrored to disk so it survives
+// a redeploy. Without DATA_DIR it is process-local and re-populated by the next
+// `marketplace_purchase` event (or reconcile via the GitHub Marketplace API).
 import { PLAN_RANK, type PlanId } from "./plans.js";
+import { PersistentMap } from "../storage/persist.js";
 
-const map = new Map<string, PlanId>();
+const map = new PersistentMap<PlanId>("marketplace");
 
 function normalize(login: string): string {
 	return login.trim().toLowerCase().replace(/^@/, "");

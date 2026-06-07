@@ -1,4 +1,4 @@
-import { LRUCache } from "lru-cache";
+import { PersistentMap } from "../storage/persist.js";
 
 // Per-user state for paid feature consoles (channels, routing rules, audit
 // log). In-memory only — the live production app uses GitHub as the source of
@@ -85,10 +85,9 @@ export interface OwnerConsoleState {
 	ssoConfig: SsoConfig;
 }
 
-const store = new LRUCache<string, OwnerConsoleState>({
-	max: 5000,
-	ttl: 1000 * 60 * 60 * 24 * 7,
-});
+// Persisted to ${DATA_DIR}/console-state.json when DATA_DIR is set; otherwise
+// kept purely in memory (survives the process, not a redeploy).
+const store = new PersistentMap<OwnerConsoleState>("console-state");
 
 function emptyState(owner: string): OwnerConsoleState {
 	// Real production data only. The owner must explicitly add channels,
@@ -136,7 +135,7 @@ export function mutateState(
 ): OwnerConsoleState {
 	const s = getState(owner);
 	fn(s);
-	store.set(s.owner, s);
+	store.set(s.owner.toLowerCase(), s);
 	return s;
 }
 
