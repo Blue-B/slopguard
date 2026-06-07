@@ -71,8 +71,11 @@ export type ConsoleMetric = {
 };
 
 /**
- * Shared hero: editorial copy + metric spec on the left, a generated console
- * plate on the right. Used by every paid page so the entry rhythm is identical.
+ * Shared masthead: a compact, data-first command band. The generated asset is
+ * an ambient background (low-opacity, gradient-masked, faint scan) rather than a
+ * marketing plate; a small eyebrow + single-line title + live stat-strip sit on
+ * top, with the real data tables/panels immediately below. Used by every paid
+ * page so logged-in operators land on their numbers, not a pitch.
  */
 export function ConsoleHero({
 	eyebrow,
@@ -96,35 +99,41 @@ export function ConsoleHero({
 	actions?: React.ReactNode;
 }) {
 	return (
-		<header className="console-hero">
-			<div className="console-hero-copy">
-				<div className="eyebrow mono">{eyebrow}</div>
-				<h1>{title}</h1>
-				<p>{body}</p>
-				{actions ? <div className="console-hero-actions">{actions}</div> : null}
+		<header className="console-masthead">
+			<div className="console-masthead-bg" aria-hidden="true">
+				<Image src={image} alt="" width={1568} height={882} priority />
+				<span className="console-masthead-scan" />
+			</div>
+			<div className="console-masthead-fore">
+				<div className="console-masthead-top">
+					<div className="console-masthead-id">
+						<div className="eyebrow mono">{eyebrow}</div>
+						<h1>{title}</h1>
+						{body ? <p>{body}</p> : null}
+					</div>
+					<div className="console-masthead-meta">
+						<span className="console-conn mono" title={imageAlt}>
+							<i aria-hidden="true" /> {connected}
+						</span>
+						<span className="console-plate-tag mono">{plateLabel}</span>
+						{actions ? (
+							<div className="console-masthead-actions">{actions}</div>
+						) : null}
+					</div>
+				</div>
 				{metrics && metrics.length > 0 ? (
-					<ul className="hero-spec console-spec">
+					<ul className="console-statstrip">
 						{metrics.map((m) => (
 							<li key={m.label}>
-								<span>{m.label}</span>
 								<b style={m.tone ? { color: toneColor[m.tone] } : undefined}>
 									{m.value}
 								</b>
+								<span>{m.label}</span>
 							</li>
 						))}
 					</ul>
 				) : null}
 			</div>
-			<figure className="plate console-hero-plate">
-				<figcaption className="plate-bar">
-					<span>{plateLabel}</span>
-					<span className="plate-coord">{connected}</span>
-				</figcaption>
-				<div className="plate-art">
-					<Image src={image} alt={imageAlt} width={1568} height={882} priority />
-					<span className="plate-scan" aria-hidden="true" />
-				</div>
-			</figure>
 		</header>
 	);
 }
