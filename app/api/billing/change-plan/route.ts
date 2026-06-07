@@ -10,6 +10,7 @@ import {
 	invalidateEntitlements,
 } from "@/lib/billing/polar";
 import { PORTAL_URL } from "@/lib/config";
+import { getAppBaseUrl } from "@/lib/env";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -25,18 +26,20 @@ export async function GET(req: Request) {
 	const url = new URL(req.url);
 	const target = (url.searchParams.get("plan") ?? "") as PlanId;
 	const ko = url.searchParams.get("lang") === "ko";
-	const base = ko ? "/ko" : "";
+	// Build redirects from the public base URL, NOT req.url: behind the Cloudtype
+	// proxy req.url's host is the internal bind (0.0.0.0), which would produce a
+	// dead Location header.
+	const origin = getAppBaseUrl();
+	const lang = ko ? "/ko" : "";
 	const back = (status: string) =>
-		NextResponse.redirect(new URL(`${base}/account?billing=${status}`, url), {
+		NextResponse.redirect(`${origin}${lang}/account?billing=${status}`, {
 			status: 302,
 		});
 
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) {
-		return NextResponse.redirect(new URL(`${base}/account`, url), {
-			status: 302,
-		});
+		return NextResponse.redirect(`${origin}${lang}/account`, { status: 302 });
 	}
 
 	if (!PLANS[target]) return back("invalid");
@@ -56,10 +59,7 @@ export async function GET(req: Request) {
 	if (!sub) {
 		if (target !== "free") {
 			return NextResponse.redirect(
-				new URL(
-					`/api/billing/checkout?plan=${target}${ko ? "&lang=ko" : ""}`,
-					url,
-				),
+				`${origin}/api/billing/checkout?plan=${target}${ko ? "&lang=ko" : ""}`,
 				{ status: 302 },
 			);
 		}
