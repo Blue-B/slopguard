@@ -7,8 +7,8 @@ export const metadata: Metadata = { title: "SlopGuard Account" };
 export default async function AccountPage({
 	searchParams,
 }: {
-	searchParams: Promise<{ error?: string }>;
+	searchParams: Promise<{ error?: string; billing?: string }>;
 }) {
-	const { error } = await searchParams;
-	return <Account lang="en" error={error} />;
+	const { error, billing } = await searchParams;
+	return <Account lang="en" error={error} billing={billing} />;
 }

@@ -44,6 +44,17 @@ const T = {
 		privateTag: "private",
 		noRepos: "SlopGuard isn't installed on any of your repositories yet.",
 		errorNote: "Sign-in did not complete. Please try again.",
+		billingNote: {
+			upgraded:
+				"Plan upgraded. The prorated difference is added to your next invoice.",
+			"scheduled-downgrade":
+				"Downgrade scheduled. You keep your current plan until the end of this billing period, then it changes.",
+			same: "You are already on that plan.",
+			contact: "Enterprise is arranged with our team. Open a sales inquiry.",
+			nosub: "No managed subscription found for your account.",
+			noproduct: "Could not change the plan. Try the customer portal.",
+			invalid: "Could not change the plan. Try the customer portal.",
+		} as Record<string, string>,
 		activityTitle: "Activity",
 		activitySub: "who cleared what, when (live from GitHub)",
 		statQ: "Quarantined",
@@ -82,6 +93,17 @@ const T = {
 		privateTag: "비공개",
 		noRepos: "아직 어느 레포에도 SlopGuard가 설치되어 있지 않습니다.",
 		errorNote: "로그인이 완료되지 않았습니다. 다시 시도해 주세요.",
+		billingNote: {
+			upgraded:
+				"플랜이 업그레이드되었습니다. 차액은 다음 인보이스에 비례정산으로 청구됩니다.",
+			"scheduled-downgrade":
+				"다운그레이드가 예약되었습니다. 이번 결제기간 종료 시점에 적용되며, 그때까지는 현재 플랜이 유지됩니다.",
+			same: "이미 해당 플랜을 사용 중입니다.",
+			contact: "Enterprise는 영업팀을 통해 설정됩니다. 문의를 남겨주세요.",
+			nosub: "계정에 연결된 관리 가능한 구독이 없습니다.",
+			noproduct: "플랜 변경에 실패했습니다. 고객 포털에서 다시 시도해 주세요.",
+			invalid: "플랜 변경에 실패했습니다. 고객 포털에서 다시 시도해 주세요.",
+		} as Record<string, string>,
 		activityTitle: "활동",
 		activitySub: "누가 언제 무엇을 처리했는지 (GitHub에서 실시간)",
 		statQ: "격리",
@@ -106,9 +128,11 @@ const ACT_GRID = "minmax(0,1fr) 120px 96px 96px";
 export default async function Account({
 	lang,
 	error,
+	billing,
 }: {
 	lang: Lang;
 	error?: string;
+	billing?: string;
 }) {
 	const t = T[lang];
 	const dashBase = lang === "ko" ? "/ko/dashboard" : "/dashboard";
@@ -189,6 +213,22 @@ export default async function Account({
 					connected={`@${session.login}`}
 					metrics={metrics}
 				/>
+
+				{billing && t.billingNote[billing] && (
+					<section className="console-section">
+						<div
+							className="plate"
+							style={{
+								padding: "14px 18px",
+								borderLeft: "3px solid var(--green)",
+							}}
+						>
+							<p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5 }}>
+								{t.billingNote[billing]}
+							</p>
+						</div>
+					</section>
+				)}
 
 				<section className="console-section">
 					<div className="plate console-overview">

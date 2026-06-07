@@ -3,7 +3,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import { REPO_URL } from "@/lib/config";
-import { PLANS, PLAN_ORDER, yearlySavings } from "@/lib/billing/plans";
+import {
+	PLANS,
+	PLAN_ORDER,
+	PLAN_RANK,
+	type PlanId,
+	yearlySavings,
+} from "@/lib/billing/plans";
 import { messages, type Lang } from "@/lib/i18n";
 
 const T = {
@@ -19,6 +25,8 @@ const T = {
 		getStarted: "Get started",
 		current: "Current",
 		manage: "Manage plan",
+		upgrade: "Upgrade",
+		downgrade: "Schedule downgrade",
 		billedYr: (p: number) => `billed $${p}/yr`,
 		saveAmt: (n: number) => `save $${n}/yr`,
 		popular: "most popular",
@@ -35,6 +43,8 @@ const T = {
 		getStarted: "시작하기",
 		current: "현재",
 		manage: "구독 관리",
+		upgrade: "업그레이드",
+		downgrade: "다운그레이드 예약",
 		billedYr: (p: number) => `연 $${p} 청구`,
 		saveAmt: (n: number) => `연 $${n} 절약`,
 		popular: "가장 인기",
@@ -49,16 +59,19 @@ export default function PricingPlans({
 	portalUrl,
 }: {
 	lang: Lang;
-	/** the logged-in user's active tier (keyed by their GitHub login). Marks that
-	 *  card as "current": a paid tier links to the portal to manage/change the
-	 *  existing subscription. Other tiers stay normal checkouts, because the same
-	 *  user may legitimately buy for a DIFFERENT org/login (entitlement is per
-	 *  github-login, entered at Polar checkout, not per session). */
+	/** the logged-in user's active tier (keyed by their GitHub login). The card
+	 *  for it is marked "current"; for a PAID current tier the other tiers become
+	 *  upgrade (applies now) / downgrade (scheduled next period) of the existing
+	 *  subscription. A logged-out / free user sees normal new-purchase checkouts. */
 	currentPlan?: string;
 	portalUrl?: string;
 }) {
 	const [yearly, setYearly] = useState(false);
 	const t = T[lang];
+	// A signed-in customer already on a paid tier manages their existing
+	// subscription (upgrade/downgrade) rather than starting a new checkout.
+	const paidCurrent = !!currentPlan && currentPlan !== "free";
+	const curRank = currentPlan ? PLAN_RANK[currentPlan as PlanId] : -1;
 	// Annual billing ships only once the Polar annual checkout links exist and
 	// are verified (NEXT_PUBLIC_ANNUAL_BILLING="1"). Until then we never show a
 	// yearly toggle that could dead-end or mis-charge.
@@ -163,6 +176,24 @@ export default function PricingPlans({
 								<a className="btn btn-ghost plan-cta" href={CONTACT_URL}>
 									{t.contact}
 								</a>
+							) : paidCurrent ? (
+								// Signed-in paid user: change the EXISTING subscription.
+								// Upgrade applies now; downgrade is scheduled for next period.
+								PLAN_RANK[id] > curRank ? (
+									<a
+										className="btn btn-primary plan-cta"
+										href={`/api/billing/change-plan?plan=${id}${langQ}`}
+									>
+										{t.upgrade}
+									</a>
+								) : (
+									<a
+										className="btn btn-ghost plan-cta"
+										href={`/api/billing/change-plan?plan=${id}${langQ}`}
+									>
+										{t.downgrade}
+									</a>
+								)
 							) : isFree ? (
 								<Link className="btn btn-ghost plan-cta" href={installHref}>
 									{t.getStarted}

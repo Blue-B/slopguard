@@ -81,9 +81,11 @@ export function isPolarConfigured(): boolean {
 interface PolarProductRef {
 	id?: string;
 	name?: string;
+	recurring_interval?: string | null;
 }
 
 interface PolarSubscription {
+	id?: string;
 	status: string;
 	product?: PolarProductRef | null;
 	custom_field_data?: Record<string, unknown> | null;
@@ -198,4 +200,128 @@ export async function getEntitlementMap(): Promise<Map<string, PlanId>> {
 		}
 	})();
 	return inflight;
+}
+
+// ── plan changes (upgrade / downgrade / cancel) ──────────────────────────
+// Entitlement is keyed by the github-login a customer entered at checkout, so a
+// plan change targets THAT subscription. We resolve it from Polar (source of
+// truth), then PATCH the product with the right proration so upgrades take
+// effect now and downgrades are scheduled for the next period.
+
+export type ProrationBehavior = "invoice" | "prorate" | "next_period" | "reset";
+
+export interface OwnerSubscription {
+	id: string;
+	productId: string;
+	interval: "month" | "year";
+	plan: PlanId;
+}
+
+function authHeaders(token: string): Record<string, string> {
+	return { Authorization: `Bearer ${token}`, Accept: "application/json" };
+}
+
+/** Find the active subscription whose github-login custom field === owner. */
+export async function findSubscriptionForOwner(
+	owner: string,
+): Promise<OwnerSubscription | null> {
+	const token = process.env.POLAR_API_TOKEN;
+	if (!token) return null;
+	const norm = normalizeGitHubOwner(owner);
+	if (!norm) return null;
+	const orgId = process.env.POLAR_ORG_ID;
+
+	for (let page = 1; page <= 50; page++) {
+		const params = new URLSearchParams({
+			active: "true",
+			limit: "100",
+			page: String(page),
+		});
+		if (orgId) params.set("organization_id", orgId);
+		const res = await fetch(`${apiBase()}/v1/subscriptions/?${params}`, {
+			headers: authHeaders(token),
+			cache: "no-store",
+		});
+		if (!res.ok) {
+			throw new Error(`Polar subscriptions ${res.status}: ${await res.text()}`);
+		}
+		const data = (await res.json()) as PolarListResponse<PolarSubscription>;
+		const items = data.items ?? [];
+		for (const sub of items) {
+			if (sub.status !== "active" && sub.status !== "trialing") continue;
+			if (githubOwnerFromCustomFields(sub.custom_field_data) !== norm) continue;
+			if (!sub.id) continue;
+			return {
+				id: sub.id,
+				productId: sub.product?.id ?? "",
+				interval: sub.product?.recurring_interval === "year" ? "year" : "month",
+				plan: planFromProduct(sub.product),
+			};
+		}
+		const maxPage = data.pagination?.max_page ?? page;
+		if (items.length === 0 || page >= maxPage) break;
+	}
+	return null;
+}
+
+/** Resolve the Polar product id for a target tier + billing interval. */
+export async function findProductId(
+	plan: PlanId,
+	interval: "month" | "year",
+): Promise<string | null> {
+	const token = process.env.POLAR_API_TOKEN;
+	if (!token) return null;
+	const orgId = process.env.POLAR_ORG_ID;
+	const params = new URLSearchParams({ is_archived: "false", limit: "100" });
+	if (orgId) params.set("organization_id", orgId);
+	const res = await fetch(`${apiBase()}/v1/products/?${params}`, {
+		headers: authHeaders(token),
+		cache: "no-store",
+	});
+	if (!res.ok) {
+		throw new Error(`Polar products ${res.status}: ${await res.text()}`);
+	}
+	const data = (await res.json()) as PolarListResponse<PolarProductRef>;
+	let fallback: string | null = null;
+	for (const p of data.items ?? []) {
+		if (planFromProduct(p) !== plan || !p.id) continue;
+		const iv = p.recurring_interval === "year" ? "year" : "month";
+		if (iv === interval) return p.id;
+		fallback ??= p.id; // same tier, other cycle — last resort
+	}
+	return fallback;
+}
+
+async function patchSubscription(
+	id: string,
+	body: Record<string, unknown>,
+): Promise<void> {
+	const token = process.env.POLAR_API_TOKEN;
+	if (!token) throw new Error("POLAR_API_TOKEN missing");
+	const res = await fetch(`${apiBase()}/v1/subscriptions/${id}`, {
+		method: "PATCH",
+		headers: { ...authHeaders(token), "content-type": "application/json" },
+		cache: "no-store",
+		body: JSON.stringify(body),
+	});
+	if (!res.ok) {
+		throw new Error(`Polar subscription update ${res.status}: ${await res.text()}`);
+	}
+}
+
+/** Switch a subscription to a different product (tier/cycle) with proration. */
+export async function changeSubscriptionProduct(
+	id: string,
+	productId: string,
+	proration: ProrationBehavior,
+): Promise<void> {
+	await patchSubscription(id, {
+		product_id: productId,
+		proration_behavior: proration,
+	});
+}
+
+/** Schedule cancellation at the end of the current period (downgrade to free). */
+export async function cancelSubscriptionAtPeriodEnd(id: string): Promise<void> {
+	await patchSubscription(id, { cancel_at_period_end: true });
 }
