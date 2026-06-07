@@ -134,12 +134,11 @@ function defaultSsoConfig(owner: string): SsoConfig {
 
 export function getState(owner: string): OwnerConsoleState {
 	const key = owner.toLowerCase();
-	let s = store.get(key);
-	if (!s) {
-		s = emptyState(owner);
-		store.set(key, s);
-	}
-	return s;
+	const s = store.get(key);
+	// A read must never persist. Returning a fresh empty state WITHOUT writing it
+	// avoids clobbering the owner's real Redis data on a cold-start/un-hydrated
+	// miss; mutateState persists only after the caller actually changes something.
+	return s ?? emptyState(owner);
 }
 
 export function mutateState(

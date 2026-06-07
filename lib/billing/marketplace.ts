@@ -10,7 +10,7 @@
 // a redeploy. Without DATA_DIR it is process-local and re-populated by the next
 // `marketplace_purchase` event (or reconcile via the GitHub Marketplace API).
 import { PLAN_RANK, type PlanId } from "./plans.js";
-import { PersistentMap, flushStores } from "../storage/persist.js";
+import { PersistentMap, flushStores, ensureStoresReady } from "../storage/persist.js";
 
 const map = new PersistentMap<PlanId>("marketplace");
 
@@ -49,6 +49,9 @@ export async function applyMarketplaceEvent(payload: unknown): Promise<void> {
 	const p = payload as MarketplacePayload;
 	const login = p.marketplace_purchase?.account?.login;
 	if (!login) return;
+	// Hydrate first so delete()/set() act on a warm mirror after a redeploy
+	// (otherwise a cold-start cancel could no-op against an empty mirror).
+	await ensureStoresReady();
 	const key = normalize(login);
 	const action = p.action ?? "";
 	if (action === "cancelled") {
