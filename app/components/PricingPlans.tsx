@@ -18,7 +18,7 @@ const T = {
 		contact: "Contact sales",
 		getStarted: "Get started",
 		current: "Current",
-		changePlan: "Change plan",
+		manage: "Manage plan",
 		billedYr: (p: number) => `billed $${p}/yr`,
 		saveAmt: (n: number) => `save $${n}/yr`,
 		popular: "most popular",
@@ -34,7 +34,7 @@ const T = {
 		contact: "문의하기",
 		getStarted: "시작하기",
 		current: "현재",
-		changePlan: "플랜 변경",
+		manage: "구독 관리",
 		billedYr: (p: number) => `연 $${p} 청구`,
 		saveAmt: (n: number) => `연 $${n} 절약`,
 		popular: "가장 인기",
@@ -49,17 +49,16 @@ export default function PricingPlans({
 	portalUrl,
 }: {
 	lang: Lang;
-	/** the logged-in user's active tier; marks it "current" (not buyable) and
-	 *  routes other paid plans to the portal so a paying customer can't create a
-	 *  second subscription by checking out again */
+	/** the logged-in user's active tier (keyed by their GitHub login). Marks that
+	 *  card as "current": a paid tier links to the portal to manage/change the
+	 *  existing subscription. Other tiers stay normal checkouts, because the same
+	 *  user may legitimately buy for a DIFFERENT org/login (entitlement is per
+	 *  github-login, entered at Polar checkout, not per session). */
 	currentPlan?: string;
 	portalUrl?: string;
 }) {
 	const [yearly, setYearly] = useState(false);
 	const t = T[lang];
-	// A logged-in customer already on a paid plan changes tiers in the portal,
-	// never via a fresh checkout (which would double-charge).
-	const paidCurrent = !!currentPlan && currentPlan !== "free";
 	// Annual billing ships only once the Polar annual checkout links exist and
 	// are verified (NEXT_PUBLIC_ANNUAL_BILLING="1"). Until then we never show a
 	// yearly toggle that could dead-end or mis-charge.
@@ -144,9 +143,22 @@ export default function PricingPlans({
 							</ul>
 
 							{isCurrent ? (
-								<span className="btn btn-ghost plan-cta is-current">
-									{t.current}
-								</span>
+								isFree || isContact ? (
+									// Free/Enterprise have no self-serve Polar subscription to
+									// manage, so just mark the tier as current.
+									<span className="btn btn-ghost plan-cta is-current">
+										{t.current}
+									</span>
+								) : (
+									// Current paid tier: manage/change it in the portal instead of
+									// re-checking out (which would create a duplicate subscription).
+									<a
+										className="btn btn-ghost plan-cta is-current"
+										href={portalUrl ?? "/account"}
+									>
+										{t.manage}
+									</a>
+								)
 							) : isContact ? (
 								<a className="btn btn-ghost plan-cta" href={CONTACT_URL}>
 									{t.contact}
@@ -155,13 +167,6 @@ export default function PricingPlans({
 								<Link className="btn btn-ghost plan-cta" href={installHref}>
 									{t.getStarted}
 								</Link>
-							) : paidCurrent ? (
-								<a
-									className="btn btn-ghost plan-cta"
-									href={portalUrl ?? "/account"}
-								>
-									{t.changePlan}
-								</a>
 							) : (
 								<a
 									className="btn btn-primary plan-cta"

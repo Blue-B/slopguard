@@ -1,9 +1,5 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
-import { planForOwner } from "@/lib/billing/entitlement";
 import { PLANS, type PlanId } from "@/lib/billing/plans";
-import { PORTAL_URL } from "@/lib/config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -28,7 +24,7 @@ function linkFor(
 	return { link: envKey ? process.env[envKey] : undefined, envKey };
 }
 
-export async function GET(req: Request) {
+export function GET(req: Request) {
 	const url = new URL(req.url);
 	const plan = (url.searchParams.get("plan") ?? "pro") as PlanId;
 	const yearly = url.searchParams.get("cycle") === "yearly";
@@ -36,20 +32,10 @@ export async function GET(req: Request) {
 	if (!PLANS[plan] || plan === "free") {
 		return NextResponse.json({ error: "invalid plan" }, { status: 400 });
 	}
-
-	// Duplicate-purchase guard (defense in depth; the pricing UI already hides
-	// these CTAs for signed-in paying users). A customer who already holds a paid
-	// plan must change tiers in the customer portal — a fresh checkout would
-	// create a SECOND subscription and double-charge. Free/anonymous users may
-	// proceed normally.
-	const store = await cookies();
-	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
-	if (session) {
-		const current = await planForOwner(session.login);
-		if (current && current !== "free") {
-			return NextResponse.redirect(PORTAL_URL, { status: 302 });
-		}
-	}
+	// No session-based duplicate block here: entitlement is keyed by the
+	// github-login entered at Polar checkout (per org), not the logged-in
+	// session, so the same user may legitimately buy for a DIFFERENT org. The
+	// pricing UI routes the user's OWN current tier to the portal instead.
 	// Enterprise has no self-serve checkout.
 	if (PLANS[plan].contactSales) {
 		return NextResponse.json(
