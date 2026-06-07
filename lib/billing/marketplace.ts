@@ -10,7 +10,7 @@
 // a redeploy. Without DATA_DIR it is process-local and re-populated by the next
 // `marketplace_purchase` event (or reconcile via the GitHub Marketplace API).
 import { PLAN_RANK, type PlanId } from "./plans.js";
-import { PersistentMap } from "../storage/persist.js";
+import { PersistentMap, flushStores } from "../storage/persist.js";
 
 const map = new PersistentMap<PlanId>("marketplace");
 
@@ -45,7 +45,7 @@ type MarketplacePayload = {
 };
 
 /** Apply a `marketplace_purchase` webhook event to the entitlement map. */
-export function applyMarketplaceEvent(payload: unknown): void {
+export async function applyMarketplaceEvent(payload: unknown): Promise<void> {
 	const p = payload as MarketplacePayload;
 	const login = p.marketplace_purchase?.account?.login;
 	if (!login) return;
@@ -53,6 +53,7 @@ export function applyMarketplaceEvent(payload: unknown): void {
 	const action = p.action ?? "";
 	if (action === "cancelled") {
 		map.delete(key);
+		await flushStores();
 		return;
 	}
 	// `pending_change` / `pending_change_cancelled` are future-effective (next
@@ -61,6 +62,7 @@ export function applyMarketplaceEvent(payload: unknown): void {
 	// that are effective now.
 	if (action === "purchased" || action === "changed") {
 		map.set(key, toPlanId(p.marketplace_purchase?.plan));
+		await flushStores();
 	}
 }
 

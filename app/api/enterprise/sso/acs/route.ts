@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getState } from "@/lib/billing/console-store";
+import { getState, ensureConsoleReady } from "@/lib/billing/console-store";
 import { parseAcs, ssoBaseUrl } from "@/lib/auth/saml";
 import { SESSION_COOKIE, cookieOptions, encodeSession } from "@/lib/auth/session";
 
@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic";
 // SlopGuard session scoped to the owner (so the SSO user lands in the org's
 // console under the org's plan).
 export async function POST(req: Request) {
+	await ensureConsoleReady();
 	let samlResponse = "";
 	let owner = "";
 	try {

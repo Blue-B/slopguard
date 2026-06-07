@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession, effectiveOwner } from "@/lib/auth/session";
 import { hasSso } from "@/lib/billing/entitlement";
-import { getState, mutateState } from "@/lib/billing/console-store";
+import { getState, mutateState, ensureConsoleReady, flushConsole } from "@/lib/billing/console-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,6 +15,7 @@ function forbidden(reason: string) {
 }
 
 export async function GET(req: Request) {
+	await ensureConsoleReady();
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) return unauthorized();
@@ -39,6 +40,7 @@ export async function GET(req: Request) {
 			source: "SSO",
 		});
 	});
+	await flushConsole();
 
 	const payload = {
 		exportedAt: new Date().toISOString(),

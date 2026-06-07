@@ -65,7 +65,7 @@ export async function POST(req: Request) {
 	// (octokit's app emitter has no marketplace handler) and ACK.
 	if (name === ("marketplace_purchase" as EmitterWebhookEventName)) {
 		try {
-			applyMarketplaceEvent(payload);
+			await applyMarketplaceEvent(payload);
 		} catch (err) {
 			console.error("[slopguard] marketplace event failed:", err);
 		}

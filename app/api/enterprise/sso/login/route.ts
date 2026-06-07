@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { getState } from "@/lib/billing/console-store";
+import { getState, ensureConsoleReady } from "@/lib/billing/console-store";
 import { buildLoginRedirect } from "@/lib/auth/saml";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
 
@@ -10,6 +10,7 @@ export const dynamic = "force-dynamic";
 // SP-initiated SSO: /api/enterprise/sso/login?owner=<github-login>
 // owner falls back to the logged-in admin (for testing from the SSO console).
 export async function GET(req: Request) {
+	await ensureConsoleReady();
 	const url = new URL(req.url);
 	let owner = (url.searchParams.get("owner") || "").toLowerCase().replace(/^@/, "");
 	if (!owner) {

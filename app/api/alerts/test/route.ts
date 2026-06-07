@@ -5,6 +5,8 @@ import { hasAlerts } from "@/lib/billing/entitlement";
 import {
 	getState,
 	mutateState,
+	ensureConsoleReady,
+	flushConsole,
 	type SentAlert,
 } from "@/lib/billing/console-store";
 
@@ -52,6 +54,7 @@ async function postWithTimeout(
 }
 
 export async function POST(req: Request) {
+	await ensureConsoleReady();
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) return unauthorized();
@@ -120,6 +123,7 @@ export async function POST(req: Request) {
 		});
 	});
 
+	await flushConsole();
 	return NextResponse.json({
 		ok: result.ok,
 		channel: channel.label,

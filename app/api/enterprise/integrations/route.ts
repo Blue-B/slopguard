@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
 import { hasSso } from "@/lib/billing/entitlement";
-import { getState, mutateState } from "@/lib/billing/console-store";
+import { getState, mutateState, ensureConsoleReady, flushConsole } from "@/lib/billing/console-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -23,6 +23,7 @@ const SUPPORTED = [
  * full list with `available` status.
  */
 export async function GET() {
+	await ensureConsoleReady();
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) {
@@ -78,6 +79,7 @@ function defaultScope(name: string): string {
  * record an audit entry. `disconnect` flips it back to `available`.
  */
 export async function POST(req: Request) {
+	await ensureConsoleReady();
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) {
@@ -137,5 +139,6 @@ export async function POST(req: Request) {
 		});
 	});
 
+	await flushConsole();
 	return NextResponse.json({ ok: true, name, status: newStatus });
 }

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
-import { getState, mutateState, pushAudit } from "@/lib/billing/console-store";
+import { getState, mutateState, pushAudit, ensureConsoleReady, flushConsole } from "@/lib/billing/console-store";
 import { hasSso } from "@/lib/billing/entitlement";
 import { spAcsUrl, spEntityId } from "@/lib/auth/saml";
 import type { SsoConfig, SsoProvider } from "@/lib/billing/console-store";
@@ -34,6 +34,7 @@ async function ownerOrError() {
 }
 
 export async function GET() {
+	await ensureConsoleReady();
 	const auth = await ownerOrError();
 	if ("error" in auth) return auth.error;
 	const s = getState(auth.owner);
@@ -43,6 +44,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+	await ensureConsoleReady();
 	const auth = await ownerOrError();
 	if ("error" in auth) return auth.error;
 
@@ -102,5 +104,6 @@ export async function POST(req: Request) {
 		});
 	}
 
+	await flushConsole();
 	return NextResponse.json({ owner: auth.owner, sso: after });
 }

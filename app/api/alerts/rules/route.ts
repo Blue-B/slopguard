@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
 import { hasAlerts } from "@/lib/billing/entitlement";
-import { getState, mutateState } from "@/lib/billing/console-store";
+import { getState, mutateState, ensureConsoleReady, flushConsole } from "@/lib/billing/console-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,6 +14,7 @@ export const dynamic = "force-dynamic";
  * threshold is clamped to [1, 100]; the channel must already exist.
  */
 export async function POST(req: Request) {
+	await ensureConsoleReady();
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) {
@@ -75,5 +76,6 @@ export async function POST(req: Request) {
 		});
 	});
 
+	await flushConsole();
 	return NextResponse.json({ ok: true, id });
 }

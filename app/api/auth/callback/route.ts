@@ -7,12 +7,13 @@ import {
 	verifyOAuthState,
 } from "@/lib/auth/session";
 import { getAppBaseUrl } from "@/lib/env";
-import { getState } from "@/lib/billing/console-store";
+import { getState, ensureConsoleReady } from "@/lib/billing/console-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
+	await ensureConsoleReady();
 	const url = new URL(req.url);
 	const code = url.searchParams.get("code");
 	const state = url.searchParams.get("state");

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession, effectiveOwner } from "@/lib/auth/session";
 import { hasAlerts } from "@/lib/billing/entitlement";
-import { getState } from "@/lib/billing/console-store";
+import { getState, ensureConsoleReady } from "@/lib/billing/console-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,6 +16,7 @@ export const dynamic = "force-dynamic";
  * store, so a refresh of this endpoint reflects new activity within seconds.
  */
 export async function GET() {
+	await ensureConsoleReady();
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) {

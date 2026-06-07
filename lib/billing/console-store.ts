@@ -1,4 +1,17 @@
-import { PersistentMap } from "../storage/persist.js";
+import {
+	PersistentMap,
+	ensureStoresReady,
+	flushStores,
+} from "../storage/persist.js";
+
+/** Hydrate the persistent console mirror (no-op unless Redis cold start). Await
+ *  this before reading owner console state in an async route so the data is
+ *  correct on the first request after a redeploy. */
+export const ensureConsoleReady = ensureStoresReady;
+
+/** Await durable persistence of pending console writes. Call after a mutation
+ *  and before sending the HTTP response so the write is guaranteed saved. */
+export const flushConsole = flushStores;
 
 // Per-user state for paid feature consoles (channels, routing rules, audit
 // log). In-memory only — the live production app uses GitHub as the source of

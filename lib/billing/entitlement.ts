@@ -1,6 +1,7 @@
 import { PLAN_RANK, PLANS, type Plan, type PlanId } from "./plans.js";
 import { getEntitlementMap, isPolarConfigured } from "./polar.js";
 import { marketplacePlanForOwner } from "./marketplace.js";
+import { ensureStoresReady } from "../storage/persist.js";
 
 // Entitlement = which plan a repo owner (GitHub login) is on.
 //
@@ -45,6 +46,9 @@ export async function planForOwner(owner: string): Promise<PlanId> {
 	if (fromCode) return fromCode;
 	const fromEnv = planFromEnv(login);
 	if (fromEnv) return fromEnv;
+	// Hydrate the persistent mirror (no-op unless Redis cold start) so the
+	// Marketplace entitlement is correct on the first request after a redeploy.
+	await ensureStoresReady();
 	// Billing sources coexist (Polar + GitHub Marketplace). A customer buys
 	// through ONE channel; if somehow both, the HIGHEST plan wins — never the
 	// sum, so there is no double-charge entitlement. Both key by GitHub login.

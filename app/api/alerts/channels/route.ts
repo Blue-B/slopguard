@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
-import { planForOwner } from "@/lib/billing/entitlement";
 import { hasAlerts } from "@/lib/billing/entitlement";
 import {
 	mutateState,
+	ensureConsoleReady,
+	flushConsole,
 	type Channel,
 	type ChannelKind,
 } from "@/lib/billing/console-store";
@@ -24,6 +25,7 @@ function isValidKind(k: unknown): k is ChannelKind {
 }
 
 export async function POST(req: Request) {
+	await ensureConsoleReady();
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) return unauthorized();
@@ -81,6 +83,7 @@ export async function POST(req: Request) {
 			source: "Admin",
 		});
 	});
+	await flushConsole();
 	return NextResponse.json({
 		ok: true,
 		channel: created,
