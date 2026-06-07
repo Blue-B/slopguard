@@ -20,12 +20,22 @@ const L = {
 		account: "Account",
 		billing: "Billing",
 		out: "Sign out",
+		consoles: "Consoles",
+		orgDash: "Org dashboard",
+		alerts: "Alerts",
+		campaigns: "Campaigns",
+		enterprise: "Enterprise",
 	},
 	ko: {
 		signin: "로그인",
 		account: "마이페이지",
 		billing: "결제 관리",
 		out: "로그아웃",
+		consoles: "콘솔",
+		orgDash: "조직 대시보드",
+		alerts: "알림",
+		campaigns: "캠페인",
+		enterprise: "엔터프라이즈",
 	},
 } as const;
 
@@ -131,23 +141,23 @@ export default function ProfileMenu({ lang }: { lang: Lang }) {
 							<a role="menuitem" href={PORTAL_URL}>
 								{t.billing}
 							</a>
-							{/* Quick console links for paid plans */}
+							<div className="profile-dd-section">{t.consoles}</div>
 							{(me.plan === "team" || me.plan === "enterprise") && (
 								<a role="menuitem" href={ko ? "/ko/org" : "/org"}>
-									Org Dashboard
-								</a>
-							)}
-							{(me.plan === "team" || me.plan === "enterprise") && (
-								<a role="menuitem" href={ko ? "/ko/alerts" : "/alerts"}>
-									Alerts
+									{t.orgDash}
 								</a>
 							)}
 							<a role="menuitem" href={ko ? "/ko/campaigns" : "/campaigns"}>
-								Campaigns
+								{t.campaigns}
 							</a>
+							{(me.plan === "team" || me.plan === "enterprise") && (
+								<a role="menuitem" href={ko ? "/ko/alerts" : "/alerts"}>
+									{t.alerts}
+								</a>
+							)}
 							{me.plan === "enterprise" && (
 								<a role="menuitem" href={ko ? "/ko/enterprise" : "/enterprise"}>
-									Enterprise
+									{t.enterprise}
 								</a>
 							)}
 						</>

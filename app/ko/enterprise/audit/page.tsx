@@ -21,7 +21,6 @@ const copy: AuditFullViewCopy = {
 		{ label: "SSO", href: "/ko/enterprise/sso" },
 		{ label: "감사", href: "/ko/enterprise/audit" },
 		{ label: "통합", href: "/ko/enterprise/integrations" },
-		{ label: "조직", href: "/ko/org", external: true },
 	],
 	loading: "감사 로그 불러오는 중…",
 	empty: "감사 항목이 없습니다. 설정 변경과 내보내기 실행이 기록됩니다.",

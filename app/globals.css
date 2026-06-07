@@ -1548,6 +1548,16 @@ footer.site {
 	background: var(--surface);
 	text-decoration: none;
 }
+.profile-dd-section {
+	padding: 10px 14px 4px;
+	font-family: var(--mono);
+	font-size: 9px;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--muted);
+	border-top: 1px solid var(--border-muted);
+	margin-top: 4px;
+}
 .profile-dd-out {
 	color: var(--danger);
 	margin-top: 2px;
@@ -4910,4 +4920,28 @@ footer.site.footer-app {
 }
 .console-kv-row b {
 	font-weight: 600;
+}
+
+/* ── Rail block cross-links (campaign/alerts entry from org overview) ── */
+.console-block-link {
+	margin-left: auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	font-family: var(--mono);
+	font-size: 11px;
+	color: var(--green);
+	white-space: nowrap;
+}
+.console-block-link span {
+	transition: transform 0.18s ease;
+}
+.console-block-link:hover span {
+	transform: translateX(3px);
+}
+.console-block-sub {
+	color: var(--muted);
+	font-size: 12px;
+	line-height: 1.5;
+	margin: 8px 0 0;
 }

@@ -20,7 +20,6 @@ const copy: IntegrationsFullViewCopy = {
 		{ label: "SSO", href: "/enterprise/sso" },
 		{ label: "Audit", href: "/enterprise/audit" },
 		{ label: "Integrations", href: "/enterprise/integrations" },
-		{ label: "Org", href: "/org", external: true },
 	],
 	loading: "Loading integrations…",
 	empty: "No integrations available. Contact your SlopGuard admin.",

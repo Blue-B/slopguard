@@ -137,10 +137,6 @@ export default function ReposFullView({ copy }: { copy: ReposFullViewCopy }) {
 								{l.coverageNote}
 							</p>
 						</div>
-						<div className="plate console-metric">
-							<span>{copy.connected}</span>
-							<b style={{ color: toneColor.ok, fontSize: 22 }}>●</b>
-						</div>
 					</aside>
 				</section>
 			)}

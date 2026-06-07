@@ -73,6 +73,10 @@ export type OrgDashboardConsoleCopy = {
 	campaignsEmpty: string;
 	campaignHref: string;
 	campaignCta: string;
+	alertsTitle: string;
+	alertsBody: string;
+	alertsHref: string;
+	alertsCta: string;
 	policyTitle: string;
 	policyBody: string;
 	policyViewAll: string;
@@ -241,7 +245,13 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 							</div>
 
 							<div className="console-rail-block">
-								<header className="console-block-head"><h3>{copy.campaignTitle}</h3><span className="tier-chip">PRO</span></header>
+								<header className="console-block-head">
+									<h3>{copy.campaignTitle}</h3>
+									<span className="tier-chip">PRO</span>
+									<Link href={copy.campaignHref} className="console-block-link">
+										{copy.campaignCta} <span aria-hidden="true">→</span>
+									</Link>
+								</header>
 								{campaigns.length === 0 ? (
 									<div className="console-empty-line">{copy.campaignsEmpty}</div>
 								) : (
@@ -252,6 +262,17 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 										</div>
 									))
 								)}
+							</div>
+
+							<div className="console-rail-block">
+								<header className="console-block-head">
+									<h3>{copy.alertsTitle}</h3>
+									<span className="tier-chip">TEAM</span>
+									<Link href={copy.alertsHref} className="console-block-link">
+										{copy.alertsCta} <span aria-hidden="true">→</span>
+									</Link>
+								</header>
+								<p className="console-block-sub">{copy.alertsBody}</p>
 							</div>
 
 							<div className="console-rail-block">

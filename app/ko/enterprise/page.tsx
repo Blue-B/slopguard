@@ -16,7 +16,6 @@ const nav = [
 	{ label: "SSO", href: "/ko/enterprise/sso" },
 	{ label: "감사", href: "/ko/enterprise/audit" },
 	{ label: "통합", href: "/ko/enterprise/integrations" },
-	{ label: "조직", href: "/ko/org", external: true },
 ];
 
 const copy: EnterpriseConsoleCopy = {

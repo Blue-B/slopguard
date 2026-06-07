@@ -41,22 +41,23 @@ export function ConsoleShell({
 						<span className="console-nav-kicker mono">{kicker}</span>
 						<strong>{workspace}</strong>
 					</div>
-					<div className="console-nav-links">
-						{nav.map((item) => {
-							const base = item.href.split("#")[0];
-							const active = activeBase === base;
-							return (
-								<Link
-									key={item.label}
-									href={item.href}
-									className={active ? "active" : ""}
-								>
-									{item.label}
-									{item.external ? <span aria-hidden="true">↗</span> : null}
-								</Link>
-							);
-						})}
-					</div>
+					{nav.length > 0 ? (
+						<div className="console-nav-links">
+							{nav.map((item) => {
+								const base = item.href.split("#")[0];
+								const active = activeBase === base;
+								return (
+									<Link
+										key={item.label}
+										href={item.href}
+										className={active ? "active" : ""}
+									>
+										{item.label}
+									</Link>
+								);
+							})}
+						</div>
+					) : null}
 				</nav>
 				{children}
 			</div>

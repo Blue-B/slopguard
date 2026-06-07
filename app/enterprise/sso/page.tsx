@@ -21,7 +21,6 @@ const copy: SsoFullViewCopy = {
 		{ label: "SSO", href: "/enterprise/sso" },
 		{ label: "Audit", href: "/enterprise/audit" },
 		{ label: "Integrations", href: "/enterprise/integrations" },
-		{ label: "Org", href: "/org", external: true },
 	],
 	loading: "Loading SSO configuration…",
 	eyebrow: "ENTERPRISE / SAML SSO",

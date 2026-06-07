@@ -20,8 +20,6 @@ const copy: PolicyFullViewCopy = {
 		{ label: "Overview", href: "/org" },
 		{ label: "Queue", href: "/org/queue" },
 		{ label: "Repos", href: "/org/repos" },
-		{ label: "Campaigns", href: "/campaigns", external: true },
-		{ label: "Alerts", href: "/alerts", external: true },
 		{ label: "Policy", href: "/org/policy" },
 	],
 	loading: "Loading policy state…",

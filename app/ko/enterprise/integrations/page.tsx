@@ -20,7 +20,6 @@ const copy: IntegrationsFullViewCopy = {
 		{ label: "SSO", href: "/ko/enterprise/sso" },
 		{ label: "감사", href: "/ko/enterprise/audit" },
 		{ label: "통합", href: "/ko/enterprise/integrations" },
-		{ label: "조직", href: "/ko/org", external: true },
 	],
 	loading: "통합 불러오는 중…",
 	empty: "사용 가능한 통합이 없습니다. SlopGuard 관리자에게 문의하세요.",

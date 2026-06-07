@@ -19,8 +19,6 @@ const copy: PolicyFullViewCopy = {
 		{ label: "개요", href: "/ko/org" },
 		{ label: "큐", href: "/ko/org/queue" },
 		{ label: "레포", href: "/ko/org/repos" },
-		{ label: "캠페인", href: "/ko/campaigns", external: true },
-		{ label: "알림", href: "/ko/alerts", external: true },
 		{ label: "정책", href: "/ko/org/policy" },
 	],
 	loading: "정책 상태 불러오는 중…",
