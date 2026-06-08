@@ -37,6 +37,7 @@ export default function PublicRepoLookup({ lang }: { lang: Lang }) {
 	}
 
 	return (
+		<div className="scan-wrap">
 		<form onSubmit={go} className="scanbar">
 			<svg
 				className="scan-glyph"
@@ -62,5 +63,7 @@ export default function PublicRepoLookup({ lang }: { lang: Lang }) {
 				{t.button}
 			</button>
 		</form>
+			<p className="scan-hint">{t.hint}</p>
+		</div>
 	);
 }
