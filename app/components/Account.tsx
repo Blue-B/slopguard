@@ -53,7 +53,6 @@ const T = {
 		} as Record<string, string>,
 		activityTitle: "Activity",
 		activityBig: "Recent activity",
-		activitySub: "who cleared what, when (live from GitHub)",
 		statQ: "Quarantined",
 		statC: "Cleared",
 		statO: "Open",
@@ -67,8 +66,6 @@ const T = {
 		noActivity: "No activity yet.",
 		lookupTitle: "Lookup",
 		lookupBig: "Look up a public repo",
-		lookupSub:
-			"View the slop history of any public repo where SlopGuard is installed.",
 	},
 	ko: {
 		signedOutTitle: "SlopGuard 로그인",
@@ -105,7 +102,6 @@ const T = {
 		} as Record<string, string>,
 		activityTitle: "활동",
 		activityBig: "최근 처리 내역",
-		activitySub: "누가 언제 무엇을 처리했는지 (GitHub에서 실시간)",
 		statQ: "격리",
 		statC: "정상 확인",
 		statO: "열림",
@@ -119,8 +115,6 @@ const T = {
 		noActivity: "아직 활동이 없습니다.",
 		lookupTitle: "조회",
 		lookupBig: "공개 레포 조회",
-		lookupSub:
-			"SlopGuard가 설치된 공개 레포라면 어떤 레포든 슬롭 기록을 볼 수 있습니다.",
 	},
 } as const;
 
@@ -266,16 +260,16 @@ export default async function Account({
 				</section>
 			)}
 
-			<div className="wide acct-body">
-			<section className="acct-sec">
-				<div className="acct-sec-rail">
-					<div className="acct-sec-tag">
-						<span className="n">01</span>
+			<div className="wide acct-grid">
+			<section className="plate acct-panel pan-plan">
+				<div className="acct-panel-head">
+					<span className="no">01</span>
+					<div className="ttl">
+						<h2>{t.planBig}</h2>
 						<span className="k">{t.yourPlan}</span>
 					</div>
-					<h2 className="acct-sec-title">{t.planBig}</h2>
 				</div>
-				<div className="acct-sec-main">
+				<div className="acct-panel-body">
 				<div className="acct-band">
 					<div>
 						<div className="acct-band-plan">
@@ -302,15 +296,15 @@ export default async function Account({
 				</div>
 				</div>
 			</section>
-			<section className="acct-sec">
-				<div className="acct-sec-rail">
-					<div className="acct-sec-tag">
-						<span className="n">02</span>
+			<section className="plate acct-panel pan-repos">
+				<div className="acct-panel-head">
+					<span className="no">02</span>
+					<div className="ttl">
+						<h2>{t.reposBig}</h2>
 						<span className="k">{t.reposTitle}</span>
 					</div>
-					<h2 className="acct-sec-title">{t.reposBig}</h2>
 				</div>
-				<div className="acct-sec-main">
+				<div className="acct-panel-body">
 				{repos.length > 0 ? (
 					<div className="acct-list">
 						{repos.map((r) => (
@@ -334,17 +328,15 @@ export default async function Account({
 				</div>
 			</section>
 			{canOrg && orgStats && (
-				<section className="acct-sec">
-					<div className="acct-sec-rail">
-						<div className="acct-sec-tag">
-							<span className="n">03</span>
+				<section className="plate acct-panel pan-activity">
+					<div className="acct-panel-head">
+						<span className="no">04</span>
+						<div className="ttl">
+							<h2>{t.activityBig}</h2>
 							<span className="k">{t.activityTitle}</span>
 						</div>
-						<h2 className="acct-sec-title">{t.activityBig}</h2>
-						<p className="acct-sec-sub">{t.activitySub}</p>
 					</div>
-					<div className="acct-sec-main">
-					<div className="plate console-table">
+					<div className="console-table">
 						<div className="console-th" style={{ gridTemplateColumns: ACT_GRID }}>
 								<span>{t.colItem}</span>
 								<span>{t.colAuthor}</span>
@@ -375,22 +367,18 @@ export default async function Account({
 							))
 						)}
 					</div>
-					</div>
 				</section>
 			)}
-			<section className="acct-sec">
-				<div className="acct-sec-rail">
-					<div className="acct-sec-tag">
-						<span className="n">{canOrg && orgStats ? "04" : "03"}</span>
+			<section className="plate acct-panel pan-lookup">
+				<div className="acct-panel-head">
+					<span className="no">03</span>
+					<div className="ttl">
+						<h2>{t.lookupBig}</h2>
 						<span className="k">{t.lookupTitle}</span>
 					</div>
-					<h2 className="acct-sec-title">{t.lookupBig}</h2>
-					<p className="acct-sec-sub">{t.lookupSub}</p>
 				</div>
-				<div className="acct-sec-main">
-				<div className="plate plate-pad">
+				<div className="acct-panel-body">
 					<PublicRepoLookup lang={lang} />
-				</div>
 				</div>
 			</section>
 			</div>

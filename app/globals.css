@@ -5133,73 +5133,108 @@ footer.site.footer-app {
 	}
 }
 
-/* Account body - two-column "settings console" layout: label rail + content */
-.acct-body {
-	margin-top: 2px;
-}
-.acct-sec {
+/* Account body - bento dashboard grid: panels sit side by side, not a vertical list */
+.acct-grid {
 	display: grid;
-	grid-template-columns: 212px minmax(0, 1fr);
-	gap: 56px;
+	grid-template-columns: repeat(12, 1fr);
+	grid-auto-flow: row dense;
+	gap: 14px;
 	align-items: start;
-	padding: 40px 0;
-	border-top: 1px solid var(--border-muted);
+	margin-top: 6px;
 }
-.acct-body > .acct-sec:first-child {
-	border-top: 0;
+/* top row: three compact summary panels; activity is a full-width log below */
+.pan-plan {
+	grid-column: span 4;
 }
-.acct-sec-tag {
+.pan-repos {
+	grid-column: span 4;
+}
+.pan-lookup {
+	grid-column: span 4;
+}
+.pan-activity {
+	grid-column: 1 / -1;
+}
+.acct-panel {
 	display: flex;
-	align-items: center;
-	gap: 10px;
-	font-family: var(--mono);
-	margin-bottom: 13px;
+	flex-direction: column;
+	min-width: 0;
 }
-.acct-sec-tag .n {
+.acct-panel-head {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+	padding: 15px 20px;
+	border-bottom: 1px solid var(--border-muted);
+}
+.acct-panel-head .no {
+	flex: none;
+	font-family: var(--mono);
 	font-size: 12px;
 	font-weight: 600;
 	color: var(--green);
 }
-.acct-sec-tag .k {
-	font-size: 10.5px;
+.acct-panel-head .ttl {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	min-width: 0;
+}
+.acct-panel-head h2 {
+	font-size: 16px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	margin: 0;
+}
+.acct-panel-head .k {
+	font-family: var(--mono);
+	font-size: 10px;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	color: var(--muted);
 }
-.acct-sec-title {
-	font-size: 19px;
-	font-weight: 700;
-	letter-spacing: -0.02em;
-	line-height: 1.25;
-	margin: 0;
+.acct-panel-body {
+	padding: 20px;
 }
-.acct-sec-sub {
-	color: var(--muted);
-	font-size: 12.5px;
-	line-height: 1.55;
-	margin: 11px 0 0;
-	max-width: 30ch;
+/* repo list / empty sit flush under the panel head (no double hairline) */
+.acct-panel .acct-list {
+	border-top: none;
+	margin-top: 0;
 }
-/* Collapse the rail before the activity table's own 980px breakpoint so the
-   4-col table never sits in a squeezed right column (860-980px band). */
+.acct-panel .acct-empty {
+	border: none;
+	margin: 0 0 14px;
+	padding: 0;
+}
 @media (max-width: 1000px) {
-	.acct-sec {
-		grid-template-columns: 1fr;
-		gap: 18px;
-		padding: 30px 0;
+	.pan-plan,
+	.pan-repos {
+		grid-column: span 6;
 	}
-	.acct-sec-sub {
-		max-width: none;
+	.pan-lookup,
+	.pan-activity {
+		grid-column: 1 / -1;
+	}
+}
+@media (max-width: 600px) {
+	.acct-grid {
+		grid-template-columns: 1fr;
+	}
+	.pan-plan,
+	.pan-repos,
+	.pan-activity,
+	.pan-lookup {
+		grid-column: auto;
 	}
 }
 
-/* Plan band - editorial row, not a filled card */
+/* Plan band - vertical stack inside the plan panel */
 .acct-band {
 	display: flex;
-	justify-content: space-between;
-	align-items: flex-end;
-	gap: 24px;
-	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 16px;
 }
 .acct-band .eyebrow {
 	margin: 0 0 9px;
