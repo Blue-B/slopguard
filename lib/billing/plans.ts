@@ -127,17 +127,15 @@ export const PLANS: Record<PlanId, Plan> = {
 	enterprise: {
 		id: "enterprise",
 		name: "Enterprise",
-		priceMonthly: null,
+		priceMonthly: 299,
 		priceYearly: null,
-		priceFrom: 299,
-		tagline: "For companies that need SSO, SLA, and self-host support.",
+		tagline: "For companies that need SSO, audit export, and priority support.",
 		features: [
 			"Everything in Team",
 			"SAML / SSO sign-in",
 			"Audit log export + retention",
-			"Self-host support contract + SLA",
-			"Custom integrations & onboarding",
-			"Invoiced annual billing",
+			"Priority support & onboarding",
+			"Custom integrations on request",
 		],
 		privateRepos: true,
 		managedLlm: true,
@@ -146,7 +144,7 @@ export const PLANS: Record<PlanId, Plan> = {
 		alerts: true,
 		sso: true,
 		maxRepos: 1000,
-		contactSales: true,
+		polarEnvKey: "POLAR_LINK_ENTERPRISE",
 	},
 };
 

@@ -26,14 +26,14 @@ const copy: IntegrationsFullViewCopy = {
 	heroEyebrow: "INTEGRATIONS / ENTERPRISE",
 	heroTitle: "Forward events to your ticketing, paging, and observability tools.",
 	heroBody:
-		"Connect a provider to wire SlopGuard alerts into the systems your team already uses. Each connect/disconnect action is recorded in the audit log.",
-	sectionTitle: "Available integrations",
-	sectionSub: "Connect or disconnect instantly; each action is recorded in the audit log.",
-	connect: "Connect",
-	disconnect: "Disconnect",
-	pending: "pending",
+		"Request a provider and our team scopes and wires it into the systems you already use, per your Enterprise plan. Every request is recorded in the audit log.",
+	sectionTitle: "Integrations",
+	sectionSub: "Request an integration; our team wires it for you. Each request is recorded in the audit log.",
+	connect: "Request",
+	disconnect: "Cancel request",
+	pending: "requested",
 	available: "available",
-	connected: "connected",
+	connected: "active",
 };
 
 export default function IntegrationsPage() {

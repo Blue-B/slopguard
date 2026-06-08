@@ -74,9 +74,9 @@ function defaultScope(name: string): string {
  * POST /api/enterprise/integrations
  * Body: { name: string, action: "connect" | "disconnect" }
  *
- * Real OAuth-style connect: in production this would 302 to the provider.
- * For the console MVP we mark the integration `connected` immediately and
- * record an audit entry. `disconnect` flips it back to `available`.
+ * These providers are not yet self-serve, so "connect" REQUESTS the integration
+ * (status `pending`) and records an audit entry; the SlopGuard team then scopes
+ * and wires it per the Enterprise plan. "disconnect" cancels the request.
  */
 export async function POST(req: Request) {
 	await ensureConsoleReady();
@@ -113,7 +113,9 @@ export async function POST(req: Request) {
 		);
 	}
 
-	const newStatus = action === "connect" ? "connected" : "available";
+	// Not a fake instant connect: requesting marks it pending until our team wires
+	// it. Cancelling returns it to available.
+	const newStatus = action === "connect" ? "pending" : "available";
 	mutateState(session.login, (s) => {
 		const idx = s.integrations.findIndex((i) => i.name === name);
 		if (idx >= 0) {
@@ -133,7 +135,10 @@ export async function POST(req: Request) {
 			owner: s.owner,
 			when: new Date().toISOString().slice(0, 16).replace("T", " "),
 			actor: session.login,
-			action: `${action}ed integration`,
+			action:
+				action === "connect"
+					? "requested integration"
+					: "canceled integration request",
 			target: name,
 			source: "SSO",
 		});

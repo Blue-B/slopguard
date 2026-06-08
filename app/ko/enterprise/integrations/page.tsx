@@ -26,14 +26,14 @@ const copy: IntegrationsFullViewCopy = {
 	heroEyebrow: "INTEGRATIONS / ENTERPRISE",
 	heroTitle: "이벤트를 티켓/페이징/관측 도구로 전달합니다.",
 	heroBody:
-		"팀이 이미 쓰는 시스템으로 SlopGuard 알림을 흘려보내세요. 연결/해제 액션은 감사 로그에 기록됩니다.",
-	sectionTitle: "사용 가능한 통합",
-	sectionSub: "연결/해제는 즉시 반영되고 감사 로그에 기록됩니다.",
-	connect: "연결",
-	disconnect: "해제",
-	pending: "대기",
-	available: "사용 가능",
-	connected: "연결됨",
+		"원하는 제공자를 요청하면 SlopGuard 팀이 Enterprise 플랜에 맞게 팀이 쓰는 시스템과 연동해 드립니다. 모든 요청은 감사 로그에 기록됩니다.",
+	sectionTitle: "통합",
+	sectionSub: "통합을 요청하면 팀이 연동해 드립니다. 각 요청은 감사 로그에 기록됩니다.",
+	connect: "요청하기",
+	disconnect: "요청 취소",
+	pending: "요청됨",
+	available: "요청 가능",
+	connected: "활성",
 };
 
 export default function IntegrationsPage() {

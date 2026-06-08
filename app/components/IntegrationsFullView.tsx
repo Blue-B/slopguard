@@ -66,7 +66,8 @@ export default function IntegrationsFullView({ copy }: { copy: IntegrationsFullV
 	}
 
 	async function toggle(name: string, currentStatus: Integration["status"]) {
-		const action = currentStatus === "connected" ? "disconnect" : "connect";
+		// "available" -> request it; anything else (requested) -> cancel the request.
+		const action = currentStatus === "available" ? "connect" : "disconnect";
 		setBusy(name);
 		try {
 			const res = await fetch("/api/enterprise/integrations", {
@@ -120,7 +121,7 @@ export default function IntegrationsFullView({ copy }: { copy: IntegrationsFullV
 					<ConsoleSectionHead title={copy.sectionTitle} sub={copy.sectionSub} />
 					<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
 						{items.map((integration) => {
-							const isConnected = integration.status === "connected";
+							const isRequested = integration.status !== "available";
 							return (
 								<div key={integration.name} className="plate console-panel" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
 									<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -132,12 +133,12 @@ export default function IntegrationsFullView({ copy }: { copy: IntegrationsFullV
 									<div style={{ color: "var(--muted)", fontSize: 12, fontFamily: "var(--mono)" }}>{integration.scope}</div>
 									<button
 										type="button"
-										className={isConnected ? "btn btn-ghost btn-sm" : "btn btn-primary btn-sm"}
+										className={isRequested ? "btn btn-ghost btn-sm" : "btn btn-primary btn-sm"}
 										disabled={busy === integration.name}
 										onClick={() => toggle(integration.name, integration.status)}
 										style={{ alignSelf: "flex-start" }}
 									>
-										{busy === integration.name ? "..." : isConnected ? copy.disconnect : copy.connect}
+										{busy === integration.name ? "..." : isRequested ? copy.disconnect : copy.connect}
 									</button>
 								</div>
 							);
