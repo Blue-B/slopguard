@@ -25,6 +25,7 @@ const T = {
 			"Use your GitHub account to see your plan, manage billing, and the repositories SlopGuard watches.",
 		signin: "Sign in with GitHub",
 		myAccount: "My account",
+		identSub: "Signed in with your GitHub account.",
 		planFreeNote: "You are on the Free plan. Upgrade any time.",
 		planPaidNote: "Active, matched to your GitHub account from checkout.",
 		manageBilling: "Manage billing & invoices",
@@ -76,6 +77,7 @@ const T = {
 			"GitHub 계정으로 로그인하면 내 플랜 확인, 결제 관리, SlopGuard가 감시할 레포 관리를 할 수 있습니다.",
 		signin: "GitHub으로 로그인",
 		myAccount: "마이페이지",
+		identSub: "GitHub 계정으로 로그인되어 있습니다.",
 		planFreeNote: "현재 Free 플랜입니다. 언제든 업그레이드할 수 있습니다.",
 		planPaidNote: "활성화됨. 결제 시 입력한 GitHub 계정과 연결되어 있습니다.",
 		manageBilling: "결제 / 영수증 관리",
@@ -223,9 +225,7 @@ export default async function Account({
 						{session.name && (
 							<div className="acct-ident-name">{session.name}</div>
 						)}
-						<p className="acct-ident-meta">
-							{plan === "free" ? t.planFreeNote : t.planPaidNote}
-						</p>
+						<p className="acct-ident-meta">{t.identSub}</p>
 					</div>
 					<div className="acct-ident-side">
 						<span className="acct-plan-chip">{planName}</span>
