@@ -4945,3 +4945,166 @@ footer.site.footer-app {
 	line-height: 1.5;
 	margin: 8px 0 0;
 }
+
+/* ── Account (마이페이지) bespoke editorial surface ──────────────────────── */
+/* Identity-led masthead foreground (reuses .console-masthead chrome) */
+.acct-id {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+.acct-monogram {
+	width: 56px;
+	height: 56px;
+	flex: none;
+	border-radius: 14px;
+	display: grid;
+	place-items: center;
+	font-family: var(--mono);
+	font-size: 25px;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	color: var(--green);
+	background: linear-gradient(160deg, rgba(63, 185, 80, 0.18), rgba(63, 185, 80, 0.03));
+	border: 1px solid rgba(63, 185, 80, 0.3);
+	box-shadow: inset 0 1px 0 rgba(63, 185, 80, 0.12);
+}
+.acct-id .eyebrow {
+	margin: 0 0 4px;
+	color: var(--green);
+}
+.acct-id h1 {
+	font-size: clamp(24px, 3.2vw, 34px);
+	line-height: 1.04;
+	letter-spacing: -0.04em;
+	margin: 0;
+}
+.acct-id p {
+	color: var(--muted);
+	font-size: 12.5px;
+	line-height: 1.5;
+	margin: 7px 0 0;
+	max-width: 52ch;
+}
+.acct-live {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	font-size: 11px;
+	color: var(--muted);
+}
+.acct-live i {
+	width: 7px;
+	height: 7px;
+	border-radius: 999px;
+	background: var(--green);
+	box-shadow: 0 0 0 3px rgba(63, 185, 80, 0.16);
+}
+.acct-plan-chip {
+	font-size: 10px;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--green);
+	border: 1px solid rgba(63, 185, 80, 0.28);
+	border-radius: 999px;
+	padding: 4px 11px;
+}
+
+/* Plan band - editorial row, not a filled card */
+.acct-band {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 24px;
+	flex-wrap: wrap;
+	padding: 22px 2px 24px;
+	border-top: 1px solid var(--border-muted);
+	border-bottom: 1px solid var(--border-muted);
+}
+.acct-band .eyebrow {
+	margin: 0 0 9px;
+}
+.acct-band-plan {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+}
+.acct-band-plan b {
+	font-size: clamp(26px, 3vw, 34px);
+	letter-spacing: -0.03em;
+	line-height: 1;
+}
+.acct-band-plan .price {
+	font-family: var(--mono);
+	color: var(--muted);
+	font-size: 14px;
+}
+.acct-band small {
+	display: block;
+	color: var(--muted);
+	font-size: 12.5px;
+	line-height: 1.5;
+	margin-top: 10px;
+	max-width: 44ch;
+}
+.acct-band-actions {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+/* Repo list - hairline divided rows, no card box */
+.acct-list {
+	border-top: 1px solid var(--border-muted);
+	margin-top: 4px;
+}
+.acct-list-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	padding: 13px 2px;
+	border-bottom: 1px solid var(--border-muted);
+	transition: background 0.15s ease;
+}
+.acct-list-row:hover {
+	background: rgba(63, 185, 80, 0.04);
+}
+.acct-list-row .name {
+	color: var(--fg);
+	font-weight: 600;
+	font-size: 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.acct-list-row .name small {
+	margin-left: 8px;
+	font-family: var(--mono);
+	font-size: 9.5px;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--muted);
+	border: 1px solid var(--border-muted);
+	border-radius: 999px;
+	padding: 1px 7px;
+}
+.acct-list-row .go {
+	font-family: var(--mono);
+	font-size: 11px;
+	color: var(--green);
+	white-space: nowrap;
+}
+.acct-empty {
+	color: var(--muted);
+	font-size: 13.5px;
+	margin: 12px 0 16px;
+	padding: 18px 2px;
+	border-top: 1px solid var(--border-muted);
+	border-bottom: 1px solid var(--border-muted);
+}
+@media (max-width: 760px) {
+	.acct-band {
+		align-items: flex-start;
+	}
+}

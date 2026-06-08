@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
+import Image from "next/image";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
 import { planForOwner } from "@/lib/billing/entitlement";
 import { PLANS, type PlanId } from "@/lib/billing/plans";
@@ -15,11 +16,8 @@ import {
 import MarketingNav from "./MarketingNav";
 import SiteFooter from "@/app/components/SiteFooter";
 import PublicRepoLookup from "./PublicRepoLookup";
-import {
-	ConsoleHero,
-	ConsoleSectionHead,
-	ConsoleShell,
-} from "./ConsoleShell";
+import { ConsoleSectionHead, ConsoleShell } from "./ConsoleShell";
+import { toneColor } from "./console-styles";
 
 const T = {
 	en: {
@@ -35,6 +33,7 @@ const T = {
 		planFreeNote: "You are on the Free plan. Upgrade any time.",
 		planPaidNote: "Active, matched to your GitHub account from checkout.",
 		manageBilling: "Manage billing & invoices",
+		live: "Live",
 		upgrade: "Upgrade",
 		per: "/ mo",
 		yourPlan: "Your plan",
@@ -84,6 +83,7 @@ const T = {
 		planFreeNote: "현재 Free 플랜입니다. 언제든 업그레이드할 수 있습니다.",
 		planPaidNote: "활성화됨. 결제 시 입력한 GitHub 계정과 연결되어 있습니다.",
 		manageBilling: "결제 / 영수증 관리",
+		live: "실시간",
 		upgrade: "업그레이드",
 		per: "/ 월",
 		yourPlan: "내 플랜",
@@ -199,20 +199,58 @@ export default async function Account({
 			: []),
 	];
 
+	const planName = PLANS[plan].name;
+	const price = plan !== "free" ? PLANS[plan].priceMonthly : null;
+	const monogram = (session.name || session.login).trim().slice(0, 1).toUpperCase();
+
 	return (
 		<>
 			<MarketingNav lang={lang} enHref="/account" koHref="/ko/account" />
 			<ConsoleShell kicker={t.kicker} workspace={t.myAccount} nav={[]}>
-				<ConsoleHero
-					eyebrow={t.myAccount}
-					title={session.name || session.login}
-					body={t.heroSub}
-					image="/console-command.png"
-					imageAlt="Account overview"
-					plateLabel="account"
-					connected={`@${session.login}`}
-					metrics={metrics}
-				/>
+				<header className="console-masthead acct-masthead">
+					<div className="console-masthead-bg" aria-hidden="true">
+						<Image
+							src="/account-command.png"
+							alt=""
+							width={1568}
+							height={882}
+							priority
+						/>
+						<span className="console-masthead-scan" />
+					</div>
+					<div className="console-masthead-fore">
+						<div className="console-masthead-top">
+							<div className="acct-id">
+								<span className="acct-monogram" aria-hidden="true">
+									{monogram}
+								</span>
+								<div>
+									<div className="eyebrow mono">@{session.login}</div>
+									<h1>{session.name || session.login}</h1>
+									<p>{t.heroSub}</p>
+								</div>
+							</div>
+							<div className="console-masthead-meta">
+								<span className="acct-live mono">
+									<i aria-hidden="true" /> {t.live}
+								</span>
+								<span className="acct-plan-chip mono">{planName}</span>
+							</div>
+						</div>
+						{metrics.length > 0 && (
+							<ul className="console-statstrip">
+								{metrics.map((m) => (
+									<li key={m.label}>
+										<b style={m.tone ? { color: toneColor[m.tone] } : undefined}>
+											{m.value}
+										</b>
+										<span>{m.label}</span>
+									</li>
+								))}
+							</ul>
+						)}
+					</div>
+				</header>
 
 				{billing && t.billingNote[billing] && (
 					<section className="console-section">
@@ -231,69 +269,58 @@ export default async function Account({
 				)}
 
 				<section className="console-section">
-					<div className="plate console-overview">
-						<div className="console-overview-main">
-							<ConsoleSectionHead
-								title={t.reposTitle}
-								sub={repos.length > 0 ? `${repos.length}` : undefined}
-							/>
-							{repos.length > 0 ? (
-								<div className="console-mini-table">
-									{repos.map((r) => (
-										<div className="console-mini-tr" key={r.fullName} style={{ gridTemplateColumns: "minmax(0,1fr) auto" }}>
-											<a href={r.htmlUrl} target="_blank" rel="noreferrer">
-												<b>{r.fullName}</b>
-												{r.private ? <small>{t.privateTag}</small> : null}
-											</a>
-											<Link
-												href={`${dashBase}/${r.fullName}`}
-												style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--green)", textAlign: "right", whiteSpace: "nowrap" }}
-											>
-												{t.viewHistory} →
-											</Link>
-										</div>
-									))}
-								</div>
-							) : (
-								<p style={{ color: "var(--muted)", fontSize: 13.5, margin: "10px 0 16px" }}>
-									{t.noRepos}
-								</p>
-							)}
-							<a className="btn btn-ghost btn-sm" href={INSTALL_URL} style={{ marginTop: 14 }}>
-								{t.manageRepos}
-							</a>
-						</div>
-
-						<aside className="console-overview-rail">
-							<div className="console-rail-block">
-								<header className="console-block-head"><h3>{t.yourPlan}</h3></header>
-								<div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 4 }}>
-									<span style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-0.03em" }}>
-										{PLANS[plan].name}
+					<div className="acct-band">
+						<div>
+							<div className="eyebrow mono">{t.yourPlan}</div>
+							<div className="acct-band-plan">
+								<b>{planName}</b>
+								{price != null && (
+									<span className="price">
+										${price}
+										{t.per}
 									</span>
-									{plan !== "free" && PLANS[plan].priceMonthly != null && (
-										<span style={{ color: "var(--muted)", fontFamily: "var(--mono)", fontSize: 14 }}>
-											${PLANS[plan].priceMonthly}
-											{t.per}
-										</span>
-									)}
-								</div>
-								<p style={{ color: "var(--muted)", fontSize: 12.5, lineHeight: 1.5, margin: "10px 0 14px" }}>
-									{plan === "free" ? t.planFreeNote : t.planPaidNote}
-								</p>
-								<div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-									{plan !== "free" && (
-										<a className="btn btn-ghost btn-sm" href={PORTAL_URL}>
-											{t.manageBilling}
-										</a>
-									)}
-									<Link className="btn btn-primary btn-sm" href={pricingHref}>
-										{t.upgrade}
+								)}
+							</div>
+							<small>{plan === "free" ? t.planFreeNote : t.planPaidNote}</small>
+						</div>
+						<div className="acct-band-actions">
+							{plan !== "free" && (
+								<a className="btn btn-ghost btn-sm" href={PORTAL_URL}>
+									{t.manageBilling}
+								</a>
+							)}
+							<Link className="btn btn-primary btn-sm" href={pricingHref}>
+								{t.upgrade}
+							</Link>
+						</div>
+					</div>
+				</section>
+
+				<section className="console-section">
+					<ConsoleSectionHead
+						title={t.reposTitle}
+						sub={repos.length > 0 ? `${repos.length}` : undefined}
+					/>
+					{repos.length > 0 ? (
+						<div className="acct-list">
+							{repos.map((r) => (
+								<div className="acct-list-row" key={r.fullName}>
+									<a className="name" href={r.htmlUrl} target="_blank" rel="noreferrer">
+										{r.fullName}
+										{r.private ? <small>{t.privateTag}</small> : null}
+									</a>
+									<Link className="go" href={`${dashBase}/${r.fullName}`}>
+										{t.viewHistory} →
 									</Link>
 								</div>
-							</div>
-						</aside>
-					</div>
+							))}
+						</div>
+					) : (
+						<p className="acct-empty">{t.noRepos}</p>
+					)}
+					<a className="btn btn-ghost btn-sm" href={INSTALL_URL} style={{ marginTop: 14 }}>
+						{t.manageRepos}
+					</a>
 				</section>
 
 				{canOrg && orgStats && (
