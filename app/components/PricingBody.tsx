@@ -43,7 +43,7 @@ export default async function PricingBody({ lang }: { lang: Lang }) {
 				adds: [
 					"매니지드 LLM, 서버와 API 비용 제로",
 					"비공개 레포와 레포 교차 탐지",
-					"조직 현황와 Slack 알림",
+					"조직 현황과 Slack 알림",
 				],
 				polar: "결제는 Polar(Merchant of Record)로 안전하게 처리됩니다.",
 				whyTitle: "오픈소스인데 왜 결제하나요?",

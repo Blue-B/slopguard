@@ -475,6 +475,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 										{copy.addChannelTitle}
 									</div>
 									<div
+										className="alerts-form-grid"
 										style={{
 											display: "grid",
 											gridTemplateColumns: "120px 1fr 2fr auto",
@@ -538,7 +539,8 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 											}}
 										/>
 										<button
-											type="submit"
+											type="button"
+											onClick={addChannel}
 											className="btn btn-primary btn-sm"
 											disabled={
 												addBusy || !addLabel.trim() || !addTarget.trim()
@@ -685,6 +687,7 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 										{copy.addRuleTitle}
 									</div>
 									<div
+										className="alerts-form-grid"
 										style={{
 											display: "grid",
 											gridTemplateColumns: "1.4fr 1fr 1fr 90px auto",
@@ -765,7 +768,8 @@ export default function AlertsConsole({ copy }: { copy: AlertsConsoleCopy }) {
 											}}
 										/>
 										<button
-											type="submit"
+											type="button"
+											onClick={addRule}
 											className="btn btn-primary btn-sm"
 											disabled={
 												addRuleBusy ||

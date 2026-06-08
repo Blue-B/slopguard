@@ -4941,3 +4941,13 @@ footer.site.footer-app {
 		align-items: flex-start;
 	}
 }
+
+/* Alerts console add-forms: stack on mobile (inline grid cols apply on desktop) */
+@media (max-width: 640px) {
+	.alerts-form-grid {
+		grid-template-columns: 1fr !important;
+	}
+	.alerts-form-grid .btn {
+		width: 100%;
+	}
+}
