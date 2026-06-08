@@ -5229,6 +5229,46 @@ footer.site.footer-app {
 	}
 }
 
+/* Repo dashboard - bento (distribution panel + recent-items table), account language */
+.dash-grid {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	gap: 14px;
+	align-items: start;
+	margin-top: 20px;
+}
+.dash-dist {
+	grid-column: span 4;
+}
+.dash-items {
+	grid-column: span 8;
+}
+.dash-items-wide {
+	grid-column: 1 / -1;
+}
+.dash-legend {
+	color: var(--muted);
+	font-size: 12.5px;
+	line-height: 1.6;
+	margin: 16px 0 0;
+}
+@media (max-width: 1000px) {
+	.dash-dist,
+	.dash-items {
+		grid-column: 1 / -1;
+	}
+}
+@media (max-width: 600px) {
+	.dash-grid {
+		grid-template-columns: 1fr;
+	}
+	.dash-dist,
+	.dash-items,
+	.dash-items-wide {
+		grid-column: auto;
+	}
+}
+
 /* Plan band - vertical stack inside the plan panel */
 .acct-band {
 	display: flex;
