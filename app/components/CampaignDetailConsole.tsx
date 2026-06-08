@@ -65,6 +65,7 @@ export default function CampaignDetailConsole({ id, copy }: { id: string; copy: 
 	return (
 		<ConsoleShell kicker={copy.kicker} workspace={copy.workspace} nav={copy.nav}>
 			<ConsoleHero
+				workspace={copy.workspace}
 				eyebrow={copy.heading}
 				title={data?.fingerprint ?? id.replaceAll("_", " ")}
 				body={copy.subhead}

@@ -74,6 +74,7 @@ export default function ReposFullView({ copy }: { copy: ReposFullViewCopy }) {
 	return (
 		<ConsoleShell kicker={copy.kicker} workspace={copy.workspace} nav={copy.nav}>
 			<ConsoleHero
+				workspace={copy.workspace}
 				eyebrow={copy.heroEyebrow}
 				title={copy.heroTitle}
 				body={copy.heroBody}

@@ -171,6 +171,7 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 	return (
 		<ConsoleShell kicker={copy.kicker} workspace={copy.workspace} nav={copy.nav}>
 			<ConsoleHero
+				workspace={copy.workspace}
 				eyebrow={copy.heroEyebrow}
 				title={copy.heroTitle}
 				body={copy.heroBody}

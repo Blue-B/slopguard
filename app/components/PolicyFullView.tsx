@@ -80,6 +80,7 @@ export default function PolicyFullView({ copy }: { copy: PolicyFullViewCopy }) {
 	return (
 		<ConsoleShell kicker={copy.kicker} workspace={copy.workspace} nav={copy.nav}>
 			<ConsoleHero
+				workspace={copy.workspace}
 				eyebrow={copy.heroEyebrow}
 				title={copy.heroTitle}
 				body={copy.heroBody}

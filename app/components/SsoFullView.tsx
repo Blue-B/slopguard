@@ -152,6 +152,7 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 	return (
 		<ConsoleShell kicker={copy.kicker} workspace={copy.workspace} nav={copy.nav}>
 			<ConsoleHero
+				workspace={copy.workspace}
 				eyebrow={copy.eyebrow}
 				title={copy.title}
 				body={copy.body}

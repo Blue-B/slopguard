@@ -72,69 +72,67 @@ export type ConsoleMetric = {
 };
 
 /**
- * Shared masthead: a compact, data-first command band. The generated asset is
- * an ambient background (low-opacity, gradient-masked, faint scan) rather than a
- * marketing plate; a small eyebrow + single-line title + live stat-strip sit on
- * top, with the real data tables/panels immediately below. Used by every paid
- * page so logged-in operators land on their numbers, not a pitch.
+ * Shared console identity bar. Same language as the account / repo dashboard:
+ * a round operator emblem (derived from the per-console ambient art), a small
+ * eyebrow, the WORKSPACE name as the h1 (not a marketing headline), a live dot,
+ * a one-line description, and a hairline stat ledger. Logged-in operators land
+ * on their workspace + numbers, not a pitch. `title`/`plateLabel`/`imageAlt`
+ * are accepted for backward compatibility but no longer rendered.
  */
 export function ConsoleHero({
 	eyebrow,
-	title,
+	workspace,
 	body,
 	metrics,
 	image,
-	imageAlt,
-	plateLabel,
 	connected,
 	actions,
 }: {
 	eyebrow: string;
-	title: string;
+	workspace: string;
+	title?: string;
 	body: string;
 	metrics?: ConsoleMetric[];
 	image: string;
-	imageAlt: string;
-	plateLabel: string;
+	imageAlt?: string;
+	plateLabel?: string;
 	connected: string;
 	actions?: React.ReactNode;
 }) {
+	// Derive the round seal from the ambient art name (/console-x.png -> /emblem-x.png).
+	const emblem = image.replace("/console-", "/emblem-");
 	return (
-		<header className="console-masthead">
-			<div className="console-masthead-bg" aria-hidden="true">
-				<Image src={image} alt="" width={1568} height={882} priority />
-				<span className="console-masthead-scan" />
-			</div>
-			<div className="console-masthead-fore">
-				<div className="console-masthead-top">
-					<div className="console-masthead-id">
-						<div className="eyebrow mono">{eyebrow}</div>
-						<h1>{title}</h1>
-						{body ? <p>{body}</p> : null}
-					</div>
-					<div className="console-masthead-meta">
-						<span className="console-conn mono" title={imageAlt}>
-							<i aria-hidden="true" /> {connected}
-						</span>
-						<span className="console-plate-tag mono">{plateLabel}</span>
-						{actions ? (
-							<div className="console-masthead-actions">{actions}</div>
-						) : null}
-					</div>
+		<header className="acct-ident">
+			<span className="acct-ident-glow" aria-hidden="true" />
+			<div className="acct-ident-inner">
+				<div className="acct-ident-seal">
+					<Image src={emblem} alt="" width={96} height={96} priority />
 				</div>
-				{metrics && metrics.length > 0 ? (
-					<ul className="console-statstrip">
-						{metrics.map((m) => (
-							<li key={m.label}>
-								<b style={m.tone ? { color: toneColor[m.tone] } : undefined}>
-									{m.value}
-								</b>
-								<span>{m.label}</span>
-							</li>
-						))}
-					</ul>
-				) : null}
+				<div className="acct-ident-id">
+					<p className="acct-ident-eyebrow mono">{eyebrow}</p>
+					<div className="acct-ident-handle">
+						<h1>{workspace}</h1>
+						<span className="acct-live">
+							<i aria-hidden="true" />
+							{connected}
+						</span>
+					</div>
+					{body ? <p className="acct-ident-meta">{body}</p> : null}
+				</div>
+				{actions ? <div className="acct-ident-side">{actions}</div> : null}
 			</div>
+			{metrics && metrics.length > 0 ? (
+				<div className="acct-ledger">
+					{metrics.map((m) => (
+						<div className="acct-ledger-cell" key={m.label}>
+							<b style={m.tone ? { color: toneColor[m.tone] } : undefined}>
+								{m.value}
+							</b>
+							<span>{m.label}</span>
+						</div>
+					))}
+				</div>
+			) : null}
 		</header>
 	);
 }
