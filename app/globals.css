@@ -4690,6 +4690,12 @@ footer.site.footer-app {
 		width: 76px;
 		height: 76px;
 	}
+	/* let the live badge wrap below the title instead of breaking the word */
+	.acct-ident-handle {
+		flex-wrap: wrap;
+		gap: 6px 12px;
+		font-size: clamp(22px, 6vw, 28px);
+	}
 	.acct-ident-side {
 		grid-column: 1 / -1;
 		flex-direction: row;
