@@ -5004,6 +5004,11 @@ footer.site.footer-app {
 }
 .acct-ident-handle .at {
 	font-family: var(--mono);
+	font-size: inherit;
+	font-weight: inherit;
+	letter-spacing: inherit;
+	line-height: 1;
+	margin: 0;
 }
 .acct-ident-name {
 	font-size: 13.5px;
