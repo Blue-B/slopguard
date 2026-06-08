@@ -25,6 +25,7 @@ const T = {
 		getStarted: "Get started",
 		current: "Current",
 		manage: "Manage plan",
+		included: "Included in your plan",
 		upgrade: "Upgrade",
 		downgrade: "Schedule downgrade",
 		billedYr: (p: number) => `billed $${p}/yr`,
@@ -43,6 +44,7 @@ const T = {
 		getStarted: "시작하기",
 		current: "현재",
 		manage: "구독 관리",
+		included: "현재 플랜에 포함",
 		upgrade: "업그레이드",
 		downgrade: "다운그레이드 예약",
 		billedYr: (p: number) => `연 $${p} 청구`,
@@ -76,6 +78,12 @@ export default function PricingPlans({
 	// rather than starting a new checkout. Comp/granted users (no Polar sub) keep
 	// normal checkout CTAs on the other tiers.
 	const manageable = !!currentPlan && currentPlan !== "free" && !!hasManagedSub;
+	// Comp/granted account: has a paid entitlement (env allowlist) but NO Polar
+	// subscription. They can't downgrade (nothing to change) and shouldn't be
+	// charged for a lower tier (the grant already covers it, and the grant wins
+	// over Polar anyway), so other tiers are shown as included, not buyable.
+	const granted =
+		!!currentPlan && currentPlan !== "free" && !hasManagedSub;
 	const curRank = currentPlan ? PLAN_RANK[currentPlan as PlanId] : -1;
 	// Annual billing ships only once the Polar annual checkout links exist and
 	// are verified (NEXT_PUBLIC_ANNUAL_BILLING="1"). Until then we never show a
@@ -181,6 +189,14 @@ export default function PricingPlans({
 								<a className="btn btn-ghost plan-cta" href={CONTACT_URL}>
 									{t.contact}
 								</a>
+							) : granted ? (
+								// Comp/granted account: not self-serve purchasable.
+								<span
+									className="btn btn-ghost plan-cta"
+									style={{ opacity: 0.55, pointerEvents: "none" }}
+								>
+									{t.included}
+								</span>
 							) : manageable ? (
 								// Signed-in user with a real subscription: change it in place.
 								// Upgrade applies now; downgrade is scheduled for next period.
