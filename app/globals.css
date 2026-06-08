@@ -5138,7 +5138,7 @@ footer.site.footer-app {
 	display: grid;
 	grid-template-columns: repeat(12, 1fr);
 	gap: 14px;
-	align-items: start;
+	align-items: stretch;
 	margin-top: 6px;
 }
 /* top row: three compact summary panels; activity is a full-width log below */
@@ -5195,6 +5195,7 @@ footer.site.footer-app {
 }
 .acct-panel-body {
 	padding: 20px;
+	flex: 1;
 }
 /* repo list / empty sit flush under the panel head (no double hairline) */
 .acct-panel .acct-list {
