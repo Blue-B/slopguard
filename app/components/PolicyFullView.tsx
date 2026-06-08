@@ -84,7 +84,7 @@ export default function PolicyFullView({ copy }: { copy: PolicyFullViewCopy }) {
 				eyebrow={copy.heroEyebrow}
 				title={copy.heroTitle}
 				body={copy.heroBody}
-				image="/console-governance.png"
+				image="/console-command.png"
 				imageAlt="Policy coverage vault"
 				plateLabel="policy coverage"
 				connected={copy.connected}

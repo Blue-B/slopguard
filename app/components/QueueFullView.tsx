@@ -132,7 +132,7 @@ export default function QueueFullView({ copy }: { copy: QueueFullViewCopy }) {
 				eyebrow={copy.heroEyebrow}
 				title={copy.heroTitle}
 				body={copy.heroBody}
-				image="/console-radar.png"
+				image="/console-command.png"
 				imageAlt="Action queue radar"
 				plateLabel="action queue"
 				connected={copy.connected}

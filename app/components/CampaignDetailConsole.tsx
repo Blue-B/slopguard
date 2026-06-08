@@ -65,9 +65,8 @@ export default function CampaignDetailConsole({ id, copy }: { id: string; copy: 
 	return (
 		<ConsoleShell kicker={copy.kicker} workspace={copy.workspace} nav={copy.nav}>
 			<ConsoleHero
-				workspace={copy.workspace}
+				workspace={data?.fingerprint ?? id.replaceAll("_", " ")}
 				eyebrow={copy.heading}
-				title={data?.fingerprint ?? id.replaceAll("_", " ")}
 				body={copy.subhead}
 				image="/console-radar.png"
 				imageAlt="Pattern investigation"
