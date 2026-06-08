@@ -201,8 +201,7 @@ export default async function Account({
 
 	const planName = PLANS[plan].name;
 	const price = plan !== "free" ? PLANS[plan].priceMonthly : null;
-	const metrics = [
-		{ label: t.current, value: planName, tone: "ok" as const },
+	const ledger = [
 		{ label: t.statR, value: repos.length, tone: "neutral" as const },
 		...(orgStats
 			? [
@@ -216,58 +215,54 @@ export default async function Account({
 		<>
 			<MarketingNav lang={lang} enHref="/account" koHref="/ko/account" />
 
-			<header className="hero">
-				<div className="grid-bg" aria-hidden="true" />
-				<div className="wide hero-grid">
-					<div className="hero-copy">
-						<div className="eyebrow mono acct-hero-eyebrow">
-							{t.kicker} · @{session.login}
-						</div>
-						<h1>
-							{`${session.name || session.login}\n`}
-							<span className="hl">{t.heroHl}</span>
-						</h1>
-						<p className="sub">{t.heroSub}</p>
-						<div className="hero-actions">
-							{plan !== "free" ? (
-								<a className="btn btn-primary btn-lg" href={PORTAL_URL}>
-									{t.manageBilling}
-								</a>
-							) : (
-								<Link className="btn btn-primary btn-lg" href={pricingHref}>
-									{t.upgrade}
-								</Link>
-							)}
-							<a className="text-link" href={INSTALL_URL}>
-								{t.manageRepos}
-								<span aria-hidden="true">→</span>
-							</a>
-						</div>
-						<ul className="hero-spec">
-							{metrics.map((m) => (
-								<li key={m.label}>
-									<b style={m.tone ? { color: toneColor[m.tone] } : undefined}>
-										{m.value}
-									</b>
-									{m.label}
-								</li>
-							))}
-						</ul>
+			<header className="acct-ident">
+				<span className="acct-ident-glow" aria-hidden="true" />
+				<div className="wide acct-ident-inner">
+					<div className="acct-ident-seal">
+						{/* eslint-disable-next-line @next/next/no-img-element */}
+						<img src="/account-emblem.png" alt="" />
 					</div>
-
-					<figure className="plate plate-hero">
-						<figcaption className="plate-bar">
-							<span>{t.opsCaption}</span>
-							<span className="plate-coord">@{session.login}</span>
-						</figcaption>
-						<div className="plate-art">
-							<span className="plate-tag">SLOPGUARD × OPERATOR</span>
-							{/* eslint-disable-next-line @next/next/no-img-element */}
-							<img src="/account-sentinel.png" alt="" />
-							<span className="plate-scan" aria-hidden="true" />
+					<div className="acct-ident-id">
+						<p className="acct-ident-eyebrow mono">{t.myAccount}</p>
+						<div className="acct-ident-handle">
+							<span className="at">@{session.login}</span>
+							<span className="acct-live">
+								<i aria-hidden="true" />
+								{t.live}
+							</span>
 						</div>
-					</figure>
+						{session.name && (
+							<div className="acct-ident-name">{session.name}</div>
+						)}
+						<p className="acct-ident-meta">
+							{plan === "free" ? t.planFreeNote : t.planPaidNote}
+						</p>
+					</div>
+					<div className="acct-ident-side">
+						<span className="acct-plan-chip">{planName}</span>
+						{plan !== "free" ? (
+							<a className="btn btn-ghost btn-sm" href={PORTAL_URL}>
+								{t.manageBilling}
+							</a>
+						) : (
+							<Link className="btn btn-primary btn-sm" href={pricingHref}>
+								{t.upgrade}
+							</Link>
+						)}
+					</div>
 				</div>
+				{ledger.length > 1 && (
+					<div className="wide acct-ledger">
+						{ledger.map((m) => (
+							<div className="acct-ledger-cell" key={m.label}>
+								<b style={m.tone ? { color: toneColor[m.tone] } : undefined}>
+									{m.value}
+								</b>
+								<span>{m.label}</span>
+							</div>
+						))}
+					</div>
+				)}
 			</header>
 
 			{billing && t.billingNote[billing] && (
