@@ -15,7 +15,6 @@ import {
 	mutateState,
 	type SentAlert,
 } from "../billing/console-store.js";
-import { withTimeout } from "../util.js";
 
 const TIMEOUT_MS = 6000;
 
@@ -76,19 +75,20 @@ async function post(
 	body: unknown,
 ): Promise<{ ok: boolean; latencyMs: number }> {
 	const t0 = Date.now();
+	const ctrl = new AbortController();
+	const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
 	try {
-		const res = await withTimeout(
-			fetch(url, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(body),
-			}),
-			TIMEOUT_MS,
-			"console-alert",
-		);
-		return { ok: (res as Response).ok, latencyMs: Date.now() - t0 };
+		const res = await fetch(url, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(body),
+			signal: ctrl.signal,
+		});
+		return { ok: res.ok, latencyMs: Date.now() - t0 };
 	} catch {
 		return { ok: false, latencyMs: Date.now() - t0 };
+	} finally {
+		clearTimeout(timer);
 	}
 }
 

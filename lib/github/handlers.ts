@@ -178,8 +178,10 @@ async function review(
 	);
 
 	// Outbound alerts (Team). Best-effort, time-boxed; never blocks the webhook.
-	// Two configuration paths, both real: policy-as-code (.github/SLOP_POLICY.yml
-	// `notify:`) and the /alerts console (channels + routing rules).
+	// Two independent configuration paths, both real and additive: policy-as-code
+	// (.github/SLOP_POLICY.yml `notify:`) and the /alerts console (channels +
+	// routing rules). If the same destination is configured in both, it receives
+	// one message per path by design — they are separate surfaces.
 	if (plan.alerts) {
 		await sendQuarantineAlerts(policy.notify, input, result).catch(() => 0);
 		await dispatchConsoleAlerts(owner, input, result).catch(() => 0);
