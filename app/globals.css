@@ -5137,7 +5137,6 @@ footer.site.footer-app {
 .acct-grid {
 	display: grid;
 	grid-template-columns: repeat(12, 1fr);
-	grid-auto-flow: row dense;
 	gap: 14px;
 	align-items: start;
 	margin-top: 6px;

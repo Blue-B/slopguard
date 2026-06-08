@@ -327,6 +327,18 @@ export default async function Account({
 				</a>
 				</div>
 			</section>
+			<section className="plate acct-panel pan-lookup">
+				<div className="acct-panel-head">
+					<span className="no">03</span>
+					<div className="ttl">
+						<h2>{t.lookupBig}</h2>
+						<span className="k">{t.lookupTitle}</span>
+					</div>
+				</div>
+				<div className="acct-panel-body">
+					<PublicRepoLookup lang={lang} />
+				</div>
+			</section>
 			{canOrg && orgStats && (
 				<section className="plate acct-panel pan-activity">
 					<div className="acct-panel-head">
@@ -369,18 +381,6 @@ export default async function Account({
 					</div>
 				</section>
 			)}
-			<section className="plate acct-panel pan-lookup">
-				<div className="acct-panel-head">
-					<span className="no">03</span>
-					<div className="ttl">
-						<h2>{t.lookupBig}</h2>
-						<span className="k">{t.lookupTitle}</span>
-					</div>
-				</div>
-				<div className="acct-panel-body">
-					<PublicRepoLookup lang={lang} />
-				</div>
-			</section>
 			</div>
 
 			<SiteFooter lang={lang} />
