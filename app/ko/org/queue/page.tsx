@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const copy: QueueFullViewCopy = {
 	kicker: "SlopGuard Team",
-	workspace: "조직 대시보드",
+	workspace: "조직 현황",
 	connected: "GitHub 연결됨",
 	nav: [
 		{ label: "개요", href: "/ko/org" },
@@ -28,9 +28,9 @@ const copy: QueueFullViewCopy = {
 	installCta: "GitHub에 설치",
 	installHref: "/ko/setup",
 	heroEyebrow: "ORG ACTION QUEUE",
-	heroTitle: "캠페인 분석이 아니라, 지금 처리해야 할 팀 액션 큐.",
+	heroTitle: "패턴 분석이 아니라, 지금 처리해야 할 팀 액션 큐.",
 	heroBody:
-		"/campaigns는 반복 패턴을 묶어 보는 Pro 레이더이고, 이 화면은 보호된 레포에서 실제로 열고 처리할 이슈/PR 작업열입니다.",
+		"패턴 추적은 반복 패턴을 묶어 보는 Pro 화면이고, 이 화면은 보호된 레포에서 실제로 열고 처리할 이슈/PR 작업열입니다.",
 	openLabel: "대기 항목",
 	statusLabels: { quarantined: "격리됨", cleared: "정상화", watching: "관찰 중" },
 	tableTitle: "처리 대기열",

@@ -7,19 +7,19 @@ import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
-	title: "SlopGuard: Campaign Detail - Pro",
+	title: "SlopGuard: Pattern Detail - Pro",
 	description:
-		"Drill into one cross-repo campaign cluster with live repo impact and commit evidence.",
+		"Drill into one cross-repo pattern cluster with live repo impact and commit evidence.",
 };
 
 const copy: CampaignDetailCopy = {
 	kicker: "SlopGuard Pro",
-	workspace: "Campaigns",
+	workspace: "Patterns",
 	connected: "Connected to GitHub",
 	nav: [],
 	loading: "Loading campaign evidence…",
 	error: "Failed to load campaign",
-	heading: "CAMPAIGN EVIDENCE",
+	heading: "PATTERN EVIDENCE",
 	subhead:
 		"/org is the team operations view; this page investigates one repeated pattern across repositories.",
 	metrics: { repos: "Repos", hits: "Hits", authors: "Authors", firstSeen: "First seen" },

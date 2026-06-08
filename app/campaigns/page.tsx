@@ -7,14 +7,14 @@ import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
-	title: "SlopGuard: Campaign Detection - Pro",
+	title: "SlopGuard: Pattern Tracking - Pro",
 	description:
 		"Pro plan cross-repo fingerprint clustering: group repeated AI-style commit patterns across your installed repos.",
 };
 
 const copy: CampaignsConsoleCopy = {
 	kicker: "SlopGuard Pro",
-	workspace: "Campaigns",
+	workspace: "Patterns",
 	connected: "Connected to GitHub",
 	nav: [],
 	detailBase: "/campaigns",
@@ -25,7 +25,7 @@ const copy: CampaignsConsoleCopy = {
 	emptyCta: "Install on GitHub",
 	emptyCtaHref: "/setup",
 	investigate: "Investigate",
-	heroEyebrow: "CAMPAIGNS / PRO PLAN",
+	heroEyebrow: "PATTERNS / PRO PLAN",
 	heroTitle: "Catch the same prompt being used across repos.",
 	heroBody:
 		"SlopGuard groups PRs by commit-title prefix and surfaces the ones spreading across your installed repos. Each cluster links to its drill-down view.",

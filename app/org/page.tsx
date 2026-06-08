@@ -9,12 +9,12 @@ import SiteFooter from "@/app/components/SiteFooter";
 export const metadata: Metadata = {
 	title: "SlopGuard: Org Dashboard - Team",
 	description:
-		"Team plan console for org-wide quarantine queues, campaign clusters, and policy coverage.",
+		"Team plan console for org-wide quarantine queues, pattern clusters, and policy coverage.",
 };
 
 const copy: OrgDashboardConsoleCopy = {
 	kicker: "SlopGuard Team",
-	workspace: "Org dashboard",
+	workspace: "Org overview",
 	connected: "Connected to GitHub",
 	nav: [
 		{ label: "Overview", href: "/org" },
@@ -29,10 +29,10 @@ const copy: OrgDashboardConsoleCopy = {
 	emptyCta: "Install SlopGuard on GitHub",
 	emptyCtaHref: "/setup",
 	heroEyebrow: "ORG / TEAM PLAN",
-	heroTitle: "One pane for quarantine, campaigns, and policy coverage.",
+	heroTitle: "One pane for quarantine, patterns, and policy coverage.",
 	heroBody:
 		"Live view of every repo SlopGuard protects. Quarantine items, group repeated patterns, and verify policy coverage - all from the same console.",
-	heroCta: "Open campaigns",
+	heroCta: "Open patterns",
 	heroCtaHref: "/campaigns",
 	queueTitle: "Quarantine queue",
 	queueSubtitle: "Recent 5 across every protected repo",
@@ -43,10 +43,10 @@ const copy: OrgDashboardConsoleCopy = {
 	reposSubtitle: "Installed repos with quarantine or clear activity",
 	reposViewAll: "View all",
 	reposViewAllHref: "/org/repos",
-	campaignTitle: "Campaign radar",
+	campaignTitle: "Pattern radar",
 	campaignSubtitle: "Top clusters by commit prefix",
 	campaignsEmpty:
-		"No campaign clusters yet - once 3+ items share a prefix they show up here.",
+		"No pattern clusters yet - once 3+ items share a prefix they show up here.",
 	campaignHref: "/campaigns",
 	campaignCta: "Open console",
 	alertsTitle: "Alerts",

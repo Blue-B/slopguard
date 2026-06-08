@@ -7,14 +7,14 @@ import PlanGate from "@/app/components/PlanGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
-	title: "SlopGuard: 조직 대시보드 - Team",
+	title: "SlopGuard: 조직 현황 - Team",
 	description:
-		"Team 플랜용 조직 단위 격리 큐, 캠페인 클러스터, 정책 적용 현황 콘솔.",
+		"Team 플랜용 조직 단위 격리 큐, 패턴 클러스터, 정책 적용 현황 콘솔.",
 };
 
 const copy: OrgDashboardConsoleCopy = {
 	kicker: "SlopGuard Team",
-	workspace: "조직 대시보드",
+	workspace: "조직 현황",
 	connected: "GitHub 연결됨",
 	nav: [
 		{ label: "개요", href: "/ko/org" },
@@ -29,10 +29,10 @@ const copy: OrgDashboardConsoleCopy = {
 	emptyCta: "GitHub에 SlopGuard 설치",
 	emptyCtaHref: "/ko/setup",
 	heroEyebrow: "ORG / TEAM 플랜",
-	heroTitle: "격리, 캠페인, 정책 커버리지를 한 화면에서.",
+	heroTitle: "격리, 패턴, 정책 커버리지를 한 화면에서.",
 	heroBody:
 		"SlopGuard가 보호 중인 모든 레포의 실시간 뷰. 격리 항목 처리, 반복 패턴 그룹화, 정책 적용 확인을 한 콘솔에서.",
-	heroCta: "캠페인 페이지 열기",
+	heroCta: "패턴 추적 열기",
 	heroCtaHref: "/ko/campaigns",
 	queueTitle: "격리 큐",
 	queueSubtitle: "보호된 모든 레포의 최근 5개 항목",
@@ -43,7 +43,7 @@ const copy: OrgDashboardConsoleCopy = {
 	reposSubtitle: "격리/정상 확인 활동이 있는 설치된 레포",
 	reposViewAll: "전체 보기",
 	reposViewAllHref: "/ko/org/repos",
-	campaignTitle: "캠페인 레이더",
+	campaignTitle: "패턴 추적",
 	campaignSubtitle: "커밋 prefix별 상위 클러스터",
 	campaignsEmpty:
 		"클러스터가 아직 없습니다 - 동일 prefix가 3건 이상 쌓이면 표시됩니다.",

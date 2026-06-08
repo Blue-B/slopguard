@@ -43,11 +43,11 @@ export default async function PricingBody({ lang }: { lang: Lang }) {
 				adds: [
 					"매니지드 LLM, 서버와 API 비용 제로",
 					"비공개 레포와 레포 교차 탐지",
-					"조직 대시보드와 Slack 알림",
+					"조직 현황와 Slack 알림",
 				],
 				polar: "결제는 Polar(Merchant of Record)로 안전하게 처리됩니다.",
 				whyTitle: "오픈소스인데 왜 결제하나요?",
-				why: "셀프호스팅은 서버 운영, LLM API 비용, 유지보수를 직접 떠안는 겁니다. 유료 플랜은 그걸 전부 없애고, 단일 인스턴스로는 못 하는 것들을 더합니다. 전용 LLM 할당량, 레포 교차 봇 캠페인 탐지, 활동 로그가 있는 조직 대시보드, Slack/Discord/웹훅 알림. Sentry, PostHog, Plausible과 같은 모델입니다. 코드는 무료이고, 호스팅과 인텔리전스, 편의가 제품입니다.",
+				why: "셀프호스팅은 서버 운영, LLM API 비용, 유지보수를 직접 떠안는 겁니다. 유료 플랜은 그걸 전부 없애고, 단일 인스턴스로는 못 하는 것들을 더합니다. 전용 LLM 할당량, 레포 교차 봇 패턴 탐지, 활동 로그가 있는 조직 현황, Slack/Discord/웹훅 알림. Sentry, PostHog, Plausible과 같은 모델입니다. 코드는 무료이고, 호스팅과 인텔리전스, 편의가 제품입니다.",
 				qPre: "궁금한 점이 있으면 ",
 				qLink: "GitHub 이슈",
 				qPost: "로 남겨주세요.",
@@ -60,7 +60,7 @@ export default async function PricingBody({ lang }: { lang: Lang }) {
 				adds: [
 					"Managed LLM (no server or API bill)",
 					"Private repos and cross-repo detection",
-					"Org dashboard and Slack alerts",
+					"Org overview and Slack alerts",
 				],
 				polar: "Checkout is handled securely by Polar (Merchant of Record).",
 				whyTitle: "Why pay if it is open source?",

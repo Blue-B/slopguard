@@ -37,16 +37,20 @@ export async function GET() {
 	return NextResponse.json({
 		owner: state.owner,
 		sso: {
+			// Don't claim a provider until SSO is actually configured. "Okta" was just
+			// the default dropdown value and read as a fake connection when unconfigured.
 			provider:
-				state.ssoConfig.provider === "okta"
-					? "Okta SAML 2.0"
-					: state.ssoConfig.provider === "azure-ad"
-						? "Microsoft Entra ID SAML 2.0"
-						: state.ssoConfig.provider === "google"
-							? "Google Workspace SAML 2.0"
-							: state.ssoConfig.provider === "onelogin"
-								? "OneLogin SAML 2.0"
-								: "Generic SAML 2.0",
+				state.ssoConfig.status === "unconfigured"
+					? "\u2014"
+					: state.ssoConfig.provider === "okta"
+						? "Okta SAML 2.0"
+						: state.ssoConfig.provider === "azure-ad"
+							? "Microsoft Entra ID SAML 2.0"
+							: state.ssoConfig.provider === "google"
+								? "Google Workspace SAML 2.0"
+								: state.ssoConfig.provider === "onelogin"
+									? "OneLogin SAML 2.0"
+									: "Generic SAML 2.0",
 			status: state.ssoConfig.status,
 			lastSync:
 				state.ssoConfig.lastSync ??

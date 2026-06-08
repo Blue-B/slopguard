@@ -6,6 +6,7 @@ import { toAgentPolicy } from "../policy/schema.js";
 import { planForOwner } from "../billing/entitlement.js";
 import { PLANS } from "../billing/plans.js";
 import { recordAndDetect, CAMPAIGN_SCORE_BUMP } from "../agent/campaign.js";
+import { dispatchConsoleAlerts } from "../alerts/dispatch.js";
 import { sendQuarantineAlerts } from "../notify.js";
 import { buildIssueInput, buildPullRequestInput } from "./build-input.js";
 import {
@@ -177,8 +178,11 @@ async function review(
 	);
 
 	// Outbound alerts (Team). Best-effort, time-boxed; never blocks the webhook.
+	// Two configuration paths, both real: policy-as-code (.github/SLOP_POLICY.yml
+	// `notify:`) and the /alerts console (channels + routing rules).
 	if (plan.alerts) {
 		await sendQuarantineAlerts(policy.notify, input, result).catch(() => 0);
+		await dispatchConsoleAlerts(owner, input, result).catch(() => 0);
 	}
 }
 

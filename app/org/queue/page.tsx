@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const copy: QueueFullViewCopy = {
 	kicker: "SlopGuard Team",
-	workspace: "Org dashboard",
+	workspace: "Org overview",
 	connected: "Connected to GitHub",
 	nav: [
 		{ label: "Overview", href: "/org" },
@@ -29,7 +29,7 @@ const copy: QueueFullViewCopy = {
 	installCta: "Install on GitHub",
 	installHref: "/setup",
 	heroEyebrow: "ORG ACTION QUEUE",
-	heroTitle: "Not campaign analysis - the team action queue for today.",
+	heroTitle: "Not pattern analysis - the team action queue for today.",
 	heroBody:
 		"/campaigns groups repeated patterns across repos. This view is the operational queue of issues and PRs your team can open, triage, and clear now.",
 	openLabel: "Queue items",

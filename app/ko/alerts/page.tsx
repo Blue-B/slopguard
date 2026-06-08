@@ -18,7 +18,7 @@ const copy: AlertsConsoleCopy = {
 	connected: "GitHub 연결됨",
 	nav: [],
 	loading: "불러오는 중…",
-	heroCta: "캠페인 페이지 열기",
+	heroCta: "패턴 추적 열기",
 	heroCtaHref: "/ko/campaigns",
 	metricLabels: { channels: "채널", rules: "라우팅 규칙", delivered: "발송 완료", latency: "평균 지연" },
 	heroEyebrow: "ALERTS / TEAM 플랜",

@@ -21,9 +21,9 @@ const L = {
 		billing: "Billing",
 		out: "Sign out",
 		consoles: "Consoles",
-		orgDash: "Org dashboard",
+		orgDash: "Org overview",
 		alerts: "Alerts",
-		campaigns: "Campaigns",
+		campaigns: "Patterns",
 		enterprise: "Enterprise",
 	},
 	ko: {
@@ -32,9 +32,9 @@ const L = {
 		billing: "결제 관리",
 		out: "로그아웃",
 		consoles: "콘솔",
-		orgDash: "조직 대시보드",
+		orgDash: "조직 현황",
 		alerts: "알림",
-		campaigns: "캠페인",
+		campaigns: "패턴 추적",
 		enterprise: "엔터프라이즈",
 	},
 } as const;

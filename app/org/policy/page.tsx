@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const copy: PolicyFullViewCopy = {
 	kicker: "SlopGuard Team",
-	workspace: "Org dashboard",
+	workspace: "Org overview",
 	connected: "Connected to GitHub",
 	nav: [
 		{ label: "Overview", href: "/org" },

@@ -18,7 +18,7 @@ const copy: AlertsConsoleCopy = {
 	connected: "Connected to GitHub",
 	nav: [],
 	loading: "Loading…",
-	heroCta: "Open campaigns",
+	heroCta: "Open patterns",
 	heroCtaHref: "/campaigns",
 	metricLabels: { channels: "Channels", rules: "Routing rules", delivered: "Delivered", latency: "Avg latency" },
 	heroEyebrow: "ALERTS / TEAM PLAN",

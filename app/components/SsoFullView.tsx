@@ -140,6 +140,14 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 	const status = cfg?.status ?? "unconfigured";
 	const statusText =
 		status === "active" ? copy.statusActive : status === "pending" ? copy.statusPending : copy.statusUnconfigured;
+	// Don't surface a provider until SSO is configured — "okta" is just the
+	// default form selection, not a real connection.
+	const providerMeta =
+		status === "unconfigured"
+			? "—"
+			: (copy.providerOptions.find((o) => o.value === cfg?.provider)?.label ??
+				cfg?.provider ??
+				"—");
 
 	return (
 		<ConsoleShell kicker={copy.kicker} workspace={copy.workspace} nav={copy.nav}>
@@ -155,7 +163,7 @@ export default function SsoFullView({ copy }: { copy: SsoFullViewCopy }) {
 					cfg
 						? [
 								{ label: copy.statusLabel, value: statusText, tone: status === "active" ? "ok" : status === "pending" ? "warn" : "neutral" },
-								{ label: copy.providerMetaLabel, value: cfg.provider },
+								{ label: copy.providerMetaLabel, value: providerMeta },
 								{ label: copy.enforcedMetaLabel, value: cfg.enforced ? "Yes" : "No", tone: cfg.enforced ? "ok" : "neutral" },
 								{ label: copy.lastSyncLabel, value: relativeTime(cfg.lastSync) },
 							]

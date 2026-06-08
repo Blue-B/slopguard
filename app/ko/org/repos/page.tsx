@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const copy: ReposFullViewCopy = {
 	kicker: "SlopGuard Team",
-	workspace: "조직 대시보드",
+	workspace: "조직 현황",
 	connected: "GitHub 연결됨",
 	nav: [
 		{ label: "개요", href: "/ko/org" },
