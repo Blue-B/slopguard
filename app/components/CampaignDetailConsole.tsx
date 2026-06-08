@@ -69,8 +69,8 @@ export default function CampaignDetailConsole({ id, copy }: { id: string; copy: 
 				title={data?.fingerprint ?? id.replaceAll("_", " ")}
 				body={copy.subhead}
 				image="/console-radar.png"
-				imageAlt="Campaign investigation"
-				plateLabel="campaign investigation"
+				imageAlt="Pattern investigation"
+				plateLabel="pattern investigation"
 				connected={copy.connected}
 				metrics={[
 					{ label: copy.metrics.repos, value: data?.repoCount ?? "-", tone: "ok" },

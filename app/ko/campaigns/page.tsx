@@ -31,6 +31,7 @@ const copy: CampaignsConsoleCopy = {
 		"SlopGuard가 커밋 제목 prefix로 PR을 묶고, 설치된 레포들 사이로 번지는 것을 표시합니다. 각 클러스터는 drill-down 페이지로 이어집니다.",
 	metricLabels: { clusters: "활성 클러스터", hits: "총 히트", authors: "작성자", repos: "레포" },
 	clustersTitle: "활성 클러스터",
+	leadTitle: "최상위 클러스터",
 	clustersSubtitle: "설치된 레포들 사이에서 커밋 제목 prefix별로 묶음",
 	clustersEmpty: "클러스터가 없습니다 - prefix가 반복되기 시작하면 여기에 표시됩니다.",
 	leadSummary: "{repos}개 레포에서 {hits}건 반복, {authors}명 작성자 연루.",

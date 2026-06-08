@@ -45,6 +45,7 @@ export type CampaignsConsoleCopy = {
 	heroBody: string;
 	metricLabels: { clusters: string; hits: string; authors: string; repos: string };
 	clustersTitle: string;
+	leadTitle: string;
 	clustersSubtitle: string;
 	clustersEmpty: string;
 	leadSummary: string;
@@ -101,7 +102,7 @@ export default function CampaignsConsole({ copy }: { copy: CampaignsConsoleCopy 
 				body={copy.heroBody}
 				image="/console-radar.png"
 				imageAlt="Campaign spread radar"
-				plateLabel="campaign radar"
+				plateLabel="pattern radar"
 				connected={copy.connected}
 				metrics={[
 					{ label: ml.clusters, value: live ? live.clusters.length : "-", tone: highCount > 0 ? "danger" : "neutral" },
@@ -160,7 +161,7 @@ export default function CampaignsConsole({ copy }: { copy: CampaignsConsoleCopy 
 
 					<aside className="console-side-stack">
 						<div className="plate console-panel">
-							<ConsoleSectionHead title={copy.clustersTitle} />
+							<ConsoleSectionHead title={copy.leadTitle} />
 							{lead ? (
 								<article>
 									<div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>

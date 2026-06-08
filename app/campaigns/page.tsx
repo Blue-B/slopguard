@@ -31,6 +31,7 @@ const copy: CampaignsConsoleCopy = {
 		"SlopGuard groups PRs by commit-title prefix and surfaces the ones spreading across your installed repos. Each cluster links to its drill-down view.",
 	metricLabels: { clusters: "Active clusters", hits: "Total hits", authors: "Authors", repos: "Repos" },
 	clustersTitle: "Active clusters",
+	leadTitle: "Top cluster",
 	clustersSubtitle: "Clustered by commit-title prefix across your installed repos",
 	clustersEmpty: "No clusters yet - once a prefix repeats, it shows up here.",
 	leadSummary: "{hits} repeated hits across {repos} repos with {authors} authors involved.",
