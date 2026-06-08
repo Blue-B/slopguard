@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
-import Image from "next/image";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
 import { planForOwner } from "@/lib/billing/entitlement";
 import { PLANS, type PlanId } from "@/lib/billing/plans";
@@ -16,7 +15,7 @@ import {
 import MarketingNav from "./MarketingNav";
 import SiteFooter from "@/app/components/SiteFooter";
 import PublicRepoLookup from "./PublicRepoLookup";
-import { ConsoleSectionHead, ConsoleShell } from "./ConsoleShell";
+import SectionHead from "./SectionHead";
 import { toneColor } from "./console-styles";
 
 const T = {
@@ -27,6 +26,8 @@ const T = {
 		signin: "Sign in with GitHub",
 		myAccount: "My account",
 		kicker: "SlopGuard account",
+		heroHl: "control room",
+		opsCaption: "operations",
 		heroSub:
 			"Your plan, watched repositories, recent activity, and billing - in one place.",
 		current: "Plan",
@@ -36,8 +37,10 @@ const T = {
 		live: "Live",
 		upgrade: "Upgrade",
 		per: "/ mo",
-		yourPlan: "Your plan",
+		yourPlan: "Plan",
+		planBig: "Your plan & billing",
 		reposTitle: "Repositories",
+		reposBig: "Watched repositories",
 		manageRepos: "Add or remove repos on GitHub",
 		viewHistory: "Slop history",
 		privateTag: "private",
@@ -55,6 +58,7 @@ const T = {
 			invalid: "Could not change the plan. Try the customer portal.",
 		} as Record<string, string>,
 		activityTitle: "Activity",
+		activityBig: "Recent activity",
 		activitySub: "who cleared what, when (live from GitHub)",
 		statQ: "Quarantined",
 		statC: "Cleared",
@@ -67,7 +71,8 @@ const T = {
 		statusQ: "quarantined",
 		statusC: "cleared",
 		noActivity: "No activity yet.",
-		lookupTitle: "Look up a public repo",
+		lookupTitle: "Lookup",
+		lookupBig: "Look up a public repo",
 		lookupSub:
 			"View the slop history of any public repo where SlopGuard is installed.",
 	},
@@ -78,6 +83,8 @@ const T = {
 		signin: "GitHub으로 로그인",
 		myAccount: "마이페이지",
 		kicker: "SlopGuard 계정",
+		heroHl: "관제소",
+		opsCaption: "운영 현황",
 		heroSub: "내 플랜, 감시 레포, 최근 활동, 결제를 한 화면에서 관리합니다.",
 		current: "플랜",
 		planFreeNote: "현재 Free 플랜입니다. 언제든 업그레이드할 수 있습니다.",
@@ -87,7 +94,9 @@ const T = {
 		upgrade: "업그레이드",
 		per: "/ 월",
 		yourPlan: "내 플랜",
+		planBig: "내 플랜과 결제",
 		reposTitle: "레포지토리",
+		reposBig: "감시 중인 레포",
 		manageRepos: "GitHub에서 레포 추가/제거",
 		viewHistory: "슬롭 기록",
 		privateTag: "비공개",
@@ -105,6 +114,7 @@ const T = {
 			invalid: "플랜 변경에 실패했습니다. 고객 포털에서 다시 시도해 주세요.",
 		} as Record<string, string>,
 		activityTitle: "활동",
+		activityBig: "최근 처리 내역",
 		activitySub: "누가 언제 무엇을 처리했는지 (GitHub에서 실시간)",
 		statQ: "격리",
 		statC: "정상 확인",
@@ -117,7 +127,8 @@ const T = {
 		statusQ: "격리됨",
 		statusC: "정상 확인",
 		noActivity: "아직 활동이 없습니다.",
-		lookupTitle: "공개 레포 조회",
+		lookupTitle: "조회",
+		lookupBig: "공개 레포 조회",
 		lookupSub:
 			"SlopGuard가 설치된 공개 레포라면 어떤 레포든 슬롭 기록을 볼 수 있습니다.",
 	},
@@ -188,8 +199,10 @@ export default async function Account({
 		);
 	}
 
+	const planName = PLANS[plan].name;
+	const price = plan !== "free" ? PLANS[plan].priceMonthly : null;
 	const metrics = [
-		{ label: t.current, value: PLANS[plan].name, tone: "ok" as const },
+		{ label: t.current, value: planName, tone: "ok" as const },
 		{ label: t.statR, value: repos.length, tone: "neutral" as const },
 		...(orgStats
 			? [
@@ -199,135 +212,139 @@ export default async function Account({
 			: []),
 	];
 
-	const planName = PLANS[plan].name;
-	const price = plan !== "free" ? PLANS[plan].priceMonthly : null;
-	const monogram = (session.name || session.login).trim().slice(0, 1).toUpperCase();
-
 	return (
 		<>
 			<MarketingNav lang={lang} enHref="/account" koHref="/ko/account" />
-			<ConsoleShell kicker={t.kicker} workspace={t.myAccount} nav={[]}>
-				<header className="console-masthead acct-masthead">
-					<div className="console-masthead-bg" aria-hidden="true">
-						<Image
-							src="/account-command.png"
-							alt=""
-							width={1568}
-							height={882}
-							priority
-						/>
-						<span className="console-masthead-scan" />
-					</div>
-					<div className="console-masthead-fore">
-						<div className="console-masthead-top">
-							<div className="acct-id">
-								<span className="acct-monogram" aria-hidden="true">
-									{monogram}
-								</span>
-								<div>
-									<div className="eyebrow mono">@{session.login}</div>
-									<h1>{session.name || session.login}</h1>
-									<p>{t.heroSub}</p>
-								</div>
-							</div>
-							<div className="console-masthead-meta">
-								<span className="acct-live mono">
-									<i aria-hidden="true" /> {t.live}
-								</span>
-								<span className="acct-plan-chip mono">{planName}</span>
-							</div>
-						</div>
-						{metrics.length > 0 && (
-							<ul className="console-statstrip">
-								{metrics.map((m) => (
-									<li key={m.label}>
-										<b style={m.tone ? { color: toneColor[m.tone] } : undefined}>
-											{m.value}
-										</b>
-										<span>{m.label}</span>
-									</li>
-								))}
-							</ul>
-						)}
-					</div>
-				</header>
 
-				{billing && t.billingNote[billing] && (
-					<section className="console-section">
-						<div
-							className="plate"
-							style={{
-								padding: "14px 18px",
-								borderLeft: "3px solid var(--green)",
-							}}
-						>
-							<p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5 }}>
-								{t.billingNote[billing]}
-							</p>
+			<header className="hero">
+				<div className="grid-bg" aria-hidden="true" />
+				<div className="wide hero-grid">
+					<div className="hero-copy">
+						<div className="eyebrow mono acct-hero-eyebrow">
+							{t.kicker} · @{session.login}
 						</div>
-					</section>
-				)}
-
-				<section className="console-section">
-					<div className="acct-band">
-						<div>
-							<div className="eyebrow mono">{t.yourPlan}</div>
-							<div className="acct-band-plan">
-								<b>{planName}</b>
-								{price != null && (
-									<span className="price">
-										${price}
-										{t.per}
-									</span>
-								)}
-							</div>
-							<small>{plan === "free" ? t.planFreeNote : t.planPaidNote}</small>
-						</div>
-						<div className="acct-band-actions">
-							{plan !== "free" && (
-								<a className="btn btn-ghost btn-sm" href={PORTAL_URL}>
+						<h1>
+							{`${session.name || session.login}\n`}
+							<span className="hl">{t.heroHl}</span>
+						</h1>
+						<p className="sub">{t.heroSub}</p>
+						<div className="hero-actions">
+							{plan !== "free" ? (
+								<a className="btn btn-primary btn-lg" href={PORTAL_URL}>
 									{t.manageBilling}
 								</a>
+							) : (
+								<Link className="btn btn-primary btn-lg" href={pricingHref}>
+									{t.upgrade}
+								</Link>
 							)}
-							<Link className="btn btn-primary btn-sm" href={pricingHref}>
-								{t.upgrade}
-							</Link>
+							<a className="text-link" href={INSTALL_URL}>
+								{t.manageRepos}
+								<span aria-hidden="true">→</span>
+							</a>
 						</div>
+						<ul className="hero-spec">
+							{metrics.map((m) => (
+								<li key={m.label}>
+									<b style={m.tone ? { color: toneColor[m.tone] } : undefined}>
+										{m.value}
+									</b>
+									{m.label}
+								</li>
+							))}
+						</ul>
+					</div>
+
+					<figure className="plate plate-hero">
+						<figcaption className="plate-bar">
+							<span>{t.opsCaption}</span>
+							<span className="plate-coord">@{session.login}</span>
+						</figcaption>
+						<div className="plate-art">
+							<span className="plate-tag">SLOPGUARD × OPERATOR</span>
+							{/* eslint-disable-next-line @next/next/no-img-element */}
+							<img src="/account-sentinel.png" alt="" />
+							<span className="plate-scan" aria-hidden="true" />
+						</div>
+					</figure>
+				</div>
+			</header>
+
+			{billing && t.billingNote[billing] && (
+				<section className="wide" style={{ marginTop: 26 }}>
+					<div
+						className="plate"
+						style={{ padding: "14px 18px", borderLeft: "3px solid var(--green)" }}
+					>
+						<p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5 }}>
+							{t.billingNote[billing]}
+						</p>
 					</div>
 				</section>
+			)}
 
-				<section className="console-section">
-					<ConsoleSectionHead
-						title={t.reposTitle}
-						sub={repos.length > 0 ? `${repos.length}` : undefined}
-					/>
-					{repos.length > 0 ? (
-						<div className="acct-list">
-							{repos.map((r) => (
-								<div className="acct-list-row" key={r.fullName}>
-									<a className="name" href={r.htmlUrl} target="_blank" rel="noreferrer">
-										{r.fullName}
-										{r.private ? <small>{t.privateTag}</small> : null}
-									</a>
-									<Link className="go" href={`${dashBase}/${r.fullName}`}>
-										{t.viewHistory} →
-									</Link>
-								</div>
-							))}
+			<section className="wide section">
+				<SectionHead no="01" kicker={t.yourPlan} title={t.planBig} />
+				<div className="acct-band">
+					<div>
+						<div className="acct-band-plan">
+							<b>{planName}</b>
+							{price != null && (
+								<span className="price">
+									${price}
+									{t.per}
+								</span>
+							)}
 						</div>
-					) : (
-						<p className="acct-empty">{t.noRepos}</p>
-					)}
-					<a className="btn btn-ghost btn-sm" href={INSTALL_URL} style={{ marginTop: 14 }}>
-						{t.manageRepos}
-					</a>
-				</section>
+						<small>{plan === "free" ? t.planFreeNote : t.planPaidNote}</small>
+					</div>
+					<div className="acct-band-actions">
+						{plan !== "free" && (
+							<a className="btn btn-ghost btn-sm" href={PORTAL_URL}>
+								{t.manageBilling}
+							</a>
+						)}
+						<Link className="btn btn-primary btn-sm" href={pricingHref}>
+							{t.upgrade}
+						</Link>
+					</div>
+				</div>
+			</section>
 
-				{canOrg && orgStats && (
-					<section className="console-section">
-						<ConsoleSectionHead title={t.activityTitle} sub={t.activitySub} />
-						<div className="plate console-table">
-							<div className="console-th" style={{ gridTemplateColumns: ACT_GRID }}>
+			<section className="wide section">
+				<SectionHead no="02" kicker={t.reposTitle} title={t.reposBig} />
+				{repos.length > 0 ? (
+					<div className="acct-list">
+						{repos.map((r) => (
+							<div className="acct-list-row" key={r.fullName}>
+								<a className="name" href={r.htmlUrl} target="_blank" rel="noreferrer">
+									{r.fullName}
+									{r.private ? <small>{t.privateTag}</small> : null}
+								</a>
+								<Link className="go" href={`${dashBase}/${r.fullName}`}>
+									{t.viewHistory} →
+								</Link>
+							</div>
+						))}
+					</div>
+				) : (
+					<p className="acct-empty">{t.noRepos}</p>
+				)}
+				<a className="btn btn-ghost btn-sm" href={INSTALL_URL} style={{ marginTop: 16 }}>
+					{t.manageRepos}
+				</a>
+			</section>
+
+			{canOrg && orgStats && (
+				<section className="wide section">
+					<SectionHead
+						no="03"
+						kicker={t.activityTitle}
+						title={t.activityBig}
+						sub={t.activitySub}
+					/>
+					<div className="plate console-table">
+						<div className="console-th" style={{ gridTemplateColumns: ACT_GRID }}>
 								<span>{t.colItem}</span>
 								<span>{t.colAuthor}</span>
 								<span>{t.colStatus}</span>
@@ -354,19 +371,19 @@ export default async function Account({
 											{new Date(it.updatedAt).toISOString().slice(0, 10)}
 										</span>
 									</div>
-								))
-							)}
-						</div>
-					</section>
-				)}
-
-				<section className="console-section">
-					<ConsoleSectionHead title={t.lookupTitle} sub={t.lookupSub} />
-					<div className="plate console-panel">
-						<PublicRepoLookup lang={lang} />
+							))
+						)}
 					</div>
 				</section>
-			</ConsoleShell>
+			)}
+
+			<section className="wide section">
+				<SectionHead no={canOrg && orgStats ? "04" : "03"} kicker={t.lookupTitle} title={t.lookupBig} sub={t.lookupSub} />
+				<div className="plate plate-pad">
+					<PublicRepoLookup lang={lang} />
+				</div>
+			</section>
+
 			<SiteFooter lang={lang} />
 		</>
 	);

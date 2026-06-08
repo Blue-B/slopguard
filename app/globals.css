@@ -5108,3 +5108,15 @@ footer.site.footer-app {
 		align-items: flex-start;
 	}
 }
+
+/* Account hero: identity eyebrow spacing (marketing-language hero) */
+.acct-hero-eyebrow {
+	margin-bottom: 14px;
+	color: var(--green);
+}
+
+/* Account hero: identity eyebrow spacing (marketing-language hero) */
+.acct-hero-eyebrow {
+	margin-bottom: 14px;
+	color: var(--green);
+}
