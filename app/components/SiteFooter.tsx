@@ -67,6 +67,8 @@ export default function SiteFooter({ lang = "en" }: { lang?: Lang }) {
 					<a href={`${REPO_URL}/blob/main/.github/SLOP_POLICY.example.yml`}>
 						{f.policy}
 					</a>
+					<Link href={`${p}/privacy`}>{f.privacy}</Link>
+					<Link href={`${p}/terms`}>{f.terms}</Link>
 					<a
 						className="footer-gh"
 						href={REPO_URL}
@@ -78,10 +80,6 @@ export default function SiteFooter({ lang = "en" }: { lang?: Lang }) {
 			</div>
 			<div className="footer-app-bottom">
 				<span>© {new Date().getFullYear()} SlopGuard</span>
-				<span className="footer-legal">
-					<Link href={`${p}/privacy`}>{f.privacy}</Link>
-					<Link href={`${p}/terms`}>{f.terms}</Link>
-				</span>
 				<span>{f.rights}</span>
 			</div>
 		</footer>
