@@ -25,7 +25,7 @@ const F = {
 		issues: "이슈",
 		privacy: "개인정보처리방침",
 		terms: "이용약관",
-		rights: "소스 공개 (Commons Clause). 자가 용도 셋호스팅 가능.",
+		rights: "소스 공개 (Commons Clause). 직접 셀프호스팅 가능.",
 	},
 } as const;
 

@@ -200,7 +200,7 @@ const TERMS_KO: Copy = {
 	h1: "이용약관",
 	updated: `최종 업데이트: ${UPDATED}`,
 	intro:
-		"본 약관은 slopguard.app의 호스팅 SlopGuard 서비스 이용에 적용됩니다. GitHub 앱을 설치하거나 로그인하면 약관에 동의하는 것입니다. 소스는 공개되어 있으며(MIT + Commons Clause), 읽고 자가 용도로 셋호스팅할 수 있지만 판매하거나 타인에게 호스팅 서비스로 제공할 수는 없습니다.",
+		"본 약관은 slopguard.app의 호스팅 SlopGuard 서비스 이용에 적용됩니다. GitHub 앱을 설치하거나 로그인하면 약관에 동의하는 것입니다. 소스는 공개되어 있으며(MIT + Commons Clause), 읽고 직접 셀프호스팅할 수 있지만 판매하거나 타인에게 호스팅 서비스로 제공할 수는 없습니다.",
 	sections: [
 		{
 			h: "1. 서비스 내용",
@@ -239,7 +239,7 @@ const TERMS_KO: Copy = {
 		{
 			h: "6. 소스 공개 라이선스",
 			body: [
-				`SlopGuard 소스는 ${REPO_URL} 에서 MIT 라이선스 + Commons Clause로 공개되어 있습니다. 읽고 수정하고 자가 용도로 셋호스팅할 수 있지만, Commons Clause에 따라 판매하거나 제3자에게 호스팅 서비스로 제공하는 것은 금지됩니다. slopguard.app 호스팅 서비스, 인프라, 브랜드, 매니지드 기능은 당사가 운영하며 본 약관의 적용을 받습니다.`,
+				`SlopGuard 소스는 ${REPO_URL} 에서 MIT 라이선스 + Commons Clause로 공개되어 있습니다. 읽고 수정하고 직접 셀프호스팅할 수 있지만, Commons Clause에 따라 판매하거나 제3자에게 호스팅 서비스로 제공하는 것은 금지됩니다. slopguard.app 호스팅 서비스, 인프라, 브랜드, 매니지드 기능은 당사가 운영하며 본 약관의 적용을 받습니다.`,
 			],
 		},
 		{

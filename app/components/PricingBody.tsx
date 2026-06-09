@@ -38,7 +38,7 @@ export default async function PricingBody({ lang }: { lang: Lang }) {
 		? {
 				eyebrow: "가격",
 				h1: "운영까지 맡기면,\n팀이 더 편해집니다",
-				sub: "비공개 레포, 조직 기능, 서버와 LLM 운영까지 유료 플랜이 맡습니다. 소스가 공개돼 있어 직접 올려 써도 됩니다(자가 용도, Commons Clause).",
+				sub: "비공개 레포, 조직 기능, 서버와 LLM 운영까지 유료 플랜이 맡습니다. 소스가 공개돼 있어 직접 올려 써도 됩니다(본인 용도, Commons Clause).",
 				addsTitle: "유료 플랜이 대신해주는 것",
 				adds: [
 					"매니지드 LLM, 서버와 API 비용 제로",

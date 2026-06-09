@@ -246,7 +246,7 @@ export const EX = {
 				license: "라이선스",
 				account: "마이페이지",
 			},
-			rights: "소스 공개(Commons Clause). 자가 용도 셋호스팅 가능.",
+			rights: "소스 공개(Commons Clause). 직접 셀프호스팅 가능.",
 		},
 	},
 } as const;
@@ -360,7 +360,7 @@ export default function Landing({ lang }: { lang: Lang }) {
 							</li>
 							<li>
 								<b>{lang === "ko" ? "소스공개" : "source-available"}</b>
-								{lang === "ko" ? "자가 셋호스팅" : "self-host for yourself"}
+								{lang === "ko" ? "직접 셀프호스팅" : "self-host for yourself"}
 							</li>
 						</ul>
 					</div>
