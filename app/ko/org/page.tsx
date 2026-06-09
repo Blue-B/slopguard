@@ -62,6 +62,8 @@ const copy: OrgDashboardConsoleCopy = {
 	emptyQueue: "최근 30일 안에 처리할 항목이 없습니다.",
 	emptyRepos: "아직 활동이 있는 레포가 없습니다.",
 	policyReadout: "설치 레포 중 정책 신호가 동작 중인 비율",
+	trendTitle: "최근 14일 추세",
+	trendEmpty: "아직 추세 데이터가 없습니다. 격리가 쌓이면 여기 표시됩니다.",
 };
 
 export default function OrgDashboard() {

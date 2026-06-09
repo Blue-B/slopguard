@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession, effectiveOwner } from "@/lib/auth/session";
 import { hasOrgDashboard } from "@/lib/billing/entitlement";
 import { getOwnerSlopStats } from "@/lib/github/storage";
+import { getTrend } from "@/lib/intel/network";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -37,6 +38,8 @@ export async function GET() {
 
 	try {
 		const stats = await getOwnerSlopStats(owner);
+		// Long-term trend (hosting-only; empty on a bare self-host).
+		const trend = await getTrend(owner, 14).catch(() => []);
 
 		// Group recent activity into coarse campaign clusters by repo for the
 		// "radar" view. This is a quick fingerprint-by-prefix; the dedicated
@@ -90,6 +93,7 @@ export async function GET() {
 			recent: stats.recent.slice(0, 12),
 			repos: stats.repos,
 			radar,
+			trend,
 		});
 	} catch (err) {
 		const reason =

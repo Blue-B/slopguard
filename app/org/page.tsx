@@ -62,6 +62,8 @@ const copy: OrgDashboardConsoleCopy = {
 	emptyQueue: "No items in the last 30 days.",
 	emptyRepos: "No repos with activity yet.",
 	policyReadout: "Share of installed repos with active policy signals",
+	trendTitle: "Last 14 days",
+	trendEmpty: "No trend data yet. Quarantines will chart here as they accrue.",
 };
 
 export default function OrgDashboard() {

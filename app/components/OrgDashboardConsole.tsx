@@ -41,6 +41,7 @@ type DashboardResponse =
 				authors: number;
 				delta: number;
 			}>;
+			trend?: Array<{ date: string; quarantined: number; cleared: number }>;
 	  }
 	| { installed: false; owner: string; reason: string };
 
@@ -86,6 +87,8 @@ export type OrgDashboardConsoleCopy = {
 	emptyQueue: string;
 	emptyRepos: string;
 	policyReadout: string;
+	trendTitle: string;
+	trendEmpty: string;
 };
 
 type OrgQueueStatus = "quarantined" | "cleared" | "watching";
@@ -282,6 +285,31 @@ export default function OrgDashboardConsole({ copy }: { copy: OrgDashboardConsol
 									<b style={{ color: toneColor.ok }}>{pct}%</b>
 									<span>{copy.policyReadout}</span>
 								</div>
+							</div>
+
+							<div className="console-rail-block">
+								<header className="console-block-head"><h3>{copy.trendTitle}</h3></header>
+								{(() => {
+									const trend = live?.trend ?? [];
+									const max = Math.max(1, ...trend.map((d) => d.quarantined));
+									const any = trend.some((d) => d.quarantined > 0 || d.cleared > 0);
+									if (!any)
+										return (
+											<div className="console-empty-line">{copy.trendEmpty}</div>
+										);
+									return (
+										<div className="trend-strip" aria-hidden="true">
+											{trend.map((d) => (
+												<span
+													key={d.date}
+													className="trend-bar"
+													title={`${d.date}: ${d.quarantined} quarantined, ${d.cleared} cleared`}
+													style={{ height: `${Math.round((d.quarantined / max) * 100)}%` }}
+											/>
+											))}
+										</div>
+									);
+								})()}
 							</div>
 						</aside>
 					</div>

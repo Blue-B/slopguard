@@ -4999,3 +4999,22 @@ footer.site.footer-app {
 .footer-legal a:hover {
 	color: var(--fg);
 }
+
+/* Org dashboard: compact long-term slop trend (hosting-only) */
+.trend-strip {
+	display: flex;
+	align-items: flex-end;
+	gap: 3px;
+	height: 48px;
+	margin-top: 4px;
+}
+.trend-bar {
+	flex: 1;
+	min-height: 2px;
+	border-radius: 2px 2px 0 0;
+	background: linear-gradient(180deg, var(--danger), rgba(248, 81, 73, 0.35));
+	opacity: 0.85;
+}
+.trend-bar:hover {
+	opacity: 1;
+}

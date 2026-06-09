@@ -35,6 +35,8 @@ export interface Plan {
 	managedLlm: boolean;
 	/** cross-repo bot-campaign detection (shared prompt fingerprints) */
 	campaignDetection: boolean;
+	/** Network intelligence: cross-customer slop signal (hosted-only moat). */
+	networkIntel: boolean;
 	/** org-wide dashboard + activity/audit log across all repos */
 	orgDashboard: boolean;
 	/** Slack / Discord / webhook alerts on quarantine */
@@ -71,6 +73,7 @@ export const PLANS: Record<PlanId, Plan> = {
 		privateRepos: false,
 		managedLlm: false,
 		campaignDetection: false,
+		networkIntel: false,
 		orgDashboard: false,
 		alerts: false,
 		sso: false,
@@ -86,12 +89,14 @@ export const PLANS: Record<PlanId, Plan> = {
 			"Everything in Free",
 			"Private repositories",
 			"Dedicated LLM quota (no shared throttle)",
-			"Cross-repo bot-campaign detection",
+			"Cross-repo bot-pattern detection",
+			"Network slop intelligence (cross-customer, hosted-only)",
 			"Higher rate limits",
 		],
 		privateRepos: true,
 		managedLlm: true,
 		campaignDetection: true,
+		networkIntel: true,
 		orgDashboard: false,
 		alerts: false,
 		sso: false,
@@ -119,6 +124,7 @@ export const PLANS: Record<PlanId, Plan> = {
 		privateRepos: true,
 		managedLlm: true,
 		campaignDetection: true,
+		networkIntel: true,
 		orgDashboard: true,
 		alerts: true,
 		sso: false,
@@ -142,6 +148,7 @@ export const PLANS: Record<PlanId, Plan> = {
 		privateRepos: true,
 		managedLlm: true,
 		campaignDetection: true,
+		networkIntel: true,
 		orgDashboard: true,
 		alerts: true,
 		sso: true,

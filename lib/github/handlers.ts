@@ -6,6 +6,12 @@ import { toAgentPolicy } from "../policy/schema.js";
 import { planForOwner } from "../billing/entitlement.js";
 import { PLANS } from "../billing/plans.js";
 import { recordAndDetect, CAMPAIGN_SCORE_BUMP } from "../agent/campaign.js";
+import {
+	getNetworkSignal,
+	recordOutcome,
+	recordSighting,
+	recordTrendEvent,
+} from "../intel/network.js";
 import { dispatchConsoleAlerts } from "../alerts/dispatch.js";
 import { sendQuarantineAlerts } from "../notify.js";
 import { buildIssueInput, buildPullRequestInput } from "./build-input.js";
@@ -134,6 +140,35 @@ async function review(
 		}
 	}
 
+	// Network intelligence (Pro+, hosted-only): a fingerprint flagged across many
+	// OTHER installations boosts the score; one repeatedly cleared as a false
+	// positive network-wide is suppressed. Read before recording this sighting so
+	// the counts reflect other owners, not us. Best-effort, never blocks.
+	if (plan.networkIntel && policy.share_intel !== false) {
+		const sig = await getNetworkSignal(
+			result.provenance.promptFingerprint,
+			input.author,
+		).catch(() => null);
+		if (sig && sig.delta !== 0) {
+			const adjusted = Math.max(0, Math.min(100, result.score + sig.delta));
+			result = {
+				...result,
+				score: adjusted,
+				shouldQuarantine: adjusted >= policy.thresholds.quarantine,
+				highConfidence: adjusted >= policy.thresholds.high_confidence,
+				verdict:
+					adjusted >= policy.thresholds.high_confidence
+						? "likely-slop"
+						: adjusted >= policy.thresholds.quarantine
+							? "suspicious"
+							: "clean",
+				reasons: sig.reason
+					? [...result.reasons, `• ${sig.reason}`]
+					: result.reasons,
+			};
+		}
+	}
+
 	const qLabel = policy.labels.quarantine;
 
 	if (!result.shouldQuarantine) {
@@ -186,6 +221,22 @@ async function review(
 		await sendQuarantineAlerts(policy.notify, input, result).catch(() => 0);
 		await dispatchConsoleAlerts(owner, input, result).catch(() => 0);
 	}
+
+	// Contribute this sighting to the hosted network (anonymized). Every hosted
+	// install feeds the network so the cross-customer signal grows; opt out with
+	// share_intel: false. Best-effort, never blocks the webhook.
+	if (policy.share_intel !== false) {
+		await recordSighting(
+			owner,
+			repo,
+			input.number,
+			result.provenance.promptFingerprint,
+			input.author,
+		).catch(() => {});
+	}
+	// Long-term trend (hosting-only): count this quarantine in the owner's daily
+	// bucket so the org dashboard can show history beyond GitHub's live window.
+	await recordTrendEvent(owner, "quarantined").catch(() => {});
 }
 
 /** /slop command handling (human-in-the-loop). */
@@ -242,6 +293,9 @@ async function handleCommand(
 			issue_number: issueNumber,
 			body: `✅ Quarantine cleared by @${commenter}. Thanks for reviewing!`,
 		});
+		if (policy.share_intel !== false)
+			await recordOutcome(owner, repo, issueNumber, "cleared").catch(() => {});
+		await recordTrendEvent(owner, "cleared").catch(() => {});
 		return;
 	}
 
@@ -259,6 +313,8 @@ async function handleCommand(
 			state: "closed",
 			state_reason: "not_planned",
 		});
+		if (policy.share_intel !== false)
+			await recordOutcome(owner, repo, issueNumber, "confirmed").catch(() => {});
 		return;
 	}
 
@@ -278,6 +334,9 @@ async function handleCommand(
 		issue_number: issueNumber,
 		body: `🙏 Marked as false positive by @${commenter}. Quarantine cleared and a tuning issue was opened. Sorry for the noise!`,
 	});
+	if (policy.share_intel !== false)
+		await recordOutcome(owner, repo, issueNumber, "cleared").catch(() => {});
+	await recordTrendEvent(owner, "cleared").catch(() => {});
 }
 
 /** Register all webhook event handlers on the App. Called once. */

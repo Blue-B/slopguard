@@ -21,6 +21,9 @@ export const PolicySchema = z
 	.object({
 		version: z.number().default(1),
 		enabled: z.boolean().default(true),
+		// Opt out of contributing anonymized fingerprint signals to the hosted
+		// SlopGuard network (and of receiving the cross-customer boost).
+		share_intel: z.boolean().default(true),
 		scan: z
 			.object({
 				pull_requests: z.boolean().default(true),
