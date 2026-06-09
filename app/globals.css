@@ -5079,3 +5079,49 @@ footer.site.footer-app {
 @media (max-width: 700px) {
 	.why-grid { grid-template-columns: 1fr; }
 }
+
+/* Landing: "why you need this" pain-point band (right under hero) */
+.why-need {
+	padding: 56px 0 8px;
+}
+.why-need-title {
+	font-size: clamp(22px, 3vw, 32px);
+	letter-spacing: -0.02em;
+	line-height: 1.2;
+	margin: 0 0 28px;
+	max-width: 22ch;
+}
+.why-need-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 16px;
+}
+.why-need-card {
+	border-top: 2px solid var(--danger);
+	padding: 18px 2px 0;
+}
+.why-need-card h3 {
+	font-size: 16px;
+	letter-spacing: -0.01em;
+	margin: 0 0 8px;
+}
+.why-need-card p {
+	color: var(--muted);
+	font-size: 14px;
+	line-height: 1.6;
+	margin: 0;
+	max-width: 38ch;
+}
+.why-need-punch {
+	margin: 28px 0 0;
+	font-size: clamp(15px, 1.8vw, 17px);
+	line-height: 1.6;
+	color: var(--fg);
+	max-width: 70ch;
+	padding-left: 16px;
+	border-left: 2px solid var(--green);
+}
+@media (max-width: 760px) {
+	.why-need-grid { grid-template-columns: 1fr; gap: 0; }
+	.why-need-card { border-top: none; border-left: 2px solid var(--danger); padding: 4px 0 4px 16px; margin-bottom: 18px; }
+}

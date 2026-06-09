@@ -383,6 +383,56 @@ export default function Landing({ lang }: { lang: Lang }) {
 				</div>
 			</header>
 
+			<section className="wide why-need">
+				<h2 className="why-need-title">
+					{lang === "ko"
+						? "이런 적 있다면 SlopGuard가 필요합니다"
+						: "You need SlopGuard if any of this sounds familiar"}
+				</h2>
+				<div className="why-need-grid">
+					{(lang === "ko"
+						? [
+								[
+									"가짜 PR에 시간 낭비",
+									"그럴듯해 보여서 열어봤는데 AI가 만든 헛것. 30초씩 일주일이면 하루가 날아갑니다.",
+								],
+								[
+									"알림이 두렵다",
+									"이슈·PR 알림을 열 때마다 진짜인지 슬롭인지 일일이 가려내야 합니다.",
+								],
+								[
+									"그렇다고 막 닫을 순 없다",
+									"패턴만 보고 닫으면 진짜 첫 기여자를 내칠 수 있어 불안합니다.",
+								],
+							]
+						: [
+								[
+									"Fake PRs eat your time",
+									"They look plausible enough to open, then you realize a model made it. Thirty seconds each, a few dozen a week.",
+								],
+								[
+									"Triage never stops",
+									"Every issue and PR notification means deciding, again, real or slop, one by one.",
+								],
+								[
+									"But you can't just close them",
+									"Closing on pattern alone eventually burns a real first-time contributor. So you don't.",
+								],
+						]
+					).map(([h, b]) => (
+						<div className="why-need-card" key={h}>
+							<h3>{h}</h3>
+							<p>{b}</p>
+						</div>
+					))}
+				</div>
+				<p className="why-need-punch">
+					{lang === "ko"
+						? "SlopGuard가 들어오는 걸 전부 읽어 기계가 만든 것에 근거와 함께 표시해주면, 진짜만 한번에 검토하면 됩니다. 결정은 여전히 당신이 합니다."
+						: "SlopGuard reads every one and flags the machine-made ones with the reasons, so you review the real ones in a single pass. The decision stays yours."}
+				</p>
+			</section>
+
 			<section className="wide section">
 				<SectionHead
 					no="01"
