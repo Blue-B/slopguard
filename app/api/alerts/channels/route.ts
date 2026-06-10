@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isSafeWebhookUrl } from "@/lib/net/ssrf";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
 import { hasAlerts } from "@/lib/billing/entitlement";
@@ -60,6 +61,14 @@ export async function POST(req: Request) {
 	) {
 		return NextResponse.json(
 			{ error: "discord target must be discord.com/api/webhooks/ URL" },
+			{ status: 400 },
+		);
+	}
+	// Generic webhooks may point anywhere the customer likes, EXCEPT internal /
+	// metadata / IP-literal targets (SSRF). Applies to every kind for depth.
+	if (!isSafeWebhookUrl(b.target)) {
+		return NextResponse.json(
+			{ error: "target must be a public https:// URL (no IPs or internal hosts)" },
 			{ status: 400 },
 		);
 	}

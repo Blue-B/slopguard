@@ -53,7 +53,6 @@ const T = {
 	},
 } as const;
 
-const CONTACT_URL = `${REPO_URL}/issues/new?labels=enterprise&title=Enterprise%20inquiry`;
 
 export default function PricingPlans({
 	lang,
@@ -125,7 +124,6 @@ export default function PricingPlans({
 					const copy = pm.plans[id];
 					const isCurrent = currentPlan === id;
 					const isFree = id === "free";
-					const isContact = plan.contactSales === true;
 					const price = yearly ? plan.priceYearly : plan.priceMonthly;
 					const per = yearly ? t.perYr : t.perMo;
 					const savings = yearlySavings(plan);
@@ -139,12 +137,7 @@ export default function PricingPlans({
 							<h3>{copy.name}</h3>
 
 							<div className="price">
-								{isContact ? (
-									<>
-										<span className="amt">${plan.priceFrom ?? ""}</span>
-										<span className="per">{t.perMo}</span>
-									</>
-								) : isFree ? (
+								{isFree ? (
 									<span className="amt">{t.free}</span>
 								) : (
 									<>
@@ -153,8 +146,7 @@ export default function PricingPlans({
 									</>
 								)}
 							</div>
-							{isContact && <p className="price-note">{t.contactNote}</p>}
-							{!isContact && !isFree && yearly && (
+							{!isFree && yearly && (
 								<p className="price-note">
 									{t.billedYr(plan.priceYearly ?? 0)}, {t.saveAmt(savings)}
 								</p>
@@ -169,7 +161,7 @@ export default function PricingPlans({
 							</ul>
 
 							{isCurrent ? (
-								isFree || isContact || !manageable ? (
+								isFree || !manageable ? (
 									// Free/Enterprise or a comp grant: no self-serve subscription
 									// to manage, so just mark the tier as current.
 									<span className="btn btn-ghost plan-cta is-current">
@@ -185,10 +177,6 @@ export default function PricingPlans({
 										{t.manage}
 									</a>
 								)
-							) : isContact ? (
-								<a className="btn btn-ghost plan-cta" href={CONTACT_URL}>
-									{t.contact}
-								</a>
 							) : granted ? (
 								// Comp/granted account: not self-serve purchasable.
 								<span

@@ -36,14 +36,6 @@ export function GET(req: Request) {
 	// github-login entered at Polar checkout (per org), not the logged-in
 	// session, so the same user may legitimately buy for a DIFFERENT org. The
 	// pricing UI routes the user's OWN current tier to the portal instead.
-	// Enterprise has no self-serve checkout.
-	if (PLANS[plan].contactSales) {
-		return NextResponse.json(
-			{ error: "contact sales", plan: PLANS[plan] },
-			{ status: 400 },
-		);
-	}
-
 	const { link } = linkFor(plan, yearly);
 	if (!link) {
 		return NextResponse.json(

@@ -7,6 +7,7 @@
 // so the console "sent" view and delivery counts reflect reality.
 
 import type { SlopInput, SlopResult } from "../agent/types.js";
+import { isSafeWebhookUrl } from "../net/ssrf.js";
 import {
 	type Channel,
 	ensureConsoleReady,
@@ -75,6 +76,9 @@ async function post(
 	body: unknown,
 ): Promise<{ ok: boolean; latencyMs: number }> {
 	const t0 = Date.now();
+	// Defense in depth: re-check at send time in case a target was stored before
+	// the create-time SSRF validation existed.
+	if (!isSafeWebhookUrl(url)) return { ok: false, latencyMs: 0 };
 	const ctrl = new AbortController();
 	const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
 	try {

@@ -1,4 +1,5 @@
 import { NextResponse, after } from "next/server";
+import { recordFailedWebhook } from "@/lib/ops/deadletter";
 import type { EmitterWebhookEventName } from "@octokit/webhooks";
 import { getApp } from "@/lib/github/app";
 import { claimDelivery } from "@/lib/cache";
@@ -77,9 +78,13 @@ export async function POST(req: Request) {
 			.receive({ id, name, payload } as Parameters<
 				typeof app.webhooks.receive
 			>[0])
-			.catch((err) =>
-				console.error("[slopguard] background processing failed:", err),
-			),
+			.catch(async (err) => {
+				console.error("[slopguard] background processing failed:", err);
+				// We already ACKed 202, so GitHub won't redeliver. Record the failure
+				// so it shows in /api/health and can be replayed from the App's
+				// Recent Deliveries page.
+				await recordFailedWebhook(id, name, err).catch(() => {});
+			}),
 	);
 
 	return NextResponse.json({ ok: true, accepted: true }, { status: 202 });

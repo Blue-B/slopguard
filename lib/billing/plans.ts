@@ -24,7 +24,6 @@ export interface Plan {
 	/** USD per year (≈ 2 months free); null when not applicable */
 	priceYearly: number | null;
 	/** "from" anchor price for contact-sales tiers (USD/mo); null when n/a */
-	priceFrom?: number;
 	tagline: string;
 	features: string[];
 
@@ -52,7 +51,6 @@ export interface Plan {
 	/** yearly Polar Checkout Link env var; null disables yearly checkout */
 	polarEnvKeyYearly?: string;
 	/** true = no self-serve checkout, route to contact-sales instead */
-	contactSales?: boolean;
 }
 
 export const PLANS: Record<PlanId, Plan> = {

@@ -43,8 +43,6 @@ export async function GET(req: Request) {
 	}
 
 	if (!PLANS[target]) return back("invalid");
-	// Enterprise is contact-sales, not a self-serve change.
-	if (PLANS[target].contactSales) return back("contact");
 
 	let sub: Awaited<ReturnType<typeof findSubscriptionForOwner>> = null;
 	try {

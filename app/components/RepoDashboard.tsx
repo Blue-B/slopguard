@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
 import { getRepoSlopStats, type RepoSlopStats } from "@/lib/github/storage";
 import type { Lang } from "@/lib/i18n";
 import Link from "next/link";
@@ -67,10 +69,17 @@ export default async function RepoDashboard({
 	const installHref = lang === "ko" ? "/ko/install" : "/install";
 	const full = `${owner}/${repo}`;
 
+	// Private repos render only for their authenticated owner; everyone else gets
+	// the same "can't load" banner as a repo without the app installed.
+	const store = await cookies();
+	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
+	const allowPrivate =
+		Boolean(session) && session!.login.toLowerCase() === owner.toLowerCase();
+
 	let stats: RepoSlopStats | null = null;
 	let error: string | null = null;
 	try {
-		stats = await getRepoSlopStats(owner, repo);
+		stats = await getRepoSlopStats(owner, repo, undefined, undefined, allowPrivate);
 	} catch (e) {
 		error = e instanceof Error ? e.message : String(e);
 	}

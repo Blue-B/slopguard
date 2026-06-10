@@ -1,0 +1,47 @@
+# Production watchdog: probes the live service every 15 minutes. A failed run
+# means a paying customer would be hitting a broken service; GitHub emails the
+# repo owner on workflow failure, so this is free, serverless alerting.
+name: watchdog
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: health endpoint (degraded deps return 503)
+        run: |
+          code=$(curl -s -m 20 -o /tmp/h.json -w "%{http_code}" https://slopguard.app/api/health)
+          echo "health HTTP $code"
+          cat /tmp/h.json
+          test "$code" = "200"
+
+      - name: redis is live (data persistence)
+        run: grep -q '"redis":"ok"' /tmp/h.json
+
+      - name: no recorded webhook processing failures
+        run: |
+          # Soft check: print the count but only fail when failures accumulate.
+          n=$(grep -o '"failedWebhooks":[0-9]*' /tmp/h.json | grep -o '[0-9]*$' || echo 0)
+          echo "failedWebhooks=$n"
+          test "${n:-0}" -lt 5
+
+      - name: checkout links redirect to Polar (payment path)
+        run: |
+          for p in pro team enterprise; do
+            out=$(curl -s -m 20 -o /dev/null -w "%{http_code} %{redirect_url}" "https://slopguard.app/api/billing/checkout?plan=$p")
+            echo "$p -> $out"
+            echo "$out" | grep -q "302 https://buy.polar.sh/"
+          done
+
+      - name: key pages render
+        run: |
+          for path in "" pricing docs install; do
+            code=$(curl -s -m 20 -o /dev/null -w "%{http_code}" "https://slopguard.app/$path")
+            echo "/$path -> $code"
+            test "$code" = "200"
+          done

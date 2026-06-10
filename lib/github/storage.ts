@@ -21,11 +21,21 @@ export interface SlopHistoryItem {
 
 export interface RepoSlopStats {
 	repo: string;
+	/** GitHub repo visibility; callers must not show private data to anonymous viewers. */
+	private: boolean;
 	quarantined: number;
 	cleared: number;
 	open: number;
 	closed: number;
 	items: SlopHistoryItem[];
+}
+
+/** Thrown when a private repo's stats are requested without authorization. */
+export class PrivateRepoError extends Error {
+	constructor() {
+		super("repository is private");
+		this.name = "PrivateRepoError";
+	}
 }
 
 /** Resolve an installation-scoped client for a specific repo (GitHub-as-storage). */
@@ -50,12 +60,24 @@ export async function getRepoSlopStats(
 	repo: string,
 	quarantineLabel = process.env.DEFAULT_QUARANTINE_LABEL ?? "slop-quarantine",
 	clearedLabel = "slop-cleared",
+	/** Pass true ONLY when the viewer is the authenticated repo owner. */
+	allowPrivate = false,
 ): Promise<RepoSlopStats> {
 	const cacheKey = `${owner}/${repo}`;
 	const cached = statsCache.get(cacheKey);
-	if (cached) return cached;
+	if (cached) {
+		// Visibility is enforced on every read, including cache hits, so an
+		// authorized owner's earlier request can never warm the cache for an
+		// anonymous viewer of a private repo.
+		if (cached.private && !allowPrivate) throw new PrivateRepoError();
+		return cached;
+	}
 
 	const octokit = await getRepoInstallationClient(owner, repo);
+	// The installation token can read private repos the app is installed on, so
+	// gate on actual repo visibility before returning anything.
+	const { data: repoInfo } = await octokit.rest.repos.get({ owner, repo });
+	if (repoInfo.private && !allowPrivate) throw new PrivateRepoError();
 
 	const collected = new Map<number, SlopHistoryItem>();
 	for (const label of [quarantineLabel, clearedLabel]) {
@@ -91,6 +113,7 @@ export async function getRepoSlopStats(
 
 	const stats: RepoSlopStats = {
 		repo: `${owner}/${repo}`,
+		private: Boolean(repoInfo.private),
 		quarantined: items.filter((i) => i.labels.includes(quarantineLabel)).length,
 		cleared: items.filter((i) => i.labels.includes(clearedLabel)).length,
 		open: items.filter((i) => i.state === "open").length,

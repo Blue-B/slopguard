@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isSafeWebhookUrl } from "@/lib/net/ssrf";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
 import { hasAlerts } from "@/lib/billing/entitlement";
@@ -31,6 +32,7 @@ async function postWithTimeout(
 	latencyMs: number;
 	error?: string;
 }> {
+	if (!isSafeWebhookUrl(url)) return { ok: false, latencyMs: 0, error: "unsafe target" };
 	const start = Date.now();
 	const controller = new AbortController();
 	const t = setTimeout(() => controller.abort(), TIMEOUT_MS);

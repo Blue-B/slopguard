@@ -97,6 +97,41 @@ const EMPTY: NetworkSignal = {
 };
 
 /**
+ * Pure decision: given the network's counters for a fingerprint, what score
+ * delta applies. Extracted so the thresholds are unit-testable without Redis.
+ */
+export function decideNetworkSignal(
+	networkRepos: number,
+	confirmed: number,
+	cleared: number,
+): NetworkSignal {
+	// Suppress: maintainers keep clearing this pattern as a false positive
+	// across the network. Pull the score down to avoid repeating their work.
+	if (cleared >= 3 && cleared > confirmed * 2) {
+		return {
+			networkRepos,
+			confirmed,
+			cleared,
+			delta: -NETWORK_SUPPRESS,
+			reason: `Network: maintainers cleared this pattern ${cleared}x as a false positive; score reduced`,
+		};
+	}
+	// Boost: same fingerprint flagged by several distinct owners in the network.
+	// (networkRepos is a distinct-OWNER count; it may include this owner from a
+	// prior sighting, so the wording says "owners", not "other repositories".)
+	if (networkRepos >= NETWORK_REPO_THRESHOLD) {
+		return {
+			networkRepos,
+			confirmed,
+			cleared,
+			delta: NETWORK_BOOST,
+			reason: `Network: this prompt fingerprint has been flagged by ${networkRepos} owners in the SlopGuard network`,
+		};
+	}
+	return { networkRepos, confirmed, cleared, delta: 0, reason: null };
+}
+
+/**
  * Read the network's view of this fingerprint BEFORE recording the
  * current sighting, so the counts reflect OTHER installations, not this one.
  * Best-effort: any error returns a no-op signal so scoring never breaks.
@@ -114,35 +149,11 @@ export async function getNetworkSignal(
 				r.hgetall<Record<string, string>>(`ni:fp:${fp}`),
 			]),
 		);
-		const networkRepos = Number(repos ?? 0);
-		const confirmed = Number(meta?.confirmed ?? 0);
-		const cleared = Number(meta?.cleared ?? 0);
-
-		// Suppress: maintainers keep clearing this pattern as a false positive
-		// across the network. Pull the score down to avoid repeating their work.
-		if (cleared >= 3 && cleared > confirmed * 2) {
-			return {
-				networkRepos,
-				confirmed,
-				cleared,
-				delta: -NETWORK_SUPPRESS,
-				reason: `Network: maintainers cleared this pattern ${cleared}x as a false positive; score reduced`,
-			};
-		}
-
-		// Boost: same fingerprint flagged by several distinct owners in the network.
-		// (networkRepos is a distinct-OWNER count; it may include this owner from a
-		// prior sighting, so the wording says "owners", not "other repositories".)
-		if (networkRepos >= NETWORK_REPO_THRESHOLD) {
-			return {
-				networkRepos,
-				confirmed,
-				cleared,
-				delta: NETWORK_BOOST,
-				reason: `Network: this prompt fingerprint has been flagged by ${networkRepos} owners in the SlopGuard network`,
-			};
-		}
-		return { networkRepos, confirmed, cleared, delta: 0, reason: null };
+		return decideNetworkSignal(
+			Number(repos ?? 0),
+			Number(meta?.confirmed ?? 0),
+			Number(meta?.cleared ?? 0),
+		);
 	} catch {
 		return EMPTY;
 	}
