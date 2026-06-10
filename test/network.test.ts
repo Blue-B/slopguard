@@ -77,4 +77,11 @@ describe("SSRF webhook target guard", () => {
 		assert.equal(isSafeWebhookUrl("not a url"), false);
 		assert.equal(isSafeWebhookUrl("https://[::1]/hook"), false);
 	});
+
+	it("rejects encoded-IP and obfuscation bypasses", () => {
+		assert.equal(isSafeWebhookUrl("https://2130706433/"), false); // decimal IP
+		assert.equal(isSafeWebhookUrl("https://0x7f000001/"), false); // hex IP
+		assert.equal(isSafeWebhookUrl("https://user:pass@evil.com/"), false); // credentials
+		assert.equal(isSafeWebhookUrl("https://localhost./"), false); // trailing dot
+	});
 });

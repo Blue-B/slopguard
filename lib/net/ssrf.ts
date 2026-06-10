@@ -19,16 +19,27 @@ const BLOCKED_HOSTS = new Set([
 export function isSafeWebhookUrl(raw: string): boolean {
 	let u: URL;
 	try {
-		u = new URL(raw);
+		u = new URL(raw.trim());
 	} catch {
 		return false;
 	}
-	if (u.protocol !== "https:") return false;
-	const host = u.hostname.toLowerCase();
+	// protocol is already normalized to lowercase by URL, but compare defensively.
+	if (u.protocol.toLowerCase() !== "https:") return false;
+	// Reject embedded credentials (https://user:pass@host) which obscure intent
+	// and are never legitimate for a webhook target.
+	if (u.username || u.password) return false;
+	// Strip a single trailing dot ("example.com." resolves the same but dodges
+	// suffix checks).
+	const host = u.hostname.toLowerCase().replace(/\.$/, "");
+	if (!host) return false;
 	if (BLOCKED_HOSTS.has(host)) return false;
 	if (host.endsWith(".local") || host.endsWith(".internal")) return false;
-	// Any IPv4/IPv6 literal is rejected outright.
+	// Reject any numeric-literal host: dotted IPv4, bare decimal (2130706433),
+	// and hex (0x7f000001) encodings of an address.
 	if (/^\d{1,3}(\.\d{1,3}){3}$/.test(host)) return false;
+	if (/^\d+$/.test(host)) return false;
+	if (/^0x[0-9a-f]+$/.test(host)) return false;
+	// IPv6 literals (bracketed or containing a colon).
 	if (host.includes(":") || host.startsWith("[")) return false;
 	if (!host.includes(".")) return false; // bare intranet names like "redis"
 	return true;
