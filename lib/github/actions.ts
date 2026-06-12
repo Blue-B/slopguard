@@ -52,7 +52,7 @@ export async function removeLabel(
 ): Promise<void> {
 	await octokit.rest.issues
 		.removeLabel({ owner, repo, issue_number, name })
-		.catch(() => void 0); // 404 if not present — fine
+		.catch(() => void 0); // 404 if not present, fine
 }
 
 /** Author / path allowlist check. */

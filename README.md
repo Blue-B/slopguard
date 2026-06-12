@@ -40,17 +40,24 @@ A PR or issue triggers a webhook. The detection agent runs static heuristics and
 
 ## Detection quality
 
-A labeled golden set (`test/fixtures/golden.ts`, 25 cases) is scored by the eval harness:
+Two labeled sets are scored by the same eval harness:
 
 ```bash
-npm run eval
+npm run eval        # golden set: 25 synthetic regression cases
+npm run eval:field  # field set: 28 real GitHub issues and PRs
 ```
 
-Heuristics-only at the default threshold (50): **precision 100% · recall 92% · F1 96%**. Adding an LLM key lifts recall further on the subtlest cases (e.g. over-commented trivial diffs). The harness prints a confusion matrix and a threshold sweep so you can calibrate for your repo.
+**Golden set** (`test/fixtures/golden.ts`, written by hand): heuristics-only at the default threshold (50), **precision 100% · recall 92% · F1 96%**. The set grew alongside the heuristics, so read it as a regression floor, not a benchmark: it pins which patterns are guaranteed to stay caught across releases.
 
-How to read these numbers: the golden set is synthetic (written by hand, not scraped from real repos) and it grew alongside the heuristics, so this is a regression floor, not a field benchmark. It tells you which patterns the detector is guaranteed to catch and that they stay caught across releases. Real-world slop drifts; when a new pattern shows up in the wild, it gets added as a case first and then the detector is fixed until the suite is green again. If you want to know how it behaves on your traffic, run `npm run eval` after editing the set with your own examples.
+**Field set** (`test/fixtures/field.ts`, collected 2026-06): real issues and PRs from public GitHub, labeled by hand, every case linking its source. The slop side is drive-by agent PRs, AI security-scan spam, and bold-spam enhancement requests; the clean side is human bug reports plus deliberately hard negatives, AI-assisted but substantive work that must NOT be flagged. Heuristics-only: **precision 100% · recall 89%** (8 of 9 slop caught, 0 of 19 clean flagged). The one miss is a rejected agent PR that wraps real code, exactly the subtle case the LLM judge exists for.
+
+Full disclosure: the first run of the field set scored recall 0% with 3 false positives. The 2023-era phrase list missed modern agent output entirely and punished polite humans. The rules were rebuilt against it (quoted-transcript exclusion, agent-report voice, no-op PR detection, content-free praise) until both sets passed, which means the field numbers are in-sample; fresh field batches get added over time and the current rules have to survive them unchanged. The harness prints a confusion matrix and a threshold sweep so you can calibrate for your repo.
 
 ![Threshold sweep — precision, recall, F1](./assets/detection-quality.svg)
+
+## How this is built
+
+SlopGuard is developed with AI-assisted tooling, like a lot of software is now. The difference from the slop it filters is the review gate: every detection rule is designed and tuned by a human, covered by tests, and pinned by the public eval suites above, so a rule that catches something today keeps catching it tomorrow. Nothing ships unreviewed. That is the same bar the tool asks bots to meet in your issue tracker: AI output is welcome, unreviewed AI output is not.
 
 ## Maintainer commands
 

@@ -34,7 +34,7 @@ function buildUserPrompt(
 	const begin = `BEGIN_UNTRUSTED_${nonce}`;
 	const end = `END_UNTRUSTED_${nonce}`;
 	// Strip any attempt by the content to forge/close the delimiter markers.
-	// Literal string replace (no dynamic RegExp) — the nonce is a random UUID.
+	// Literal string replace (no dynamic RegExp), the nonce is a random UUID.
 	const safe = (s: string) =>
 		s.replaceAll(begin, "[marker-removed]").replaceAll(end, "[marker-removed]");
 

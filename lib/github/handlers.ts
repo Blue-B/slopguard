@@ -171,7 +171,7 @@ async function review(
 	const qLabel = policy.labels.quarantine;
 
 	if (!result.shouldQuarantine) {
-		// Clean now — clear a stale quarantine label if present (e.g. PR updated).
+		// Clean now, clear a stale quarantine label if present (e.g. PR updated).
 		await removeLabel(octokit, owner, repo, input.number, qLabel);
 		console.log(
 			`[slopguard] clean ${input.repo}#${input.number} (${result.score})`,
@@ -215,7 +215,7 @@ async function review(
 	// Two independent configuration paths, both real and additive: policy-as-code
 	// (.github/SLOP_POLICY.yml `notify:`) and the /alerts console (channels +
 	// routing rules). If the same destination is configured in both, it receives
-	// one message per path by design — they are separate surfaces.
+	// one message per path by design, they are separate surfaces.
 	if (plan.alerts) {
 		await sendQuarantineAlerts(policy.notify, input, result).catch(() => 0);
 		await dispatchConsoleAlerts(owner, input, result).catch(() => 0);

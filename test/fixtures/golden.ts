@@ -37,7 +37,7 @@ function mk(
 const SMALL_DIFF =
 	"--- a/src/x.ts\n+++ b/src/x.ts\n@@\n-  const o = p * s;\n+  const o = (p - 1) * s;";
 
-// ── CLEAN (slop:false) — substantive, human, well-scoped ────────────────
+// CLEAN (slop:false), substantive, human, well-scoped
 const CLEAN: GoldenCase[] = [
 	mk("offbyone-fix", false, {
 		title: "Correct off-by-one in pagination offset",
@@ -103,7 +103,7 @@ const CLEAN: GoldenCase[] = [
 	}),
 ];
 
-// ── SLOP (slop:true) — AI-generated / low-effort / abuse ────────────────
+// SLOP (slop:true), AI-generated / low-effort / abuse
 const SLOP: GoldenCase[] = [
 	mk("ai-boilerplate", true, {
 		title: "Update",
@@ -163,7 +163,7 @@ const SLOP: GoldenCase[] = [
 		body: "## ✨ Features\nThis amazing tool does everything. ## 🚀 Benefits\nHere's the updated implementation.",
 		diff: SMALL_DIFF,
 	}),
-	// ── Hard cases: heuristics alone tend to MISS these; the LLM judge is
+	// Hard cases: heuristics alone tend to MISS these; the LLM judge is
 	//    what lifts recall here. Kept labeled slop on purpose.
 	mk("giant-empty-diff", true, {
 		title: "Update",

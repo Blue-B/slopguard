@@ -1,10 +1,10 @@
 // Tiny persistence layer with three backends, picked at runtime:
 //
-//   1. Upstash Redis  — if UPSTASH_REDIS_REST_URL + _TOKEN are set. Durable,
+//   1. Upstash Redis , if UPSTASH_REDIS_REST_URL + _TOKEN are set. Durable,
 //      free, survives redeploys, no disk needed. RECOMMENDED for production.
-//   2. JSON file      — if DATA_DIR is set (a mounted disk). Durable on hosts
+//   2. JSON file     , if DATA_DIR is set (a mounted disk). Durable on hosts
 //      that support persistent volumes.
-//   3. In-memory only — neither configured. Works with zero setup; data lives
+//   3. In-memory only, neither configured. Works with zero setup; data lives
 //      for the process lifetime only (lost on redeploy).
 //
 // The public API is synchronous (get/set/delete) so existing callers are
@@ -46,7 +46,7 @@ function getRedis(): Redis | null {
 }
 
 // Hard ceiling so a black-holed Redis (connects, never responds) can never hang
-// a flush() — the request would otherwise wait forever on a long-running server.
+// a flush(), the request would otherwise wait forever on a long-running server.
 const REDIS_TIMEOUT_MS = 4000;
 function withTimeout<T>(op: Promise<T>, label: string): Promise<T> {
 	let timer: ReturnType<typeof setTimeout>;
@@ -67,7 +67,7 @@ function chooseBackend(): Backend {
 	return "memory";
 }
 
-// ── file helpers ─────────────────────────────────────────────────────────
+// file helpers
 let dirReady = false;
 function ensureDir(): boolean {
 	if (!DATA_DIR) return false;
@@ -98,7 +98,7 @@ export class PersistentMap<V> {
 	private flushTimer: ReturnType<typeof setTimeout> | null = null;
 	private dirty = false;
 	private writing: Promise<void> = Promise.resolve();
-	// tail of pending durable writes (redis or file) — await via flush()
+	// tail of pending durable writes (redis or file), await via flush()
 	private pending: Promise<void> = Promise.resolve();
 
 	// hydration guard
@@ -122,7 +122,7 @@ export class PersistentMap<V> {
 		allMaps.push(this as PersistentMap<unknown>);
 	}
 
-	// ── hydration ──────────────────────────────────────────────────────────
+	// hydration
 	/** Ensure the in-memory mirror is loaded from the backend (Redis cold start). */
 	async ready(): Promise<void> {
 		if (this.hydrated) return;
@@ -197,7 +197,7 @@ export class PersistentMap<V> {
 		this.hydrated = true;
 	}
 
-	// ── writes ───────────────────────────────────────────────────────────
+	// writes
 	private persistKey(key: string, value: V): void {
 		if (this.backend === "redis") {
 			if (this.degraded) return; // mirror unreliable, don't risk clobbering
@@ -281,7 +281,7 @@ export class PersistentMap<V> {
 		}
 	}
 
-	// ── public sync API ──────────────────────────────────────────────────
+	// public sync API
 	get(key: string): V | undefined {
 		return this.mem.get(key);
 	}

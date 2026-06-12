@@ -41,7 +41,7 @@ async function build(provider: string): Promise<ResolvedModel | null> {
 				model: modelName,
 				temperature: 0,
 				maxOutputTokens: 1024,
-				// Don't burn the webhook window retrying a 429 — fall back fast.
+				// Don't burn the webhook window retrying a 429, fall back fast.
 				maxRetries: 0,
 				apiKey: process.env.GEMINI_API_KEY,
 			}),

@@ -1,52 +1,53 @@
 {
-  "name": "slopguard",
-  "version": "0.1.0",
-  "private": true,
-  "description": "GitHub App 하나로 AI slop PR/Issue를 자동 탐지·provenance 태그·quarantine 라벨링 + maintainer 최종 승인",
-  "type": "module",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build && cp -r .next/static .next/standalone/.next/static && (cp -r public .next/standalone/public 2>/dev/null || true)",
-    "start": "node .next/standalone/server.js",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test test/**/*.test.ts",
-    "agent:demo": "node --env-file-if-exists=.env.local --import tsx scripts/test-agent.ts",
-    "eval": "node --env-file-if-exists=.env.local --import tsx scripts/eval.ts",
-    "smee": "node scripts/smee.mjs",
-    "check-plan": "node --import tsx scripts/check-entitlement.ts"
-  },
-  "dependencies": {
-    "@authenio/samlify-node-xmllint": "^2.0.0",
-    "@langchain/anthropic": "^0.3.11",
-    "@langchain/core": "^0.3.40",
-    "@langchain/google-genai": "^0.1.12",
-    "@langchain/langgraph": "^0.2.44",
-    "@langchain/openai": "^0.3.17",
-    "@octokit/app": "^15.1.1",
-    "@octokit/webhooks": "^13.4.1",
-    "@upstash/redis": "^1.38.0",
-    "gifenc": "^1.0.3",
-    "js-yaml": "^4.1.0",
-    "lru-cache": "^11.0.2",
-    "next": "^15.1.6",
-    "octokit": "^4.1.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "samlify": "^2.13.1",
-    "ws": "^8.21.0",
-    "zod": "^3.24.1"
-  },
-  "devDependencies": {
-    "@types/js-yaml": "^4.0.9",
-    "@types/node": "^22.10.7",
-    "@types/react": "^19.0.7",
-    "@types/react-dom": "^19.0.3",
-    "smee-client": "^2.0.4",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
-  },
-  "engines": {
-    "node": ">=20"
-  }
+	"name": "slopguard",
+	"version": "0.1.0",
+	"private": true,
+	"description": "GitHub App 하나로 AI slop PR/Issue를 자동 탐지·provenance 태그·quarantine 라벨링 + maintainer 최종 승인",
+	"type": "module",
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build && cp -r .next/static .next/standalone/.next/static && (cp -r public .next/standalone/public 2>/dev/null || true)",
+		"start": "node .next/standalone/server.js",
+		"lint": "next lint",
+		"typecheck": "tsc --noEmit",
+		"test": "node --import tsx --test test/**/*.test.ts",
+		"agent:demo": "node --env-file-if-exists=.env.local --import tsx scripts/test-agent.ts",
+		"eval": "node --env-file-if-exists=.env.local --import tsx scripts/eval.ts",
+		"smee": "node scripts/smee.mjs",
+		"check-plan": "node --import tsx scripts/check-entitlement.ts",
+		"eval:field": "node --import tsx scripts/eval.ts --set=field"
+	},
+	"dependencies": {
+		"@authenio/samlify-node-xmllint": "^2.0.0",
+		"@langchain/anthropic": "^0.3.11",
+		"@langchain/core": "^0.3.40",
+		"@langchain/google-genai": "^0.1.12",
+		"@langchain/langgraph": "^0.2.44",
+		"@langchain/openai": "^0.3.17",
+		"@octokit/app": "^15.1.1",
+		"@octokit/webhooks": "^13.4.1",
+		"@upstash/redis": "^1.38.0",
+		"gifenc": "^1.0.3",
+		"js-yaml": "^4.1.0",
+		"lru-cache": "^11.0.2",
+		"next": "^15.1.6",
+		"octokit": "^4.1.0",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"samlify": "^2.13.1",
+		"ws": "^8.21.0",
+		"zod": "^3.24.1"
+	},
+	"devDependencies": {
+		"@types/js-yaml": "^4.0.9",
+		"@types/node": "^22.10.7",
+		"@types/react": "^19.0.7",
+		"@types/react-dom": "^19.0.3",
+		"smee-client": "^2.0.4",
+		"tsx": "^4.19.2",
+		"typescript": "^5.7.3"
+	},
+	"engines": {
+		"node": ">=20"
+	}
 }

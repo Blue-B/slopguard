@@ -10,7 +10,7 @@ import { LRUCache } from "lru-cache";
 //
 // Scope is per-owner so one customer's traffic never leaks into another's
 // signal. The window resets on process restart, which is acceptable for an
-// MVP heuristic — campaigns are bursty and happen within minutes/hours.
+// MVP heuristic, campaigns are bursty and happen within minutes/hours.
 
 interface Sighting {
 	repos: Set<string>;

@@ -13,7 +13,7 @@ import { extractProvenance } from "./nodes/provenance.js";
 import { runLlmAnalysis } from "./nodes/llmAnalysis.js";
 import { computeScore } from "./nodes/score.js";
 
-// ── Graph state ───────────────────────────────────────────────────────────
+// Graph state
 const SlopState = Annotation.Root({
 	input: Annotation<SlopInput>,
 	policy: Annotation<AgentPolicy>,
@@ -23,7 +23,7 @@ const SlopState = Annotation.Root({
 	result: Annotation<SlopResult | undefined>,
 });
 
-// ── Nodes ───────────────────────────────────────────────────────────────────
+// Nodes
 // 1) deterministic, zero-cost static pass (heuristics + provenance)
 function analyzeStatic(state: typeof SlopState.State) {
 	return {
@@ -48,7 +48,7 @@ function score(state: typeof SlopState.State) {
 	return { result };
 }
 
-// ── Wiring ────────────────────────────────────────────────────────────────
+// Wiring
 const workflow = new StateGraph(SlopState)
 	.addNode("analyze_static", analyzeStatic)
 	.addNode("llm_judge", llmJudge)

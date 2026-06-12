@@ -14,7 +14,7 @@ export const ensureConsoleReady = ensureStoresReady;
 export const flushConsole = flushStores;
 
 // Per-user state for paid feature consoles (channels, routing rules, audit
-// log). In-memory only — the live production app uses GitHub as the source of
+// log). In-memory only, the live production app uses GitHub as the source of
 // truth for slop data, and these console-level settings are an MVP until we
 // wire them to a real DB. Bounded; restarts clear entries (documented
 // behavior for the free/team demo).

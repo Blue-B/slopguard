@@ -20,7 +20,7 @@ export async function withTimeout<T>(
 	}
 }
 
-// ── Fixed-window rate limiter (per key, in-memory) ───────────────────────
+// Fixed-window rate limiter (per key, in-memory)
 interface Window {
 	count: number;
 	resetAt: number;

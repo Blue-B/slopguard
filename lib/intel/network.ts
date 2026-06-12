@@ -1,4 +1,4 @@
-// SlopGuard Network Intelligence — a hosting-only moat.
+// SlopGuard Network Intelligence, a hosting-only moat.
 //
 // The hosted service sees quarantine events across EVERY installation. A
 // self-hosted instance only ever sees its own repos, so this cross-customer

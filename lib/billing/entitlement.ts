@@ -6,10 +6,10 @@ import { ensureStoresReady } from "../storage/persist.js";
 // Entitlement = which plan a repo owner (GitHub login) is on.
 //
 // Resolution order:
-//   1. Env allowlist override — ENTERPRISE_OWNERS / TEAM_OWNERS / PRO_OWNERS
+//   1. Env allowlist override, ENTERPRISE_OWNERS / TEAM_OWNERS / PRO_OWNERS
 //      (comma-separated GitHub logins). Handy for comps, the maintainer's own
 //      org, sales-closed Enterprise deals, or manual grants. Always wins.
-//   2. Polar (source of truth) — active subscriptions whose `github_login`
+//   2. Polar (source of truth), active subscriptions whose `github_login`
 //      custom field matches the owner. Resolved via lib/billing/polar.ts
 //      (cached, no database). Requires POLAR_API_TOKEN.
 //   3. Default: free.
@@ -45,7 +45,7 @@ export async function planForOwner(owner: string): Promise<PlanId> {
 	// Marketplace entitlement is correct on the first request after a redeploy.
 	await ensureStoresReady();
 	// Billing sources coexist (Polar + GitHub Marketplace). A customer buys
-	// through ONE channel; if somehow both, the HIGHEST plan wins — never the
+	// through ONE channel; if somehow both, the HIGHEST plan wins, never the
 	// sum, so there is no double-charge entitlement. Both key by GitHub login.
 	let best: PlanId = "free";
 	const fromMarketplace = marketplacePlanForOwner(login);

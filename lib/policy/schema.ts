@@ -16,7 +16,7 @@ Maintainer actions (comment one of these):
 
 <sub>SlopGuard never auto-closes. A human is always the final decision-maker. Tune via \`.github/SLOP_POLICY.yml\`.</sub>`;
 
-// Full schema for .github/SLOP_POLICY.yml — everything optional w/ defaults.
+// Full schema for .github/SLOP_POLICY.yml, everything optional w/ defaults.
 export const PolicySchema = z
 	.object({
 		version: z.number().default(1),

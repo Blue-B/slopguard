@@ -35,7 +35,7 @@ export function getServiceProvider() {
 		],
 		// We don't hold an SP signing key, so AuthnRequests go out unsigned
 		// (every major IdP accepts this). Inbound assertions, however, must be
-		// signed by the IdP — that is the trust anchor.
+		// signed by the IdP, that is the trust anchor.
 		authnRequestsSigned: false,
 		wantAssertionsSigned: true,
 		wantMessageSigned: false,

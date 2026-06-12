@@ -9,6 +9,7 @@
  */
 import { analyzeSlop } from "../lib/agent/graph.js";
 import { DEFAULT_AGENT_POLICY } from "../lib/agent/types.js";
+import { FIELD } from "../test/fixtures/field.js";
 import { GOLDEN } from "../test/fixtures/golden.js";
 
 interface Row {
@@ -41,10 +42,17 @@ function metrics(rows: { label: boolean; predicted: boolean }[]) {
 const pct = (x: number) => `${(x * 100).toFixed(1)}%`;
 
 async function main() {
+	const setArg = process.argv.find((a) => a.startsWith("--set="))?.slice(6) ?? "golden";
+	const cases =
+		setArg === "field"
+			? FIELD
+			: setArg === "all"
+				? [...GOLDEN, ...FIELD]
+				: GOLDEN;
 	const threshold = DEFAULT_AGENT_POLICY.quarantineThreshold;
 	const rows: Row[] = [];
 
-	for (const c of GOLDEN) {
+	for (const c of cases) {
 		const r = await analyzeSlop(c.input);
 		rows.push({
 			name: c.name,
@@ -59,7 +67,7 @@ async function main() {
 	const m = metrics(rows);
 
 	console.log("\n" + "═".repeat(66));
-	console.log(`SlopGuard golden-set eval — ${GOLDEN.length} cases`);
+	console.log(`SlopGuard ${setArg}-set eval — ${cases.length} cases`);
 	console.log(
 		`mode: ${usedLlm ? `LLM+heuristics (${rows.find((r) => r.llm)?.llm})` : "heuristics-only (no LLM key)"}`,
 	);
@@ -85,7 +93,7 @@ async function main() {
 	console.log(`  F1        : ${pct(m.f1)}`);
 	console.log(`  accuracy  : ${pct(m.accuracy)}`);
 
-	// Threshold sweep — recompute predictions from raw scores.
+	// Threshold sweep, recompute predictions from raw scores.
 	console.log("\nThreshold sweep (F1):");
 	let best = { t: threshold, f1: -1 };
 	for (let t = 35; t <= 85; t += 5) {

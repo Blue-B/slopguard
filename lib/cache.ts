@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { LRUCache } from "lru-cache";
 import type { SlopInput, SlopResult } from "./agent/types.js";
 
-// ── Analysis result cache ────────────────────────────────────────────────
+// Analysis result cache
 // Keyed by a hash of the contribution content so repeated `synchronize`
 // deliveries with identical content don't re-invoke the (paid) LLM.
 const analysisCache = new LRUCache<string, SlopResult>({
@@ -28,7 +28,7 @@ export function setCachedAnalysis(key: string, result: SlopResult): void {
 	analysisCache.set(key, result);
 }
 
-// ── Webhook delivery de-duplication ──────────────────────────────────────
+// Webhook delivery de-duplication
 // GitHub re-delivers on timeout/non-2xx. Within a warm instance we skip
 // deliveries we've already accepted. (Cross-instance dedup relies on the
 // idempotent upsert in actions.ts.)

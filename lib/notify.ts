@@ -2,7 +2,7 @@ import type { SlopInput, SlopResult } from "./agent/types.js";
 import { withTimeout } from "./util.js";
 
 // Outbound alerts on quarantine (a Team feature). Destinations are configured
-// per-repo in .github/SLOP_POLICY.yml under `notify:` — policy-as-code, so no
+// per-repo in .github/SLOP_POLICY.yml under `notify:`, policy-as-code, so no
 // dashboard state to store. We support Slack incoming webhooks, Discord
 // webhooks, and a generic JSON webhook. All are best-effort and time-boxed so
 // a slow/broken webhook never blocks webhook processing.

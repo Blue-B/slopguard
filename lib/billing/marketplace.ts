@@ -60,7 +60,7 @@ export async function applyMarketplaceEvent(payload: unknown): Promise<void> {
 		return;
 	}
 	// `pending_change` / `pending_change_cancelled` are future-effective (next
-	// billing cycle, esp. downgrades) — ignore them so we never revoke paid
+	// billing cycle, esp. downgrades), ignore them so we never revoke paid
 	// access early or grant an upgrade before payment. Only act on the events
 	// that are effective now.
 	if (action === "purchased" || action === "changed") {

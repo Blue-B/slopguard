@@ -27,7 +27,7 @@ export interface Plan {
 	tagline: string;
 	features: string[];
 
-	// ── Enforced capability flags ──────────────────────────────────────────
+	// Enforced capability flags
 	/** private repositories are reviewed */
 	privateRepos: boolean;
 	/** dedicated LLM quota (free tier is throttled to a shared budget) */
@@ -45,7 +45,7 @@ export interface Plan {
 	/** how many installed repos the org dashboard aggregates */
 	maxRepos: number;
 
-	// ── Polar checkout link env var names (set on the host) ─────────────────
+	// Polar checkout link env var names (set on the host)
 	/** monthly Polar Checkout Link env var; null disables monthly checkout */
 	polarEnvKey?: string;
 	/** yearly Polar Checkout Link env var; null disables yearly checkout */
@@ -99,7 +99,7 @@ export const PLANS: Record<PlanId, Plan> = {
 		alerts: false,
 		sso: false,
 		// Pro has no org dashboard, but cross-repo campaign detection still needs a
-		// real scan window across the owner's repos — otherwise it collapses to a
+		// real scan window across the owner's repos, otherwise it collapses to a
 		// single repo and the advertised "cross-repo" feature is a no-op.
 		maxRepos: 10,
 		polarEnvKey: "POLAR_LINK_PRO",

@@ -24,9 +24,9 @@ function repoMatches(ruleRepo: string, repo: string): boolean {
 	const t = repo.toLowerCase();
 	if (!r || r === "*") return true;
 	if (r === t) return true;
-	// "owner/*" — match every repo under that owner
+	// "owner/*", match every repo under that owner
 	if (r.endsWith("/*")) return t.startsWith(r.slice(0, -1));
-	// bare "owner" — match every repo under that owner
+	// bare "owner", match every repo under that owner
 	if (!r.includes("/")) return t.startsWith(`${r}/`);
 	return false;
 }

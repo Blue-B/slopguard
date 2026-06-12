@@ -28,6 +28,13 @@ const nextConfig = {
 		};
 		return config;
 	},
+	// English lives at the root; /en is a common guess that should land there.
+	async redirects() {
+		return [
+			{ source: "/en", destination: "/", permanent: true },
+			{ source: "/en/:path*", destination: "/:path*", permanent: true },
+		];
+	},
 	// Baseline security headers. CSP allows inline script/style because Next.js
 	// emits inline bootstrapping; frame-ancestors 'none' replaces X-Frame-Options.
 	async headers() {

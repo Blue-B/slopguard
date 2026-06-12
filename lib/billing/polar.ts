@@ -1,4 +1,4 @@
-// Polar (Merchant of Record) API client — used to resolve entitlements at
+// Polar (Merchant of Record) API client, used to resolve entitlements at
 // runtime WITHOUT a database. We treat Polar as the source of truth: list the
 // organization's active subscriptions, read the `github_login` custom field
 // each customer filled at checkout, and map it to a plan. Results are cached
@@ -202,7 +202,7 @@ export async function getEntitlementMap(): Promise<Map<string, PlanId>> {
 	return inflight;
 }
 
-// ── plan changes (upgrade / downgrade / cancel) ──────────────────────────
+// plan changes (upgrade / downgrade / cancel)
 // Entitlement is keyed by the github-login a customer entered at checkout, so a
 // plan change targets THAT subscription. We resolve it from Polar (source of
 // truth), then PATCH the product with the right proration so upgrades take
@@ -287,7 +287,7 @@ export async function findProductId(
 		if (planFromProduct(p) !== plan || !p.id) continue;
 		const iv = p.recurring_interval === "year" ? "year" : "month";
 		if (iv === interval) return p.id;
-		fallback ??= p.id; // same tier, other cycle — last resort
+		fallback ??= p.id; // same tier, other cycle, last resort
 	}
 	return fallback;
 }

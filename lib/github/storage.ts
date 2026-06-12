@@ -125,7 +125,7 @@ export async function getRepoSlopStats(
 }
 
 
-// ── Org-wide aggregation (Team plan: dashboard + activity/audit log) ───────
+// Org-wide aggregation (Team plan: dashboard + activity/audit log)
 export interface OwnerRepoStat {
 	repo: string; // owner/repo
 	quarantined: number;
@@ -262,7 +262,7 @@ export async function getOwnerSlopStats(
 	return stats;
 }
 
-// ── Light repo list for the account "your repositories" view ──────────────
+// Light repo list for the account "your repositories" view
 export interface OwnerRepo {
 	fullName: string; // owner/repo
 	name: string;
