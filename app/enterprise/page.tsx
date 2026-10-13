@@ -3,12 +3,12 @@ import MarketingNav from "@/app/components/MarketingNav";
 import EnterpriseConsole, {
 	type EnterpriseConsoleCopy,
 } from "@/app/components/EnterpriseConsole";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
 	title: "SlopGuard: Enterprise - SSO, Audit, Compliance",
-	description: "Enterprise plan console: SAML SSO, audit log, integrations.",
+	description: "Enterprise console: SAML SSO, audit log, integrations.",
 };
 
 const nav = [
@@ -50,9 +50,9 @@ export default function EnterprisePage() {
 	return (
 		<>
 			<MarketingNav lang="en" enHref="/enterprise" koHref="/ko/enterprise" />
-			<PlanGate lang="en" required="enterprise">
+			<SignInGate lang="en">
 				<EnterpriseConsole copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="en" />
 		</>
 	);

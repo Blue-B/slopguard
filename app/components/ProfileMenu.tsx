@@ -8,17 +8,12 @@ interface Me {
 	login?: string;
 	name?: string;
 	avatar?: string;
-	planName?: string;
-	plan?: string;
 }
-
-const PORTAL_URL = "https://polar.sh/slopguard/portal";
 
 const L = {
 	en: {
 		signin: "Sign in",
 		account: "Account",
-		billing: "Billing",
 		out: "Sign out",
 		consoles: "Consoles",
 		orgDash: "Org overview",
@@ -29,7 +24,6 @@ const L = {
 	ko: {
 		signin: "로그인",
 		account: "마이페이지",
-		billing: "결제 관리",
 		out: "로그아웃",
 		consoles: "콘솔",
 		orgDash: "조직 현황",
@@ -40,7 +34,7 @@ const L = {
 } as const;
 
 /**
- * Avatar trigger + dropdown (account / billing / sign out) for the header.
+ * Avatar trigger + dropdown (account / consoles / sign out) for the header.
  * Self-contained: fetches /api/auth/me so it drops into both the server-
  * rendered app nav and the marketing nav. Sign-out lives here instead of a
  * stray button at the bottom of the account page.
@@ -89,8 +83,6 @@ export default function ProfileMenu({ lang }: { lang: Lang }) {
 		);
 	}
 
-	const paid = me.plan && me.plan !== "free";
-
 	return (
 		<div className="profile-menu" ref={ref}>
 			<button
@@ -129,39 +121,26 @@ export default function ProfileMenu({ lang }: { lang: Lang }) {
 						<div className="profile-dd-id">
 							<div className="profile-dd-name">{me.name || me.login}</div>
 							<div className="profile-dd-plan">
-								@{me.login} ({me.planName})
+								@{me.login}
 							</div>
 						</div>
 					</div>
 					<a role="menuitem" href={accountHref}>
 						{t.account}
 					</a>
-					{paid && (
-						<>
-							<a role="menuitem" href={PORTAL_URL}>
-								{t.billing}
-							</a>
-							<div className="profile-dd-section">{t.consoles}</div>
-							{(me.plan === "team" || me.plan === "enterprise") && (
-								<a role="menuitem" href={ko ? "/ko/org" : "/org"}>
-									{t.orgDash}
-								</a>
-							)}
-							<a role="menuitem" href={ko ? "/ko/campaigns" : "/campaigns"}>
-								{t.campaigns}
-							</a>
-							{(me.plan === "team" || me.plan === "enterprise") && (
-								<a role="menuitem" href={ko ? "/ko/alerts" : "/alerts"}>
-									{t.alerts}
-								</a>
-							)}
-							{me.plan === "enterprise" && (
-								<a role="menuitem" href={ko ? "/ko/enterprise" : "/enterprise"}>
-									{t.enterprise}
-								</a>
-							)}
-						</>
-					)}
+					<div className="profile-dd-section">{t.consoles}</div>
+					<a role="menuitem" href={ko ? "/ko/org" : "/org"}>
+						{t.orgDash}
+					</a>
+					<a role="menuitem" href={ko ? "/ko/campaigns" : "/campaigns"}>
+						{t.campaigns}
+					</a>
+					<a role="menuitem" href={ko ? "/ko/alerts" : "/alerts"}>
+						{t.alerts}
+					</a>
+					<a role="menuitem" href={ko ? "/ko/enterprise" : "/enterprise"}>
+						{t.enterprise}
+					</a>
 					<a role="menuitem" className="profile-dd-out" href="/api/auth/logout">
 						{t.out}
 					</a>

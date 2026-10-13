@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import MarketingNav from "@/app/components/MarketingNav";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 import PolicyFullView, {
 	type PolicyFullViewCopy,
@@ -49,9 +49,9 @@ export default function OrgPolicyPage() {
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/org/policy" koHref="/ko/org/policy" />
-			<PlanGate lang="ko" required="team">
+			<SignInGate lang="ko">
 				<PolicyFullView copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="ko" />
 		</>
 	);

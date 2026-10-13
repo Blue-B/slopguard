@@ -35,25 +35,16 @@ export async function GET() {
 	const githubAppConfigured = Boolean(
 		process.env.GITHUB_APP_ID && process.env.GITHUB_WEBHOOK_SECRET,
 	);
-	const billing = {
-		checkoutLinks: Boolean(
-			process.env.POLAR_LINK_PRO || process.env.POLAR_LINK_TEAM,
-		),
-		entitlements: Boolean(process.env.POLAR_API_TOKEN),
-		webhook: Boolean(process.env.POLAR_WEBHOOK_SECRET),
-	};
 	const redis = await redisHealth();
 	const failedWebhooks = await failedWebhookCount().catch(() => 0);
 	const installs = await installsSummary().catch(() => ({ current: 0, recent: [] }));
 	const anyLlm = Object.values(providers).some(Boolean);
 
 	// Overall status: "ok" when every critical dependency is healthy, "degraded"
-	// when the app runs but something a paying customer relies on is broken. A
+	// when the app runs but something users rely on is broken. A
 	// watchdog can alert on anything other than "ok".
 	const degraded =
 		!githubAppConfigured ||
-		!billing.checkoutLinks ||
-		!billing.entitlements ||
 		!anyLlm ||
 		redis === "down";
 
@@ -63,7 +54,6 @@ export async function GET() {
 			status: degraded ? "degraded" : "ok",
 			time: new Date().toISOString(),
 			githubAppConfigured,
-			billing,
 			redis,
 			failedWebhooks,
 			installs,

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession, effectiveOwner } from "@/lib/auth/session";
-import { hasAlerts } from "@/lib/billing/entitlement";
 import { getState, ensureConsoleReady } from "@/lib/billing/console-store";
 
 export const runtime = "nodejs";
@@ -24,14 +23,6 @@ export async function GET() {
 	}
 
 	const owner = effectiveOwner(session);
-	const ok = await hasAlerts(owner);
-	if (!ok) {
-		return NextResponse.json(
-			{ error: "forbidden", reason: "alerts require the Team plan" },
-			{ status: 403 },
-		);
-	}
-
 	const state = getState(owner);
 
 	// Resolve channelId → label for human-readable routing rules / sent logs.

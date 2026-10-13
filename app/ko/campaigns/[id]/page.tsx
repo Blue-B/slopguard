@@ -3,7 +3,7 @@ import MarketingNav from "@/app/components/MarketingNav";
 import CampaignDetailConsole, {
 	type CampaignDetailCopy,
 } from "@/app/components/CampaignDetailConsole";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
@@ -40,9 +40,9 @@ export default async function CampaignDetailPage({
 	return (
 		<>
 			<MarketingNav lang="ko" enHref={`/campaigns/${id}`} koHref={`/ko/campaigns/${id}`} />
-			<PlanGate lang="ko" required="pro">
+			<SignInGate lang="ko">
 				<CampaignDetailConsole id={id} copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="ko" />
 		</>
 	);

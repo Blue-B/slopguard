@@ -35,14 +35,9 @@ allowlist:
   authors: [dependabot[bot], renovate[bot]]
   paths: ["docs/**", "**/*.md"]
 notify:
-  slack_webhook: https://hooks.slack.com/services/...   # 격리 시 알림 (Team+)
+  slack_webhook: https://hooks.slack.com/services/...   # 격리 시 알림
 share_intel: true       # 익명 네트워크 인텔리전스 기여/수신 (끄려면 false)
 ```
 
-## 플랜
-- Free: 공개 레포, 기본 동작, 셀프호스팅(소스 공개, 자가 용도)
-- Pro $19/월: 비공개 레포, 전용 LLM 할당량, 레포 교차 패턴 탐지, 네트워크 슬롭 인텔리전스
-- Team $99/월: 조직 현황 대시보드 + 장기 추세, Slack/Discord/웹훅 알림
-- Enterprise $299/월: SAML SSO, 감사 로그 내보내기, 요청 기반 맞춤 통합
-
-결제·구독 관리는 Polar(Merchant of Record) 고객 포털에서. 영수증·해지 모두 거기서.
+## 요금
+모든 기능이 무료입니다. 유료 플랜이나 결제는 없습니다.

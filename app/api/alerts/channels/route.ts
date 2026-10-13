@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { isSafeWebhookUrl } from "@/lib/net/ssrf";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
-import { hasAlerts } from "@/lib/billing/entitlement";
 import {
 	mutateState,
 	ensureConsoleReady,
@@ -17,9 +16,6 @@ export const dynamic = "force-dynamic";
 function unauthorized() {
 	return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 }
-function forbidden(reason: string) {
-	return NextResponse.json({ error: "forbidden", reason }, { status: 403 });
-}
 
 function isValidKind(k: unknown): k is ChannelKind {
 	return k === "slack" || k === "discord" || k === "webhook";
@@ -30,9 +26,6 @@ export async function POST(req: Request) {
 	const store = await cookies();
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) return unauthorized();
-
-	const ok = await hasAlerts(session.login);
-	if (!ok) return forbidden("alerts require the Team plan");
 
 	let body: unknown;
 	try {

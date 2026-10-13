@@ -125,7 +125,7 @@ export async function getRepoSlopStats(
 }
 
 
-// Org-wide aggregation (Team plan: dashboard + activity/audit log)
+// Org-wide aggregation (dashboard + activity/audit log)
 export interface OwnerRepoStat {
 	repo: string; // owner/repo
 	quarantined: number;
@@ -175,7 +175,7 @@ async function getOwnerInstallationClient(
 /**
  * Aggregate slop activity across every repo SlopGuard can see for an owner.
  * GitHub-as-storage (no DB): we list the installation's repos and tally the
- * quarantine/cleared labels. Bounded by `maxRepos` (the plan limit) and cached.
+ * quarantine/cleared labels. Bounded by `maxRepos` and cached.
  */
 export async function getOwnerSlopStats(
 	owner: string,

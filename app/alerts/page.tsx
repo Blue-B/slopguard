@@ -3,13 +3,13 @@ import MarketingNav from "@/app/components/MarketingNav";
 import AlertsConsole, {
 	type AlertsConsoleCopy,
 } from "@/app/components/AlertsConsole";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
 	title: "SlopGuard: Alerts - Team",
 	description:
-		"Team plan alerts console: add Slack/Discord/webhook channels, route by repo/pattern, watch live delivery log.",
+		"Alerts console: add Slack/Discord/webhook channels, route by repo/pattern, watch live delivery log.",
 };
 
 const copy: AlertsConsoleCopy = {
@@ -21,7 +21,7 @@ const copy: AlertsConsoleCopy = {
 	heroCta: "Open patterns",
 	heroCtaHref: "/campaigns",
 	metricLabels: { channels: "Channels", rules: "Routing rules", delivered: "Delivered", latency: "Avg latency" },
-	heroEyebrow: "ALERTS / TEAM PLAN",
+	heroEyebrow: "ALERTS",
 	heroTitle: "One channel per audience, with rules that actually route.",
 	heroBody:
 		"Add Slack, Discord, or a custom webhook. Then bind a repo + pattern to a channel with a slop-score threshold. The log below shows live delivery.",
@@ -63,9 +63,9 @@ export default function AlertsPage() {
 	return (
 		<>
 			<MarketingNav lang="en" enHref="/alerts" koHref="/ko/alerts" />
-			<PlanGate lang="en" required="team">
+			<SignInGate lang="en">
 				<AlertsConsole copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="en" />
 		</>
 	);

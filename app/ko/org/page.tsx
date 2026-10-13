@@ -3,13 +3,13 @@ import MarketingNav from "@/app/components/MarketingNav";
 import OrgDashboardConsole, {
 	type OrgDashboardConsoleCopy,
 } from "@/app/components/OrgDashboardConsole";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
 	title: "SlopGuard: 조직 현황 - Team",
 	description:
-		"Team 플랜용 조직 단위 격리 큐, 패턴 클러스터, 정책 적용 현황 콘솔.",
+		"조직 단위 격리 큐, 패턴 클러스터, 정책 적용 현황 콘솔.",
 };
 
 const copy: OrgDashboardConsoleCopy = {
@@ -28,7 +28,7 @@ const copy: OrgDashboardConsoleCopy = {
 		"이 콘솔은 GitHub 활동의 실시간 뷰입니다. 레포에 SlopGuard를 설치하면 첫 항목이 감지/라벨링되는 즉시 대시보드가 채워집니다.",
 	emptyCta: "GitHub에 SlopGuard 설치",
 	emptyCtaHref: "/ko/setup",
-	heroEyebrow: "ORG / TEAM 플랜",
+	heroEyebrow: "ORG",
 	heroTitle: "격리, 패턴, 정책 커버리지를 한 화면에서.",
 	heroBody:
 		"SlopGuard가 보호 중인 모든 레포의 실시간 뷰. 격리 항목 처리, 반복 패턴 그룹화, 정책 적용 확인을 한 콘솔에서.",
@@ -70,9 +70,9 @@ export default function OrgDashboard() {
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/org" koHref="/ko/org" />
-			<PlanGate lang="ko" required="team">
+			<SignInGate lang="ko">
 				<OrgDashboardConsole copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="ko" />
 		</>
 	);

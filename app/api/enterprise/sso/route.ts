@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
 import { getState, mutateState, pushAudit, ensureConsoleReady, flushConsole } from "@/lib/billing/console-store";
-import { hasSso } from "@/lib/billing/entitlement";
 import { spAcsUrl, spEntityId } from "@/lib/auth/saml";
 import type { SsoConfig, SsoProvider } from "@/lib/billing/console-store";
 
@@ -20,14 +19,6 @@ async function ownerOrError() {
 	if (!session) {
 		return {
 			error: NextResponse.json({ error: "unauthorized" }, { status: 401 }),
-		};
-	}
-	if (!(await hasSso(session.login))) {
-		return {
-			error: NextResponse.json(
-				{ error: "forbidden", message: "SSO is an Enterprise plan feature." },
-				{ status: 403 },
-			),
 		};
 	}
 	return { owner: session.login };

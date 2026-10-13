@@ -26,13 +26,13 @@ const C = {
 		self: "/install",
 		other: "/ko/install",
 		otherLabel: "KO",
-		nav: { how: "How it works", pricing: "Pricing" },
+		nav: { how: "How it works" },
 		eyebrow: "before you install",
 		h1: "Add SlopGuard to your repositories",
 		lead: "Installing puts the SlopGuard app on the repos you choose so it can review incoming PRs and issues. Here is exactly what happens, no surprises.",
 		callout: {
 			a: "Signing in and installing are different.",
-			b: " Signing in just links your GitHub identity for the dashboard and billing. Installing is what actually lets SlopGuard read PRs and post comments on your repos. You can do either first.",
+			b: " Signing in just links your GitHub identity for the dashboard. Installing is what actually lets SlopGuard read PRs and post comments on your repos. You can do either first.",
 		},
 		stepsTitle: "Three steps on GitHub",
 		steps: [
@@ -84,13 +84,13 @@ const C = {
 		self: "/ko/install",
 		other: "/install",
 		otherLabel: "EN",
-		nav: { how: "동작 방식", pricing: "가격" },
+		nav: { how: "동작 방식" },
 		eyebrow: "설치하기 전에",
 		h1: "내 레포에 SlopGuard 추가하기",
 		lead: "설치하면 선택한 레포에 SlopGuard 앱이 올라가서 들어오는 PR과 이슈를 검토합니다. 무슨 일이 일어나는지 그대로 보여드릴게요. 갑작스러운 단계는 없습니다.",
 		callout: {
 			a: "로그인과 설치는 다릅니다.",
-			b: " 로그인은 대시보드와 결제를 위해 GitHub 신원만 연결하는 것이고, 설치는 SlopGuard가 실제로 레포의 PR을 읽고 코멘트를 달 수 있게 하는 단계입니다. 둘 중 무엇을 먼저 해도 됩니다.",
+			b: " 로그인은 대시보드를 위해 GitHub 신원만 연결하는 것이고, 설치는 SlopGuard가 실제로 레포의 PR을 읽고 코멘트를 달 수 있게 하는 단계입니다. 둘 중 무엇을 먼저 해도 됩니다.",
 		},
 		stepsTitle: "GitHub에서 진행되는 세 단계",
 		steps: [

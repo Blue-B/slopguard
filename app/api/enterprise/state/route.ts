@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession, effectiveOwner } from "@/lib/auth/session";
-import { hasSso } from "@/lib/billing/entitlement";
 import { getState, ensureConsoleReady } from "@/lib/billing/console-store";
 
 export const runtime = "nodejs";
@@ -24,14 +23,6 @@ export async function GET() {
 	}
 
 	const owner = effectiveOwner(session);
-	const ok = await hasSso(owner);
-	if (!ok) {
-		return NextResponse.json(
-			{ error: "forbidden", reason: "Enterprise plan required" },
-			{ status: 403 },
-		);
-	}
-
 	const state = getState(owner);
 
 	return NextResponse.json({

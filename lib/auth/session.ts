@@ -17,8 +17,8 @@ export interface SessionUser {
 	/**
 	 * Present only for sessions minted via Enterprise SAML SSO. `login` is the
 	 * asserted IdP identity (NOT the org owner); `sso.owner` is the tenant whose
-	 * plan + console data this member may READ. Write/admin endpoints stay keyed
-	 * to `login`, so an SSO member can use the console but cannot mutate billing,
+	 * console data this member may READ. Write/admin endpoints stay keyed
+	 * to `login`, so an SSO member can use the console but cannot mutate
 	 * alerts, integrations, or SSO config (those require the owner).
 	 */
 	sso?: { owner: string };

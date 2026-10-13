@@ -1319,69 +1319,6 @@ code {
 	color: #c9d1d9;
 }
 
-/* ── Pricing ─────────────────────────────────────────── */
-.plan {
-	display: flex;
-	flex-direction: column;
-	position: relative;
-}
-.plan h3 {
-	margin: 0;
-	font-size: 18px;
-}
-.price {
-	display: flex;
-	align-items: baseline;
-	gap: 4px;
-	margin: 10px 0 14px;
-}
-.price .amt {
-	font-family: var(--mono);
-	font-size: 36px;
-	font-weight: 800;
-	letter-spacing: -0.02em;
-}
-.price .per {
-	color: var(--muted);
-	font-size: 14px;
-}
-.plan ul {
-	list-style: none;
-	padding: 0;
-	margin: 0 0 20px;
-	flex: 1;
-}
-.plan li {
-	color: #c9d1d9;
-	font-size: 14px;
-	padding: 5px 0 5px 24px;
-	position: relative;
-}
-.plan li::before {
-	content: "✓";
-	color: var(--green);
-	position: absolute;
-	left: 0;
-	font-weight: 700;
-}
-.plan .ribbon {
-	position: absolute;
-	top: 14px;
-	right: 16px;
-	font-family: var(--mono);
-	font-size: 10px;
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.06em;
-	color: var(--green);
-	background: var(--green-dim);
-	border: 1px solid rgba(63, 185, 80, 0.4);
-	border-radius: 999px;
-	padding: 2px 9px;
-}
-.plan .btn {
-	justify-content: center;
-}
 .muted {
 	color: var(--muted);
 }
@@ -1653,10 +1590,7 @@ footer.site {
 	position: relative;
 	z-index: 1;
 }
-.pricing-hero {
-	position: relative;
-	overflow: hidden;
-}
+
 .docs-hero-plate,
 .pricing-plate {
 	width: 100%;
@@ -1880,18 +1814,6 @@ body {
 @media (max-width: 420px) {
 	.nav-links .lang-switch {
 		display: none;
-	}
-}
-
-/* ── plans: always 3 across (account + pricing), 1 col on mobile ── */
-.plans-3 {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 16px;
-}
-@media (max-width: 760px) {
-	.plans-3 {
-		grid-template-columns: 1fr;
 	}
 }
 
@@ -2248,107 +2170,6 @@ footer.site.footer-app {
 	background: var(--green);
 }
 
-/* ── Pricing: 4 tiers + billing-cycle toggle ─────────── */
-.plans-4 {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	gap: 1px;
-	align-items: stretch;
-	background: var(--border-muted);
-	border: 1px solid var(--border-muted);
-	border-radius: var(--radius);
-	overflow: hidden;
-}
-.plans-4 > .plan.card {
-	background: var(--bg);
-	border: 0;
-	border-radius: 0;
-	padding: 30px 24px;
-}
-.plans-4 > .plan.featured {
-	background: rgba(63, 185, 80, 0.05);
-	box-shadow: none;
-	border: 0;
-}
-.plans-4 > .plan.featured::after {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 2px;
-	background: var(--green);
-}
-@media (max-width: 1000px) {
-	.plans-4 {
-		grid-template-columns: repeat(2, 1fr);
-	}
-}
-@media (max-width: 560px) {
-	.plans-4 {
-		grid-template-columns: 1fr;
-	}
-}
-
-/* pricing hero: asymmetric, asset-driven */
-.pricing-hero {
-	display: grid;
-	grid-template-columns: 1.05fr 0.95fr;
-	gap: 44px;
-	align-items: center;
-	padding-top: 40px;
-}
-.pricing-hero .page-h1,
-.pricing-hero .page-sub {
-	max-width: none;
-}
-@media (max-width: 880px) {
-	.pricing-hero {
-		grid-template-columns: 1fr;
-		gap: 28px;
-	}
-}
-
-/* pricing hero: tight lead + scannable 'what paid adds' list */
-.pricing-adds {
-	margin-top: 28px;
-}
-.pricing-adds-t {
-	font-family: var(--mono);
-	font-size: 11px;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	color: var(--muted);
-}
-.pricing-adds ul {
-	list-style: none;
-	margin: 14px 0 0;
-	padding: 0;
-	display: grid;
-	gap: 9px;
-}
-.pricing-adds li {
-	position: relative;
-	padding-left: 24px;
-	font-size: 14.5px;
-	color: #c9d1d9;
-}
-.pricing-adds li::before {
-	content: "";
-	position: absolute;
-	left: 0;
-	top: 6px;
-	width: 10px;
-	height: 10px;
-	border: 1.5px solid var(--green);
-	border-radius: 2px;
-}
-.pricing-polar {
-	margin-top: 18px;
-	font-size: 12.5px;
-	color: var(--muted);
-}
-
 /* why-pay: framed callout, not a card box */
 .why-pay {
 	margin-top: 64px;
@@ -2417,31 +2238,6 @@ footer.site.footer-app {
 .amt-contact {
 	font-size: 19px;
 	white-space: nowrap;
-}
-.price-note {
-	font-family: var(--mono);
-	font-size: 11.5px;
-	color: var(--green);
-	margin: 2px 0 0;
-}
-.plan-tagline {
-	font-size: 13px;
-	margin-top: 8px;
-}
-.plan ul {
-	flex: 1 0 auto;
-}
-.plan-cta {
-	width: 100%;
-	justify-content: center;
-	margin-top: auto;
-}
-.plan-cta.is-current {
-	opacity: 0.6;
-	cursor: default;
-}
-.plan.current {
-	border-color: rgba(63, 185, 80, 0.5);
 }
 
 /* ── Dashboard tables ────────────────────────────────── */
@@ -4613,19 +4409,6 @@ footer.site.footer-app {
 	align-items: flex-end;
 	gap: 12px;
 }
-.acct-plan-chip {
-	font-family: var(--mono);
-	font-size: 11px;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	font-weight: 600;
-	color: var(--green);
-	border: 1px solid rgba(63, 185, 80, 0.32);
-	border-radius: 999px;
-	padding: 5px 13px;
-	background: rgba(63, 185, 80, 0.07);
-	white-space: nowrap;
-}
 
 /* Account stat ledger - inline summary metrics under the identity bar */
 .acct-ledger {
@@ -4706,15 +4489,12 @@ footer.site.footer-app {
 	align-items: stretch;
 	margin-top: 6px;
 }
-/* top row: three compact summary panels; activity is a full-width log below */
-.pan-plan {
-	grid-column: span 4;
-}
+/* top row: two compact summary panels; activity is a full-width log below */
 .pan-repos {
-	grid-column: span 4;
+	grid-column: span 6;
 }
 .pan-lookup {
-	grid-column: span 4;
+	grid-column: span 6;
 }
 .pan-activity {
 	grid-column: 1 / -1;
@@ -4773,10 +4553,7 @@ footer.site.footer-app {
 	padding: 0;
 }
 @media (max-width: 1000px) {
-	.pan-plan,
-	.pan-repos {
-		grid-column: span 6;
-	}
+	.pan-repos,
 	.pan-lookup,
 	.pan-activity {
 		grid-column: 1 / -1;
@@ -4786,7 +4563,6 @@ footer.site.footer-app {
 	.acct-grid {
 		grid-template-columns: 1fr;
 	}
-	.pan-plan,
 	.pan-repos,
 	.pan-activity,
 	.pan-lookup {
@@ -4832,45 +4608,6 @@ footer.site.footer-app {
 	.dash-items-wide {
 		grid-column: auto;
 	}
-}
-
-/* Plan band - vertical stack inside the plan panel */
-.acct-band {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 16px;
-}
-.acct-band .eyebrow {
-	margin: 0 0 9px;
-}
-.acct-band-plan {
-	display: flex;
-	align-items: baseline;
-	gap: 12px;
-}
-.acct-band-plan b {
-	font-size: clamp(26px, 3vw, 34px);
-	letter-spacing: -0.03em;
-	line-height: 1;
-}
-.acct-band-plan .price {
-	font-family: var(--mono);
-	color: var(--muted);
-	font-size: 14px;
-}
-.acct-band small {
-	display: block;
-	color: var(--muted);
-	font-size: 12.5px;
-	line-height: 1.5;
-	margin-top: 10px;
-	max-width: 44ch;
-}
-.acct-band-actions {
-	display: flex;
-	gap: 8px;
-	flex-wrap: wrap;
 }
 
 /* Repo list - hairline divided rows, no card box */
@@ -4922,11 +4659,6 @@ footer.site.footer-app {
 	padding: 18px 2px;
 	border-top: 1px solid var(--border-muted);
 	border-bottom: 1px solid var(--border-muted);
-}
-@media (max-width: 760px) {
-	.acct-band {
-		align-items: flex-start;
-	}
 }
 
 /* Alerts console add-forms: stack on mobile (inline grid cols apply on desktop) */

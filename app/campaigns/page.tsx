@@ -3,13 +3,13 @@ import MarketingNav from "@/app/components/MarketingNav";
 import CampaignsConsole, {
 	type CampaignsConsoleCopy,
 } from "@/app/components/CampaignsConsole";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
 	title: "SlopGuard: Pattern Tracking - Pro",
 	description:
-		"Pro plan cross-repo fingerprint clustering: group repeated AI-style commit patterns across your installed repos.",
+		"Cross-repo fingerprint clustering: group repeated AI-style commit patterns across your installed repos.",
 };
 
 const copy: CampaignsConsoleCopy = {
@@ -25,7 +25,7 @@ const copy: CampaignsConsoleCopy = {
 	emptyCta: "Install on GitHub",
 	emptyCtaHref: "/setup",
 	investigate: "Investigate",
-	heroEyebrow: "PATTERNS / PRO PLAN",
+	heroEyebrow: "PATTERNS",
 	heroTitle: "Catch the same prompt being used across repos.",
 	heroBody:
 		"SlopGuard groups PRs by commit-title prefix and surfaces the ones spreading across your installed repos. Each cluster links to its drill-down view.",
@@ -43,9 +43,9 @@ export default function CampaignsPage() {
 	return (
 		<>
 			<MarketingNav lang="en" enHref="/campaigns" koHref="/ko/campaigns" />
-			<PlanGate lang="en" required="pro">
+			<SignInGate lang="en">
 				<CampaignsConsole copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="en" />
 		</>
 	);

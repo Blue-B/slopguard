@@ -7,9 +7,9 @@ import type { SidebarItem } from "./ConsoleSidebar";
 import { toneColor } from "./console-styles";
 
 /**
- * One shared chrome for every paid console (Org / Campaigns / Alerts /
+ * One shared chrome for every console (Org / Campaigns / Alerts /
  * Enterprise). Glass top nav + grid background + page-width frame. This is the
- * single source of truth for paid-surface navigation so every plan-gated page
+ * single source of truth for console navigation so every console page
  * reads as the same product.
  */
 export function ConsoleShell({

@@ -4,7 +4,7 @@ import type { SlopInput, SlopResult } from "./agent/types.js";
 
 // Analysis result cache
 // Keyed by a hash of the contribution content so repeated `synchronize`
-// deliveries with identical content don't re-invoke the (paid) LLM.
+// deliveries with identical content don't re-invoke the LLM.
 const analysisCache = new LRUCache<string, SlopResult>({
 	max: 2000,
 	ttl: 1000 * 60 * 10, // 10 min

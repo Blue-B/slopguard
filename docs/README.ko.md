@@ -9,7 +9,7 @@
 [![precision](https://img.shields.io/badge/precision-100%25-3fb950.svg)](#탐지-품질)
 [![recall](https://img.shields.io/badge/recall-92%25-3fb950.svg)](#탐지-품질)
 
-**무료로 직접 호스팅할 수 있습니다.** [설정 가이드](./SETUP.md)에서 시작하세요.
+**무료입니다.** 워크플로 파일 하나로 [GitHub Action](#방법-a-github-action-서버-불필요)으로 쓰거나, [설정 가이드](./SETUP.md)를 따라 App을 직접 호스팅하세요.
 
 AI "slop" — 별 노력 없이 기계가 찍어낸 PR과 이슈를 골라내는 GitHub App입니다. 들어온 기여를 점수로 평가하고, 출처(provenance)를 태깅하고, `slop-quarantine` 라벨을 붙인 뒤 최종 판단은 메인테이너에게 넘깁니다.
 
@@ -26,7 +26,7 @@ SlopGuard는 다르게 접근합니다.
 
 | | SlopGuard |
 | --- | --- |
-| 설치 | 1-클릭 GitHub App, Action YAML 불필요 |
+| 설치 | 워크플로 파일 하나(GitHub Action) 또는 직접 호스팅하는 GitHub App |
 | 판단 | 사람이 최종 결정 — 자동으로 닫지 않음 |
 | 출처 추적 | 생성기 힌트, 프롬프트 지문, 누출된 어시스턴트 문구 탐지 |
 | 설정 | `.github/SLOP_POLICY.yml` — 임계값, 라벨, 댓글 템플릿 |
@@ -87,7 +87,36 @@ llm:
 
 ## 시작하기
 
-### 메인테이너: App 설치
+### 방법 A: GitHub Action (서버 불필요)
+
+워크플로 파일 하나만 추가하면 됩니다. App과 같은 탐지, 라벨, 댓글, `/slop` 명령이 워크플로 토큰으로 동작합니다.
+
+```yaml
+# .github/workflows/slopguard.yml
+name: SlopGuard
+on:
+  pull_request_target:          # 포크 PR에도 라벨을 붙임. PR 코드는 체크아웃하지 않음
+    types: [opened, synchronize, reopened]
+  issues:
+    types: [opened, reopened]
+  issue_comment:
+    types: [created]            # /slop approve | reject | false-positive
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+jobs:
+  slopguard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Blue-B/slopguard@main
+        env:                    # 선택: LLM 판정 추가. 없으면 휴리스틱만 사용
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+```
+
+정책은 같은 `.github/SLOP_POLICY.yml`을 읽습니다. 출력값은 `score`, `verdict`, `quarantined`이고, 댓글 작성자는 `github-actions[bot]`입니다.
+
+### 방법 B: GitHub App 직접 호스팅
 
 1. 배포된 주소의 설정 페이지 열기: `https://<배포-주소>/setup`
 2. GitHub App 생성 (1-클릭 manifest 플로우)

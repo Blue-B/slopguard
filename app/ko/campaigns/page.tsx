@@ -3,13 +3,13 @@ import MarketingNav from "@/app/components/MarketingNav";
 import CampaignsConsole, {
 	type CampaignsConsoleCopy,
 } from "@/app/components/CampaignsConsole";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
 	title: "SlopGuard: 패턴 추적 - Pro",
 	description:
-		"Pro 플랜 레포 간 핑거프린트 클러스터링: 반복되는 AI 스타일 커밋 패턴을 묶어서 보여줍니다.",
+		"레포 간 핑거프린트 클러스터링: 반복되는 AI 스타일 커밋 패턴을 묶어서 보여줍니다.",
 };
 
 const copy: CampaignsConsoleCopy = {
@@ -25,7 +25,7 @@ const copy: CampaignsConsoleCopy = {
 	emptyCta: "GitHub에 설치",
 	emptyCtaHref: "/ko/setup",
 	investigate: "상세 보기",
-	heroEyebrow: "PATTERNS / PRO 플랜",
+	heroEyebrow: "PATTERNS",
 	heroTitle: "같은 프롬프트가 여러 레포에 퍼지는 것을 잡습니다.",
 	heroBody:
 		"SlopGuard가 커밋 제목 prefix로 PR을 묶고, 설치된 레포들 사이로 번지는 것을 표시합니다. 각 클러스터는 drill-down 페이지로 이어집니다.",
@@ -43,9 +43,9 @@ export default function CampaignsPage() {
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/campaigns" koHref="/ko/campaigns" />
-			<PlanGate lang="ko" required="pro">
+			<SignInGate lang="ko">
 				<CampaignsConsole copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="ko" />
 		</>
 	);

@@ -5,7 +5,7 @@ import SiteFooter from "./SiteFooter";
 
 export type LegalDoc = "privacy" | "terms";
 
-const UPDATED = "2026-06-09";
+const UPDATED = "2026-10-13";
 const ISSUES = `${REPO_URL}/issues`;
 
 type Section = { h: string; body: string[] };
@@ -21,10 +21,9 @@ const PRIVACY_EN: Copy = {
 		{
 			h: "1. What we collect",
 			body: [
-				"Account identity: when you sign in with GitHub we receive your GitHub login, display name, and avatar URL. We use this to show your dashboard and to match your billing entitlement.",
+				"Account identity: when you sign in with GitHub we receive your GitHub login, display name, and avatar URL. We use this to show your dashboard.",
 				"Repository content for scoring: when SlopGuard is installed on a repo, it reads the pull requests and issues sent by GitHub webhooks, including titles, descriptions, and diff metadata, so it can score them. We read this live and do not keep a separate database of your slop history; the dashboard reads it back from GitHub on demand.",
 				"Console settings you create: alert channels and routing rules, SSO configuration, and an audit log of the actions you take. These are stored so the consoles work across sessions.",
-				"Billing data: payments are processed by Polar, our Merchant of Record. Polar collects your email and payment details. SlopGuard never sees or stores your card number.",
 			],
 		},
 		{
@@ -32,7 +31,7 @@ const PRIVACY_EN: Copy = {
 			body: [
 				"To score incoming PRs and issues, apply the slop-quarantine label, and post a review comment with the reasons. We never auto-close, merge, or push anything; destructive actions only happen when a maintainer runs an explicit /slop command.",
 				"To deliver the alerts you configure (Slack, Discord, or webhook) and to provide the org dashboard, pattern tracking, and audit log.",
-				"To manage your plan entitlement and, for Enterprise, your SAML SSO sign-in if you configure it.",
+				"To run your SAML SSO sign-in if you configure it.",
 			],
 		},
 		{
@@ -41,7 +40,6 @@ const PRIVACY_EN: Copy = {
 				"LLM providers: to score a contribution, the text of the PR or issue may be sent to a large language model provider (for example Anthropic, OpenAI, or xAI, per your configured order) for analysis. Only the content needed to score is sent.",
 				"Network intelligence: on a quarantine we add a one-way SHA-256 hash of the prompt fingerprint and a hashed owner identifier to a shared store, so the hosted service can warn when the same slop pattern spreads across installations. No repository name, PR/issue content, or PR number is stored. Opt out with `share_intel: false` in your policy file.",
 				"GitHub: the platform the app runs on; we act on the permissions you grant at install (read PRs/issues, write labels and comments).",
-				"Polar: payments, invoicing, and tax as Merchant of Record.",
 				"Upstash: stores console and entitlement state. Cloudtype: hosts the application.",
 				"These providers process data on our behalf to deliver the service. We do not sell personal data to anyone.",
 			],
@@ -64,7 +62,7 @@ const PRIVACY_EN: Copy = {
 		{
 			h: "6. Security",
 			body: [
-				"We request the least GitHub permission needed to label and comment. Access tokens are used in memory and are not written to logs. Billing is isolated to Polar. No system is perfectly secure, but we aim to minimize what we hold so there is little to expose.",
+				"We request the least GitHub permission needed to label and comment. Access tokens are used in memory and are not written to logs. No system is perfectly secure, but we aim to minimize what we hold so there is little to expose.",
 			],
 		},
 		{
@@ -86,10 +84,9 @@ const PRIVACY_KO: Copy = {
 		{
 			h: "1. 수집하는 정보",
 			body: [
-				"계정 신원: GitHub으로 로그인하면 GitHub 로그인 아이디, 표시 이름, 아바타 URL을 받습니다. 대시보드 표시와 결제 권한 연결에 사용합니다.",
+				"계정 신원: GitHub으로 로그인하면 GitHub 로그인 아이디, 표시 이름, 아바타 URL을 받습니다. 대시보드 표시에 사용합니다.",
 				"점수화를 위한 레포 콘텐츠: 레포에 SlopGuard가 설치되면 GitHub 웹훅으로 들어오는 PR과 이슈(제목, 설명, diff 메타데이터)를 읽어 점수를 매깁니다. 실시간으로 읽으며 슬롭 기록을 별도 데이터베이스에 저장하지 않습니다. 대시보드는 필요할 때 GitHub에서 다시 읽어옵니다.",
 				"사용자가 만든 콘솔 설정: 알림 채널과 라우팅 규칙, SSO 설정, 사용자가 수행한 동작의 감사 로그. 세션이 바뀌어도 콘솔이 동작하도록 저장합니다.",
-				"결제 데이터: 결제는 판매대행사(Merchant of Record)인 Polar가 처리합니다. Polar가 이메일과 결제 수단을 수집하며, SlopGuard는 카드 번호를 보거나 저장하지 않습니다.",
 			],
 		},
 		{
@@ -97,7 +94,7 @@ const PRIVACY_KO: Copy = {
 			body: [
 				"들어오는 PR과 이슈를 점수화하고, slop-quarantine 라벨을 달고, 근거가 담긴 리뷰 코멘트를 남기기 위해. 자동으로 닫거나 병합하거나 푸시하지 않으며, 파괴적 동작은 관리자가 명시적으로 /slop 명령을 입력할 때만 일어납니다.",
 				"사용자가 설정한 알림(Slack, Discord, 웹훅) 전송과 조직 현황, 패턴 추적, 감사 로그 제공을 위해.",
-				"플랜 권한 관리, 그리고 Enterprise의 경우 사용자가 설정한 SAML SSO 로그인을 위해.",
+				"사용자가 설정한 SAML SSO 로그인을 위해.",
 			],
 		},
 		{
@@ -106,7 +103,6 @@ const PRIVACY_KO: Copy = {
 				"LLM 제공자: 기여물을 점수화하기 위해 PR이나 이슈의 텍스트가 분석을 위해 대규모 언어 모델 제공자(예: Anthropic, OpenAI, xAI, 설정한 순서에 따라)로 전송될 수 있습니다. 점수화에 필요한 내용만 전송됩니다.",
 				"네트워크 인텔리전스: 격리 시 프롬프트 지문의 단방향 SHA-256 해시와 해시된 소유자 식별자를 공유 저장소에 추가해, 같은 슬롭 패턴이 여러 설치에 퍼질 때 경고합니다. 레포 이름, PR/이슈 내용, PR 번호는 저장하지 않습니다. 정책 파일에 share_intel: false로 옥아웃할 수 있습니다.",
 				"GitHub: 앱이 동작하는 플랫폼이며, 설치 시 부여한 권한(PR/이슈 읽기, 라벨·코멘트 쓰기) 범위에서만 동작합니다.",
-				"Polar: 판매대행사로서 결제, 인보이스, 세금 처리.",
 				"Upstash: 콘솔과 권한 상태 저장. Cloudtype: 애플리케이션 호스팅.",
 				"이들은 서비스 제공을 위해 당사를 대신해 데이터를 처리합니다. 개인정보를 누구에게도 판매하지 않습니다.",
 			],
@@ -129,7 +125,7 @@ const PRIVACY_KO: Copy = {
 		{
 			h: "6. 보안",
 			body: [
-				"라벨과 코멘트에 필요한 최소 GitHub 권한만 요청합니다. 액세스 토큰은 메모리에서만 사용하며 로그에 기록하지 않습니다. 결제는 Polar로 분리되어 있습니다. 완벽히 안전한 시스템은 없지만, 보유하는 데이터를 최소화해 노출 위험을 줄입니다.",
+				"라벨과 코멘트에 필요한 최소 GitHub 권한만 요청합니다. 액세스 토큰은 메모리에서만 사용하며 로그에 기록하지 않습니다. 완벽히 안전한 시스템은 없지만, 보유하는 데이터를 최소화해 노출 위험을 줄입니다.",
 			],
 		},
 		{
@@ -156,11 +152,9 @@ const TERMS_EN: Copy = {
 			],
 		},
 		{
-			h: "2. Plans and billing",
+			h: "2. Price",
 			body: [
-				"A free tier is available. Paid plans are Pro ($19/month), Team ($99/month), and Enterprise ($299/month). Payments are processed by Polar as Merchant of Record, which issues invoices and handles applicable taxes.",
-				"Subscriptions renew automatically until cancelled. You can change or cancel your plan, and access invoices, through the Polar customer portal linked from your account. Upgrades are prorated immediately; downgrades take effect at the end of the current billing period.",
-				"Refunds are handled per Polar's policies and applicable consumer law. Contact us if a charge looks wrong.",
+				"SlopGuard is free. There are no paid plans, subscriptions, or charges.",
 			],
 		},
 		{
@@ -179,7 +173,7 @@ const TERMS_EN: Copy = {
 		{
 			h: "5. Limitation of liability",
 			body: [
-				"To the maximum extent permitted by law, SlopGuard and its operator are not liable for indirect, incidental, or consequential damages, or for decisions made using the tool. Our total liability for any claim is limited to the amount you paid for the service in the three months before the claim.",
+				"To the maximum extent permitted by law, SlopGuard and its operator are not liable for indirect, incidental, or consequential damages, or for decisions made using the tool. The service is provided free of charge.",
 			],
 		},
 		{
@@ -212,11 +206,9 @@ const TERMS_KO: Copy = {
 			],
 		},
 		{
-			h: "2. 플랜과 결제",
+			h: "2. 요금",
 			body: [
-				"무료 티어가 있습니다. 유료 플랜은 Pro(월 $19), Team(월 $99), Enterprise(월 $299)입니다. 결제는 판매대행사(Merchant of Record)인 Polar가 처리하며, 인보이스 발행과 해당 세금 처리를 담당합니다.",
-				"구독은 해지 전까지 자동 갱신됩니다. 계정에 연결된 Polar 고객 포털에서 플랜 변경·해지 및 인보이스 확인이 가능합니다. 업그레이드는 즉시 비례정산되고, 다운그레이드는 현재 결제 기간 종료 시점에 적용됩니다.",
-				"환불은 Polar의 정책과 관련 소비자법에 따릅니다. 청구가 잘못되어 보이면 연락 주세요.",
+				"SlopGuard는 무료입니다. 유료 플랜, 구독, 결제가 없습니다.",
 			],
 		},
 		{
@@ -235,7 +227,7 @@ const TERMS_KO: Copy = {
 		{
 			h: "5. 책임의 제한",
 			body: [
-				"법이 허용하는 최대 범위에서, SlopGuard와 운영자는 간접·부수적·결과적 손해 또는 도구를 사용해 내린 결정에 대해 책임지지 않습니다. 모든 청구에 대한 당사의 총 책임은 청구 이전 3개월간 사용자가 서비스에 지불한 금액으로 제한됩니다.",
+				"법이 허용하는 최대 범위에서, SlopGuard와 운영자는 간접·부수적·결과적 손해 또는 도구를 사용해 내린 결정에 대해 책임지지 않습니다. 서비스는 무료로 제공됩니다.",
 			],
 		},
 		{

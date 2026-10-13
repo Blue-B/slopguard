@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession, effectiveOwner } from "@/lib/auth/session";
-import { hasOrgDashboard } from "@/lib/billing/entitlement";
 import { getOwnerSlopStats } from "@/lib/github/storage";
 import { getTrend } from "@/lib/intel/network";
 
@@ -11,13 +10,12 @@ export const dynamic = "force-dynamic";
 /**
  * GET /api/team/dashboard
  *
- * Org-wide quarantine + activity feed for the Team plan org console.
+ * Org-wide quarantine + activity feed for the org console.
  *
  * Returns the real GitHub-side aggregation for the signed-in owner. We do
  * NOT return marketing sample data here — if SlopGuard is not installed on
  * the owner's account we return `{ installed: false, reason }` and the UI
- * renders a "install on more repos" CTA. The page itself gates on
- * `hasOrgDashboard`, so direct API calls from non-Team users are blocked.
+ * renders a "install on more repos" CTA.
  */
 export async function GET() {
 	const store = await cookies();
@@ -27,14 +25,6 @@ export async function GET() {
 	}
 
 	const owner = effectiveOwner(session);
-	const ok = await hasOrgDashboard(owner);
-	if (!ok) {
-		return NextResponse.json(
-			{ error: "forbidden", reason: "org dashboard requires the Team plan" },
-			{ status: 403 },
-		);
-	}
-
 
 	try {
 		const stats = await getOwnerSlopStats(owner);

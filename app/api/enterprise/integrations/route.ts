@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
-import { hasSso } from "@/lib/billing/entitlement";
 import { getState, mutateState, ensureConsoleReady, flushConsole } from "@/lib/billing/console-store";
 
 export const runtime = "nodejs";
@@ -28,13 +27,6 @@ export async function GET() {
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) {
 		return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-	}
-	const ok = await hasSso(session.login);
-	if (!ok) {
-		return NextResponse.json(
-			{ error: "forbidden", reason: "Enterprise plan required" },
-			{ status: 403 },
-		);
 	}
 	const state = getState(session.login);
 	const byName = new Map(state.integrations.map((i) => [i.name, i]));
@@ -84,13 +76,6 @@ export async function POST(req: Request) {
 	const session = decodeSession(store.get(SESSION_COOKIE)?.value);
 	if (!session) {
 		return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-	}
-	const ok = await hasSso(session.login);
-	if (!ok) {
-		return NextResponse.json(
-			{ error: "forbidden", reason: "Enterprise plan required" },
-			{ status: 403 },
-		);
 	}
 	let body: { name?: string; action?: string };
 	try {

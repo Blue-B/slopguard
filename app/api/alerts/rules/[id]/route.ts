@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth/session";
-import { hasAlerts } from "@/lib/billing/entitlement";
 import { getState, mutateState, ensureConsoleReady, flushConsole } from "@/lib/billing/console-store";
 
 export const runtime = "nodejs";
@@ -17,14 +16,6 @@ export async function DELETE(
 	if (!session) {
 		return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 	}
-	const ok = await hasAlerts(session.login);
-	if (!ok) {
-		return NextResponse.json(
-			{ error: "forbidden", reason: "alerts require the Team plan" },
-			{ status: 403 },
-		);
-	}
-
 	const { id } = await params;
 	const state = getState(session.login);
 	const rule = state.rules.find((r) => r.id === id);

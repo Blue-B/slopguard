@@ -1,0 +1,22 @@
+name: SlopGuard
+description: >-
+  Quarantine AI slop PRs and issues for maintainer review.
+  Never auto-closes.
+author: Blue-B
+branding:
+  icon: shield
+  color: yellow
+inputs:
+  token:
+    description: Token used to read the contribution and apply labels/comments.
+    default: ${{ github.token }}
+outputs:
+  score:
+    description: Blended slop score, 0-100.
+  verdict:
+    description: clean, suspicious or likely-slop.
+  quarantined:
+    description: "true when the contribution was labeled for review."
+runs:
+  using: node24
+  main: action/dist/index.mjs

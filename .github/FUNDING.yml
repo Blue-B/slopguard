@@ -1,5 +1,3 @@
-# Shows a "Sponsor" button on the repo and links to the hosted paid plans.
+# Shows a "Sponsor" button on the repo. SlopGuard is free; sponsorship is optional.
 github: [Blue-B]
 buy_me_a_coffee: beckycode7h
-custom:
-  - "https://slopguard.app/pricing"

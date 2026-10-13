@@ -42,7 +42,7 @@ export function clusterId(fingerprint: string): string {
 /** Compute campaign clusters from the owner's real slop activity. */
 export async function computeOwnerClusters(
 	owner: string,
-	maxRepos: number,
+	maxRepos = 50,
 ): Promise<OwnerClusters> {
 	const stats = await getOwnerSlopStats(owner, maxRepos);
 

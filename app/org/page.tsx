@@ -3,13 +3,13 @@ import MarketingNav from "@/app/components/MarketingNav";
 import OrgDashboardConsole, {
 	type OrgDashboardConsoleCopy,
 } from "@/app/components/OrgDashboardConsole";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
 	title: "SlopGuard: Org Dashboard - Team",
 	description:
-		"Team plan console for org-wide quarantine queues, pattern clusters, and policy coverage.",
+		"Console for org-wide quarantine queues, pattern clusters, and policy coverage.",
 };
 
 const copy: OrgDashboardConsoleCopy = {
@@ -28,7 +28,7 @@ const copy: OrgDashboardConsoleCopy = {
 		"This console is a live view of your GitHub activity. Install SlopGuard on your repos and the dashboard will populate as soon as SlopGuard detects and labels your first item.",
 	emptyCta: "Install SlopGuard on GitHub",
 	emptyCtaHref: "/setup",
-	heroEyebrow: "ORG / TEAM PLAN",
+	heroEyebrow: "ORG",
 	heroTitle: "One pane for quarantine, patterns, and policy coverage.",
 	heroBody:
 		"Live view of every repo SlopGuard protects. Quarantine items, group repeated patterns, and verify policy coverage - all from the same console.",
@@ -70,9 +70,9 @@ export default function OrgDashboard() {
 	return (
 		<>
 			<MarketingNav lang="en" enHref="/org" koHref="/ko/org" />
-			<PlanGate lang="en" required="team">
+			<SignInGate lang="en">
 				<OrgDashboardConsole copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="en" />
 		</>
 	);

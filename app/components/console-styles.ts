@@ -1,4 +1,4 @@
-// Shared style tokens for paid-feature consoles. The paid surfaces use one
+// Shared style tokens for the consoles. They use one
 // dark product language: wide command frame, integrated rail, sparse lines,
 // no heavy marketing cards.
 

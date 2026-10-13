@@ -5,10 +5,6 @@ import {
 	decodeSession,
 	effectiveOwner,
 } from "@/lib/auth/session";
-import {
-	hasCampaignDetection,
-	planObjectForOwner,
-} from "@/lib/billing/entitlement";
 import { computeOwnerClusters } from "@/lib/agent/clusters";
 import { getOwnerSlopStats } from "@/lib/github/storage";
 
@@ -30,22 +26,12 @@ export async function GET(
 	}
 	const owner = effectiveOwner(session);
 
-	const ok = await hasCampaignDetection(owner);
-	if (!ok) {
-		return NextResponse.json(
-			{ error: "forbidden", reason: "campaign detection requires the Pro plan" },
-			{ status: 403 },
-		);
-	}
-
 	const { id } = await params;
-	const plan = await planObjectForOwner(owner);
-
 	let cluster: Awaited<
 		ReturnType<typeof computeOwnerClusters>
 	>["clusters"][number] | null = null;
 	try {
-		const { clusters } = await computeOwnerClusters(owner, plan.maxRepos);
+		const { clusters } = await computeOwnerClusters(owner);
 		cluster = clusters.find((c) => c.id === id) ?? null;
 	} catch {
 		cluster = null;
@@ -71,7 +57,7 @@ export async function GET(
 	let repoImpact: Array<{ repo: string; quarantined: number; cleared: number }> =
 		[];
 	try {
-		const stats = await getOwnerSlopStats(owner, plan.maxRepos);
+		const stats = await getOwnerSlopStats(owner);
 		repoImpact = stats.repos
 			.filter((r) => cluster.repos.includes(r.repo))
 			.map((r) => ({

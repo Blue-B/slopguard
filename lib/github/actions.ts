@@ -2,6 +2,7 @@ import type { SlopInput, SlopResult } from "../agent/types.js";
 import type { Policy } from "../policy/schema.js";
 import type { InstallationClient } from "./app.js";
 import { getAppBaseUrl } from "../env.js";
+import { loadPolicy } from "../policy/load.js";
 
 const MARKER = "<!-- slopguard:bot-comment -->";
 
@@ -202,6 +203,182 @@ export async function createFeedbackIssue(
 			`- lower \`heuristics.weight\``,
 		].join("\n"),
 	});
+}
+
+/**
+ * Label + comment a scored contribution. A maintainer's earlier
+ * `/slop approve` (approved label) is final: new commits never re-quarantine.
+ */
+export async function applyVerdict(
+	octokit: InstallationClient,
+	owner: string,
+	repo: string,
+	policy: Policy,
+	input: SlopInput,
+	result: SlopResult,
+): Promise<"clean" | "quarantined" | "approved"> {
+	const qLabel = policy.labels.quarantine;
+
+	if (!result.shouldQuarantine) {
+		// Clean now, clear a stale quarantine label if present (e.g. PR updated).
+		await removeLabel(octokit, owner, repo, input.number, qLabel);
+		return "clean";
+	}
+
+	const current = await octokit.rest.issues
+		.listLabelsOnIssue({ owner, repo, issue_number: input.number })
+		.then((r) => r.data.map((l) => l.name))
+		.catch(() => [] as string[]);
+	if (current.includes(policy.labels.approved)) return "approved";
+
+	await ensureLabel(
+		octokit,
+		owner,
+		repo,
+		qLabel,
+		LABEL_COLORS.quarantine,
+		"Held for maintainer review by SlopGuard",
+	);
+	const labels = [qLabel];
+	if (result.highConfidence) {
+		await ensureLabel(
+			octokit,
+			owner,
+			repo,
+			policy.labels.high_confidence,
+			LABEL_COLORS.high_confidence,
+			"High-confidence AI slop",
+		);
+		labels.push(policy.labels.high_confidence);
+	}
+	await addLabels(octokit, owner, repo, input.number, labels);
+	await upsertComment(
+		octokit,
+		owner,
+		repo,
+		input.number,
+		renderComment(policy, input, result),
+	);
+	return "quarantined";
+}
+
+const MAINTAINER_PERMS = new Set(["admin", "write", "maintain"]);
+
+async function isMaintainer(
+	octokit: InstallationClient,
+	owner: string,
+	repo: string,
+	username: string,
+): Promise<boolean> {
+	try {
+		const r = await octokit.rest.repos.getCollaboratorPermissionLevel({
+			owner,
+			repo,
+			username,
+		});
+		return (
+			MAINTAINER_PERMS.has(r.data.permission) ||
+			MAINTAINER_PERMS.has(r.data.role_name ?? "")
+		);
+	} catch {
+		return false;
+	}
+}
+
+/**
+ * /slop command handling (human-in-the-loop). Returns the outcome for
+ * callers that track it, or null when nothing ran.
+ */
+export async function runSlopCommand(
+	octokit: InstallationClient,
+	owner: string,
+	repo: string,
+	issueNumber: number,
+	commenter: string,
+	body: string,
+): Promise<{ outcome: "cleared" | "confirmed"; policy: Policy } | null> {
+	const m = body.match(/^\s*\/slop\s+(approve|reject|false-positive|fp)\b/im);
+	if (!m) return null;
+	const cmd = m[1].toLowerCase();
+
+	if (!(await isMaintainer(octokit, owner, repo, commenter))) {
+		await octokit.rest.issues
+			.createComment({
+				owner,
+				repo,
+				issue_number: issueNumber,
+				body: `@${commenter} only maintainers (write access) can run SlopGuard commands.`,
+			})
+			.catch(() => void 0);
+		return null;
+	}
+
+	const policy = await loadPolicy(octokit, owner, repo);
+	const qLabel = policy.labels.quarantine;
+
+	if (cmd === "approve") {
+		await removeLabel(octokit, owner, repo, issueNumber, qLabel);
+		await removeLabel(
+			octokit,
+			owner,
+			repo,
+			issueNumber,
+			policy.labels.high_confidence,
+		);
+		await ensureLabel(
+			octokit,
+			owner,
+			repo,
+			policy.labels.approved,
+			LABEL_COLORS.approved,
+			"Cleared by maintainer",
+		);
+		await addLabels(octokit, owner, repo, issueNumber, [
+			policy.labels.approved,
+		]);
+		await octokit.rest.issues.createComment({
+			owner,
+			repo,
+			issue_number: issueNumber,
+			body: `✅ Quarantine cleared by @${commenter}. Thanks for reviewing!`,
+		});
+		return { outcome: "cleared", policy };
+	}
+
+	if (cmd === "reject") {
+		await octokit.rest.issues.createComment({
+			owner,
+			repo,
+			issue_number: issueNumber,
+			body: `❌ Closed as AI slop by @${commenter} (explicit maintainer action).`,
+		});
+		await octokit.rest.issues.update({
+			owner,
+			repo,
+			issue_number: issueNumber,
+			state: "closed",
+			state_reason: "not_planned",
+		});
+		return { outcome: "confirmed", policy };
+	}
+
+	// false-positive / fp
+	await createFeedbackIssue(
+		octokit,
+		owner,
+		repo,
+		policy,
+		issueNumber,
+		commenter,
+	);
+	await removeLabel(octokit, owner, repo, issueNumber, qLabel);
+	await octokit.rest.issues.createComment({
+		owner,
+		repo,
+		issue_number: issueNumber,
+		body: `🙏 Marked as false positive by @${commenter}. Quarantine cleared and a tuning issue was opened. Sorry for the noise!`,
+	});
+	return { outcome: "cleared", policy };
 }
 
 export { LABEL_COLORS };

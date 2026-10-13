@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import MarketingNav from "@/app/components/MarketingNav";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 import ReposFullView, {
 	type ReposFullViewCopy,
@@ -45,9 +45,9 @@ export default function OrgReposPage() {
 	return (
 		<>
 			<MarketingNav lang="en" enHref="/org/repos" koHref="/ko/org/repos" />
-			<PlanGate lang="en" required="team">
+			<SignInGate lang="en">
 				<ReposFullView copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="en" />
 		</>
 	);

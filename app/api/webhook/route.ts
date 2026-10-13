@@ -3,7 +3,6 @@ import { recordFailedWebhook } from "@/lib/ops/deadletter";
 import type { EmitterWebhookEventName } from "@octokit/webhooks";
 import { getApp } from "@/lib/github/app";
 import { claimDelivery } from "@/lib/cache";
-import { applyMarketplaceEvent } from "@/lib/billing/marketplace";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -60,17 +59,6 @@ export async function POST(req: Request) {
 		payload = JSON.parse(body);
 	} catch {
 		return NextResponse.json({ error: "invalid JSON" }, { status: 400 });
-	}
-
-	// GitHub Marketplace purchases arrive on the App webhook. Handle them here
-	// (octokit's app emitter has no marketplace handler) and ACK.
-	if (name === ("marketplace_purchase" as EmitterWebhookEventName)) {
-		try {
-			await applyMarketplaceEvent(payload);
-		} catch (err) {
-			console.error("[slopguard] marketplace event failed:", err);
-		}
-		return NextResponse.json({ ok: true, marketplace: true });
 	}
 
 	after(

@@ -1,17 +1,9 @@
-import type { PlanId } from "./billing/plans.js";
-
 export type Lang = "en" | "ko";
 export const LANGS: Lang[] = ["en", "ko"];
 
-export interface PlanCopy {
-	name: string;
-	tagline: string;
-	features: string[];
-}
-
 export interface Messages {
 	htmlLang: string;
-	nav: { how: string; pricing: string; install: string };
+	nav: { how: string; install: string };
 	hero: {
 		eyebrow: string;
 		h1a: string;
@@ -19,7 +11,6 @@ export interface Messages {
 		h1c: string; // suffix after the highlight (for KO word order)
 		sub: string;
 		ctaInstall: string;
-		ctaPricing: string;
 		fine: string;
 		emblemAlt: string;
 	};
@@ -31,15 +22,6 @@ export interface Messages {
 		reasons: string[];
 		cmdPre: string;
 		cmdOr: string;
-	};
-	pricing: {
-		title: string;
-		sub: string;
-		per: string;
-		getStarted: string;
-		choose: (name: string) => string;
-		note: string;
-		plans: Record<PlanId, PlanCopy>;
 	};
 	how: { title: string; sub: string; steps: React.ReactNode[] };
 	features: {
@@ -53,7 +35,7 @@ export interface Messages {
 export const messages: Record<Lang, Messages> = {
 	en: {
 		htmlLang: "en",
-		nav: { how: "How it works", pricing: "Pricing", install: "Install" },
+		nav: { how: "How it works", install: "Install" },
 		hero: {
 			eyebrow: "maintainer burnout, contained",
 			h1a: "Stop AI slop from drowning your ",
@@ -61,7 +43,6 @@ export const messages: Record<Lang, Messages> = {
 			h1c: "",
 			sub: "AI-generated PRs and issues look real for the first 30 seconds, then waste your time. SlopGuard reads every one, flags the machine-made ones with the reasons, and lets you clear your queue in one pass. It never closes anything; you make the call.",
 			ctaInstall: "Install the GitHub App",
-			ctaPricing: "See pricing",
 			fine: "# source-available, never auto-closes, free for public repos",
 			emblemAlt:
 				"SlopGuard shield: a code-bracket emblem scanning pull requests",
@@ -84,63 +65,6 @@ export const messages: Record<Lang, Messages> = {
 			],
 			cmdPre: "maintainer replies",
 			cmdOr: "or",
-		},
-		pricing: {
-			title: "Pricing",
-			sub: "Source-available, free to self-host for your own use (Commons Clause). Paid tiers cover the managed LLM bill, private repos, and org controls. Checkout via Polar as Merchant of Record.",
-			per: "/ month",
-			getStarted: "Get started",
-			choose: (n) => `Choose ${n}`,
-			note: "Paid plans activate automatically: enter the GitHub org or username you install on at checkout, and Pro or Team unlocks within a minute.",
-			plans: {
-				free: {
-					name: "Free",
-					tagline: "For individuals and public repos. Forever free.",
-					features: [
-						"Fast heuristic detection (100% precision on our eval set)",
-						"Provenance tagging + quarantine label",
-						"Human-in-the-loop /slop commands",
-						".github/SLOP_POLICY.yml policy-as-code",
-						"Public repositories",
-						"Self-host the whole thing for your own use (source-available)",
-					],
-				},
-				pro: {
-					name: "Pro",
-					tagline: "For maintainers with private repos and higher limits.",
-					features: [
-						"Everything in Free",
-						"Private repositories",
-						"AI judge: LLM-deepened detection we pay for",
-						"Cross-repo bot-pattern detection",
-						"Network slop intelligence (cross-customer, hosted-only)",
-						"Higher rate limits",
-					],
-				},
-				team: {
-					name: "Team",
-					tagline: "For orgs that need visibility, alerting, and controls.",
-					features: [
-						"Everything in Pro",
-						"Org-wide dashboard across all repos",
-						"Activity / audit log (who cleared what, when)",
-						"Slack / Discord / webhook alerts on quarantine",
-						"Higher rate limits",
-						"Priority support",
-					],
-				},
-				enterprise: {
-					name: "Enterprise",
-					tagline: "For companies that need SSO, audit export, and priority support.",
-					features: [
-						"Everything in Team",
-						"SAML / SSO sign-in",
-						"Audit log export + retention",
-						"Priority support & onboarding",
-						"Custom integrations on request",
-					],
-				},
-			},
 		},
 		how: {
 			title: "How it works",
@@ -196,7 +120,7 @@ export const messages: Record<Lang, Messages> = {
 
 	ko: {
 		htmlLang: "ko",
-		nav: { how: "동작 방식", pricing: "가격", install: "설치" },
+		nav: { how: "동작 방식", install: "설치" },
 		hero: {
 			eyebrow: "관리자 번아웃, 이제 그만",
 			h1a: "AI 슬롭으로부터\n",
@@ -204,7 +128,6 @@ export const messages: Record<Lang, Messages> = {
 			h1c: "를 지키세요",
 			sub: "AI가 만든 PR과 이슈는 처음 30초는 진짜처럼 보이고, 그 다음 시간을 잡아먹습니다. SlopGuard가 들어오는 걸 전부 읽어서 기계가 만든 것에 근거와 함께 표시하고, 한 번에 정리하게 해줍니다. 절대 자동으로 닫지 않고, 결정은 당신이 합니다.",
 			ctaInstall: "GitHub App 설치하기",
-			ctaPricing: "가격 보기",
 			fine: "# 소스 공개, 자동으로 닫지 않음, 공개 레포 무료",
 			emblemAlt: "SlopGuard 실드: PR을 스캔하는 코드 브래킷 엠블럼",
 		},
@@ -226,63 +149,6 @@ export const messages: Record<Lang, Messages> = {
 			],
 			cmdPre: "관리자가 댓글로",
 			cmdOr: "또는",
-		},
-		pricing: {
-			title: "가격",
-			sub: "소스 공개, 자기 용도 셀프호스팅은 무료입니다 (Commons Clause). 유료 플랜은 관리형 LLM 비용, 비공개 레포, 조직 기능을 포함합니다. 결제는 Polar(Merchant of Record)가 처리합니다.",
-			per: "/ 월",
-			getStarted: "시작하기",
-			choose: (n) => `${n} 선택`,
-			note: "유료 플랜은 자동으로 켜집니다. 결제할 때 설치할 GitHub 조직이나 사용자명을 입력하면, 1분 안에 Pro나 Team 기능이 활성화됩니다.",
-			plans: {
-				free: {
-					name: "Free",
-					tagline: "개인과 공개 레포용. 영원히 무료.",
-					features: [
-						"빠른 휴리스틱 탐지 (자체 평가셋 정밀도 100%)",
-						"출처 태깅 + 격리 라벨",
-						"사람이 결정하는 /slop 명령",
-						".github/SLOP_POLICY.yml 정책 코드화",
-						"공개 레포",
-						"전체 셀프호스팅 (소스공개)",
-					],
-				},
-				pro: {
-					name: "Pro",
-					tagline: "비공개 레포와 더 높은 한도가 필요한 관리자용.",
-					features: [
-						"Free의 모든 기능",
-						"비공개 레포",
-						"AI 판정: 우리가 비용을 내는 LLM 심층 탐지",
-						"여러 레포에 걸친 봇 패턴 탐지",
-						"네트워크 슬롭 인텔리전스 (교차 고객, 호스팅 전용)",
-						"높은 처리 한도",
-					],
-				},
-				team: {
-					name: "Team",
-					tagline: "가시성과 알림, 통제가 필요한 조직을 위해.",
-					features: [
-						"Pro의 모든 기능",
-						"조직 전체 대시보드 (모든 레포)",
-						"활동/감사 로그 (누가 언제 무엇을 처리했는지)",
-						"격리 시 Slack / Discord / Webhook 알림",
-						"높은 처리 한도",
-						"우선 지원",
-					],
-				},
-				enterprise: {
-					name: "Enterprise",
-					tagline: "SSO, 감사 로그 내보내기, 우선 지원이 필요한 회사를 위해.",
-					features: [
-						"Team의 모든 기능",
-						"SAML / SSO 로그인",
-						"감사 로그 내보내기 + 보관",
-						"우선 지원 및 온보딩",
-						"맞춤 연동 요청 가능",
-					],
-				},
-			},
 		},
 		how: {
 			title: "동작 방식",

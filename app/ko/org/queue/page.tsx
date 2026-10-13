@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import MarketingNav from "@/app/components/MarketingNav";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 import QueueFullView, {
 	type QueueFullViewCopy,
@@ -42,9 +42,9 @@ export default function OrgQueuePage() {
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/org/queue" koHref="/ko/org/queue" />
-			<PlanGate lang="ko" required="team">
+			<SignInGate lang="ko">
 				<QueueFullView copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="ko" />
 		</>
 	);

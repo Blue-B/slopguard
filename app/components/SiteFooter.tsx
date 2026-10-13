@@ -6,7 +6,6 @@ const F = {
 	en: {
 		tag: "AI-slop triage for GitHub maintainers. It labels and comments, never auto-closes a real contributor.",
 		how: "How it works",
-		pricing: "Pricing",
 		docs: "Docs",
 		install: "Install",
 		policy: "Config example",
@@ -18,7 +17,6 @@ const F = {
 	ko: {
 		tag: "오픈소스 관리자를 위한 AI 슬롭 분류. 라벨과 코멘트만 달고, 진짜 기여자를 자동으로 닫지 않습니다.",
 		how: "동작 방식",
-		pricing: "가격",
 		docs: "문서",
 		install: "설치",
 		policy: "설정 파일 예시",
@@ -61,7 +59,6 @@ export default function SiteFooter({ lang = "en" }: { lang?: Lang }) {
 				<p className="footer-app-tag">{f.tag}</p>
 				<nav className="footer-app-links">
 					<Link href={`${p}/how-it-works`}>{f.how}</Link>
-					<Link href={`${p}/pricing`}>{f.pricing}</Link>
 					<Link href={`${p}/docs`}>{f.docs}</Link>
 					<Link href={install}>{f.install}</Link>
 					<a href={`${REPO_URL}/blob/main/.github/SLOP_POLICY.example.yml`}>

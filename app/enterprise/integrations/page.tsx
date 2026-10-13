@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import MarketingNav from "@/app/components/MarketingNav";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 import IntegrationsFullView, {
 	type IntegrationsFullViewCopy,
@@ -26,7 +26,7 @@ const copy: IntegrationsFullViewCopy = {
 	heroEyebrow: "INTEGRATIONS / ENTERPRISE",
 	heroTitle: "Forward events to your ticketing, paging, and observability tools.",
 	heroBody:
-		"Request a provider and our team scopes and wires it into the systems you already use, per your Enterprise plan. Every request is recorded in the audit log.",
+		"Request a provider and our team scopes and wires it into the systems you already use. Every request is recorded in the audit log.",
 	sectionTitle: "Integrations",
 	sectionSub: "Request an integration; our team wires it for you. Each request is recorded in the audit log.",
 	connect: "Request",
@@ -40,9 +40,9 @@ export default function IntegrationsPage() {
 	return (
 		<>
 			<MarketingNav lang="en" enHref="/enterprise/integrations" koHref="/ko/enterprise/integrations" />
-			<PlanGate lang="en" required="enterprise">
+			<SignInGate lang="en">
 				<IntegrationsFullView copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="en" />
 		</>
 	);

@@ -3,7 +3,7 @@
 // The hosted service sees quarantine events across EVERY installation. A
 // self-hosted instance only ever sees its own repos, so this cross-customer
 // signal is impossible to replicate by self-hosting (which is exactly why it is
-// a paid, hosted-only feature and not part of the source-available core).
+// a hosted-only feature).
 //
 // What it does:
 //   1. Global slop intelligence: a prompt fingerprint seen as slop across MANY

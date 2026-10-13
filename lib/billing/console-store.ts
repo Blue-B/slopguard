@@ -13,7 +13,7 @@ export const ensureConsoleReady = ensureStoresReady;
  *  and before sending the HTTP response so the write is guaranteed saved. */
 export const flushConsole = flushStores;
 
-// Per-user state for paid feature consoles (channels, routing rules, audit
+// Per-user state for the consoles (channels, routing rules, audit
 // log). In-memory only, the live production app uses GitHub as the source of
 // truth for slop data, and these console-level settings are an MVP until we
 // wire them to a real DB. Bounded; restarts clear entries (documented

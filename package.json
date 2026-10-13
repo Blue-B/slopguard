@@ -15,7 +15,8 @@
 		"eval": "node --env-file-if-exists=.env.local --import tsx scripts/eval.ts",
 		"smee": "node scripts/smee.mjs",
 		"check-plan": "node --import tsx scripts/check-entitlement.ts",
-		"eval:field": "node --import tsx scripts/eval.ts --set=field"
+		"eval:field": "node --import tsx scripts/eval.ts --set=field",
+		"build:action": "esbuild action/main.ts --bundle --platform=node --target=node20 --format=esm --outfile=action/dist/index.mjs --log-level=warning \"--banner:js=import{createRequire}from'node:module';const require=createRequire(import.meta.url);\""
 	},
 	"dependencies": {
 		"@authenio/samlify-node-xmllint": "^2.0.0",
@@ -43,6 +44,7 @@
 		"@types/node": "^22.10.7",
 		"@types/react": "^19.0.7",
 		"@types/react-dom": "^19.0.3",
+		"esbuild": "^0.28.2",
 		"smee-client": "^2.0.4",
 		"tsx": "^4.19.2",
 		"typescript": "^5.7.3"

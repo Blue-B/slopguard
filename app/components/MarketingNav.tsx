@@ -3,7 +3,7 @@ import type { Lang } from "@/lib/i18n";
 import ProfileMenu from "./ProfileMenu";
 
 /**
- * One header for every marketing page (home, how-it-works, pricing). The links
+ * One header for every marketing page (home, how-it-works, docs). The links
  * point at real routes, not in-page anchors, so the top nav behaves like a
  * real site: clicking changes the page. enHref/koHref are the current page's
  * own URLs so the language switch stays in place.
@@ -17,18 +17,16 @@ export default function MarketingNav({
 	lang: Lang;
 	enHref: string;
 	koHref: string;
-	active?: "how" | "pricing" | "docs";
+	active?: "how" | "docs";
 }) {
 	const ko = lang === "ko";
 	const home = ko ? "/ko" : "/";
 	const how = ko ? "/ko/how-it-works" : "/how-it-works";
-	const pricing = ko ? "/ko/pricing" : "/pricing";
 	const docs = ko ? "/ko/docs" : "/docs";
 	const t = ko
-		? { how: "동작 방식", pricing: "가격", docs: "문서" }
+		? { how: "동작 방식", docs: "문서" }
 		: {
 				how: "How it works",
-				pricing: "Pricing",
 				docs: "Docs",
 			};
 	return (
@@ -41,9 +39,6 @@ export default function MarketingNav({
 			<span className="nav-links">
 				<Link className={active === "how" ? "on" : ""} href={how}>
 					{t.how}
-				</Link>
-				<Link className={active === "pricing" ? "on" : ""} href={pricing}>
-					{t.pricing}
 				</Link>
 				<Link className={active === "docs" ? "on" : ""} href={docs}>
 					{t.docs}

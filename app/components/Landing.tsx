@@ -119,7 +119,6 @@ export const EX = {
 			company: "Project",
 			links: {
 				how: "How it works",
-				pricing: "Pricing",
 				demo: "Example run",
 				github: "GitHub repo",
 				selfhost: "Self-host",
@@ -238,7 +237,6 @@ export const EX = {
 			company: "프로젝트",
 			links: {
 				how: "동작 방식",
-				pricing: "가격",
 				demo: "실제 동작 예시",
 				github: "GitHub 레포",
 				selfhost: "셀프호스팅",

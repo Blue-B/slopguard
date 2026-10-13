@@ -9,7 +9,7 @@ English | [한국어](./docs/README.ko.md)
 [![precision](https://img.shields.io/badge/precision-100%25-3fb950.svg)](#detection-quality)
 [![recall](https://img.shields.io/badge/recall-92%25-3fb950.svg)](#detection-quality)
 
-**Free to self-host.** Start with the [setup guide](./docs/SETUP.md).
+**Free.** Add it as a [GitHub Action](#option-a-github-action-no-server) in one file, or self-host the App with the [setup guide](./docs/SETUP.md).
 
 A GitHub App that triages AI "slop" — low-effort, machine-generated pull requests and issues that waste maintainer time. SlopGuard scores each contribution, tags its provenance, and applies a `slop-quarantine` label, then hands the final decision to a maintainer.
 
@@ -26,7 +26,7 @@ SlopGuard takes a different position:
 
 | | SlopGuard |
 | --- | --- |
-| Install | One-click GitHub App, no Action YAML |
+| Install | One workflow file (GitHub Action), or a self-hosted GitHub App |
 | Decision | Human-in-the-loop — never auto-closes |
 | Provenance | Detects generator hints, prompt fingerprint, leaked assistant phrases |
 | Configuration | `.github/SLOP_POLICY.yml` — thresholds, labels, comment templates |
@@ -96,7 +96,36 @@ llm:
 
 ## Getting started
 
-### For maintainers: install the App
+### Option A: GitHub Action (no server)
+
+Add one workflow file. Same detection, labels, comment and `/slop` commands as the App, running on the workflow's own token:
+
+```yaml
+# .github/workflows/slopguard.yml
+name: SlopGuard
+on:
+  pull_request_target:          # labels fork PRs too; SlopGuard never checks out PR code
+    types: [opened, synchronize, reopened]
+  issues:
+    types: [opened, reopened]
+  issue_comment:
+    types: [created]            # /slop approve | reject | false-positive
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+jobs:
+  slopguard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Blue-B/slopguard@main
+        env:                    # optional: add an LLM judge, otherwise heuristics-only
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+```
+
+Policy comes from the same `.github/SLOP_POLICY.yml`. Outputs: `score`, `verdict`, `quarantined`. Comments come from `github-actions[bot]`.
+
+### Option B: self-host the GitHub App
 
 1. Open the setup page on your deployment: `https://<your-deployment>/setup`
 2. Create the GitHub App (one-click manifest flow)

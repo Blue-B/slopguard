@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, decodeSession, effectiveOwner } from "@/lib/auth/session";
-import { hasSso } from "@/lib/billing/entitlement";
 import { getState, mutateState, ensureConsoleReady, flushConsole } from "@/lib/billing/console-store";
 
 export const runtime = "nodejs";
@@ -9,9 +8,6 @@ export const dynamic = "force-dynamic";
 
 function unauthorized() {
 	return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-}
-function forbidden(reason: string) {
-	return NextResponse.json({ error: "forbidden", reason }, { status: 403 });
 }
 
 export async function GET(req: Request) {
@@ -21,9 +17,6 @@ export async function GET(req: Request) {
 	if (!session) return unauthorized();
 
 	const owner = effectiveOwner(session);
-	const ok = await hasSso(owner);
-	if (!ok) return forbidden("audit export requires the Enterprise plan");
-
 	const url = new URL(req.url);
 	const format = url.searchParams.get("format") === "csv" ? "csv" : "json";
 

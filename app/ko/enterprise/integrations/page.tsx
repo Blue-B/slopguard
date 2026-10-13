@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import MarketingNav from "@/app/components/MarketingNav";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 import IntegrationsFullView, {
 	type IntegrationsFullViewCopy,
@@ -26,7 +26,7 @@ const copy: IntegrationsFullViewCopy = {
 	heroEyebrow: "INTEGRATIONS / ENTERPRISE",
 	heroTitle: "이벤트를 티켓/페이징/관측 도구로 전달합니다.",
 	heroBody:
-		"원하는 제공자를 요청하면 SlopGuard 팀이 Enterprise 플랜에 맞게 팀이 쓰는 시스템과 연동해 드립니다. 모든 요청은 감사 로그에 기록됩니다.",
+		"원하는 제공자를 요청하면 SlopGuard 팀이 팀에서 쓰는 시스템과 연동해 드립니다. 모든 요청은 감사 로그에 기록됩니다.",
 	sectionTitle: "통합",
 	sectionSub: "통합을 요청하면 팀이 연동해 드립니다. 각 요청은 감사 로그에 기록됩니다.",
 	connect: "요청하기",
@@ -40,9 +40,9 @@ export default function IntegrationsPage() {
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/enterprise/integrations" koHref="/ko/enterprise/integrations" />
-			<PlanGate lang="ko" required="enterprise">
+			<SignInGate lang="ko">
 				<IntegrationsFullView copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="ko" />
 		</>
 	);

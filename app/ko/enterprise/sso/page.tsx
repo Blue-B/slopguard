@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import MarketingNav from "@/app/components/MarketingNav";
-import PlanGate from "@/app/components/PlanGate";
+import SignInGate from "@/app/components/SignInGate";
 import SiteFooter from "@/app/components/SiteFooter";
 import SsoFullView, {
 	type SsoFullViewCopy,
@@ -73,9 +73,9 @@ export default function SsoPage() {
 	return (
 		<>
 			<MarketingNav lang="ko" enHref="/enterprise/sso" koHref="/ko/enterprise/sso" />
-			<PlanGate lang="ko" required="enterprise">
+			<SignInGate lang="ko">
 				<SsoFullView copy={copy} />
-			</PlanGate>
+			</SignInGate>
 			<SiteFooter lang="ko" />
 		</>
 	);

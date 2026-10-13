@@ -6,7 +6,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 	// public, indexable pages (account/dashboard are auth-gated, excluded)
 	const pages: { path: string; priority: number }[] = [
 		{ path: "/", priority: 1 },
-		{ path: "/pricing", priority: 0.8 },
 		{ path: "/how-it-works", priority: 0.7 },
 		{ path: "/docs", priority: 0.6 },
 		{ path: "/install", priority: 0.6 },
